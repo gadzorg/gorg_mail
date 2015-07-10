@@ -24,6 +24,25 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 
+# Authentification
+gem 'devise'
+gem 'omniauth'
+gem "omniauth-cas", :git => "https://github.com/loocla/omniauth-cas.git", :branch => 'saml'
+
+# Authorisation
+gem 'cancan'
+gem 'rolify', '~> 3.2.0'
+
+# Templates
+gem 'haml-rails'
+
+# Forms
+gem 'simple_form'
+
+# Pagination
+gem 'will_paginate', '~> 3.0.0'
+
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -42,5 +61,16 @@ group :development, :test do
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+
+  gem 'better_errors'
+
+  #pour les diagramme UML
+  gem 'rails-erd' 
+
+  #better cli table view for db
+  gem 'hirb' 
+
+  # export db en yaml
+  gem 'yaml_db', github: 'jetthoughts/yaml_db', ref: 'fb4b6bd7e12de3cffa93e0a298a1e5253d7e92ba'
 end
 
