@@ -1,6 +1,7 @@
+include ActionView::Helpers::TextHelper
 class Users::OmniauthCallbacksController < ApplicationController
 
-def GadzOrg
+  def GadzOrg
 
 	@data=request.env['omniauth.auth']
 
@@ -30,7 +31,7 @@ def GadzOrg
 	#       "full_name"=>"Thomas Fuzeau"}}
 	data = request.env['omniauth.auth']
 
-	render inline: YAML::dump(@data)
+	render inline: simple_format(YAML::dump(@data))+"================="+simple_format(YAML::dump(GramAccount.find(@data['uid'])))
 
 	# @user = User.omniauth(data)
 
