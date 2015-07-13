@@ -30,7 +30,7 @@ def GadzOrg
 	#       "full_name"=>"Thomas Fuzeau"}}
 	data = request.env['omniauth.auth']
 
-	render inline: @data.to_s
+	render inline: YAML::dump(@data)
 
 	# @user = User.omniauth(data)
 

@@ -33,6 +33,9 @@ gem "omniauth-cas", :git => "https://github.com/loocla/omniauth-cas.git", :branc
 gem 'cancan'
 gem 'rolify', '~> 3.2.0'
 
+# API GRAM
+gem 'activeresource'
+
 # Templates
 gem 'haml-rails'
 
@@ -41,6 +44,7 @@ gem 'simple_form'
 
 # Pagination
 gem 'will_paginate', '~> 3.0.0'
+
 
 
 # Use ActiveModel has_secure_password
