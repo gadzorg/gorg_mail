@@ -1,0 +1,11 @@
+!!!
+%html
+  %head
+    %title Imelavi
+    = csrf_meta_tags
+    = javascript_include_tag :application
+  %body
+    %header
+      %nav
+        = render 'layouts/user_widget'
+    = yield

@@ -1,0 +1,5 @@
+- if user_signed_in?
+  = "#{current_user.firstname} #{current_user.lastname}"
+  = link_to('Déconnexion', destroy_user_session_path, :method => :delete)
+- else
+  = link_to 'Connexion', new_user_session_path
