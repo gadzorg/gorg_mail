@@ -24,4 +24,3 @@ class GramAccount < ActiveResource::Base
   end
 
 end
-
