@@ -1,0 +1,14 @@
+%header
+  .int
+    %nav
+      #logo.left
+        =image_tag "logo.png", :class => "vertical-center"
+      .menu
+        %ul
+          - if user_signed_in?
+            %li
+              =link_to "Menu 1", :back
+            %li
+              =link_to "Menu 2", :back
+
+          = render 'layouts/user_widget'

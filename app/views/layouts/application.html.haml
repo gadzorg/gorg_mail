@@ -1,11 +1,18 @@
-!!!
 %html
   %head
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     %title Imelavi
     = csrf_meta_tags
+    = stylesheet_link_tag    "application", media: "all"
     = javascript_include_tag :application
   %body
     %header
       %nav
-        = render 'layouts/user_widget'
-    = yield
+        = render 'layouts/menu'
+
+      / - flash.each do |key, value|
+      / #notif
+      /   %div{:class => "#{key} notif"}= value
+
+    .center.mw1140p
+      = yield

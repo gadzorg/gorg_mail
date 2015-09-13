@@ -1,0 +1,302 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ *= require jquery-ui
+ *= require bootstrap/bootstrap-tooltip
+ */
+
+
+
+ /*-----------------------------MENU-------------------------*/
+ nav {
+    background: #fff;
+    height: 90px;
+    border-bottom: 1px solid #F2F2F2;
+}
+.menu {
+    float: right;
+    margin-right: 45px;
+}
+.menu ul{list-style: outside none none;
+    margin: 0px;
+    padding-left: 0px;
+}
+.menu li{
+    float: left;
+    width: 210px;
+    height: 90px;
+    border-right: 1px solid #F2F2F2;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    line-height: 90px;
+}
+.menu li *{text-decoration: none;}
+.menu li:last-child{
+    border-right: none;
+    line-height: inherit;
+}
+
+
+
+.menu a:hover{
+    color: #8E2463;
+}
+
+.menu * {
+    transition: all 0.4s ease 0s;
+}
+
+
+.vertical-center{
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#logo{
+    display: inline;
+}
+body {
+    background: #EEE none repeat scroll 0% 0%;
+    padding: 0px;
+    margin: 0px;
+}
+
+
+/*-----------------------------sections-------------------------*/
+
+section{/*background: #fff;*/}
+.int {
+    max-width: 1170px;
+    margin: 0px auto;
+
+}
+
+.int-wide {
+    width: 1280px;
+    margin: 0px auto;
+    z-index: 10;
+    margin-left: -85px;
+}
+
+body, button, input, select, textarea {
+    color: #4C4C4C;
+    font-family: "proxima_novalight";
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+a.bouton_bleu {
+    background-color: #14BFCC;
+}
+
+a.bouton_bleu:hover {
+    background-color: rgba(20, 191, 204, 0.85);
+    color: #fff;
+}
+
+a.bouton{
+    display: inline-block;
+    font-family: "bebas_neueregular";
+    font-size: 22px;
+    font-weight: 400;
+    color: #FFF;
+    /*height: 45px;*/
+    /*line-height: 45px;*/
+    text-decoration: none;
+    text-align: center;
+    border-radius: 3px;
+    transition: all 0.4s ease 0s;
+    padding: 5px 10px;
+}
+
+a.bouton-medium{
+        display: inline-block;
+    font-family: "bebas_neueregular";
+    font-weight: 400;
+    color: #FFF;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 3px;
+    transition: all 0.4s ease 0s;
+    padding: 0px 7px;
+}
+
+a.bouton-light{
+    color: #14BFCC;
+    font-family: "bebas_neueregular";
+    text-decoration: none;
+}
+a:focus {
+    outline: 0px none;
+}
+
+
+.red {color: #c0392b}
+.inactive {color: #AAA;}
+.bg-blue { background-color: #14BFCC}
+.bg-blue-dark-2 { background-color: #017782; color: #fff;}
+.bg-blue-dark-1 { background-color: #01B0C0; color: #fff;}
+.bg-blue-light-1 { background-color: #63D4DE; color: #fff;}
+
+@font-face {
+    font-family: 'bebas_neueregular';
+    src: font-url('bebas/bebasneue-webfont.eot');
+    src: font-url('bebas/bebasneue-webfont.eot?#iefix') format('embedded-opentype'),
+    font-url('bebas/bebasneue-webfont.woff') format('woff'),
+    font-url('bebas/bebasneue-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'proxima_novalight';
+    src: font-url('proximanova-light-webfont.eot');
+    src: font-url('proximanova-light-webfont.eot?#iefix') format('embedded-opentype'),
+    font-url('proximanova-light-webfont.woff2') format('woff2'),
+    font-url('proximanova-light-webfont.woff') format('woff'),
+    font-url('proximanova-light-webfont.ttf') format('truetype'),
+    font-url('proximanova-light-webfont.svg#proxima_novalight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+/*@font-face {
+    font-family: 'proxima_nova_rgregular';
+    src: url('images/fonts/proximanova-regular-webfont.eot');
+    src: url('images/fonts/proximanova-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('images/fonts/proximanova-regular-webfont.woff2') format('woff2'),
+         url('images/fonts/proximanova-regular-webfont.woff') format('woff'),
+         url('images/fonts/proximanova-regular-webfont.ttf') format('truetype'),
+         url('images/fonts/proximanova-regular-webfont.svg#proxima_nova_rgregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+    }*/
+
+
+/*-----------------------------landing-------------------------*/
+#big-bg{
+    background: url("bg.jpg");
+    min-height: 50vh;
+    background-position: center bottom;
+    background-size: cover;
+}
+/*-----------------------------redirections-------------------------*/
+
+.box{
+     background: #fff;
+     border-radius: 2px;
+     overflow: hidden;
+ }
+
+.shadow-1{box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.16), 0px 2px 10px 0px rgba(0, 0, 0, 0.12);}
+.shadow-2{box-shadow: 0px 8px 17px 0px rgba(0, 0, 0, 0.2), 0px 6px 20px 0px rgba(0, 0, 0, 0.19);}
+.shadow-3{box-shadow: 0px 12px 15px 0px rgba(0, 0, 0, 0.24), 0px 17px 50px 0px rgba(0, 0, 0, 0.19);}
+.shadow-4{box-shadow: 0px 16px 28px 0px rgba(0, 0, 0, 0.22), 0px 25px 55px 0px rgba(0, 0, 0, 0.21);}
+
+
+ .box-left{margin-left: -30px;}
+ .box-right{margin-right: -30px;}
+
+ .box-top{
+    /*font-weight: bold;*/
+    font-size: 150%;
+    color: #fff;
+    /*background: #F49700;*/
+    background: #14BFCC;
+ }
+ .box-bottom{
+    /*background: #eee;*/
+}
+
+ #big-arrow{
+    font-size: 5em;
+ }
+ .icon-padding-list{
+    padding: 0 6px;
+ }
+
+.email-list ul{list-style: outside none none;
+    margin: 0px;
+    padding-left: 0px;
+}
+.email-list li{
+    padding: 2rem;
+}
+.email-list li:hover{
+    background-color: #eee;
+}
+.email-list li *{text-decoration: none;}
+
+
+li{
+  -webkit-transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
+  transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
+}
+/*-----------------------------inputs-------------------------*/
+
+input, select {
+  /*margin: 40px 25px;*/
+  /*width: 200px;*/
+  /*display: block;*/
+  border: none;
+  padding: 10px 0;
+  border-bottom: solid 1px #14BFCC;
+  -webkit-transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
+  transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
+  background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 96%, #14BFCC 4%);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 96%, #14BFCC 4%);
+  /*background-position: -200px 0;*/
+  /*background-size: 200px 100%;*/
+  background-repeat: no-repeat;
+  color: #14BFCC;
+}
+
+input:invalid{
+  border-bottom: solid 1px #c0392b;
+  background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 96%, #c0392b 4%);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 96%, #c0392b 4%);
+}
+
+/*select{
+appearance:none;
+-moz-appearance:none; /* Firefox */
+/*-webkit-appearance:none; /* Safari and Chrome */
+/*}*/
+
+
+input:focus, input:valid {
+ box-shadow: none;
+ outline: none;
+ background-position: 0 0;
+}
+
+input::-webkit-input-placeholder {
+ /*font-family: 'roboto', sans-serif;*/
+ -webkit-transition: all 0.3s ease-in-out;
+ transition: all 0.3s ease-in-out;
+}
+
+input:focus::-webkit-input-placeholder, input:valid::-moz-input-placeholder, input:focus::-moz-input-placeholder, input:valid::-moz-input-placeholder {
+ color: #14BFCC;
+ font-size: 11px;
+ -webkit-transform: translateY(-20px);
+ transform: translateY(-20px);
+ visibility: visible !important;
+}
+

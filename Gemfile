@@ -3,8 +3,17 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.3'
+
+#DATABASE
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
+# Use mysql2 as the database for Active Record
+gem 'mysql2'
+
+# Use 'foreigner' to add foreign_key constraints on database layer !
+# https://github.com/matthuhiggins/foreigner
+# gem 'foreigner'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -14,6 +23,9 @@ gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 gem 'execjs'
 gem 'therubyracer', :platforms => :ruby
+
+#Documentation
+gem 'annotate', '~> 2.6.6'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -30,11 +42,13 @@ gem 'omniauth'
 gem "omniauth-cas", :git => "https://github.com/loocla/omniauth-cas.git", :branch => 'saml'
 
 # Authorisation
-gem 'cancan'
-gem 'rolify', '~> 3.2.0'
+gem 'cancancan', '~> 1.10'
+gem 'rolify', '~> 4.1.1'
 
 # API GRAM
 gem 'activeresource'
+
+gem 'email_validator'
 
 # Templates
 gem 'haml-rails'
@@ -45,7 +59,20 @@ gem 'simple_form'
 # Pagination
 gem 'will_paginate', '~> 3.0.0'
 
+#Autocompletion pour les form de recherche
+gem 'rails4-autocomplete'
 
+# i18n pour les conversion d'accents
+gem 'i18n'
+
+# better flash messaages
+gem 'unobtrusive_flash', '>=3'
+
+# forconfiguration tables
+gem 'configurable_engine'
+
+# tooltips
+gem 'bootstrap-tooltip-rails'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -59,6 +86,8 @@ gem 'will_paginate', '~> 3.0.0'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+  
+  gem "letter_opener"
 
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'

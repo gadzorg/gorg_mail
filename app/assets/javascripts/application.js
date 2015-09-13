@@ -12,4 +12,15 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require bootstrap/bootstrap-tooltip
+//= require jquery-ui
 //= require_tree .
+//= require autocomplete-rails
+//= require unobtrusive_flash
+//= require unobtrusive_flash_ui
+
+UnobtrusiveFlash.flashOptions['timeout'] = 5000; // milliseconds
+
+$(function(){
+  $("a[rel='tooltip']").tooltip();
+})

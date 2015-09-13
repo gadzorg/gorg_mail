@@ -42,3 +42,7 @@ config/environments/*.local.yml
 
 config/database.yml
 db/schema.rb
+
+lib/assets/*.csv
+
+
