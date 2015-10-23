@@ -1,10 +1,14 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
+require 'active_resource'
+
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
+
+ActiveResource::Base.logger = Logger.new(STDERR)
 
 module Imelavi
   class Application < Rails::Application
