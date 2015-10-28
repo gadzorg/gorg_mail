@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'admin/index'
+
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   get 'static_pages/index'
 
@@ -7,6 +9,19 @@ Rails.application.routes.draw do
 
   # You can have the root of your site routed with "root"
   root 'static_pages#index'
+
+  get 'admin' => 'admin#index'
+  get 'roles' => 'roles#index_all'
+
+  resources :users do
+
+    resources :roles, only: [:new, :create,:destroy]
+
+    get :autocomplete_user_hruid, :on => :collection
+    get :search_by_id, :on => :collection
+
+
+  end
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

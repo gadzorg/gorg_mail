@@ -43,7 +43,6 @@ gem "omniauth-cas", :git => "https://github.com/loocla/omniauth-cas.git", :branc
 
 # Authorisation
 gem 'cancancan', '~> 1.10'
-gem 'rolify', '~> 4.1.1'
 
 # API GRAM
 gem 'activeresource'

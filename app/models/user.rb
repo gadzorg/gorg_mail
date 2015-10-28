@@ -8,15 +8,24 @@ class User < ActiveRecord::Base
          :rememberable, :trackable, :validatable,
          :omniauthable, :omniauth_providers => [:GadzOrg]
 
-  after_initialize :set_default_values
-
   ##
   # synced_with_gram : True if last sync with gram data succeed (false if not).
   # false if object never tried to sync at runtime. Auto sync performed at connection via CAS
   attr_accessor :synced_with_gram
 
-  validates :hruid, presence: true
+  # Associations
+  belongs_to :role
+
+
+  after_initialize :set_default_values
+
+
   validates :hruid, uniqueness: true
+
+
+  def has_role? (role_name)
+    self.role ? self.role.name==(role_name.to_s) : false
+  end
 
   ##
   # Update local user data with data contained in GrAM
@@ -66,7 +75,7 @@ class User < ActiveRecord::Base
 
   ##
   # Return user firstname and lastname
-  def full_name
+  def fullname
     firstname + " " + lastname
   end
 

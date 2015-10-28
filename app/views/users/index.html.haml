@@ -1,0 +1,32 @@
+%section.int.pam.center
+  %h1 Utilisateurs
+
+  Recherche par hruid
+  =form_tag  search_by_id_users_path,:method => :get, :user_id => :id_element do
+    =autocomplete_field_tag 'Hruid', '', autocomplete_user_hruid_users_path, :size => 30, :id_element => '#id', :placeholder => "nom.prenom.année"
+    =hidden_field_tag "id"
+    = submit_tag 'GO!', :class => ""
+
+  %table
+    %thead
+      %tr
+        / %th Email
+        %th Nom
+        %th Hruid
+        %th
+
+
+    %tbody
+      - @users.each do |user|
+        %tr
+          / %td= user.email
+          %td= user.fullname
+          %td= user.hruid
+          %td
+            = link_to 'Show', user
+            = link_to 'Edit', edit_user_path(user)
+            / = link_to 'Destroy', user, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+  %br
+
+  = link_to 'New User', new_user_path

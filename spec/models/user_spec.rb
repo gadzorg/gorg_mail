@@ -4,9 +4,6 @@ RSpec.describe User, type: :model do
   it "has a valid factory" do
     expect(FactoryGirl.build(:user)).to be_valid
   end
-  it "is invalid if there is no hruid" do
-    expect(FactoryGirl.build(:user, hruid: nil)).not_to be_valid
-  end
   it "is invalid if hruid already exist" do
     FactoryGirl.create(:user,hruid:"alexandre.narbonne.2011")
     expect(FactoryGirl.build(:user,hruid:"alexandre.narbonne.2011")).not_to be_valid
@@ -113,8 +110,8 @@ RSpec.describe User, type: :model do
       end
     end
   end
-  it "return a full name" do
+  it "return a fullname" do
     user=FactoryGirl.build(:user, firstname: "Alexandre", lastname:"Narbonne")
-    expect(user.full_name).to eq("Alexandre Narbonne")
+    expect(user.fullname).to eq("Alexandre Narbonne")
   end
 end

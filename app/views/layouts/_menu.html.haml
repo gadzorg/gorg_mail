@@ -6,9 +6,10 @@
       .menu
         %ul
           - if user_signed_in?
+            - if can? :read, :admin
+              %li
+                =link_to "Administration", admin_path
             %li
               =link_to "Menu 1", :back
-            %li
-              =link_to "Menu 2", :back
 
           = render 'layouts/user_widget'

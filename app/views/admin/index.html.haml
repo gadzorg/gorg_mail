@@ -1,0 +1,21 @@
+%section.pam.center.mw1140p
+  %h1 Administration
+  .grid-4-small-1
+    - if can? :manage, :admin
+      =link_to admin_configurable_path, class:'box shadow-1 mtm bouton bouton-light'  do
+        %div.small-inbl
+          =image_tag('config.png', class:'icon small_icon')
+        %div.small-inbl
+          Configuration
+    - if can? :read, User
+      =link_to  users_path, class:'box shadow-1 mtm bouton bouton-light'  do
+        %div.small-inbl
+          =image_tag('users.png', class:'icon small_icon' )
+        %div.small-inbl
+          Utilisateurs
+    - if can? :read, Role
+      =link_to  roles_path, class:'box shadow-1 mtm bouton bouton-light'  do
+        %div.small-inbl
+          =image_tag('roles.png', class:'icon small_icon')
+        %div.small-inbl
+          Roles
