@@ -1,28 +1,60 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+=== About
 
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+=== Ruby version
+
+This template is based on ruby version 2.1.2p95 (2014-05-08 revision 45877)
+
+=== System dependencies
+
+No specific system dependencies
+
+=== Initial Configuration
+
+Before first use, you need to configure /config/secrets.yml
+
+An example file is available in /config/secretes.yml.template
+
+=== Database creation
+
+Database configuration is in config/database.yml
+
+You can find an examples of databases.yml in /config :
+
+* database.yml.mysql2.template : config file based on mysql2
+
+* database.yml.sqlite3.template : config file based on sqlite3
+
+Then, use :
+ RAILS_ENV=development bundle exec rake db:setup
+ RAILS_ENV=test bundle exec rake db:setup
+ RAILS_ENV=production bundle exec rake db:setup
+
+=== Database initialization
+
+Default database is empty
+
+You will need an admin account to configure the application. There is 2 ways to create an admin account :
+
+* In development environnement : create default accounts
+
+* In production environnement : create an account manually or connect from omniauth then set admin Role to the created account
+
+==== Default accounts
+
+
+
+==== Manual Admin granting
+
+
+
+=== Testing
+
+This template use RSpec for testing
+
+=== Contributors
+
+* Dorian Becker (blaked 84me211), Permanent Soce 2015, dorian.becker@gadz.org
+* Alexandre Narbonne (ratatosk 157me211), Permanent Soce 2014, alexandre.narbonne@gadz.org

@@ -1,3 +1,6 @@
+##
+# A User of the application
+#
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -5,37 +8,76 @@ class User < ActiveRecord::Base
          :rememberable, :trackable, :validatable,
          :omniauthable, :omniauth_providers => [:GadzOrg]
 
-  def update_from_gram
-  	gram_data=GramAccount.find(self.hruid)
+  after_initialize :set_default_values
 
-  	self.email=gram_data.email
-  	self.firstname=gram_data.firstname
+  ##
+  # synced_with_gram : True if last sync with gram data succeed (false if not).
+  # false if object never tried to sync at runtime. Auto sync performed at connection via CAS
+  attr_accessor :synced_with_gram
+
+  validates :hruid, presence: true
+  validates :hruid, uniqueness: true
+
+  ##
+  # Update local user data with data contained in GrAM
+  def update_from_gram
+    self.synced_with_gram = false
+    gram_data=GramAccount.find(self.hruid)
+
+    self.email=gram_data.email
+    self.firstname=gram_data.firstname
     self.lastname=gram_data.lastname
+
+    self.save
+    self.synced_with_gram = true
+    self
   end
 
+  ##
+  # Return an User to login after Omniauth authentification. This user is retrieve in database with hruid or
+  # created on the fly from CAS data
   def self.omniauth(auth_data, signed_in_resource=nil)
-    
-    logger.info "=================================="
-    logger.info "Connexion depuis le CAS uid : "+auth_data[:uid]
-    logger.info "Infos de connection !"
-    logger.info auth_data.inspect
 
+    logger.debug "=================================="
+    logger.debug "Connexion depuis le CAS uid : "+auth_data[:uid]
+    logger.debug "Infos de connection :"
+    logger.debug auth_data.inspect
 
     # auth_data : take a look on Users::OmniauthCallbacksController
-    until user = User.find_by_hruid(auth_data[:uid])
+    unless user = User.find_by_hruid(auth_data[:uid])
       user = User.new(
-        email: auth_data[:info][:email],
-        password: Devise.friendly_token[0,20],
-        hruid: auth_data[:uid],
-        firstname: auth_data[:extra][:firstname],
-        lastname: auth_data[:extra][:lastname],
+          email: auth_data[:info][:email],
+          password: Devise.friendly_token[0,20],
+          hruid: auth_data[:uid],
+          firstname: auth_data[:extra][:firstname],
+          lastname: auth_data[:extra][:lastname],
       )
       user.save!
     end
 
-    user.update_from_gram
+    begin
+      user.update_from_gram
+    rescue => e
+      logger.error "Erreur de connexion au GrAM :\n #{YAML::dump e}"
+    end
 
-    return user
+    user
   end
+
+  ##
+  # Return user firstname and lastname
+  def full_name
+    firstname + " " + lastname
+  end
+
+
+  private
+
+    ##
+    #Define default values of runtime attributes
+    def set_default_values
+      self.synced_with_gram = false
+    end
+
 
 end

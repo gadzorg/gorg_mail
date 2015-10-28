@@ -28,11 +28,11 @@ development:
 test:
   <<: *default
   database: gorg_test_imelavi
-  username: gorg_test_imelavi
+  username: gorg_test_imelav
   password: password
 
 production:
   <<: *default
   database: gorg_prod_imelavi
-  username: gorg_prod_imelavi
+  username: gorg_prod_imelav
   password: password
