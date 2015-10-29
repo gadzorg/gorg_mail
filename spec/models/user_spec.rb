@@ -18,29 +18,45 @@ RSpec.describe User, type: :model do
     end
   end
   describe "upgrade from gram data via API" do
-    before :each do
-      @user = FactoryGirl.create(:user,hruid:"alexandre.narbonne.2011")
-      @user.update_from_gram
+    context "has an hruid"
+      before :each do
+        @user = FactoryGirl.create(:user,hruid:"alexandre.narbonne.2011")
+        @user.update_from_gram
+      end
+      context "can connect to gram" do
+        it "update email with value from GrAM" do #TODO
+
+        end
+        it "update firstname with value from GrAM" do #TODO
+
+        end
+        it "update lastname with value from GrAM" do #TODO
+
+        end
+        it "is synced with gram" do
+          expect(@user.synced_with_gram).to eq (true)
+        end
+      end
+
+      context "cannot connect to gram" do
+        it "is not synced with gram" do
+          expect(@user.synced_with_gram).to eq (false)
+        end
+      end
     end
-    context "can connect to gram" do
-      it "update email with value from GrAM" do #TODO
-
+    context "doesn't have an hruid"
+      before :each do
+        @user = FactoryGirl.create(:user,hruid:nil)
+        @user.update_from_gram
       end
-      it "update firstname with value from GrAM" do #TODO
 
-      end
-      it "update lastname with value from GrAM" do #TODO
-
-      end
-      it "is synced with gram" do
-        expect(@user.synced_with_gram).to eq (true)
-      end
-    end
-
-    context "cannont connect to gram" do
-      it "is not synced with gram" do
+      it "return false"
         expect(@user.synced_with_gram).to eq (false)
       end
+
+      it "doesn't try to connect to GrAM API"
+      end
+
     end
   end
 

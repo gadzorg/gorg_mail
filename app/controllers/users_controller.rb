@@ -20,11 +20,13 @@ class UsersController < ApplicationController
   def new
     @user = User.new
     authorize! :create, @user
+    @roles=Role.accessible_by(current_ability)
   end
 
   # GET /users/1/edit
   def edit
     authorize! :update, @user
+    @roles=Role.accessible_by(current_ability)
   end
 
   # POST /users
@@ -32,6 +34,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     authorize! :create, @user
+    authorize! :update, Role.find(user_params[:role_id])
 
     respond_to do |format|
       if @user.save
@@ -48,6 +51,8 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1.json
   def update
     authorize! :update, @user
+    authorize! :update, Role.find(user_params[:role_id])
+
     respond_to do |format|
       if @user.update(user_params)
         format.html { redirect_to @user, notice: 'User was successfully updated.' }
@@ -84,6 +89,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:email, :firstname, :lastname, :hruid, :id)
+      params.require(:user).permit(:email, :firstname, :lastname, :hruid, :id, :role_id)
     end
 end

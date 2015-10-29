@@ -1,0 +1,10 @@
+%h1 Liste de Roles
+
+- @roles.each do |role|
+  %table
+    %tr
+      %td=role.name
+      %td= link_to "Revoke", user_role_path(@user,role.name), :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+  =link_to "Ajouter un role",  new_user_role_path(@user)
+  =link_to "Back", user_path(@user)

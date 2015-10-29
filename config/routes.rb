@@ -11,11 +11,9 @@ Rails.application.routes.draw do
   root 'static_pages#index'
 
   get 'admin' => 'admin#index'
-  get 'roles' => 'roles#index_all'
+  get 'roles' => 'roles#index'
 
   resources :users do
-
-    resources :roles, only: [:new, :create,:destroy]
 
     get :autocomplete_user_hruid, :on => :collection
     get :search_by_id, :on => :collection

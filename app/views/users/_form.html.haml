@@ -7,5 +7,10 @@
     = f.input :lastname
     = f.input :hruid
 
+    =f.label "Role"
+    -if can? :update, @user.role
+      = f.collection_select(:role_id,@roles , :id, :name, include_blank: true)
+    -else
+      = @user.role.name
   .form-actions
     = f.button :submit
