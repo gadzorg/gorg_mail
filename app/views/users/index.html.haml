@@ -20,11 +20,13 @@
       - @users.each do |user|
         %tr
           / %td= user.email
-          %td= user.fullname
+          %td= user.fullname+(user.role ? " - #{user.role.name}" : "")
           %td= user.hruid
           %td
             = link_to 'Show', user
-            = link_to 'Edit', edit_user_path(user)
+            -if can? :update, user
+              = link_to 'Edit', edit_user_path(user)
+
             / = link_to 'Destroy', user, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
   %br

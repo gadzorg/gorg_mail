@@ -15,6 +15,8 @@ Rails.application.routes.draw do
 
   resources :users do
 
+    resources :roles, only: [:create,:destroy]
+
     get :autocomplete_user_hruid, :on => :collection
     get :search_by_id, :on => :collection
 

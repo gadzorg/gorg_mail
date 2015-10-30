@@ -34,7 +34,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     authorize! :create, @user
-    authorize! :update, Role.find(user_params[:role_id])
+    authorize! :update, (user_params[:role_id].present? ? Role.find(user_params[:role_id]) : Role)
 
     respond_to do |format|
       if @user.save
@@ -51,7 +51,7 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1.json
   def update
     authorize! :update, @user
-    authorize! :update, Role.find(user_params[:role_id])
+    authorize! :update, (user_params[:role_id].present? ? Role.find(user_params[:role_id]) : Role)
 
     respond_to do |format|
       if @user.update(user_params)

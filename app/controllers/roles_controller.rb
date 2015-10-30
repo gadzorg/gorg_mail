@@ -1,5 +1,8 @@
 class RolesController < ApplicationController
 
+  before_action :set_role, only: [:create,:destroy]
+  before_action :set_user, only: [:create,:destroy]
+
   # GET /roles
   # GET /roles.json
   def index
@@ -7,12 +10,45 @@ class RolesController < ApplicationController
     authorize! :read, Role
   end
 
+  # POST /users/1/roles
+  # POST /users/1/roles.json
+  def create
+    authorize! :create, @role
 
+    respond_to do |format|
+      if params[:role][:name].present? && @user.add_role(params[:role][:name])
+        format.html { redirect_to user_path(@user), notice: 'Role was successfully added.' }
+        format.json { redirect_to user_path(@user, format: :json), status: :created, location: @user }
+      else
+        format.html { render :new }
+        format.json { render json: @role.errors, status: :unprocessable_entity }
+      end
+    end
+  end
 
+  # DELETE /users/1/roles/support
+  # DELETE /users/1/roles/support.json
+  def destroy
+    authorize! :destroy, @role
 
+    @user.remove_role params[:id]
 
+    respond_to do |format|
+      format.html { redirect_to user_roles_path(@user), notice: 'Role was successfully revoked.' }
+      format.json { head :no_content }
+    end
+
+  end
 
   private
+
+  def set_user
+    @user = User.find(params[:user_id])
+  end
+
+  def set_role
+    @role = Role.find_by_name(params[:id])
+  end
 
 
   # Never trust parameters from the scary internet, only allow the white list through.

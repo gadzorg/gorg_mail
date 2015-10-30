@@ -40,6 +40,19 @@ You will need an admin account to configure the application. There is 2 ways to 
 
 * In development environnement : create default accounts
 
+Run :
+ rake db:populate
+
+It will :
+- Flush current database and recreate it from the schema
+- Seed the database with default values (Roles for example)
+- Create default users :
+  - an admin: admin@poubs.org
+  - a helpdesk user : support@poubs.org
+  - 3 basic users : user1@poubs.org, user2@poubs.org, user3@poubs.org
+
+All password are : *password*
+
 * In production environnement : create an account manually or connect from omniauth then set admin Role to the created account
 
 ==== Default accounts

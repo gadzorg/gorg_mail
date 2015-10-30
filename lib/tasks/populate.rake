@@ -25,6 +25,36 @@ namespace :db do
     puts "Admin mail = #{admin_user.email}"
     puts "Admin name = #{admin_user.fullname}"
 
+    # Create support_user account
+    support_user = User.create!(:email => "support@poubs.org",
+                              :firstname => Faker::Name.first_name,
+                              :lastname => Faker::Name.last_name,
+                              :password => "password",
+                              :password_confirmation => "password",
+                              :role => Role.find_by_name(:support)
+    )
+
+
+    puts "Support mail = #{support_user.email}"
+    puts "Support name = #{support_user.fullname}"
+
+    # Create basic users account
+
+    basic_users = (1..3).map do |i|
+        User.create!( :email => "user#{i}@poubs.org",
+                      :firstname => Faker::Name.first_name,
+                      :lastname => Faker::Name.last_name,
+                      :password => "password",
+                      :password_confirmation => "password",
+                      :role => nil)
+      end
+
+    basic_users.each do |u|
+      puts "User mail = #{u.email}"
+      puts "User name = #{u.fullname}"
+    end
+
+
 
   end
 end

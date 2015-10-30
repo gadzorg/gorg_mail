@@ -20,11 +20,25 @@ class User < ActiveRecord::Base
   after_initialize :set_default_values
 
 
-  validates :hruid, uniqueness: true
+  validates :hruid, uniqueness: true, :allow_blank => true, :allow_nil => true
 
-
+  ##
+  # Check current role
   def has_role? (role_name)
     self.role ? self.role.name==(role_name.to_s) : false
+  end
+
+
+  ##
+  # Add or change role
+  def  add_role (role_name)
+    self.update_attribute(:role_id,Role.find_by_name(role_namee).id)
+  end
+
+  ##
+  # Delete current role if any
+  def  remove_role (role_name=nil)
+    self.update_attribute(:role_id,nil)
   end
 
   ##

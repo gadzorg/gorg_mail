@@ -34,8 +34,12 @@ class Ability
       can :manage, :all
       can :manage, Role
     elsif user.has_role? :support
+      can :read, :admin
       can :manage, User
-      can :manage, Role, :name => 'support'
+      cannot [:update, :delete, :create], User, :role_id => 1
+      can :manage, Role
+      cannot :manage, Role, :name => 'admin'
+      can :read, Role
     end
   end
 end

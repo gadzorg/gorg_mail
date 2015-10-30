@@ -8,9 +8,9 @@
     = f.input :hruid
 
     =f.label "Role"
-    -if can? :update, @user.role
+    -if can? :update, (@user.role || Role)
       = f.collection_select(:role_id,@roles , :id, :name, include_blank: true)
     -else
-      = @user.role.name
+      = @user.role ? @user.role.name : "Basic"
   .form-actions
     = f.button :submit

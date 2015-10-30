@@ -42,7 +42,7 @@ gem 'omniauth'
 gem "omniauth-cas", :git => "https://github.com/loocla/omniauth-cas.git", :branch => 'saml'
 
 # Authorisation
-gem 'cancancan', '~> 1.10'
+gem 'cancancan'
 
 # API GRAM
 gem 'activeresource'
