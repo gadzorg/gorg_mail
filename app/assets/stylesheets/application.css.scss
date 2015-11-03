@@ -203,6 +203,10 @@ a:focus {
     outline: 0px none;
 }
 
+.border-top{
+    border-top: 1px solid #ddd; 
+}
+
 
 .red {color: #c0392b}
 .inactive {color: #AAA;}
@@ -312,7 +316,7 @@ li{
 }
 /*-----------------------------inputs-------------------------*/
 
-input, select {
+input, select,textarea {
   /*margin: 40px 25px;*/
   /*width: 200px;*/
   /*display: block;*/
@@ -321,8 +325,8 @@ input, select {
   border-bottom: solid 1px #14BFCC;
   -webkit-transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
   transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
-  background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 96%, #14BFCC 4%);
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 96%, #14BFCC 4%);
+  background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 99%, #14BFCC 4%);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 99%, #14BFCC 4%);
   /*background-position: -200px 0;*/
   /*background-size: 200px 100%;*/
   background-repeat: no-repeat;
