@@ -8,7 +8,8 @@ gem 'rails', '4.2.3'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 # Use mysql2 as the database for Active Record
-gem 'mysql2'
+#gem 'mysql2'
+gem 'mysql2', '~> 0.3.20'
 
 # Use 'foreigner' to add foreign_key constraints on database layer !
 # https://github.com/matthuhiggins/foreigner
