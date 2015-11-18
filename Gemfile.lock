@@ -174,7 +174,7 @@ GEM
     mini_portile (0.6.2)
     minitest (5.8.2)
     multi_json (1.11.2)
-    mysql2 (0.4.1)
+    mysql2 (0.3.20)
     nenv (0.2.0)
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
@@ -333,7 +333,7 @@ DEPENDENCIES
   jquery-ui-rails
   launchy
   letter_opener
-  mysql2
+  mysql2 (~> 0.3.20)
   omniauth
   omniauth-cas!
   rails (= 4.2.3)
@@ -351,3 +351,6 @@ DEPENDENCIES
   web-console (~> 2.0)
   will_paginate (~> 3.0.0)
   yaml_db!
+
+BUNDLED WITH
+   1.10.5

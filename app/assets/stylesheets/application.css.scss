@@ -67,6 +67,11 @@
 
 #logo{
     display: inline;
+    height: 50px;
+}
+#logo2{
+    display: block;
+    height: 50px;
 }
 body {
     background: #EEE none repeat scroll 0% 0%;
@@ -284,6 +289,23 @@ input:focus, input:valid {
  box-shadow: none;
  outline: none;
  background-position: 0 0;
+}
+
+input[type=submit] {
+    display: inline-block;
+    font-family: "bebas_neueregular";
+    font-size: 22px;
+    font-weight: 400;
+    color: #FFF;
+    /*height: 45px;*/
+    /*line-height: 45px;*/
+    text-decoration: none;
+    text-align: center;
+    border-radius: 3px;
+    transition: all 0.4s ease 0s;
+    padding: 5px 10px;
+    background-color: rgba(20, 191, 204, 0.85);
+    border: none;
 }
 
 input::-webkit-input-placeholder {
