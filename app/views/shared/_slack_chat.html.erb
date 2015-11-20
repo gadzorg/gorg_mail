@@ -1,0 +1,14 @@
+<div class="message-box" data-toggle="tooltip" title="Besoin d'aide ?">
+	<a href="javascript:void(0);" class="message-box-icon">
+		?
+		<div class="badge badge-danger slack-message-count"></div>
+	</a>
+</div>
+
+<script>
+	var user_name = "<%= user_name %>";
+	var user_id = "<%= user_id %>";
+	var user_link = "<%= user_link %>";
+</script>
+
+<%= javascript_include_tag 'slack-chat-caller.js' %>

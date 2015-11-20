@@ -1,0 +1,9 @@
+use_helpdesk_chat:
+  name: Activer la messagerie instantannée de support
+  default: true
+  type: boolean
+
+anonymous_helpdesk_chat:
+  name: Activer la messagerie instantannée de support même si l'utilisateur n'est pas connecté
+  default: true
+  type: boolean

@@ -1,0 +1,30 @@
+$(document).ready(function() {
+  var slackChatOptions;
+  $('.message-box > a').slackChat('destroy');
+  $('.message-box');
+  $('[data-toggle=tooltip]').tooltip();
+  $('.message-box > a').slackChat('destroy');
+  $('.message-box').hide();
+  slackChatOptions = {
+    apiToken: '<%= Rails.application.secrets.slack_chat_token %>',
+    channelId: '<%= Rails.application.secrets.slack_chat_channel_id %>',
+    user: user_name,
+    userLink: user_link,
+    userId: user_id,
+    msgUserId: user_id,
+    userImg: '<%= image_path("user.png") %>',
+    sysImg: '<%= image_path("gadzorg.png") %>',
+    sysUser: 'Equipe Gadz.org',
+    chatBoxHeader: "Besoin d'aide ? Demande à Gadz.org",
+    botUser: 'ChatSupport - <%= Rails.application.secrets.app_name %>',
+    elementToDisable: $('.message-box'),
+    disableIfAway: false,
+    webCache: false,
+    debug: false,
+    privateChannel: false,
+    heightOffset: 150,
+    messageFetchCount: 5
+  };
+  $('.message-box > a').slackChat(slackChatOptions);
+  return $('.message-box').show();
+});
