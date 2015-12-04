@@ -17,7 +17,7 @@ class RolesController < ApplicationController
 
     respond_to do |format|
       if params[:role][:name].present? && @user.add_role(params[:role][:name])
-        format.html { redirect_to user_path(@user), notice: 'Role was successfully added.' }
+        format.html { redirect_to user_path(@user), notice: I18n.translate('roles.flash.create.success', role: params[:role][:name], user: @user.fullname) }
         format.json { redirect_to user_path(@user, format: :json), status: :created, location: @user }
       else
         format.html { render :new }
@@ -34,7 +34,7 @@ class RolesController < ApplicationController
     @user.remove_role params[:id]
 
     respond_to do |format|
-      format.html { redirect_to user_roles_path(@user), notice: 'Role was successfully revoked.' }
+      format.html { redirect_to roles_path, notice: I18n.translate('roles.flash.destroy.success', role: params[:id], user: @user.fullname) }
       format.json { head :no_content }
     end
 

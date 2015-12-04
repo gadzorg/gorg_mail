@@ -1,0 +1,46 @@
+fr:
+  common:
+    buttons: &DEFAULT_BUTTONS
+      save: 'Sauvegarder'
+      edit: 'Modifier'
+      back: 'Retour'
+      show: 'Détails'
+      delete: 'Supprimer'
+      new: 'Ajouter'
+
+  layout:
+    menu:
+      connect: 'Connexion'
+      disconnect: 'Déconnexion'
+
+  roles:
+    forms:
+      buttons:
+        <<: *DEFAULT_BUTTONS
+    flash:
+      create:
+        success: '%{user} est maintenant ''%{admin}'''
+        fail: 'Impossible de donner à %{user} le rôle ''%{role}'''
+      destroy:
+        success: "Le role '%{role}' de %{user} a bien été révoqué"
+ 
+  users:
+    forms:
+      buttons:
+        <<: *DEFAULT_BUTTONS
+        edit: 'Mettre à jour'
+        back: 'Retour à la liste'
+        show: 'Fiche utilisateur'
+      attributes:
+        email:
+        
+        
+    flash:
+      create:
+        success: '%{user} a bien été créé !'
+        fail: 'L''utilisateur n''a pas pu être enregistré'
+      update:
+        success: 'Le compte de %{user} a bien été mis à jour !'
+        fail: 'Le compte de %{user}r n''a pas pu être mis à jour'
+      destroy:
+        success: 'L''utilsateur ''%{user}'' a bien été supprimé'

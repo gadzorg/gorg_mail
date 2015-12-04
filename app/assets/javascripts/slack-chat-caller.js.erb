@@ -15,7 +15,7 @@ $(document).ready(function() {
     userImg: '<%= image_path("user.png") %>',
     sysImg: '<%= image_path("gadzorg.png") %>',
     sysUser: 'Equipe Gadz.org',
-    chatBoxHeader: "Besoin d'aide ? Demande à Gadz.org",
+    chatBoxHeader: "<%= I18n.translate('slack_chat.header') %>",
     botUser: 'ChatSupport - <%= Rails.application.secrets.app_name %>',
     elementToDisable: $('.message-box'),
     disableIfAway: false,
@@ -23,7 +23,7 @@ $(document).ready(function() {
     debug: false,
     privateChannel: false,
     heightOffset: 150,
-    messageFetchCount: 5
+    messageFetchCount: 25
   };
   $('.message-box > a').slackChat(slackChatOptions);
   return $('.message-box').show();

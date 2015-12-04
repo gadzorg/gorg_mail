@@ -13,4 +13,4 @@
     -else
       = @user.role ? @user.role.name : "Basic"
   .form-actions
-    = f.button :submit
+    = f.button :submit, t('users.forms.buttons.save')

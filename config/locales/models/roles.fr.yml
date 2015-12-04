@@ -1,0 +1,8 @@
+fr:
+  activerecord:
+    models:
+      role: 'Role'
+    attributes:
+      role:
+        users: 'Utilisateurs'
+        name: 'Nom'

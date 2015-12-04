@@ -8,4 +8,4 @@
       %tr
         %td= u.fullname
         -if can? :destroy, role
-          %td= link_to "Supprimer", user_role_path(u,role.name), :method => :delete, :data => { :confirm => 'Are you sure ?'}
+          %td= link_to t('roles.forms.buttons.delete'), user_role_path(u,role.name), :method => :delete, :data => { :confirm => 'Are you sure ?'}

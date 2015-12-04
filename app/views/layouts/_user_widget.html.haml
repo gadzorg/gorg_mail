@@ -2,7 +2,7 @@
   %li
     = "#{current_user.firstname}"
   %li
-    = link_to 'Déconnexion', destroy_user_session_path, :method => :delete, :class =>"bouton bouton_bleu vertical-center" 
+    = link_to t('layout.menu.disconnect'), destroy_user_session_path, :method => :delete, :class =>"bouton bouton_bleu vertical-center" 
 - else
   %li
-    = link_to 'Connexion', new_user_session_path, :class =>"bouton bouton_bleu vertical-center" 
+    = link_to t('layout.menu.connect'), new_user_session_path, :class =>"bouton bouton_bleu vertical-center" 
