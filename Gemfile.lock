@@ -351,6 +351,3 @@ DEPENDENCIES
   web-console (~> 2.0)
   will_paginate (~> 3.0.0)
   yaml_db!
-
-BUNDLED WITH
-   1.10.5

@@ -7,7 +7,7 @@
 namespace :db do
   desc "Erase and fill database"
   task :populate => :environment do
-
+    puts "Environement = #{Rails.env}"
     require 'faker'
 
     Rake::Task['db:reset'].invoke

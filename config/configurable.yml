@@ -7,3 +7,8 @@ anonymous_helpdesk_chat:
   name: Activer la messagerie instantannée de support même si l'utilisateur n'est pas connecté
   default: true
   type: boolean
+  
+legacy_auth_enabled:
+  name: "Afficher la page d'authentification interne aux utilisateur"
+  default: true
+  type: boolean

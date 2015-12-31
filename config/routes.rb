@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
   get 'admin/index'
-
-  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+  
+  devise_for :users, :controllers => {
+    :omniauth_callbacks => "users/omniauth_callbacks",
+    :sessions => "users/sessions"
+    }
+  
   get 'static_pages/index'
 
   # The priority is based upon order of creation: first created -> highest priority.
