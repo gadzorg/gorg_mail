@@ -11,8 +11,8 @@
     %thead
       %tr
         / %th Email
-        %th Nom
-        %th Hruid
+        %th= User.human_attribute_name('fullname')
+        %th= User.human_attribute_name('hruid')
         %th
 
 
@@ -23,12 +23,12 @@
           %td= user.fullname+(user.role ? " - #{user.role.name}" : "")
           %td= user.hruid
           %td
-            = link_to 'Show', user
+            = link_to t('users.forms.buttons.show'), user
             -if can? :update, user
-              = link_to 'Edit', edit_user_path(user)
+              = link_to t('users.forms.buttons.edit'), edit_user_path(user)
 
             / = link_to 'Destroy', user, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
   %br
 
-  = link_to 'New User', new_user_path
+  = link_to t('users.forms.buttons.new'), new_user_path

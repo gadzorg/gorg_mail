@@ -2,7 +2,8 @@
   .int
     %nav
       #logo.left
-        =image_tag "logo.png", :class => "vertical-center"
+        =link_to root_path do
+          =image_tag "logo.png", :class => "vertical-center"
       .menu
         %ul
           - if user_signed_in?

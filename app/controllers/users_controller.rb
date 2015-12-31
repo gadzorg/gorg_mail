@@ -38,10 +38,10 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
+        format.html { redirect_to @user, notice: I18n.translate('users.flash.create.success', user: @user.fullname) }
         format.json { render :show, status: :created, location: @user }
       else
-        format.html { render :new }
+        format.html { render :new, notice: I18n.translate('users.flash.create.fail') }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
@@ -55,10 +55,10 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
+        format.html { redirect_to @user, notice: I18n.translate('users.flash.update.success', user: @user.fullname) }
         format.json { render :show, status: :ok, location: @user }
       else
-        format.html { render :edit }
+        format.html { render :edit, notice: I18n.translate('users.flash.update.fail', user: @user.fullname) }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
@@ -70,7 +70,7 @@ class UsersController < ApplicationController
     authorize! :destroy, @user
     @user.destroy
     respond_to do |format|
-      format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
+      format.html { redirect_to users_url,I18n.translate('users.flash.destroy.success', user: @user.fullname) }
       format.json { head :no_content }
     end
   end
