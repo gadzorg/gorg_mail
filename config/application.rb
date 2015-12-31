@@ -8,7 +8,7 @@ require 'active_resource'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-ActiveResource::Base.logger = Logger.new(STDERR)
+# ActiveResource::Base.logger = Logger.new(STDERR)
 
 module Imelavi
   class Application < Rails::Application

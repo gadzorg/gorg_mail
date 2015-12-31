@@ -32,28 +32,43 @@ class User < ActiveRecord::Base
   ##
   # Add or change role
   def  add_role (role_name)
-    self.update_attribute(:role_id,Role.find_by_name(role_namee).id)
+    self.update_attribute(:role_id,Role.find_or_create_by(name: role_name).id)
   end
 
   ##
   # Delete current role if any
   def  remove_role (role_name=nil)
-    self.update_attribute(:role_id,nil)
+    self.update_attribute(:role_id,nil) unless !self.role ||(role_name && role_name.to_s != self.role.name)
   end
 
   ##
   # Update local user data with data contained in GrAM
   def update_from_gram
     self.synced_with_gram = false
-    gram_data=GramAccount.find(self.hruid)
+    if self.hruid.present?
+      begin
+        gram_data=GramAccount.find(self.hruid)
+        self.email=gram_data.email
+        self.firstname=gram_data.firstname
+        self.lastname=gram_data.lastname
 
-    self.email=gram_data.email
-    self.firstname=gram_data.firstname
-    self.lastname=gram_data.lastname
+        self.save
+        self.synced_with_gram = true
+        return self
+      rescue ActiveResource::ResourceNotFound
+        logger.error "[GrAM] Utilisateur introuvable : #{self.hruid}"
+        return false
+      rescue ActiveResource::ServerError
+        logger.error "[GrAM] Connexion au serveur impossible"
+        return false
+      rescue ActiveResource::UnauthorizedAccess, ActiveResource::ForbiddenAccess
+        logger.error "[GrAM] Connexion au serveur impossible : verifier identifiants"
+        return false
+      end
+    else
+      return false
+    end
 
-    self.save
-    self.synced_with_gram = true
-    self
   end
 
   ##
@@ -75,16 +90,16 @@ class User < ActiveRecord::Base
           firstname: auth_data[:extra][:firstname],
           lastname: auth_data[:extra][:lastname],
       )
-      user.save!
+      user.save
     end
 
-    begin
+    if user.persisted?
       user.update_from_gram
-    rescue => e
-      logger.error "Erreur de connexion au GrAM :\n #{YAML::dump e}"
+      user
+    else
+      logger.error "Donnees revoyes par le CAS invalide : "+auth_data.to_s
+      nil
     end
-
-    user
   end
 
   ##
