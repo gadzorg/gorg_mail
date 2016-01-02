@@ -117,4 +117,5 @@ group :test do
   gem 'capybara'
   gem 'guard-rspec'
   gem 'launchy'
+  gem 'shoulda-matchers', '~> 3.0'
 end

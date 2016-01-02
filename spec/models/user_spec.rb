@@ -1,48 +1,49 @@
 require 'rails_helper'
 
-def gram_account_mocked (hash={})
-  @gen_gram_account={
-    "hruid"=>"alexandre.narbonne.2011",
-    "firstname"=>"Alexandre",
-    "lastname"=>"NARBONNE",
-    "id_soce"=>"84189",
-    "enable"=>"TRUE",
-    "id"=>85189,
-    "uid_number"=>85189,
-    "gid_number"=>85189,
-    "home_directory"=>"/nonexistant",
-    "alias"=>["alexandre.narbonne.2011", "84189", "84189J"],
-    "password"=>"Not Display",
-    "email"=>"alexandre.narbonne",
-    "email_forge"=>"alexandre.narbonne@gadz.org",
-    "birthdate"=>"1987-09-17 00:00:00",
-    "login_validation_check"=>"CGU=2015-06-04;",
-    "description"=>"Agoram inscription - via module register - creation 2015-06-04 11:32:48",
-    "entities"=>["comptes", "gram"]
-  }
-
-  @gen_gram_account.merge(hash).to_json
-end
-
-def omniauth_hash(hash={})
-  @gen_omniauth_hash={"provider"=>"GadzOrg",
-    "uid"=>"alexandre.narbonne.2011",
-    "info"=>{"email"=>"alexandre.narbonne@gadz.org",
-      "name"=>"alexandre.narbonne@gadz.org"},
-      "credentials"=>{"ticket"=>"ST-120-SOPFsbPYKwW1qx3ax0NK-cas"},
-      "extra"=>{
-        "user"=>"alexandre.narbonne.2011",
-        "username"=>"alexandre.narbonne.2011",
-        "lastname"=>"NARBONNE",
-        "firstname"=>"Alexandre",
-        "soce_id"=>"84189"
-      }
-    }
-
-  @gen_omniauth_hash.merge(hash)
-end
 
 RSpec.describe User, type: :model do
+  def gram_account_mocked (hash={})
+    @gen_gram_account={
+      "hruid"=>"alexandre.narbonne.2011",
+      "firstname"=>"Alexandre",
+      "lastname"=>"NARBONNE",
+      "id_soce"=>"84189",
+      "enable"=>"TRUE",
+      "id"=>85189,
+      "uid_number"=>85189,
+      "gid_number"=>85189,
+      "home_directory"=>"/nonexistant",
+      "alias"=>["alexandre.narbonne.2011", "84189", "84189J"],
+      "password"=>"Not Display",
+      "email"=>"alexandre.narbonne",
+      "email_forge"=>"alexandre.narbonne@gadz.org",
+      "birthdate"=>"1987-09-17 00:00:00",
+      "login_validation_check"=>"CGU=2015-06-04;",
+      "description"=>"Agoram inscription - via module register - creation 2015-06-04 11:32:48",
+      "entities"=>["comptes", "gram"]
+    }
+
+    @gen_gram_account.merge(hash).to_json
+  end
+
+  def omniauth_hash(hash={})
+    @gen_omniauth_hash={"provider"=>"GadzOrg",
+      "uid"=>"alexandre.narbonne.2011",
+      "info"=>{"email"=>"alexandre.narbonne@gadz.org",
+        "name"=>"alexandre.narbonne@gadz.org"},
+        "credentials"=>{"ticket"=>"ST-120-SOPFsbPYKwW1qx3ax0NK-cas"},
+        "extra"=>{
+          "user"=>"alexandre.narbonne.2011",
+          "username"=>"alexandre.narbonne.2011",
+          "lastname"=>"NARBONNE",
+          "firstname"=>"Alexandre",
+          "soce_id"=>"84189"
+        }
+      }
+
+    @gen_omniauth_hash.merge(hash)
+  end
+  
   it "has a valid factory" do
     expect(FactoryGirl.build(:user)).to be_valid
   end

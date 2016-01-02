@@ -12,4 +12,26 @@ class ApplicationController < ActionController::Base
     root_path
   end
 
+
+
+  rescue_from CanCan::AccessDenied, with: :access_denied
+
+  private
+
+    def access_denied(exception)
+      respond_to do |format|
+        format.json { render nothing: true, status: :forbidden }
+        format.html {
+          store_location_for :user, request.path
+          if user_signed_in?
+            render :file => "#{Rails.root}/public/403.html", :status => 403
+          else
+            redirect_to new_user_session_path
+          end
+        }
+      end
+
+    end
+  
+
 end

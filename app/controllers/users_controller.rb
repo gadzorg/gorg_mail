@@ -41,7 +41,7 @@ class UsersController < ApplicationController
         format.html { redirect_to @user, notice: I18n.translate('users.flash.create.success', user: @user.fullname) }
         format.json { render :show, status: :created, location: @user }
       else
-        format.html { render :new, notice: I18n.translate('users.flash.create.fail') }
+        format.html { render :new, notice: I18n.translate('users.flash.create.fail') , status: :unprocessable_entity }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
@@ -58,7 +58,7 @@ class UsersController < ApplicationController
         format.html { redirect_to @user, notice: I18n.translate('users.flash.update.success', user: @user.fullname) }
         format.json { render :show, status: :ok, location: @user }
       else
-        format.html { render :edit, notice: I18n.translate('users.flash.update.fail', user: @user.fullname) }
+        format.html { render :edit, notice: I18n.translate('users.flash.update.fail', user: @user.fullname) , status: :unprocessable_entity}
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
@@ -68,9 +68,10 @@ class UsersController < ApplicationController
   # DELETE /users/1.json
   def destroy
     authorize! :destroy, @user
+    username=@user.fullname
     @user.destroy
     respond_to do |format|
-      format.html { redirect_to users_url,I18n.translate('users.flash.destroy.success', user: @user.fullname) }
+      format.html { redirect_to users_url, notice:  I18n.translate('users.flash.destroy.success', user: username) }
       format.json { head :no_content }
     end
   end
@@ -89,6 +90,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:email, :firstname, :lastname, :hruid, :id, :role_id)
+      params.require(:user).permit(:email, :firstname, :lastname, :hruid, :id, :role_id, :password, :password_confirmation)
     end
 end

@@ -270,6 +270,8 @@ GEM
       rdoc (~> 4.0)
     sexp_processor (4.6.0)
     shellany (0.0.1)
+    shoulda-matchers (3.0.1)
+      activesupport (>= 4.0.0)
     simple_form (3.2.0)
       actionpack (~> 4.0)
       activemodel (~> 4.0)
@@ -342,6 +344,7 @@ DEPENDENCIES
   rspec-rails
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
+  shoulda-matchers (~> 3.0)
   simple_form
   spring
   sqlite3
@@ -351,3 +354,6 @@ DEPENDENCIES
   web-console (~> 2.0)
   will_paginate (~> 3.0.0)
   yaml_db!
+
+BUNDLED WITH
+   1.10.6
