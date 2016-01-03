@@ -6,39 +6,39 @@ class RolesController < ApplicationController
   # GET /roles
   # GET /roles.json
   def index
-    @roles = Role.all
     authorize! :read, Role
+    @roles = Role.all
   end
 
-  # POST /users/1/roles
-  # POST /users/1/roles.json
-  def create
-    authorize! :create, @role
+  # # POST /users/1/roles
+  # # POST /users/1/roles.json
+  # def create
+  #   authorize! :create, @role
 
-    respond_to do |format|
-      if params[:role][:name].present? && @user.add_role(params[:role][:name])
-        format.html { redirect_to user_path(@user), notice: I18n.translate('roles.flash.create.success', role: params[:role][:name], user: @user.fullname) }
-        format.json { redirect_to user_path(@user, format: :json), status: :created, location: @user }
-      else
-        format.html { render :new }
-        format.json { render json: @role.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+  #   respond_to do |format|
+  #     if params[:role][:name].present? && @user.add_role(params[:role][:name])
+  #       format.html { redirect_to user_path(@user), notice: I18n.translate('roles.flash.create.success', role: params[:role][:name], user: @user.fullname) }
+  #       format.json { redirect_to user_path(@user, format: :json), status: :created, location: @user }
+  #     else
+  #       format.html { render :new }
+  #       format.json { render json: @role.errors, status: :unprocessable_entity }
+  #     end
+  #   end
+  # end
 
-  # DELETE /users/1/roles/support
-  # DELETE /users/1/roles/support.json
-  def destroy
-    authorize! :destroy, @role
+  # # DELETE /users/1/roles/support
+  # # DELETE /users/1/roles/support.json
+  # def destroy
+  #   authorize! :destroy, @role
 
-    @user.remove_role params[:id]
+  #   @user.remove_role params[:id]
 
-    respond_to do |format|
-      format.html { redirect_to roles_path, notice: I18n.translate('roles.flash.destroy.success', role: params[:id], user: @user.fullname) }
-      format.json { head :no_content }
-    end
+  #   respond_to do |format|
+  #     format.html { redirect_to roles_path, notice: I18n.translate('roles.flash.destroy.success', role: params[:id], user: @user.fullname) }
+  #     format.json { head :no_content }
+  #   end
 
-  end
+  # end
 
   private
 

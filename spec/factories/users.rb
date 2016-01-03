@@ -10,7 +10,7 @@ FactoryGirl.define do
     password_confirmation {password}
 
 	  factory :admin do   
-	    	role FactoryGirl.create(:role, name:"admin")
+	    	role {FactoryGirl.create(:role, name:"admin")}
         email "admin@poubs.org"
 	  end
 

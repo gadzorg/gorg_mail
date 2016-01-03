@@ -98,8 +98,7 @@ include Devise::TestHelpers
       it { is_expected.to render_with_layout :application }
       it { is_expected.to render_template :new}
       it "populate @user list new user" do
-        expect(assigns(:user).class).to eq(User)
-        expect(assigns(:user).persisted?).to eq(false)
+        expect(assigns(:user)).to be_a_new(User)
       end
     end
   end
