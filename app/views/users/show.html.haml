@@ -1,7 +1,7 @@
 %p#notice= notice
 
 - %w(email firsnatme lastname hruid sign_in_count last_sign_in_at created_at updated_at role).each do |attribute|
-  =display_attribute(attribute)
+  =display_attribute(@user, attribute)
 
 = link_to t('users.forms.buttons.edit'), edit_user_path(@user)
 \|
