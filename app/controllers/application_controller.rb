@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
       respond_to do |format|
         format.json { render nothing: true, status: :forbidden }
         format.html {
-          store_location_for :user, request.path
+          store_location_for :user, request.fullpath
           if user_signed_in?
             render :file => "#{Rails.root}/public/403.html", :status => 403
           else
