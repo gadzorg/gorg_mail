@@ -1,0 +1,8 @@
+= simple_form_for(@alias) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :email
+    = f.input :redirect
+  .form-actions
+    = f.button :submit

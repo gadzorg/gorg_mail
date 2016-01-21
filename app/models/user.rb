@@ -15,6 +15,8 @@ class User < ActiveRecord::Base
 
   # Associations
   belongs_to :role
+  has_many :email_redirect_accounts, dependent: :destroy
+  has_many :email_source_accounts, dependent: :destroy
 
 
   after_initialize :set_default_values
@@ -107,6 +109,91 @@ class User < ActiveRecord::Base
   def fullname
     firstname + " " + lastname
   end
+
+  def has_google_apps
+    email_redirect_accounts.select(&:persisted?).any?{|era| era.type_redir=="googleapps"}
+  end
+
+  def google_apps
+    email_redirect_accounts.find_by( type_redir: "googleapps")
+  end
+
+  def create_google_apps
+    #check if canonical name exist
+    unless self.canonical_name.nil?
+      # check if google apps exist via GAM ( possible?) TODO
+      # if gadz => gadz.fr TODO 
+      # else => agoram.org ( or other) TODO
+      google_apps_adress = self.canonical_name + "@gadz.fr"
+      #create gogogleapps via GAM TODO
+      #create redirection
+
+      self.email_redirect_accounts.new( 
+        redirect: google_apps_adress,
+        type_redir: "googleapps"
+        )
+      self.save
+    end
+    
+  end
+
+  def create_canonical_name()
+    self.canonical_name = self.generate_canonical_name()
+    self.save
+  end    
+
+  def generate_canonical_name()
+    #TODO
+    #il faut passer les nom et prenom en minuscule
+    firstname_p = self.firstname.downcase
+    lastname_p = self.lastname.downcase
+
+    firstname_p = format_name(firstname_p)
+    lastname_p = format_name(lastname_p)
+
+    #definir le nom canonique standard
+    default_canonical_name = firstname_p + "." + lastname_p
+    # vérifier si il est déjà dans la base
+    
+    canonical_name = default_canonical_name # on définit une première fois le nom canonique qui "peut" être le bon
+
+    if !User.find_by(canonical_name: canonical_name).nil?
+      #si oui ajouter la promo TODO
+      default_canonical_name = default_canonical_name + "." + "9999"
+      # vérifier si elle est déjà dans la base
+      
+      canonical_name = default_canonical_name
+
+      i=0
+      
+      while !User.find_by(canonical_name: canonical_name).nil?
+        i+=1
+        canonical_name = default_canonical_name + "." + i.to_s  
+      end
+      # si oui, ajouter un .2 et boucler .3, .4 etc.
+      
+    end
+
+    return canonical_name #attetion TEST UNIQUEMENT
+      
+  end
+
+
+  # reformatage des noms
+  def format_name(name)
+    require "i18n"
+    #remplacement des espaces et apostrophes par des "-"
+    name = name.gsub(" ", "-")
+    name = name.gsub("'", "-")
+    name = name.gsub("’", "-")
+    name = name.gsub("`", "-")
+
+    # suppression des accents
+    name = I18n.transliterate(name)
+    return name
+  end
+
+
 
 
   private

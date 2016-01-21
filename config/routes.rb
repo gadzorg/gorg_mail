@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
   get 'admin/index'
+
+  resources :aliases
+  resources :postfix_blacklists, path: :blacklist, except: [:show]
+  resources :email_virtual_domains, path: :domains, except: [:show]
   
   devise_for :users, :controllers => {
     :omniauth_callbacks => "users/omniauth_callbacks",
@@ -24,6 +28,21 @@ Rails.application.routes.draw do
     get :autocomplete_user_hruid, :on => :collection
     get :search_by_id, :on => :collection
 
+    member do
+      get :dashboard
+      get :create_google_apps
+    end
+
+    resources :email_source_accounts, only: [:index, :show, :create,:update,:destroy]  
+    
+    resources :email_redirect_accounts, only: [:index, :show, :create,:update,:destroy] do
+      # get :flag
+      get "flag/:flag", to: "email_redirect_accounts#flag", as: :flag, defaults: { format: 'js' }
+      collection do
+        get "confirm/:token", to: "email_redirect_accounts#confirm", as: :confirm
+        # get "flag/:flag", to: "email_redirect_accounts#flag", as: :flag
+      end
+    end
 
   end
 

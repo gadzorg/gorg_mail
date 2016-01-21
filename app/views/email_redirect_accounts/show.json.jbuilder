@@ -1,0 +1,1 @@
+json.extract! @email_redirect_account, :id, :redirect, :flag, :type_redir, :confirmed, :user

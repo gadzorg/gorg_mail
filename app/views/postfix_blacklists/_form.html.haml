@@ -1,0 +1,9 @@
+= simple_form_for(@postfix_blacklist) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :email
+    = f.input :reject_text
+
+  .form-actions
+    = f.button :submit

@@ -1,0 +1,9 @@
+= simple_form_for(@email_virtual_domain) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :name
+    = f.input :aliasing
+
+  .form-actions
+    = f.button :submit

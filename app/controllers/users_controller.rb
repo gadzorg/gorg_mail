@@ -81,6 +81,22 @@ class UsersController < ApplicationController
     redirect_to user_path(params[:id])
   end
 
+  # GET /users/1/dashboard
+  def dashboard
+    authorize! :read_dashboard, @user
+
+    @emails_source = @user.email_source_accounts.select(&:persisted?)
+    
+    #attention, les deux lignes suivantes sont égaleement dans le controleur ERA / create / destroy
+    @emails_redirect = @user.email_redirect_accounts.order(:type_redir).select(&:persisted?)
+    
+    @new_era=@user.email_redirect_accounts.new
+    @new_esa=@user.email_source_accounts.new
+   
+    @emails_redirect.each{|era| authorize! :show, era}
+    @emails_source.each{|esa| authorize! :show, esa}
+  end
+
   
   private
     # Use callbacks to share common setup or constraints between actions.

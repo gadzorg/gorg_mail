@@ -1,0 +1,44 @@
+
+-unless @user.has_google_apps
+	%div.bg-blue-dark-2
+		.pam
+			Avec un compte Google Apps, j'accède aux mails de la communauté en toute simplicité!
+
+			.mts= link_to ' Créer mon compte Google Apps ', create_google_apps_user_path(@user), :remote=>true,  :class =>"bouton bouton_bleu"
+- @emails_redirect.each do |e|
+	-if e.type_redir == "googleapps"
+		.pam.bg-blue-dark-2
+			%span
+				%i.zmdi.zmdi-google.icon-padding-list
+				Google Apps Gadz
+			%span.fr= link_to 'Connexion', "https://mail.google.com/a/gadz.org", :class =>"bouton-light"
+			
+	-else
+		%li
+			-if !e.confirmed || e.inactive? || e.broken?
+				-if e.broken?
+					%i.zmdi.zmdi-alert-triangle.icon-padding-list.red
+				-elsif !e.confirmed
+					%i.zmdi.zmdi-square-o.icon-padding-list.inactive
+				-else
+					= link_to user_email_redirect_account_flag_path(@user.id, e.id, "active"), :remote=>true do
+						%i.zmdi.zmdi-square-o.icon-padding-list.inactive
+
+				%span.inactive=e.redirect
+
+			-elsif e.active?
+				= link_to user_email_redirect_account_flag_path(@user.id, e.id, "inactive"), :remote=>true do
+					%i.zmdi.zmdi-check-square.icon-padding-list
+				=e.redirect
+			-else
+				=e.redirect
+				%span.red flag error
+
+			%span.fr
+				-unless e.confirmed
+					%i.zmdi.zmdi-lock.icon-padding-list.red
+				-#%i.zmdi.zmdi-edit.icon-padding-list
+				-if can? :destroy, e
+					= link_to user_email_redirect_account_path(@user,e), method: :delete, :remote => true, confirm: true do
+						%i.zmdi.zmdi-delete.icon-padding-list
+

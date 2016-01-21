@@ -1,0 +1,40 @@
+%section.pam
+	%h1 Mes redirections email
+	.grid-5-small-2
+		.box.shadow-1.mtm.flex-item-double
+			.box-top.pam
+				Si on envoie un mail à:
+			.box-bottom.email-list
+				%ul
+					#source
+						=render partial: "shared/es_list", locals: {emails_source: @emails_source}
+
+					-if can? :create, @new_esa
+						.fr.pam
+							=form_for  [@user,@new_esa], :remote=>true  do |f|
+								=f.text_field :email, :placeholder => "email", :size => 10
+								=f.select :email_virtual_domain_id,EmailVirtualDomain.all.map { |e| [e.name,e.id] }
+								=f.submit '+ Ajouter',:class => "bouton bouton_bleu"
+
+
+		.ma1.small-hidden
+			.txtcenter.vertical-center
+				%i.zmdi.zmdi-long-arrow-right#big-arrow
+
+		.box.shadow-1.mtm.flex-item-double
+			.box-top.pam
+				Je le reçois sur:
+			.box-bottom.email-list{ :data => {:url => user_email_redirect_accounts_path(@user, :format => :json)} }
+				%ul
+					#redirect
+						=render partial: "shared/er_list", locals: {emails_redirect: @emails_redirect}
+
+
+					.fr.pam
+						=form_for  [@user,@new_era], :remote=>true   do |f|
+							=f.email_field :redirect, :placeholder => "email@domaine.fr", :size => 15
+							=f.submit '+ Ajouter',:class => "bouton bouton_bleu"
+
+					-#%li.fr =form_tag user_email_redirect_accounts_path 
+					-# %li.fr= link_to '+ Ajouter ', new_user_session_path, :class =>"bouton-medium bouton_bleu"
+				

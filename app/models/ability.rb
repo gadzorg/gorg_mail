@@ -40,6 +40,27 @@ class Ability
       can :manage, Role
       cannot :manage, Role, :name => 'admin'
       can :read, Role
+      can :manage, EmailRedirectAccount
+      can :manage, EmailSourceAccount
+      can :manage, Alias
+      can :manage, PostfixBlacklist
     end
+    
+
+    can :read_dashboard, User do |u|
+      u.id == user.id
+    end
+    can :manage, EmailRedirectAccount do |era|
+      era.user_id == user.id
+    end
+    can :show, EmailSourceAccount do |esa|
+      esa.user_id == user.id
+    end
+
+
   end
 end
+
+
+
+    

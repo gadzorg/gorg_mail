@@ -1,0 +1,22 @@
+%h1 Listing email_virtual_domains
+
+%table
+  %thead
+    %tr
+      %th Name
+      %th Aliasing
+      %th
+      %th
+      %th
+
+  %tbody
+    - @email_virtual_domains.each do |email_virtual_domain|
+      %tr
+        %td= email_virtual_domain.name
+        %td= email_virtual_domain.aliasing
+        %td= link_to 'Edit', edit_email_virtual_domain_path(email_virtual_domain)
+        %td= link_to 'Destroy', email_virtual_domain, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Email virtual domain', new_email_virtual_domain_path

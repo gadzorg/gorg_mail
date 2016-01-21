@@ -1,0 +1,22 @@
+%h1 Listing postfix_blacklists
+
+%table
+  %thead
+    %tr
+      %th Email
+      %th Reject text
+      %th
+      %th
+      %th
+
+  %tbody
+    - @postfix_blacklists.each do |postfix_blacklist|
+      %tr
+        %td= postfix_blacklist.email
+        %td= postfix_blacklist.reject_text
+        %td= link_to 'Edit', edit_postfix_blacklist_path(postfix_blacklist)
+        %td= link_to 'Destroy', postfix_blacklist, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Postfix blacklist', new_postfix_blacklist_path
