@@ -12,6 +12,7 @@ fr:
     menu:
       connect: 'Connexion'
       disconnect: 'Déconnexion'
+      profile: 'Mon profil'
 
   roles:
     forms:

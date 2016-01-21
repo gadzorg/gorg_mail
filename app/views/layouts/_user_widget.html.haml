@@ -1,8 +1,10 @@
 - if user_signed_in?
-  %li
+  %li.username
     = "#{current_user.firstname}"
-  %li
-    = link_to t('layout.menu.disconnect'), destroy_user_session_path, :method => :delete, :class =>"bouton bouton_bleu vertical-center" 
+    .circle= "#{current_user.firstname.first.upcase}"
+    %ul.userblock
+      =link_to t('layout.menu.profile'), user_path(current_user)
+      =link_to t('layout.menu.disconnect'), destroy_user_session_path, :method => :delete
 - else
-  %li
+  %li.with_button
     = link_to t('layout.menu.connect'), new_user_session_path, :class =>"bouton bouton_bleu vertical-center" 
