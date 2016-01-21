@@ -9,17 +9,17 @@
     .box-bottom.pam
       .fr
         #info-tech.pam.mam.box.aside
-          %h1 Infos synchro
+          %h1= t('users.forms.titles.infos_sync')
           - %w(hruid last_gram_sync_at).each do |attribute|
             =display_attribute(@user, attribute)
           -if can?(:sync, @user) && @user.syncable?
             -if @user.next_sync_allowed_at < Time.now
-              = link_to "Synchroniser maintenant", sync_user_path, class:"bouton bouton-light fr"
+              = link_to t('users.forms.buttons.sync_now'), sync_user_path, class:"bouton bouton-light fr"
             -else
-              .bouton.bouton-light.fr= "Synchronisable dans #{(@user.next_sync_allowed_at-Time.now).round} secondes "
+              .bouton.bouton-light.fr= t('users.forms.buttons.syncable_in_x', count:(@user.next_sync_allowed_at-Time.now).round)
         -if can? :read, :admin
           #info-tech.pam.mam.box.aside
-            %h1 Infos Techniques
+            %h1= t('users.forms.titles.infos_tech')
             - %w(role sign_in_count last_sign_in_at created_at updated_at).each do |attribute|
               =display_attribute(@user, attribute)
       #info-perso

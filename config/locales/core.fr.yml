@@ -32,6 +32,14 @@ fr:
         edit: 'Mettre à jour'
         back: 'Retour à la liste'
         show: 'Fiche utilisateur'
+        sync_now: 'Synchroniser maintenant'
+        syncable_in_x:
+          one: 'Synchronisable dans une seconde'
+          other: 'Synchronisable dans %{count} secondes'
+      titles:
+        infos_sync: "Synchronisation"
+        infos_tech: "Données techniques"
+
       attributes:
         email:
         
