@@ -45,9 +45,56 @@
 .menu li *{text-decoration: none;}
 .menu li:last-child{
     border-right: none;
+}
+
+.menu li.with_button{
     line-height: inherit;
 }
 
+li.username{
+    position: relative;
+    text-align:right;
+    line-height:90px;
+}
+
+.circle
+{
+  height: 50px;
+  width: 50px;
+  line-height:50px;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  border-radius: 50%; /* may require vendor prefixes */
+  background: #EEE;
+  font-weight:bold;
+  margin-left:10px;
+}
+
+li.username ul.userblock{
+    width: 210px;
+    display:block;
+    position: absolute;
+    right: 0px;
+    top:89px;
+    background-color:white;
+    height:0px;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1)
+}
+
+li.username:hover ul.userblock{
+    height:auto;
+}
+
+ul.userblock a{
+    border-top: 1px solid #F2F2F2;
+    display: block;
+    height: 45px;
+    line-height: 45px;
+    font-size:0.8em;
+    text-align:center;
+}
 
 
 .menu a:hover{
@@ -321,4 +368,3 @@ input:focus::-webkit-input-placeholder, input:valid::-moz-input-placeholder, inp
  transform: translateY(-20px);
  visibility: visible !important;
 }
-
