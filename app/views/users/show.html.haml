@@ -1,8 +1,27 @@
 %p#notice= notice
-
-- %w(email firsnatme lastname hruid sign_in_count last_sign_in_at created_at updated_at role).each do |attribute|
-  =display_attribute(@user, attribute)
-
-= link_to t('users.forms.buttons.edit'), edit_user_path(@user)
-\|
-= link_to t('users.forms.buttons.back'), users_path
+%section.pam
+  .box.shadow-1.mtm
+    .box-top.pam
+      .circle.big= "#{current_user.firstname.first.upcase}"
+      = @user.fullname
+      -if can? :update, @user
+        = link_to t('users.forms.buttons.edit'), edit_user_path(@user), class:"bouton fr bouton-light box"
+    .box-bottom.pam
+      .fr
+        #info-tech.pam.mam.box.aside
+          %h1 Infos synchro
+          - %w(hruid last_gram_sync_at).each do |attribute|
+            =display_attribute(@user, attribute)
+          -if can?(:sync, @user) && @user.syncable?
+            -if @user.next_sync_allowed_at < Time.now
+              = link_to "Synchroniser maintenant", sync_user_path, class:"bouton bouton-light fr"
+            -else
+              .bouton.bouton-light.fr= "Synchronisable dans #{(@user.next_sync_allowed_at-Time.now).round} secondes "
+        -if can? :read, :admin
+          #info-tech.pam.mam.box.aside
+            %h1 Infos Techniques
+            - %w(role sign_in_count last_sign_in_at created_at updated_at).each do |attribute|
+              =display_attribute(@user, attribute)
+      #info-perso
+        - %w(firstname lastname email).each do |attribute|
+          =display_attribute(@user, attribute)

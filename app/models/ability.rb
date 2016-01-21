@@ -41,5 +41,9 @@ class Ability
       cannot :manage, Role, :name => 'admin'
       can :read, Role
     end
+
+    can [:read, :sync], User, :id => user.id
+
+
   end
 end

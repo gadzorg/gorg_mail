@@ -51,16 +51,19 @@ class User < ActiveRecord::Base
   # Update local user data with data contained in GrAM
   def update_from_gram
     self.synced_with_gram = false
-    if self.hruid.present?
+    if self.syncable?
       begin
         gram_data=GramAccount.find(self.hruid)
         self.email=gram_data.email
         self.firstname=gram_data.firstname
         self.lastname=gram_data.lastname
-
-        self.save
-        self.synced_with_gram = true
-        return self
+        self.last_gram_sync_at = Time.now
+        if self.save
+          self.synced_with_gram = true 
+          return self
+        else
+          return false
+        end
       rescue ActiveResource::ResourceNotFound
         logger.error "[GrAM] Utilisateur introuvable : #{self.hruid}"
         return false
@@ -75,6 +78,14 @@ class User < ActiveRecord::Base
       return false
     end
 
+  end
+
+  def syncable?
+    hruid.present?
+  end
+
+  def next_sync_allowed_at
+    self.last_gram_sync_at + 5.minutes
   end
 
   ##

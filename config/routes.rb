@@ -23,6 +23,7 @@ Rails.application.routes.draw do
 
     get :autocomplete_user_hruid, :on => :collection
     get :search_by_id, :on => :collection
+    get :sync, to: 'users#sync_with_gram', on: :member
 
 
   end
