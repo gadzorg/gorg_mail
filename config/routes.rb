@@ -20,6 +20,7 @@ Rails.application.routes.draw do
 
   get 'admin' => 'admin#index'
   get 'roles' => 'roles#index'
+  get 'dashboard' => 'users#dashboard'
 
   resources :users do
 
