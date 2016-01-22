@@ -84,7 +84,7 @@ class UsersController < ApplicationController
   def sync_with_gram
     authorize! :sync, @user
     respond_to do |format|
-      if !@user.last_gram_sync_at || @user.last_gram_sync_at < 5.minutes.ago
+      if @user.syncable? && ( @user.next_sync_allowed_at <= Time.now)
         if @user.update_from_gram
           format.html { redirect_to @user, notice: I18n.translate('users.flash.sync.success', user: @user.fullname) }
           format.json { render :show, status: :ok, location: @user }
@@ -93,8 +93,8 @@ class UsersController < ApplicationController
           format.json { render json: '{"error": "Problems occured during syncronization"}', status: :unprocessable_entity }
         end
       else
-        format.html { redirect_to @user, notice: I18n.translate('users.flash.sync.too_soon', user: @user.fullname, eta: (User.last.last_gram_sync_at+5.minutes-Time.now).round)}
-        format.json { render json: '{"error": "Try again later"}', status: :unprocessable_entity }
+        format.html { redirect_to @user, notice: I18n.translate('users.flash.sync.too_soon', user: @user.fullname, eta: (@user.next_sync_allowed_at-Time.now).round)}
+        format.json { render json: "{\"error\": \"Try again in #{(@user.next_sync_allowed_at-Time.now).round} seconds\"}", status: :unprocessable_entity }
       end
     end
   end

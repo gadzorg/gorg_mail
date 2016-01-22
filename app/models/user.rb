@@ -21,12 +21,14 @@
 #  role_id                :integer
 #  last_gram_sync_at      :datetime
 #
+
 # Indexes
 #
 #  index_users_on_email                 (email) UNIQUE
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #  index_users_on_role_id               (role_id)
 #
+
 
 ##
 # A User of the application
@@ -117,7 +119,7 @@ class User < ActiveRecord::Base
   end
 
   def next_sync_allowed_at
-    self.last_gram_sync_at + 5.minutes
+    self.last_gram_sync_at ? self.last_gram_sync_at + 5.minutes : Time.now
   end
 
   ##
