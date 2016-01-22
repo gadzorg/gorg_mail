@@ -6,7 +6,7 @@
 #  email       :string
 #  domain      :integer
 #  redirect    :string
-#  type        :integer
+#  type_alias  :integer
 #  expire      :date
 #  srs_rewrite :integer
 #  created_at  :datetime         not null

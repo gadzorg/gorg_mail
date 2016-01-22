@@ -29,7 +29,7 @@ class AddImelaviMigrations < ActiveRecord::Migration
       t.string :email
       t.integer :domain
       t.string :redirect
-      t.integer :type_source
+      t.integer :type_alias
       t.date :expire
       t.integer :srs_rewrite
 
@@ -39,7 +39,7 @@ class AddImelaviMigrations < ActiveRecord::Migration
     create_table :email_source_accounts do |t|
       t.string :email
       t.integer :uid
-      t.integer :type
+      t.integer :type_source
       t.string :flag #type SET en sql
       t.date :expire
 

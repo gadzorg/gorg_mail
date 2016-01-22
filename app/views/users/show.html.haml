@@ -6,6 +6,7 @@
       = @user.fullname
       -if can? :update, @user
         = link_to t('users.forms.buttons.edit'), edit_user_path(@user), class:"bouton fr bouton-light box"
+        = link_to 'Dashboard', dashboard_user_path(@user), class:"bouton fr bouton-light box mrm"
     .box-bottom.pam
       .fr
         #info-tech.pam.mam.box.aside
