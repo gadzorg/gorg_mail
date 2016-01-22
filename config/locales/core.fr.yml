@@ -32,6 +32,14 @@ fr:
         edit: 'Mettre à jour'
         back: 'Retour à la liste'
         show: 'Fiche utilisateur'
+        sync_now: 'Synchroniser maintenant'
+        syncable_in_x:
+          one: 'Synchronisable dans une seconde'
+          other: 'Synchronisable dans %{count} secondes'
+      titles:
+        infos_sync: "Synchronisation"
+        infos_tech: "Données techniques"
+
       attributes:
         email:
         
@@ -45,3 +53,7 @@ fr:
         fail: 'Le compte de %{user}r n''a pas pu être mis à jour'
       destroy:
         success: 'L''utilsateur ''%{user}'' a bien été supprimé'
+      sync:
+        success: 'Le compte de %{user} a bien été synchronisé avec le GrAM !'
+        fail: 'Une erreur à eu lieu lors de la synchronisation du compte de %{user}'
+        too_soon: 'Le compte de %{user} a déjà été synchronisé récement, reessayé dans %{eta} secondes'

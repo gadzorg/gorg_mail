@@ -69,6 +69,14 @@ li.username{
   background: #EEE;
   font-weight:bold;
   margin-left:10px;
+  color:#4C4C4C;
+}
+
+.circle.big
+{
+  height: 70px;
+  width: 70px;
+  line-height:70px;
 }
 
 li.username ul.userblock{
@@ -260,6 +268,8 @@ a:focus {
 .shadow-2{box-shadow: 0px 8px 17px 0px rgba(0, 0, 0, 0.2), 0px 6px 20px 0px rgba(0, 0, 0, 0.19);}
 .shadow-3{box-shadow: 0px 12px 15px 0px rgba(0, 0, 0, 0.24), 0px 17px 50px 0px rgba(0, 0, 0, 0.19);}
 .shadow-4{box-shadow: 0px 16px 28px 0px rgba(0, 0, 0, 0.22), 0px 25px 55px 0px rgba(0, 0, 0, 0.21);}
+
+.aside{background: #EEEEEE;}
 
 
  .box-left{margin-left: -30px;}

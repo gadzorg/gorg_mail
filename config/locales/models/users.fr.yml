@@ -18,3 +18,4 @@ fr:
         lastname: "Nom"
         fullname: "Nom complet"
         role: "Role"
+        last_gram_sync_at: "Dernière synchronisation"

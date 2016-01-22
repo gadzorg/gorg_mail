@@ -44,19 +44,12 @@ class Ability
       can :manage, EmailSourceAccount
       can :manage, Alias
       can :manage, PostfixBlacklist
-    end
-    
+    end   
 
-    can :read_dashboard, User do |u|
-      u.id == user.id
-    end
-    can :manage, EmailRedirectAccount do |era|
-      era.user_id == user.id
-    end
-    can :show, EmailSourceAccount do |esa|
-      esa.user_id == user.id
-    end
-
+    can [:read, :sync], User, :id => user.id
+    can :read_dashboard, User, :id => user.id
+    can :manage, EmailRedirectAccount, :user_id => user.id
+    can :show, EmailSourceAccount, :user_id => user.id
 
   end
 end
