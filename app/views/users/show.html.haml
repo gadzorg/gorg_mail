@@ -13,7 +13,7 @@
           - %w(hruid last_gram_sync_at).each do |attribute|
             =display_attribute(@user, attribute)
           -if can?(:sync, @user) && @user.syncable?
-            -if @user.next_sync_allowed_at < Time.now
+            -if @user.next_sync_allowed_at <= Time.now
               = link_to t('users.forms.buttons.sync_now'), sync_user_path, class:"bouton bouton-light fr"
             -else
               .bouton.bouton-light.fr= t('users.forms.buttons.syncable_in_x', count:(@user.next_sync_allowed_at-Time.now).round)
