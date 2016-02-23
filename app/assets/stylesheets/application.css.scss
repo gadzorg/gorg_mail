@@ -17,6 +17,9 @@
  */
 
 
+$violet-dark: #8E2862 ;
+$violet: #A62F73 ;
+$violet-light: #C23687;
 
  /*-----------------------------MENU-------------------------*/
  nav {
@@ -26,7 +29,7 @@
 }
 .menu {
     float: right;
-    margin-right: 45px;
+    /*margin-right: 45px;*/
 }
 .menu ul{list-style: outside none none;
     margin: 0px;
@@ -46,7 +49,6 @@
 .menu li:last-child{
     border-right: none;
 }
-
 .menu li.with_button{
     line-height: inherit;
 }
@@ -71,7 +73,6 @@ li.username{
   margin-left:10px;
   color:#4C4C4C;
 }
-
 .circle.big
 {
   height: 70px;
@@ -90,11 +91,9 @@ li.username ul.userblock{
     overflow: hidden;
     transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1)
 }
-
 li.username:hover ul.userblock{
     height:auto;
 }
-
 ul.userblock a{
     border-top: 1px solid #F2F2F2;
     display: block;
@@ -103,7 +102,6 @@ ul.userblock a{
     font-size:0.8em;
     text-align:center;
 }
-
 
 .menu a:hover{
     color: #8E2463;
@@ -123,13 +121,15 @@ ul.userblock a{
 #logo{
     display: inline;
     height: 50px;
+    width: 210px;
 }
 #logo2{
     display: block;
     height: 50px;
 }
 body {
-    background: #EEE none repeat scroll 0% 0%;
+    /*background: #EEE none repeat scroll 0% 0%;*/
+    background: #f7f7f7;
     padding: 0px;
     margin: 0px;
 }
@@ -139,7 +139,7 @@ body {
 
 section{/*background: #fff;*/}
 .int {
-    max-width: 1170px;
+    max-width: 1140px;
     margin: 0px auto;
 
 }
@@ -215,6 +215,15 @@ a:focus {
 .bg-blue-dark-1 { background-color: #01B0C0; color: #fff;}
 .bg-blue-light-1 { background-color: #63D4DE; color: #fff;}
 
+.bg-grey-light-1 {background-color: #F7F7F7}
+
+.bg-blue a, 
+.bg-blue-dark-2 a, 
+.bg-blue-dark-1 a,
+.bg-blue-light-1 a{
+    color: #FFF;
+}
+
 @font-face {
     font-family: 'bebas_neueregular';
     src: font-url('bebas/bebasneue-webfont.eot');
@@ -260,13 +269,38 @@ a:focus {
     background-position: center bottom;
     background-size: cover;
 }
+#big-bg2{
+    background-color: #473625;
+    background-clip: border-box;
+    background-origin: padding-box;
+    background-image: radial-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.8)), url("bg.jpg");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
 /*-----------------------------redirections-------------------------*/
+.container-grey{
+    background: #f7f7f7;
+}
+.container-grey:before{
+    content: '';
+    float: left;
+    /*height: 100%;*/
+}
+.container-grey:after{
+    content: '';
+    clear: both;
+    display: block;
+}
 
 .box{
-     background: #fff;
      border-radius: 2px;
      overflow: hidden;
  }
+
+.box-grey{background: #f7f7f7;}
+.box-light{background: #fff;}
 
 .shadow-1{box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.16), 0px 2px 10px 0px rgba(0, 0, 0, 0.12);}
 .shadow-2{box-shadow: 0px 8px 17px 0px rgba(0, 0, 0, 0.2), 0px 6px 20px 0px rgba(0, 0, 0, 0.19);}
@@ -275,19 +309,26 @@ a:focus {
 
 .bggrey{background: #EEEEEE;}
 
-
  .box-left{margin-left: -30px;}
  .box-right{margin-right: -30px;}
 
  .box-top{
     /*font-weight: bold;*/
     font-size: 150%;
-    color: #fff;
+
     /*background: #F49700;*/
-    background: #14BFCC;
+    
  }
+
+ .box-top-color{background: #14BFCC;     color: #fff;}
+ .box-top-light{
+    background: #FFF;
+    color: #4c4c4c;
+    border-bottom: 1px solid #E0E0E0;
+}
+.box-top-light i{color: $violet;}
  .box-bottom{
-    /*background: #eee;*/
+
 }
 
  #big-arrow{
@@ -315,7 +356,7 @@ li{
   transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
 }
 /*-----------------------------inputs-------------------------*/
-
+label {display: inline;}
 input, select,textarea {
   /*margin: 40px 25px;*/
   /*width: 200px;*/
@@ -331,6 +372,17 @@ input, select,textarea {
   /*background-size: 200px 100%;*/
   background-repeat: no-repeat;
   color: #14BFCC;
+  background: #f9f9f9;
+  padding-left: 5px;
+}
+
+input.login {
+    background-color: #fff;
+    /*border: solid 1px #14BFCC;*/
+    border: 1px solid #D3D3D3;
+    /*box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.08);*/
+    border-radius: 2px;
+
 }
 
 input:invalid{
@@ -381,4 +433,15 @@ input:focus::-webkit-input-placeholder, input:valid::-moz-input-placeholder, inp
  -webkit-transform: translateY(-20px);
  transform: translateY(-20px);
  visibility: visible !important;
+}
+
+
+
+
+/*-----------------------------text-------------------------*/
+.grey{
+    color:#aaa;
+}
+.red{
+    color: #c0392b
 }
