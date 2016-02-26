@@ -16,10 +16,7 @@
  *= require bootstrap/bootstrap-tooltip
  */
 
-
-$violet-dark: #8E2862 ;
-$violet: #A62F73 ;
-$violet-light: #C23687;
+@import "autoload/colors";
 
  /*-----------------------------MENU-------------------------*/
  nav {
