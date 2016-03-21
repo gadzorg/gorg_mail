@@ -353,84 +353,8 @@ li{
   transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
 }
 /*-----------------------------inputs-------------------------*/
-label {display: inline;}
-input, select,textarea {
-  /*margin: 40px 25px;*/
-  /*width: 200px;*/
-  /*display: block;*/
-  border: none;
-  padding: 10px 0;
-  border-bottom: solid 1px #14BFCC;
-  -webkit-transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
-  transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1);
-  background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 99%, #14BFCC 4%);
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 99%, #14BFCC 4%);
-  /*background-position: -200px 0;*/
-  /*background-size: 200px 100%;*/
-  background-repeat: no-repeat;
-  color: #14BFCC;
-  background: #f9f9f9;
-  padding-left: 5px;
-}
-
-input.login {
-    background-color: #fff;
-    /*border: solid 1px #14BFCC;*/
-    border: 1px solid #D3D3D3;
-    /*box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.08);*/
-    border-radius: 2px;
-
-}
-
-input:invalid{
-  border-bottom: solid 1px #c0392b;
-  background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 96%, #c0392b 4%);
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 96%, #c0392b 4%);
-}
-
-/*select{
-appearance:none;
--moz-appearance:none; /* Firefox */
-/*-webkit-appearance:none; /* Safari and Chrome */
-/*}*/
 
 
-input:focus, input:valid {
- box-shadow: none;
- outline: none;
- background-position: 0 0;
-}
-
-input[type=submit] {
-    display: inline-block;
-    font-family: "bebas_neueregular";
-    font-size: 22px;
-    font-weight: 400;
-    color: #FFF;
-    /*height: 45px;*/
-    /*line-height: 45px;*/
-    text-decoration: none;
-    text-align: center;
-    border-radius: 3px;
-    transition: all 0.4s ease 0s;
-    padding: 5px 10px;
-    background-color: rgba(20, 191, 204, 0.85);
-    border: none;
-}
-
-input::-webkit-input-placeholder {
- /*font-family: 'roboto', sans-serif;*/
- -webkit-transition: all 0.3s ease-in-out;
- transition: all 0.3s ease-in-out;
-}
-
-input:focus::-webkit-input-placeholder, input:valid::-moz-input-placeholder, input:focus::-moz-input-placeholder, input:valid::-moz-input-placeholder {
- color: #14BFCC;
- font-size: 11px;
- -webkit-transform: translateY(-20px);
- transform: translateY(-20px);
- visibility: visible !important;
-}
 
 
 

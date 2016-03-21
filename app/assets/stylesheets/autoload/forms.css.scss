@@ -1,0 +1,162 @@
+@import "autoload/colors";
+
+
+
+/* form starting stylings ------------------------------- */
+.group-m-form { 
+  position:relative; 
+  margin-bottom:45px; 
+}
+input , .input        {margin-bottom: 2rem;}
+.input input 				{
+  background-color: #efefef;
+  color: #000;
+    /*border: solid 1px #14BFCC;*/
+  border: 1px solid #D3D3D3;
+    /*box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.08);*/
+  border-radius: 2px;
+  font-size:18px;
+  padding:10px 10px 10px 5px;
+  display:block;
+  /*width:300px;*/
+}
+
+.group-m-form input {
+  font-size:18px;
+  padding:10px 10px 10px 5px;
+  display:block;
+  /*width:300px;*/
+  background: none;
+  border:none;
+  border-bottom:1px solid #757575;
+
+
+}
+.group-m-form input:focus 		{ outline:none; }
+
+/* LABEL ======================================= */
+/*standard label*/
+label          {
+  color: $primary-light;
+  font-size:18px;
+  font-weight:normal;
+  pointer-events:none;
+}
+
+/*culstom label*/
+.group-m-form label 				 {
+  color:#999; 
+  font-size:18px;
+  font-weight:normal;
+  position:absolute;
+  pointer-events:none;
+  left:5px;
+  top:10px;
+  transition:0.2s ease all; 
+  -moz-transition:0.2s ease all; 
+  -webkit-transition:0.2s ease all;
+}
+
+/* active state */
+.group-m-form input:focus ~ label, .group-m-form input.notempty ~ label 		{
+  top:-20px;
+  font-size:14px;
+  color: $primary-light;
+}
+
+/* BOTTOM BARS ================================= */
+.group-m-form .bar 	{ position:relative; display:block; /*width:300px;*/ }
+.group-m-form .bar:before, .group-m-form .bar:after 	{
+  content:'';
+  height:2px; 
+  width:0;
+  bottom:1px; 
+  position:absolute;
+  background:$primary-light; 
+  transition:0.2s ease all; 
+  -moz-transition:0.2s ease all; 
+  -webkit-transition:0.2s ease all;
+}
+.group-m-form .bar:before {
+  left:50%;
+}
+.group-m-form .bar:after {
+  right:50%; 
+}
+
+/* active state */
+.group-m-form input:focus ~ .bar:before, .group-m-form input:focus ~ .bar:after {
+  width:50%;
+}
+
+/* HIGHLIGHTER ================================== */
+.highlight {
+  position:absolute;
+  height:60%; 
+  width:100px; 
+  top:25%; 
+  left:0;
+  pointer-events:none;
+  opacity:0.5;
+}
+
+/* active state */
+input:focus ~ .highlight {
+  -webkit-animation:inputHighlighter 0.3s ease;
+  -moz-animation:inputHighlighter 0.3s ease;
+  animation:inputHighlighter 0.3s ease;
+}
+
+/* ANIMATIONS ================ */
+@-webkit-keyframes inputHighlighter {
+	from { background:$primary-light; }
+  to 	{ width:0; background:transparent; }
+}
+@-moz-keyframes inputHighlighter {
+	from { background:$primary-light; }
+  to 	{ width:0; background:transparent; }
+}
+@keyframes inputHighlighter {
+	from { background:$primary-light; }
+  to 	{ width:0; background:transparent; }
+}
+
+
+
+input.login {
+    background-color: #efefef;
+    color: #000;
+    /*border: solid 1px #14BFCC;*/
+    border: 1px solid #D3D3D3;
+    /*box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.08);*/
+    border-radius: 2px;
+}
+
+input.login ~ label          {
+  color:#333; 
+}
+
+input[type=submit] {
+    display: inline-block;
+    font-family: "bebas_neueregular";
+    font-size: 22px;
+    font-weight: 400;
+    color: #FFF;
+    /*height: 45px;*/
+    /*line-height: 45px;*/
+    text-decoration: none;
+    text-align: center;
+    border-radius: 3px;
+    transition: all 0.4s ease 0s;
+    padding: 5px 10px;
+    background-color: $primary-light;
+    border: none;
+}
+
+input[type=submit]:hover {
+        background-color: $primary-light-hover;
+
+}
+input[type=submit]:disabled {
+        background-color: $primary-light-disabled;
+}
