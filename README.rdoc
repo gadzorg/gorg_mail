@@ -67,6 +67,18 @@ All password are : *password*
 
 This template use RSpec for testing
 
+=== Update 
+
+==== UI update (commit c3909ed)
+
+The UI change is not compatible with current view.
+This script update all the view:
+
+find ./app/views/ -type f -exec sed -i 's/\.box-top/\.box-top\.box-top-color/g' {} +
+find ./app/views/ -type f -exec sed -i 's/\.box[^-]/\.box\.box-light\./g' {} +
+find ./app/views/ -type f -exec sed -i 's/\.box$/\.box\.box-light/g' {} +
+find ./app/views/admin/index.html.haml  -type f -exec sed -i 's/box/box box-light/g' {} +
+
 === Contributors
 
 * Dorian Becker (blaked 84me211), Permanent Soce 2015, dorian.becker@gadz.org

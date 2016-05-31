@@ -1,13 +1,15 @@
 %section.pam
-  .box.shadow-1.mtm
-    .box-top.pam
+  .box.box-light.shadow-1.mtm
+    .box-top.box-top-color.pam
       Connexion
     .box-bottom.pam
       = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
         .form-inputs
-          = f.input :email, required: false, autofocus: true
+          .group
+            = f.input :email, required: false, autofocus: true
+          
           = f.input :password, required: false
           = f.input :remember_me, as: :boolean if devise_mapping.rememberable?
         .form-actions
-          = f.button :submit, "Connection"
+          = f.button :submit, "Connexion"
       = render "devise/shared/links"

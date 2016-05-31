@@ -425,7 +425,7 @@ blockquote,
 pre,
 td,
 th,
-label,
+/*label,*/
 textarea,
 caption,
 details,
@@ -962,8 +962,8 @@ fieldset {
 input,
 button,
 select,
-label,
-.btn {
+/*label,
+*/.btn {
   vertical-align: middle;
   font-family: inherit;
   font-size: inherit;
@@ -975,11 +975,11 @@ select,
 textarea {
   color: #000000;
 }
-label {
+/*label {
   display: inline-block;
   vertical-align: middle;
   cursor: pointer;
-}
+}*/
 legend {
   border: 0;
   white-space: normal;

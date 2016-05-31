@@ -10,7 +10,6 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require_tree ./autoload
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap/bootstrap-tooltip
@@ -19,10 +18,23 @@
 //= require unobtrusive_flash
 //= require unobtrusive_flash_ui
 //= require admin
+//= require_tree ./autoload
+
 
 
 UnobtrusiveFlash.flashOptions['timeout'] = 5000; // milliseconds
 
 $(function(){
   $("a[rel='tooltip']").tooltip();
-})
+
+});
+  
+
+
+
+
+/*$(function () {
+	$("input").on('change keyup', 'input')filter(function() {
+	    return this.value;
+	}).addClass("not-empty");
+});*/
