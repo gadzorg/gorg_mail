@@ -12,3 +12,8 @@ legacy_auth_enabled:
   name: "Afficher la page d'authentification interne aux utilisateur"
   default: true
   type: boolean
+
+max_actives_era:
+  name: Nombre max de redirections actives 
+  default: 2
+  type: integer
