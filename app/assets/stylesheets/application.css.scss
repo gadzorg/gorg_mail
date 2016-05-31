@@ -155,16 +155,16 @@ body, button, input, select, textarea {
     line-height: 1.5;
 }
 
-a.bouton_bleu {
+a.bouton_bleu, a.button-primary {
     background-color: #14BFCC;
 }
 
-a.bouton_bleu:hover {
+a.bouton_bleu:hover a.button-primary:hover{
     background-color: rgba(20, 191, 204, 0.85);
     color: #fff;
 }
 
-a.bouton{
+a.bouton, a.button{
     display: inline-block;
     font-family: "bebas_neueregular";
     font-size: 22px;
@@ -179,7 +179,7 @@ a.bouton{
     padding: 5px 10px;
 }
 
-a.bouton-medium{
+a.bouton-medium, a.button-medium{
         display: inline-block;
     font-family: "bebas_neueregular";
     font-weight: 400;
@@ -191,7 +191,7 @@ a.bouton-medium{
     padding: 0px 7px;
 }
 
-a.bouton-light{
+a.bouton-light, a.button-light{
     color: #14BFCC;
     font-family: "bebas_neueregular";
     text-decoration: none;
