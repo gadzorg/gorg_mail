@@ -77,7 +77,7 @@ class User < ActiveRecord::Base
     self.synced_with_gram = false
     if self.syncable?
       begin
-        gram_data=GramAccount.find(self.hruid)
+        gram_data=GramV1Client::Account.find(self.hruid)
         self.email=gram_data.email
         self.firstname=gram_data.firstname
         self.lastname=gram_data.lastname

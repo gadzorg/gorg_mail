@@ -116,6 +116,8 @@ GEM
     formatador (0.2.5)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
+    gram_v1_client (1.0.0)
+      activeresource (~> 4.0)
     guard (2.13.0)
       formatador (>= 0.2.4)
       listen (>= 2.7, <= 4.0)
@@ -326,6 +328,7 @@ DEPENDENCIES
   execjs
   factory_girl_rails
   faker
+  gram_v1_client
   guard-rspec
   haml-rails
   hirb
@@ -356,4 +359,4 @@ DEPENDENCIES
   yaml_db!
 
 BUNDLED WITH
-   1.10.6
+   1.11.2
