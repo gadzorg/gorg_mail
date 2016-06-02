@@ -65,7 +65,7 @@ include Devise::TestHelpers
     end
 
     #it_should_behave_like "an admin only endpoint", :show  do 
-    #   let! (:params) {{:id => FactoryGirl.create(:user).id}}
+    #   let! (:params) {{:id => @user.id}}
     # end
 
     context "user login as admin" do
@@ -149,7 +149,7 @@ include Devise::TestHelpers
     end
 
     it_should_behave_like "an admin only endpoint", :edit do 
-      let! (:params) {{:id => FactoryGirl.create(:user).id}}
+      let! (:params) {{:id => @user.id}}
     end
 
     context "user login as admin" do
@@ -175,7 +175,7 @@ include Devise::TestHelpers
     end
 
     it_should_behave_like "an admin only endpoint", :update do 
-      let! (:params) {{:id => FactoryGirl.create(:user).id}}
+      let! (:params) {{:id => @user.id}}
     end
 
     context "user login as admin" do
@@ -226,7 +226,7 @@ include Devise::TestHelpers
     end
 
     it_should_behave_like "an admin only endpoint", :destroy do 
-      let! (:params) {{:id => FactoryGirl.create(:user).id}}
+      let! (:params) {{:id => @user.id}}
     end
 
     context "user login as admin" do
