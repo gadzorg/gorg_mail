@@ -2,6 +2,7 @@ language: ruby
 rvm:
   - 2.2.2
 before_install: gem install bundler -v 1.11.2
+install: RAILS_ENV=test bundle install --jobs=3 --retry=3 --deployment
 addons:
     code_climate:
         repo_token: 8a2a969cd1d481fbc952943cc27b54584b2f27217ea2e2905e77652d44c502be
@@ -12,5 +13,5 @@ before_script:
 services:
   - mysql
 script:  
-  - RAILS_ENV=test bundle exec rake db:schema:load --trace
+  - RAILS_ENV=test bundle exec rake db:migrate
   - RAILS_ENV=test bundle exec rspec spec/
