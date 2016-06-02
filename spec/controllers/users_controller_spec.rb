@@ -9,17 +9,16 @@ include Devise::TestHelpers
     sign_in user
   end
 
-  shared_examples_for "an admin only endpoint" do |destination, params|
-    before :each do
-      @user||=FactoryGirl.create(:user, firstname: 'Ulysse', email:'Ulysse@hotmail.com')
-      puts @user.inspect
-    end
-
+  shared_examples_for "an admin only endpoint" do |destination|
+    let! (:params) {}
     context "user login as basic user" do
-    before :each do
-      login @user
-      get destination, params
-    end
+
+      before :each do
+        @c_user||=FactoryGirl.create(:user, firstname: 'Ulysse', email:'Ulysse@hotmail.com')
+        login @c_user
+        get destination, params
+      end
+
       it { is_expected.to respond_with :forbidden }
     end
 
@@ -65,7 +64,9 @@ include Devise::TestHelpers
         @user=FactoryGirl.create(:user)
     end
 
-    #it_should_behave_like "an admin only endpoint", :show , :id => 1
+    #it_should_behave_like "an admin only endpoint", :show  do 
+    #   let! (:params) {{:id => FactoryGirl.create(:user).id}}
+    # end
 
     context "user login as admin" do
       
@@ -147,7 +148,9 @@ include Devise::TestHelpers
         @user=FactoryGirl.create(:user)
     end
 
-    it_should_behave_like "an admin only endpoint", :edit, :id => 1
+    it_should_behave_like "an admin only endpoint", :edit do 
+      let! (:params) {{:id => FactoryGirl.create(:user).id}}
+    end
 
     context "user login as admin" do
       
@@ -171,7 +174,9 @@ include Devise::TestHelpers
         @user=FactoryGirl.create(:user, firstname:'Bob',email:'bob@hotmail.com')
     end
 
-    it_should_behave_like "an admin only endpoint", :update, :id => 1
+    it_should_behave_like "an admin only endpoint", :update do 
+      let! (:params) {{:id => FactoryGirl.create(:user).id}}
+    end
 
     context "user login as admin" do
       
@@ -220,7 +225,9 @@ include Devise::TestHelpers
         @user=FactoryGirl.create(:user)
     end
 
-    it_should_behave_like "an admin only endpoint", :destroy, :id => 1
+    it_should_behave_like "an admin only endpoint", :destroy do 
+      let! (:params) {{:id => FactoryGirl.create(:user).id}}
+    end
 
     context "user login as admin" do
       
