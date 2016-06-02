@@ -41,3 +41,5 @@ module Imelavi
 
   end
 end
+
+ActiveSupport::Deprecation.behavior = [:stderr, :log]

@@ -15,6 +15,10 @@ class GramSearch < ActiveResource::Base
   self.password = Rails.application.secrets.gram_api_password
   self.collection_name = "search/uniq"
 
+  def initialize *args
+    ActiveSupport::Deprecation.warn("GramAccount is deprecated, please use GramV1Client::Account. See https://github.com/Zooip/gram_v1_client ")
+    super *args
+  end
 
   #Overwrite find_single from ActiveResource::Base to be able to use gram api (/accounts suffix)
   #https://github.com/rails/activeresource/blob/master/lib/active_resource/base.rb#L991
