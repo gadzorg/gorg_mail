@@ -10,19 +10,21 @@ include Devise::TestHelpers
   end
 
   shared_examples_for "an admin only endpoint" do |destination, params|
-    context "user login as basic user" do
-      before :each do
-        @user||=FactoryGirl.create(:user, firstname: 'Ulysse', email:'Ulysse@hotmail.com')
-        login @user
-        get destination, params
-      end
+    before :each do
+      @user||=FactoryGirl.create(:user, firstname: 'Ulysse', email:'Ulysse@hotmail.com')
+      puts @user.inspect
+    end
 
+    context "user login as basic user" do
+    before :each do
+      login @user
+      get destination, params
+    end
       it { is_expected.to respond_with :forbidden }
     end
 
     context "user not login" do
       before :each do
-        @user=FactoryGirl.create(:user, firstname: 'Ulysse', email:'Ulysse@hotmail.com')
         get destination, params
       end
 

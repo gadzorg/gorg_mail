@@ -3,9 +3,9 @@
 # Table name: email_virtuals
 #
 #  id          :integer          not null, primary key
-#  email       :string(255)
+#  email       :string
 #  domain      :integer
-#  redirect    :string(255)
+#  redirect    :string
 #  type_alias  :integer
 #  expire      :date
 #  srs_rewrite :integer

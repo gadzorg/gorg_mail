@@ -100,6 +100,7 @@ GEM
     concurrent-ruby (1.0.2)
     configurable_engine (0.4.8)
       rails (> 3.1.0)
+    database_cleaner (1.5.1)
     debug_inspector (0.0.2)
     devise (4.1.1)
       bcrypt (~> 3.0)
@@ -333,6 +334,7 @@ DEPENDENCIES
   capybara
   coffee-rails (~> 4.1.0)
   configurable_engine
+  database_cleaner
   devise
   email_validator
   execjs

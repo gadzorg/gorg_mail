@@ -3,8 +3,8 @@
 # Table name: postfix_blacklists
 #
 #  id          :integer          not null, primary key
-#  email       :string(255)
-#  reject_text :string(255)
+#  email       :string
+#  reject_text :string
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #

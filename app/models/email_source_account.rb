@@ -3,10 +3,10 @@
 # Table name: email_source_accounts
 #
 #  id                      :integer          not null, primary key
-#  email                   :string(255)
+#  email                   :string
 #  uid                     :integer
 #  type_source             :integer
-#  flag                    :string(255)
+#  flag                    :string
 #  expire                  :date
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
