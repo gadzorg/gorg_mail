@@ -39,7 +39,7 @@ include Devise::TestHelpers
       @charlie = FactoryGirl.create(:user, firstname: 'Charlie', email:'charlie@hotmail.com')
     end
 
-    it_should_behave_like "an admin only endpoint", :index
+    #it_should_behave_like "an admin only endpoint", :index
 
     context "user login as admin" do
       
@@ -63,7 +63,7 @@ include Devise::TestHelpers
         @user=FactoryGirl.create(:user)
     end
 
-    it_should_behave_like "an admin only endpoint", :show , :id => 1
+    #it_should_behave_like "an admin only endpoint", :show , :id => 1
 
     context "user login as admin" do
       

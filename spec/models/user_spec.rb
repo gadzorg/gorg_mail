@@ -221,7 +221,7 @@ RSpec.describe User, type: :model do
 
       ActiveResource::HttpMock.respond_to do |mock|
         mock.get '/api/v1/accounts/alexandre.narbonne.2011/accounts.json', {'Accept' => 'application/json', "Authorization"=>"Basic cmF0YXRvc2s6dGVzdF9wYXNz"}, @gram_get_account_response, 200
-    end
+      end
 
     end
 
