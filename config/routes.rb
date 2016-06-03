@@ -18,6 +18,10 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'static_pages#index'
 
+  get 'setup' => 'setup#index'
+  get 'setup/finish' => 'setup#finish'
+  post 'setup' => 'setup#setup'
+
   get 'admin' => 'admin#index'
   get 'roles' => 'roles#index'
   get 'dashboard' => 'users#dashboard'

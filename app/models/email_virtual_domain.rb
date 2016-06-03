@@ -11,4 +11,9 @@
 
 class EmailVirtualDomain < ActiveRecord::Base
 	has_many :EmailSourceAccount
+
+
+  def aliases
+    self.class.where(aliasing: self.id)
+  end
 end

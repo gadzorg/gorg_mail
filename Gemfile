@@ -48,11 +48,14 @@ gem 'activeresource'
 
 gem 'email_validator'
 
+
+
 # Templates
 gem 'haml-rails'
 
 # Forms
 gem 'simple_form'
+gem 'virtus'
 
 # Pagination
 gem 'will_paginate', '~> 3.0.0'
@@ -118,13 +121,11 @@ group :development, :test do
   gem 'yaml_db', github: 'jetthoughts/yaml_db', ref: 'fb4b6bd7e12de3cffa93e0a298a1e5253d7e92ba'
 
   gem 'rspec-rails'
-
   gem 'factory_girl_rails'
-
+  gem 'faker'
 end
 
 group :test do
-  gem 'faker'
   gem 'capybara'
   gem 'launchy'
   gem 'shoulda-matchers', '~> 3.0'

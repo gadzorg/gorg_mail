@@ -1,7 +1,9 @@
 - if user_signed_in?
   %li.username
     = "#{current_user.firstname}"
-    .circle= "#{current_user.firstname.first.upcase}"
+    .circle
+      %img{:src => "https://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(current_user.email)}?d=404&s=50",onerror:"this.style.display='none'"}
+        ="#{current_user.firstname.first.upcase}"
     %ul.userblock
       =link_to t('layout.menu.profile'), user_path(current_user)
       =link_to t('layout.menu.disconnect'), destroy_user_session_path, :method => :delete

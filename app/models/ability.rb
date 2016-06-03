@@ -46,7 +46,7 @@ class Ability
       can :manage, PostfixBlacklist
     end   
 
-    can [:read, :sync], User, :id => user.id
+    can [:read, :sync, :setup], User, :id => user.id
     can :read_dashboard, User, :id => user.id
     can :manage, EmailRedirectAccount, :user_id => user.id
     can :show, EmailSourceAccount, :user_id => user.id

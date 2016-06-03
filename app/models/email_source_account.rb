@@ -24,4 +24,9 @@ class EmailSourceAccount < ActiveRecord::Base
 	belongs_to :user
 
   validates :email, :uniqueness => {:scope => :email_virtual_domain_id}
+
+  def to_s
+    "#{self.email}@#{self.email_virtual_domain.name}"
+  end
+
 end
