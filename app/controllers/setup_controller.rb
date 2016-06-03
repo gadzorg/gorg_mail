@@ -28,7 +28,7 @@ class SetupController < ApplicationController
     end
 
     #TODO: création de GoogleApps
-    redirect_to finish_path
+    redirect_to setup_finish_path
   end
 
   def finish
