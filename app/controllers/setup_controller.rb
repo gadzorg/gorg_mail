@@ -25,8 +25,10 @@ class SetupController < ApplicationController
         #attention, les deux lignes suivantes sont égaleement dans le controleur user / dashboard
         @emails_redirect = @user.email_redirect_accounts.order(:type_redir).select(&:persisted?)
         EmailValidationMailer.confirm_email(@user,@email_redirect_account,confirm_user_email_redirect_accounts_url(@user, @email_redirect_account.confirmation_token)).deliver_now
-    end  
+    end
+
     #TODO: création de GoogleApps
+    redirect_to finish_path
   end
 
   def finish
