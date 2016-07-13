@@ -70,6 +70,7 @@ RSpec.configure do |config|
 # unless a formatter has already been configured
 # (e.g. via a command-line flag).
   config.default_formatter = 'doc'
+  config.color = true
 #end
 
 # Print the 10 slowest examples and example groups at the
@@ -88,6 +89,23 @@ RSpec.configure do |config|
   # test failures related to randomization by passing the same `--seed` value
   # as the one that triggered the failure.
   Kernel.srand config.seed
+
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner[:active_record,{model: User}].strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
+    DatabaseCleaner[:active_record,{model: User}].clean_with(:truncation)
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.start
+    DatabaseCleaner[:active_record,{model: User}].start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
+    DatabaseCleaner[:active_record,{model: User}].clean
+  end
 
 end
 
