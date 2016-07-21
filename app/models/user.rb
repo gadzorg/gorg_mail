@@ -20,6 +20,7 @@
 #  lastname               :string(255)
 #  role_id                :integer
 #  last_gram_sync_at      :datetime
+#  canonical_name         :string(255)
 #
 # Indexes
 #
