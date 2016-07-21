@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe EmailSourceAccount, type: :model do
+
+
   it "has an empty database and User too" do
     expect(EmailSourceAccount.count).to eq(0)
     expect(User.count).to eq(0)

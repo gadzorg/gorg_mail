@@ -120,4 +120,5 @@ group :test do
   gem 'guard-rspec'
   gem 'launchy'
   gem 'shoulda-matchers', '~> 3.0'
+  gem 'database_cleaner'
 end
