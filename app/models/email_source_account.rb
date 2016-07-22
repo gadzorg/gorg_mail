@@ -25,11 +25,11 @@ class EmailSourceAccount < ActiveRecord::Base
 
   validates :email, :uniqueness => {:scope => :email_virtual_domain_id}
 
-	
-	alias_method :full_email_address, :to_s
+
 	def to_s
 		"#{self.email}@#{self.email_virtual_domain.name}"
 	end
+	alias_method :full_email_address, :to_s
 
 	def self.create_standard_aliases_for(user)
 		canonical_name = user.canonical_name
