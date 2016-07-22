@@ -20,11 +20,7 @@ RSpec.describe EmailSourceAccount, type: :model do
   before {EmailSourceAccount.create_standard_aliases_for(user) }
 
   it "can call generation function" do
-    puts "HEEEEEEEEEE"
-    puts user.canonical_name
-    puts user.email_source_accounts.count
     EmailSourceAccount.create_standard_aliases_for(user)
-    puts user.email_source_accounts.map(&:full_email_address)
   end
 
   it "generate {prenom}.{nom}@gadz.org if available" do
