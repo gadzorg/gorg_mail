@@ -103,6 +103,8 @@ class UsersController < ApplicationController
   def dashboard
     authorize! :read_dashboard, @user
 
+    return redirect_to setup_path unless @user.email_source_accounts.any? && @user.email_redirect_accounts.any?
+
     @emails_source = @user.email_source_accounts.select(&:persisted?)
     
     #attention, les deux lignes suivantes sont égaleement dans le controleur ERA / create / destroy

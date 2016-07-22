@@ -3,21 +3,21 @@
 # Table name: users
 #
 #  id                     :integer          not null, primary key
-#  email                  :string(255)      default(""), not null
-#  encrypted_password     :string(255)      default(""), not null
-#  reset_password_token   :string(255)
+#  email                  :string           default(""), not null
+#  encrypted_password     :string           default(""), not null
+#  reset_password_token   :string
 #  reset_password_sent_at :datetime
 #  remember_created_at    :datetime
 #  sign_in_count          :integer          default(0), not null
 #  current_sign_in_at     :datetime
 #  last_sign_in_at        :datetime
-#  current_sign_in_ip     :string(255)
-#  last_sign_in_ip        :string(255)
+#  current_sign_in_ip     :string
+#  last_sign_in_ip        :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
-#  hruid                  :string(255)
-#  firstname              :string(255)
-#  lastname               :string(255)
+#  hruid                  :string
+#  firstname              :string
+#  lastname               :string
 #  role_id                :integer
 #  last_gram_sync_at      :datetime
 #  canonical_name         :string(255)
@@ -94,7 +94,7 @@ class User < ActiveRecord::Base
     self.synced_with_gram = false
     if self.syncable?
       begin
-        gram_data=GramAccount.find(self.hruid)
+        gram_data=GramV1Client::Account.find(self.hruid)
         self.email=gram_data.email
         self.firstname=gram_data.firstname
         self.lastname=gram_data.lastname

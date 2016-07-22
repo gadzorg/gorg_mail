@@ -5,8 +5,6 @@ source 'https://rubygems.org'
 gem 'rails', '4.2.3'
 
 #DATABASE
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3'
 # Use mysql2 as the database for Active Record
 #gem 'mysql2'
 gem 'mysql2', '~> 0.3.20'
@@ -50,11 +48,14 @@ gem 'activeresource'
 
 gem 'email_validator'
 
+
+
 # Templates
 gem 'haml-rails'
 
 # Forms
 gem 'simple_form'
+gem 'virtus'
 
 # Pagination
 gem 'will_paginate', '~> 3.0.0'
@@ -85,19 +86,28 @@ gem 'bootstrap-tooltip-rails'
 
 gem 'google-api-client', '~> 0.9'
 
+# Gadz.org Gems
+gem 'gram_v1_client'
+
+gem 'heroku_secrets', github: 'alexpeattie/heroku_secrets'
+
+group :development do
+  # Access an IRB console on exception pages or by using <%= console %> in views
+  gem 'web-console', '~> 2.0'
+  gem 'better_errors'
+  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+  gem 'spring'
+end
+
+
 group :development, :test do
+  # Use sqlite3 as the database for Active Record
+  gem 'sqlite3'
+
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
   
   gem "letter_opener"
-
-  # Access an IRB console on exception pages or by using <%= console %> in views
-  gem 'web-console', '~> 2.0'
-
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring'
-
-  gem 'better_errors'
 
   #pour les diagramme UML
   gem 'rails-erd' 
@@ -109,16 +119,14 @@ group :development, :test do
   gem 'yaml_db', github: 'jetthoughts/yaml_db', ref: 'fb4b6bd7e12de3cffa93e0a298a1e5253d7e92ba'
 
   gem 'rspec-rails'
-
   gem 'factory_girl_rails'
-
+  gem 'faker'
 end
 
 group :test do
-  gem 'faker'
   gem 'capybara'
-  gem 'guard-rspec'
   gem 'launchy'
   gem 'shoulda-matchers', '~> 3.0'
   gem 'database_cleaner'
 end
+

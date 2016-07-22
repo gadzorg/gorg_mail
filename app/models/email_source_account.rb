@@ -3,10 +3,10 @@
 # Table name: email_source_accounts
 #
 #  id                      :integer          not null, primary key
-#  email                   :string(255)
+#  email                   :string
 #  uid                     :integer
 #  type_source             :integer
-#  flag                    :string(255)
+#  flag                    :string
 #  expire                  :date
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
@@ -25,8 +25,10 @@ class EmailSourceAccount < ActiveRecord::Base
 
   validates :email, :uniqueness => {:scope => :email_virtual_domain_id}
 
-	def full_email_address
-		self.email + "@" + self.email_virtual_domain.name
+	
+	alias_method :full_email_address, :to_s
+	def to_s
+		"#{self.email}@#{self.email_virtual_domain.name}"
 	end
 
 	def self.create_standard_aliases_for(user)
@@ -35,11 +37,11 @@ class EmailSourceAccount < ActiveRecord::Base
 
 		%w[gadz.org gadzarts.org m4am.net].each do |domain|
 			esa = EmailSourceAccount.new(
-					email: canonical_name,
-					email_virtual_domain_id: EmailVirtualDomain.find_by(name: domain).id
+			email: canonical_name,
+			email_virtual_domain_id: EmailVirtualDomain.find_by(name: domain).id
 			)
 			esa.email = user.hruid unless  esa.valid_attribute?(:email)
-				user.email_source_accounts << esa
+			user.email_source_accounts << esa
 		end
 
 	end
@@ -48,4 +50,5 @@ class EmailSourceAccount < ActiveRecord::Base
 		self.valid?
 		self.errors[attribute_name].blank?
 	end
+
 end

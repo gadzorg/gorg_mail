@@ -90,7 +90,6 @@ RSpec.configure do |config|
   # test failures related to randomization by passing the same `--seed` value
   # as the one that triggered the failure.
   Kernel.srand config.seed
-
    #config.use_transactional_fixtures = false
 
   # config.before(:suite) do
@@ -105,27 +104,32 @@ RSpec.configure do |config|
   #   DatabaseCleaner.clean
   # end
 
+
+  config.before(:suite) do
+    Faker::Config.locale = 'fr'
+  end
+
+
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
-    DatabaseCleaner[:active_record,{model: User}].strategy = :transaction
     DatabaseCleaner.clean_with(:truncation)
-    DatabaseCleaner[:active_record,{model: User}].clean_with(:truncation)
   end
 
   config.before(:each) do
     DatabaseCleaner.start
-    DatabaseCleaner[:active_record,{model: User}].start
+
   end
 
   config.after(:each) do
     DatabaseCleaner.clean
-    DatabaseCleaner[:active_record,{model: User}].clean
+
   end
 
   config.before(:suite) do
     Rails.application.load_seed # loading seeds
   end
   
+
 
 end
 
