@@ -88,18 +88,21 @@ class EmailRedirectAccountsController < ApplicationController
     if @email_redirect_account=EmailRedirectAccount.find_by_confirmation_token(token)
       @email_redirect_account.confirmed = true
       if @email_redirect_account.save
+        @emails_redirect = @user.email_redirect_accounts.order(:type_redir).select(&:persisted?)
         # on essaie d'activer l'adresse. Si ça ne marche pas ( trop d'adresse de redir, un revois un message différent)
         if @email_redirect_account.set_active
           respond_to do |format|
             flash[:notice] = "Adresse validée et activée avec succés!"
             format.json { render :show, status: :ok, location: user_email_redirect_account_url(@user,@email_redirect_account) }
             format.html {redirect_to dashboard_user_path(@user)}
+            format.js
           end
         else
           respond_to do |format|
             flash[:notice] = "Adresse validée! Désactivez une autre adresse pour pouvoir l'activer"
             format.json { render :show, status: :ok, location: user_email_redirect_account_url(@user,@email_redirect_account) }
             format.html {redirect_to dashboard_user_path(@user)}
+            format.js
         end
         end
       else
@@ -107,6 +110,7 @@ class EmailRedirectAccountsController < ApplicationController
           flash[:error] = "Impossible de confirmer cette adresse."
           format.json { head :no_content }
           format.html {redirect_to root_path}
+          format.js
         end        
       end
     else
@@ -114,6 +118,7 @@ class EmailRedirectAccountsController < ApplicationController
           flash[:error] = "Impossible de confirmer cette adresse."
           format.json { head :no_content }
           format.html {redirect_to root_path}
+          format.js
         end     
     end
   end
