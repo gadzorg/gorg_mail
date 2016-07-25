@@ -21,13 +21,13 @@
         -elsif !e.confirmed
           %i.zmdi.zmdi-square-o.icon-padding-list.inactive
         -else
-          = link_to user_email_redirect_account_flag_path(@user.id, e.id, "active"), :remote=>true do
+          = link_to user_email_redirect_account_flag_path(@user.id, e.id, "active"), title: 'Activer la redirection des mails vers cette adresse', rel: 'tooltip', :remote=>true do
             %i.zmdi.zmdi-square-o.icon-padding-list.inactive
 
         %span.inactive=e.redirect
 
       -elsif e.active?
-        = link_to user_email_redirect_account_flag_path(@user.id, e.id, "inactive"), :remote=>true do
+        = link_to user_email_redirect_account_flag_path(@user.id, e.id, "inactive"), title: 'Désactiver cette redirection', rel: 'tooltip', :remote=>true do
           %i.zmdi.zmdi-check-square.icon-padding-list
         =e.redirect
       -else
@@ -45,6 +45,6 @@
 
         -#%i.zmdi.zmdi-edit.icon-padding-list
         -if can? :destroy, e
-          = link_to user_email_redirect_account_path(@user,e), method: :delete, :remote => true, confirm: true do
+          = link_to user_email_redirect_account_path(@user,e), method: :delete, :remote => true, confirm: true,  title: 'Supprimer cette adresse', rel: 'tooltip', data: {confirm: "Tu vas supprimer définitivement cette addresse, es-tu bien certain ? Tu pourras dans tous les cas la recréer plus tard si tu le souhaites."} do
             %i.zmdi.zmdi-delete.icon-padding-list
 
