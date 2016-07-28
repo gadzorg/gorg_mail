@@ -3,8 +3,9 @@
 %table
   %thead
     %tr
+      %th id
       %th Name
-      %th Aliasing
+      %th Est un alias de
       %th
       %th
       %th
@@ -12,8 +13,10 @@
   %tbody
     - @email_virtual_domains.each do |email_virtual_domain|
       %tr
+        %td= email_virtual_domain.id
         %td= email_virtual_domain.name
-        %td= email_virtual_domain.aliasing
+        %td
+          = email_virtual_domain.aliasing_name_if_not_self
         %td= link_to 'Edit', edit_email_virtual_domain_path(email_virtual_domain)
         %td= link_to 'Destroy', email_virtual_domain, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
