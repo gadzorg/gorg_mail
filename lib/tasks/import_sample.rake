@@ -7,10 +7,14 @@ namespace :import_sample do
     CSV_ACCOUNTS_PATH=File.join(Rails.root,'lib/assets/accounts.csv')
     CSV_ERA_PATH=File.join(Rails.root,'lib/assets/era.csv')
     CSV_ESA_PATH=File.join(Rails.root,'lib/assets/esa.csv')
+    CSV_ALIAS_PATH=File.join(Rails.root,'lib/assets/alias.csv')
+    CSV_BLACKLIST_PATH=File.join(Rails.root,'lib/assets/blacklist.csv')
 
     accounts_csv=CSV.parse(File.read(CSV_ACCOUNTS_PATH),headers: true)
     era_csv=CSV.parse(File.read(CSV_ERA_PATH),headers: true)
     esa_csv=CSV.parse(File.read(CSV_ESA_PATH),headers: true)
+    #alias_csv=CSV.parse(File.read(CSV_ALIAS_PATH),headers: true)
+    blacklist_csv=CSV.parse(File.read(CSV_BLACKLIST_PATH),headers: true)
 
 
     accounts_csv.each do |ac_row|
@@ -82,6 +86,23 @@ namespace :import_sample do
         flag:row['flags'],
       )
     end
+
+
+
+#  email       :string
+#  reject_text :string
+    blacklist_csv.each do |row|
+      if email = PostfixBlacklist.create(
+        email: row['email'],
+        reject_text: row['reject_text']
+      )
+        puts row['email']+" : OK"
+      else
+        puts row['email']+" : ERREUR !"
+
+      end
+    end
+
 
   end
 
