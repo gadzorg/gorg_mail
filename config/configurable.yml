@@ -17,3 +17,7 @@ max_actives_era:
   name: Nombre max de redirections actives 
   default: 2
   type: integer
+
+default_mail_domains:
+  name: Domaines pour lequels les adresses mails sont créée par défaut lors de l'inscrption. Il n'est pas necessaire de spécifier les alias de domaine (voir admin/domaines). Domaines séparés par les espaces.
+  default: gadz.org m4am.net

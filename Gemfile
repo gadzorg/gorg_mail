@@ -36,7 +36,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Authentification
-gem 'devise'
+gem 'devise', '~> 4.1.1'
 gem 'omniauth'
 gem "omniauth-cas", :git => "https://github.com/loocla/omniauth-cas.git", :branch => 'saml'
 
@@ -44,7 +44,7 @@ gem "omniauth-cas", :git => "https://github.com/loocla/omniauth-cas.git", :branc
 gem 'cancancan'
 
 # API GRAM
-gem 'activeresource'
+gem 'activeresource', '~> 4.0.0'
 
 gem 'email_validator'
 
@@ -109,8 +109,6 @@ group :development, :test do
   
   gem "letter_opener"
 
-  gem 'database_cleaner'
-
   #pour les diagramme UML
   gem 'rails-erd' 
 
@@ -129,4 +127,6 @@ group :test do
   gem 'capybara'
   gem 'launchy'
   gem 'shoulda-matchers', '~> 3.0'
+  gem 'database_cleaner'
 end
+

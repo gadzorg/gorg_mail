@@ -1,5 +1,6 @@
 %section.pam.center.mw1140p
   %h1 Administration
+  %h2 General
   .grid-4-small-1
     - if can? :manage, :admin
       =link_to admin_configurable_path, class:'box box-light shadow-1 mtm bouton bouton-light'  do
@@ -11,16 +12,19 @@
         %i.zmdi.zmdi-accounts
         %div.small-inbl
           Utilisateurs
-    - if can? :read, Alias
-      =link_to  aliases_path, class:'box box-light shadow-1 mtm bouton bouton-light' do
-        %i.zmdi.zmdi-key
-        %div.small-inbl
-          Alias
+
     - if can? :read, Role
       =link_to  roles_path, class:'box box-light shadow-1 mtm bouton bouton-light'  do
         %i.zmdi.zmdi-key
         %div.small-inbl
           Roles
+  %h2 Zenimel
+  .grid-4-small-1
+    - if can? :read, Alias
+      =link_to  aliases_path, class:'box box-light shadow-1 mtm bouton bouton-light' do
+        %i.zmdi.zmdi-key
+        %div.small-inbl
+          Alias
     - if can? :read, PostfixBlacklist
       =link_to  postfix_blacklists_path, class:'box box-light shadow-1 mtm bouton bouton-light'  do
         %i.zmdi.zmdi-key
