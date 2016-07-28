@@ -16,8 +16,8 @@ RSpec.describe Role, type: :model do
   end
 
   it "is invalid if name already exist" do
-    FactoryGirl.create(:distinct_role,name:'admin')
-    expect(FactoryGirl.build(:distinct_role,name:'admin')).not_to be_valid
+    FactoryGirl.create(:distinct_role,name:'admin_test')
+    expect(FactoryGirl.build(:distinct_role,name:'admin_test')).not_to be_valid
   end
 
 end
