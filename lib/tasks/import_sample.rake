@@ -13,7 +13,7 @@ namespace :import_sample do
     accounts_csv=CSV.parse(File.read(CSV_ACCOUNTS_PATH),headers: true)
     era_csv=CSV.parse(File.read(CSV_ERA_PATH),headers: true)
     esa_csv=CSV.parse(File.read(CSV_ESA_PATH),headers: true)
-    #alias_csv=CSV.parse(File.read(CSV_ALIAS_PATH),headers: true)
+    alias_csv=CSV.parse(File.read(CSV_ALIAS_PATH),headers: true)
     blacklist_csv=CSV.parse(File.read(CSV_BLACKLIST_PATH),headers: true)
 
 
@@ -92,7 +92,7 @@ namespace :import_sample do
 #  email       :string
 #  reject_text :string
     blacklist_csv.each do |row|
-      if email = PostfixBlacklist.create(
+      if PostfixBlacklist.create(
         email: row['email'],
         reject_text: row['reject_text']
       )
@@ -103,6 +103,77 @@ namespace :import_sample do
       end
     end
 
+    # Alias Import
+#  email      :string
+#  redirect   :string
+#  type       :string
+    count = Hash.new
+    alias_csv.each do |row|
+      case row['type']
+        when "alias", "list", "gapps", "group"
+          #import as alias
+          if Alias.create(
+              email: row["email"],
+              redirect: row["redirect"],
+              alias_type: row["type"]
+          )
+            count[:alias_list_gapps_group_imported] = count[:alias_list_gapps_group_imported].to_i + 1
+          else
+            count[:alias_list_gapps_group_skipped] = count[:alias_list_gapps_group_skipped].to_i + 1
+
+          end
+        when "nick", "fam"
+          count[:nick_and_fam] = count[:nick_and_fam].to_i + 1
+          # convert to Email Source for the right user
+          #find email
+          redirect = row["redirect"]
+          redirect_base, redirect_domain = redirect.split("@")
+
+          email = row["email"]
+          domain_id = row["domain"]
+
+          # puts "eeeeeeee"
+          # puts redirect_domain
+
+          user = nil
+          evda=EmailVirtualDomain.where(name: "#{redirect_domain}")
+
+          esa = EmailSourceAccount.where(email: redirect_base, email_virtual_domain_id: evda.first.id) if evda.present?
+          era = EmailRedirectAccount.where(redirect: redirect) unless esa.present?
+          #find user
+          if esa.present?
+            user = esa.first.user
+          elsif era.present?
+            user = era.first.user
+          end
+
+          if user
+              new_esa = EmailSourceAccount.new(email: email, flag: "active", email_virtual_domain_id: domain_id)
+            user.email_source_accounts << new_esa
+
+            # convert alias to ESA
+            count[:nick_and_fam_converted] = count[:nick_and_fam_converted].to_i + 1
+
+          else
+              # If no user or convertion fail, add standard alias
+              Alias.create(
+                  email: row["email"],
+                  redirect: row["redirect"],
+                  alias_type: row["type"]
+              )
+          end
+
+        else
+          #import as alias
+          Alias.create(
+              email: row["email"],
+              redirect: row["redirect"],
+              alias_type: row["type"]
+          )
+      end
+      puts "#{row['email']} => #{row['redirect']} OK"
+    end
+    puts count
 
   end
 
