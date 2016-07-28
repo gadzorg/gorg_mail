@@ -43,8 +43,12 @@ RSpec.describe EmailSourceAccountGenerator, type: :service do
       @gadzorg_d=EmailVirtualDomain.create(
         :name => "gadzarts.org",
         )
+      @m4amnet_d=EmailVirtualDomain.create(
+          :name => "m4am.net",
+      )
       @gorg_d.update_attribute(:aliasing, @gorg_d.id)
       @gadzorg_d.update_attribute(:aliasing, @gorg_d.id)
+      @m4amnet_d.update_attribute(:aliasing, @m4amnet_d.id)
     end
 
     it "returns an array of email source account" do
@@ -104,15 +108,25 @@ RSpec.describe EmailSourceAccountGenerator, type: :service do
         @response=EmailSourceAccountGenerator.new(user).generate
       end
 
-      it "doesn't add email source account" do
-        expect(user.email_source_accounts).to match_array([@esa])
-      end
+      # TODO: check if this behavior is mandatory
+      # it "doesn't add email source account" do
+      #   expect(user.email_source_accounts).to match_array([@esa])
+      # end
 
-      it "returns false" do
-        expect(@response).to be false
-      end
+      # it "returns false" do
+      #   expect(@response).to be false
+      # end
 
     end
 
+    context 'with optional domain' do
+      before(:each) do
+        EmailSourceAccountGenerator.new(user, domain: "m4am.net").generate
+      end
+
+      it "generate first_name.last_name@other_domain.fr" do
+        expect(esas).to include('john.doe@m4am.net')
+      end
+    end
   end
 end

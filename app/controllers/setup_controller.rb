@@ -6,7 +6,9 @@ class SetupController < ApplicationController
 
     return redirect_to dashboard_path if @user.email_source_accounts.any? && @user.email_redirect_accounts.any?
 
-    @esas=EmailSourceAccountGenerator.new(@user).generate
+    # @esas=EmailSourceAccountGenerator.new(@user).generate
+    # @esas=EmailSourceAccountGenerator.new(@user, domain: "m4.am").generate
+    EmailSourceAccount.create_standard_aliases_for(@user)
   end
 
   def setup
