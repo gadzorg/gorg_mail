@@ -132,12 +132,8 @@ namespace :import_sample do
           email = row["email"]
           domain_id = row["domain"]
 
-          # puts "eeeeeeee"
-          # puts redirect_domain
-
           user = nil
           evda=EmailVirtualDomain.where(name: "#{redirect_domain}")
-
           esa = EmailSourceAccount.where(email: redirect_base, email_virtual_domain_id: evda.first.id) if evda.present?
           era = EmailRedirectAccount.where(redirect: redirect) unless esa.present?
           #find user
@@ -156,20 +152,26 @@ namespace :import_sample do
 
           else
               # If no user or convertion fail, add standard alias
-              Alias.create(
+              if Alias.create(
                   email: row["email"],
                   redirect: row["redirect"],
                   alias_type: row["type"]
               )
+                count[:nik_and_fam_pased_as_standard] = count[:nik_and_fam_pased_as_standard].to_i + 1
+              end
           end
 
         else
           #import as alias
-          Alias.create(
+          if Alias.create(
               email: row["email"],
               redirect: row["redirect"],
               alias_type: row["type"]
           )
+            count[:alias_unknown] = count[:alias_unknown].to_i + 1
+            else
+              count[:alias_unknown_skipped] = count[:alias_unknown_skipped].to_i + 1
+          end
       end
       puts "#{row['email']} => #{row['redirect']} OK"
     end
