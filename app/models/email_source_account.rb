@@ -23,7 +23,9 @@ class EmailSourceAccount < ActiveRecord::Base
 	belongs_to :email_virtual_domain
 	belongs_to :user
 
-  validates :email, :uniqueness => {:scope => :email_virtual_domain_id}
+  validates :email, :uniqueness => {:scope => :email_virtual_domain_id}, presence: true
+	validates :email_virtual_domain, presence: true
+	validates :user, presence: true
 
 
 	def to_s

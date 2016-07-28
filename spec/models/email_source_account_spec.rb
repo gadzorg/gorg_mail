@@ -9,6 +9,9 @@ RSpec.describe EmailSourceAccount, type: :model do
   end
 
   it {is_expected.to validate_uniqueness_of(:email).scoped_to(:email_virtual_domain_id)}
+  it {is_expected.to validate_presence_of(:email)}
+  it {is_expected.to validate_presence_of(:email_virtual_domain)}
+  it {is_expected.to validate_presence_of(:user)}
 
   describe "Standard alias generation" do
   #   @user = FactoryGirl.create(:user,
