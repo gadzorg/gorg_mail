@@ -22,6 +22,8 @@ class EmailVirtualDomain < ActiveRecord::Base
     al.name if al.present?
   end
 
+  # return aliasing name if different to domain name
+  # workaround for domain aliasing themselves in platal
   def aliasing_name_if_not_self
     aln = self.aliasing_name
     aln.nil? || aln == self.name ? "" : aln

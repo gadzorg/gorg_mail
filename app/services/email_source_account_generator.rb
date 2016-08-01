@@ -8,14 +8,13 @@ class EmailSourceAccountGenerator
     @domain=options[:domain] || DEFAULT_DOMAIN
   end
 
-
   def generate
     #return false if @user.email_source_accounts.any?
     clean_firstname=clean(@user.firstname)
     clean_lastname=clean(@user.lastname)
 
     base="#{clean_firstname}.#{clean_lastname}"
-    if @user.hruid
+    if @user.canonical_name
       base="#{clean(@user.canonical_name)}"
     else
       raise "No canonical name"
@@ -47,7 +46,7 @@ class EmailSourceAccountGenerator
     end
 
     def domain
-      EmailVirtualDomain.find_by(name: @domain)
+      @evd ||= EmailVirtualDomain.find_by(name: @domain)
     end
 
     def aliases_domains
