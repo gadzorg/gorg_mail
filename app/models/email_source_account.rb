@@ -33,7 +33,7 @@ class EmailSourceAccount < ActiveRecord::Base
 	end
 	alias_method :full_email_address, :to_s
 
-
+# TODO: move this function in email_source_account_generator service
 	def self.create_standard_aliases_for(user)
 		Configurable[:default_mail_domains].split.each do |domain|
 			EmailSourceAccountGenerator.new(user, domain: domain).generate
