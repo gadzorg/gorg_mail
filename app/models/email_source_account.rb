@@ -40,9 +40,4 @@ class EmailSourceAccount < ActiveRecord::Base
 		end
 	end
 
-	def valid_attribute?(attribute_name)
-		self.valid?
-		self.errors[attribute_name].blank?
-	end
-
 end
