@@ -30,7 +30,7 @@ FactoryGirl.define do
     firstname { Faker::Name.first_name }
     lastname { Faker::Name.last_name }
     hruid { firstname.downcase.gsub(/[^a-z ]/, '')+'.'+lastname.downcase.gsub(/[^a-z ]/, '')+"."+["1950","2015","ext","soce","associe"].sample+["",".2",".3"].sample}
-    canonical_name { firstname.downcase.gsub(/[^a-z ]/, '')+'.'+lastname.downcase.gsub(/[^a-z ]/, '')}
+    # canonical_name { firstname.downcase.gsub(/[^a-z ]/, '')+'.'+lastname.downcase.gsub(/[^a-z ]/, '')}
     password Devise.friendly_token[0,20]
     password_confirmation {password}
 

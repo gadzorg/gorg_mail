@@ -19,7 +19,7 @@ RSpec.describe EmailSourceAccount, type: :model do
   #                              email:"coucou2@text.com",
   #                              firstname:"Alex",
   #                              lastname:"Narbon")
-  let(:user)  { FactoryGirl.create(:user, hruid:"alex.narbon.2013", email:"coucou2@text.com", firstname:"Alex", lastname:"Narbon", canonical_name:"alex.narbon") }
+  let(:user)  { FactoryGirl.create(:user, hruid:"alex.narbon.2013", email:"coucou2@text.com", firstname:"Alex", lastname:"Narbon") }
   before {EmailSourceAccount.create_standard_aliases_for(user) }
 
   it "can call generation function" do
@@ -37,7 +37,7 @@ RSpec.describe EmailSourceAccount, type: :model do
     expect(user.email_source_accounts.map(&:full_email_address)).to include("alex.narbon@m4am.net")
   end
 
-  let(:user2)  { FactoryGirl.create(:user, hruid:"alex.narbon.2012", email:"coucou3@text.com", firstname:"Alex", lastname:"Narbon", canonical_name:"alex.narbon") }
+  let(:user2)  { FactoryGirl.create(:user, hruid:"alex.narbon.2012", email:"coucou3@text.com", firstname:"Alex", lastname:"Narbon") }
   before {EmailSourceAccount.create_standard_aliases_for(user2) }
   it "user {hruid} instead of {prenom}.{nom} if homonys are present" do
     # @user = FactoryGirl.create(:user,
