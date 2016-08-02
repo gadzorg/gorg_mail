@@ -10,13 +10,13 @@ Rails.application.routes.draw do
     :sessions => "users/sessions"
     }
   
-  get 'static_pages/index'
+  get 'static_pages/landing'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'static_pages#index'
+  root 'static_pages#landing'
 
   get 'setup' => 'setup#index'
   get 'setup/finish' => 'setup#finish'
