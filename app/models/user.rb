@@ -59,6 +59,8 @@ class User < ActiveRecord::Base
 
 
   after_initialize :set_default_values
+  #TODO : switch to GrAM Canonical name
+  after_create :create_canonical_name
 
 
   validates :hruid, uniqueness: true, :allow_blank => true, :allow_nil => true
