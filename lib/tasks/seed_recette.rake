@@ -8,7 +8,6 @@ namespace :db do
   desc "Seed recette data"
   task :seed_recette => :environment do
     puts "Environement = #{Rails.env}"
-    require 'faker'
 
     Role.create [{name: :admin},{name: :support}]
 
@@ -25,9 +24,9 @@ namespace :db do
       )
       a.save
 
-      puts "Reconfig default domains"
-      Configurable[:default_mail_domains] = "poubs.org m4am.net"
-
     end
+
+    puts "Reconfig default domains"
+    Configurable[:default_mail_domains] = "poubs.org m4am.net"
   end
 end
