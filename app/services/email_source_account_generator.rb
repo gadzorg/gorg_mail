@@ -12,7 +12,6 @@ class EmailSourceAccountGenerator
     #return false if @user.email_source_accounts.any?
     clean_firstname=clean(@user.firstname)
     clean_lastname=clean(@user.lastname)
-
     base="#{clean_firstname}.#{clean_lastname}"
     if @user.canonical_name
       base="#{clean(@user.canonical_name)}"
@@ -41,7 +40,7 @@ class EmailSourceAccountGenerator
 
       # suppression des accents
       name = I18n.transliterate(name)
-      name = name.gsub(/[^a-z\.\-]/, "")
+      name = name.gsub(/[^a-z\.\-0-9]/, "")
       return name
     end
 
@@ -58,7 +57,6 @@ class EmailSourceAccountGenerator
     end
 
     def create_with_base(base)
-      puts aliases_domains
       aliases_domains.each do |d|
         @user.email_source_accounts.create(
           email: base,

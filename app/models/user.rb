@@ -221,9 +221,9 @@ class User < ActiveRecord::Base
 
     if !User.find_by(canonical_name: canonical_name).nil?
       #si oui ajouter la promo TODO
-      default_canonical_name = default_canonical_name + "." + "9999"
+      default_canonical_name = hruid
       # vérifier si elle est déjà dans la base
-      
+
       canonical_name = default_canonical_name
 
       i=0
