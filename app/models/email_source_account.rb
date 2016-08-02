@@ -33,24 +33,11 @@ class EmailSourceAccount < ActiveRecord::Base
 	end
 	alias_method :full_email_address, :to_s
 
-
+# TODO: move this function in email_source_account_generator service
 	def self.create_standard_aliases_for(user)
 		Configurable[:default_mail_domains].split.each do |domain|
 			EmailSourceAccountGenerator.new(user, domain: domain).generate
 		end
-	end
-
-	# parse email, import and add to user
-	def self.import_full_email_for(user, full_email)
-		full_email_base, full_email_domain = full_email.split("@")
-		domain = EmailVirtualDomain.find_by(name: full_email_domain)
-		esa = self.new(email: full_email_base, flag: "active", email_virtual_domain: domain)
-		user.email_source_accounts << esa
-	end
-
-	def valid_attribute?(attribute_name)
-		self.valid?
-		self.errors[attribute_name].blank?
 	end
 
 end
