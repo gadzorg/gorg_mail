@@ -6,7 +6,7 @@ class AliasesController < ApplicationController
   # GET /aliases
   # GET /aliases.json
   def index
-    @aliases = Alias.accessible_by(current_ability)
+    @aliases = Alias.accessible_by(current_ability).includes(:email_virtual_domain)
     authorize! :read, Alias
   end
 
@@ -25,6 +25,7 @@ class AliasesController < ApplicationController
   # GET /aliases/1/edit
   def edit
     authorize! :update, @alias
+    @evd = EmailVirtualDomain.all
   end
 
   # POST /aliases
@@ -78,7 +79,7 @@ class AliasesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def alias_params
-      params.require(:alias).permit(:email, :redirect)
+      params.require(:alias).permit(:email, :redirect, :email_virtual_domain_id)
 
     end
 end

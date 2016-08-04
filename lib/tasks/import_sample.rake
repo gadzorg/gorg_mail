@@ -114,6 +114,8 @@ namespace :import_sample do
           #import as alias
           if Alias.create(
               email: row["email"],
+              srs_rewrite: row["srs_rewrite"],
+              email_virtual_domain_id: row["domain"],
               redirect: row["redirect"],
               alias_type: row["type"]
           )
@@ -155,6 +157,8 @@ namespace :import_sample do
               if Alias.create(
                   email: row["email"],
                   redirect: row["redirect"],
+                  srs_rewrite: row["srs_rewrite"],
+                  email_virtual_domain_id: row["domain"],
                   alias_type: row["type"]
               )
                 count[:nik_and_fam_pased_as_standard] = count[:nik_and_fam_pased_as_standard].to_i + 1
@@ -166,6 +170,8 @@ namespace :import_sample do
           if Alias.create(
               email: row["email"],
               redirect: row["redirect"],
+              srs_rewrite: row["srs_rewrite"],
+              email_virtual_domain_id: row["domain"],
               alias_type: row["type"]
           )
             count[:alias_unknown] = count[:alias_unknown].to_i + 1
