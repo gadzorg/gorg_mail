@@ -11,8 +11,13 @@ class GoogleApps
 
     # find the first @gadz.org adresse of the users and use it's base
     evd_id = EmailVirtualDomain.find_by(name: DEFAULT_DOMAIN).id
-    email_base = @user.email_source_accounts.find_by(evd_id).email
-    @google_apps_email = email_base + "@#{@domain}"
+    begin
+      email_base = @user.email_source_accounts.find_by(evd_id).email
+      @google_apps_email = email_base + "@#{@domain}"
+    rescue
+      puts 'Any Email_source_account with gadz.org for this user :-( Create it before googleapps generation'
+      return false
+    end
   end
 
   def generate
@@ -22,6 +27,7 @@ class GoogleApps
   end
 
   def create_google_apps_redirection
+    # if @user.email_source_account
     unless @user.has_google_apps
     @user.email_redirect_accounts.create(
         redirect: @google_apps_email,
@@ -35,9 +41,10 @@ class GoogleApps
 
   def request_google_apps_creation
     msg={google_apps_account: {email: @google_apps_email}}
-    send_message(msg, 'request.google_app.create')
+    send_message(msg, 'request.google_app.update')
   end
 
+  private
   def send_message(msg, routing_key)
     begin
       @message_sender.send_message(msg, routing_key)
