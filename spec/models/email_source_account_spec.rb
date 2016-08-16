@@ -13,18 +13,27 @@ RSpec.describe EmailSourceAccount, type: :model do
   it {is_expected.to validate_presence_of(:email_virtual_domain)}
   it {is_expected.to validate_presence_of(:user)}
 
+  it "invalidate multiple primary email by user" do
+    user = FactoryGirl.create(:user, hruid:"alex.narbon.2010", email:"coucou4@text.com", firstname:"Alex", lastname:"Narbon")
+    FactoryGirl.create(:email_source_account, primary: true, user_id: user.id)
+    second_primary_email = FactoryGirl.build(:email_source_account, primary: true, user_id: user.id)
+    user.email_source_accounts.create(email: "test", email_virtual_domain_id: "1")
+    expect(second_primary_email).not_to be_valid
+  end
+
   describe "Standard alias generation" do
-  #   @user = FactoryGirl.create(:user,
-  #                              hruid:"alex.narbon.2013",
-  #                              email:"coucou2@text.com",
-  #                              firstname:"Alex",
-  #                              lastname:"Narbon")
-  let(:user)  { FactoryGirl.create(:user, hruid:"alex.narbon.2013", email:"coucou2@text.com", firstname:"Alex", lastname:"Narbon") }
+    #   @user = FactoryGirl.create(:user,
+    #                              hruid:"alex.narbon.2013",
+    #                              email:"coucou2@text.com",
+    #                              firstname:"Alex",
+    #                              lastname:"Narbon")
+    let(:user)  { FactoryGirl.create(:user, hruid:"alex.narbon.2013", email:"coucou2@text.com", firstname:"Alex", lastname:"Narbon") }
   before {EmailSourceAccount.create_standard_aliases_for(user) }
 
   it "can call generation function" do
     EmailSourceAccount.create_standard_aliases_for(user)
   end
+
 
   it "generate {prenom}.{nom}@gadz.org if available" do
     puts user.email_source_accounts.map(&:full_email_address)
