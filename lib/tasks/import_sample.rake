@@ -79,12 +79,13 @@ namespace :import_sample do
 
     esa_csv.each do |row|
       u=User.find_by_hruid(row['hruid'])
+      puts row['flags']
       u.email_source_accounts.create(
         email:row['email'],
         email_virtual_domain:EmailVirtualDomain.find_or_create_by(name: row['name']),
         type_source:row['type'],
         flag:row['flags'],
-        primary: row['flags'].include? ("forlife") ? true : false
+        primary: row['flags'].present? && row['flags'].include?("bestalias") ? true : false
       )
     end
 
