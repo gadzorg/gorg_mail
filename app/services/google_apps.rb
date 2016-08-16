@@ -8,11 +8,12 @@ class GoogleApps
     @user=user
     @domain=options[:domain] || DEFAULT_GOOGLE_APPS_DOMAIN
     @message_sender=options[:message_sender] || GorgMessageSender.new
+    @email_aliases = @user.email_source_accounts.map(&:to_s)
 
     # find the first @gadz.org adresse of the users and use it's base
     evd_id = EmailVirtualDomain.find_by(name: DEFAULT_DOMAIN).id
     begin
-      email_base = @user.email_source_accounts.find_by(evd_id).email
+      email_base = @user.email_source_accounts.find_by(primary: true).email
       @google_apps_email = email_base + "@#{@domain}"
     rescue
       puts 'Any Email_source_account with gadz.org for this user :-( Create it before googleapps generation'
@@ -24,6 +25,10 @@ class GoogleApps
     request_google_apps_creation
     create_google_apps_redirection
 
+  end
+
+  def update
+    request_google_apps_update
   end
 
   def create_google_apps_redirection
@@ -40,7 +45,23 @@ class GoogleApps
   end
 
   def request_google_apps_creation
-    msg={google_apps_account: {email: @google_apps_email}}
+    msg = {
+        google_apps_account: {
+            account_uuid: "user.uuid",
+            email: @google_apps_email,
+            email_aliases:  @email_aliases
+        }
+    }
+    send_message(msg, 'request.google_app.create')
+  end
+
+  def request_google_apps_update
+    msg = {
+        google_apps_account: {
+            account_uuid: "user.uuid",
+            email_aliases:  @email_aliases
+        }
+    }
     send_message(msg, 'request.google_app.update')
   end
 

@@ -21,10 +21,30 @@ RSpec.describe GoogleApps, type: :service do
 
     end
 
+    # TODO : switch to real uuid after GrAM2 migration
     it "Request a message sending to the message sender for Google Apps creation" do
-      GApps = GoogleApps.new(user, message_sender: message_sender).generate
+      gapps = GoogleApps.new(user, message_sender: message_sender).generate
       gapps_email = user.email_redirect_accounts.find_by(type_redir: 'googleapps').redirect
-      expect(message_sender).to have_received.send_message({google_apps_account: {email: gapps_email}}, 'request.google_app.update')
+      message = {
+          google_apps_account: {
+              account_uuid: "user.uuid",
+              email: gapps_email,
+              email_aliases:  user.email_source_accounts.map(&:to_s)
+          }
+      }
+      expect(message_sender).to have_received.send_message(message, 'request.google_app.create')
+    end
+
+    it "Request a message sending to the message sender for Google Apps update" do
+      gapps = GoogleApps.new(user, message_sender: message_sender).update
+      gapps_email = user.email_redirect_accounts.find_by(type_redir: 'googleapps').redirect
+      message = {
+          google_apps_account: {
+              account_uuid: "user.uuid",
+              email_aliases:  user.email_source_accounts.map(&:to_s)
+          }
+      }
+      expect(message_sender).to have_received.send_message(message, 'request.google_app.update')
     end
 
 

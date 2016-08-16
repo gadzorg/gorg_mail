@@ -2,10 +2,12 @@
 -# autoriser les suppresion et ajout que pour les admins
 
 - emails_source.each do |e|
-	%li
-		=e.email + "@" + e.email_virtual_domain.name
-		-if can? :destroy, e
-			%span.fr
-				-#%i.zmdi.zmdi-edit.icon-padding-list
-				= link_to user_email_source_account_path(@user,e.id), method: :delete, :remote => true, confirm: true do
-					%i.zmdi.zmdi-delete.icon-padding-list
+  %li
+    =e.email + "@" + e.email_virtual_domain.name
+    %span.fr
+      -if e.primary
+
+        %i.zmdi.zmdi-star.icon-padding-list{ title: "Adresse principale", rel: 'tooltip'}
+      -if can? :destroy, e
+        = link_to user_email_source_account_path(@user,e.id), method: :delete, :remote => true, confirm: true do
+          %i.zmdi.zmdi-delete.icon-padding-list

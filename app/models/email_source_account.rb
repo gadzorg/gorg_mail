@@ -12,6 +12,7 @@
 #  updated_at              :datetime         not null
 #  user_id                 :integer
 #  email_virtual_domain_id :integer
+#  primary                 :boolean
 #
 # Indexes
 #
@@ -26,7 +27,7 @@ class EmailSourceAccount < ActiveRecord::Base
   validates :email, :uniqueness => {:scope => :email_virtual_domain_id}, presence: true
 	validates :email_virtual_domain, presence: true
 	validates :user, presence: true
-
+	#todo: ony one primary email by user
 
 	def to_s
 		"#{self.email}@#{self.email_virtual_domain.name}"
