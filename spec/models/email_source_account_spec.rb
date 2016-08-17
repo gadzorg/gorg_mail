@@ -13,6 +13,7 @@ RSpec.describe EmailSourceAccount, type: :model do
   it {is_expected.to validate_presence_of(:email_virtual_domain)}
   it {is_expected.to validate_presence_of(:user)}
 
+=begin
   it "invalidate multiple primary email by user" do
     user = FactoryGirl.create(:user, hruid:"alex.narbon.2010", email:"coucou4@text.com", firstname:"Alex", lastname:"Narbon")
     FactoryGirl.create(:email_source_account, primary: true, user_id: user.id)
@@ -20,6 +21,7 @@ RSpec.describe EmailSourceAccount, type: :model do
     user.email_source_accounts.create(email: "test", email_virtual_domain_id: "1")
     expect(second_primary_email).not_to be_valid
   end
+=end
 
   describe "Standard alias generation" do
     #   @user = FactoryGirl.create(:user,
