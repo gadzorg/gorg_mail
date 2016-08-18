@@ -23,7 +23,7 @@
 #
 
 require 'rails_helper'
-
+include RSpec::Mocks::ExampleMethods
 
 RSpec.describe User, type: :model do
   def gram_account_mocked (hash={})
