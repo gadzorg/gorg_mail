@@ -261,6 +261,7 @@ RSpec.describe User, type: :model do
 
           it "log an error" do
             lo = double("Logger")
+            allow_any_instance_of(lo).to receive(:error)
             Rails.logger= lo
             expect(lo).to receive(:error)
             User.omniauth(@omniauth_data)
@@ -310,6 +311,7 @@ RSpec.describe User, type: :model do
         it "log an error" do
           lo = double("Logger")
           Rails.logger= lo
+          allow_any_instance_of(lo).to receive(:error)
           expect(lo).to receive(:error)
           User.omniauth(@omniauth_data)
         end
