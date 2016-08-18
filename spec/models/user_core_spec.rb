@@ -23,7 +23,6 @@
 #
 
 require 'rails_helper'
-include RSpec::Mocks::ExampleMethods
 
 RSpec.describe User, type: :model do
   def gram_account_mocked (hash={})
@@ -260,10 +259,9 @@ RSpec.describe User, type: :model do
           end
 
           it "log an error" do
-            lo = double("Logger")
-            allow_any_instance_of(lo).to receive(:error)
+            lo=fake(:logger)
             Rails.logger= lo
-            expect(lo).to receive(:error)
+            expect(lo).to have_received(:error)
             User.omniauth(@omniauth_data)
           end
         end
@@ -309,10 +307,9 @@ RSpec.describe User, type: :model do
         end
 
         it "log an error" do
-          lo = double("Logger")
+          lo=fake(:logger)
           Rails.logger= lo
-          allow_any_instance_of(lo).to receive(:error)
-          expect(lo).to receive(:error)
+          expect(lo).to have_received(:error)
           User.omniauth(@omniauth_data)
         end
       end
