@@ -7,7 +7,7 @@
 #  email                                  :string(255)
 #  description                            :string(255)
 #  aliases                                :string(255)
-#  diffusion_policy_id                    :string(255)
+#  diffusion_policy                       :string(255)
 #  inscription_policy_id                  :integer
 #  is_public                              :boolean
 #  messsage_header                        :string(255)
@@ -23,5 +23,13 @@
 #
 
 class Ml::List < ActiveRecord::Base
+  validates :name, uniqueness: true, presence: true
+  validates :email, uniqueness: true, presence: true
+  # validates :diffusion_policy, presence: true, acceptance: { accept: %w(open closed moderated) }
+  validates_inclusion_of :diffusion_policy, :in => %w(open closed moderated)
+  validates :inscription_policy_id, presence: true
+  validates_inclusion_of :is_public, :in => [true, false]
+  validates_inclusion_of :is_archived, :in => [true, false]
+  validates :message_max_bytes_size, presence: true
 
 end

@@ -15,4 +15,15 @@
 #
 
 class Ml::ListUser < ActiveRecord::Base
+  validates :user_id, presence: true
+  validates :list_id, presence: true
+
+  before_save :initialize
+
+  def initialize
+    self.is_ban ||= false
+    self.is_admin ||= false
+    self.is_moderator ||= false
+    self.is_on_white_list ||= false
+  end
 end

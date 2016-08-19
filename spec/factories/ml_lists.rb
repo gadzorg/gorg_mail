@@ -4,7 +4,7 @@ FactoryGirl.define do
     email "MyString"
     description "MyString"
     aliases "MyString"
-    diffusion_policy_id "MyString"
+    diffusion_policy %w(open closed moderated).sample
     inscription_policy_id 1
     is_public false
     messsage_header "MyString"
@@ -14,7 +14,6 @@ FactoryGirl.define do
     default_message_deny_notification_text "MyString"
     msg_welcome "MyString"
     msg_goodbye "MyString"
-    is_archived false
     message_max_bytes_size 1
   end
 end
