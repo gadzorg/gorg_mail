@@ -121,8 +121,7 @@ class UsersController < ApplicationController
     authorize! :update, @user
     @user.create_google_apps
 
-    #attention, les deux lignes suivantes sont égaleement dans le controleur user / dashboard
-    @emails_redirect = @user.email_redirect_accounts.order(:type_redir).select(&:persisted?)
+    @emails_redirect = email_redirect(@user)
 
     respond_to do |format|
       format.json { head :no_content }
