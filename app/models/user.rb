@@ -180,6 +180,7 @@ class User < ActiveRecord::Base
     email_redirect_accounts.find_by( type_redir: "googleapps")
   end
 
+=begin
   def create_google_apps
     #check if canonical name exist
     unless self.canonical_name.nil?
@@ -197,6 +198,12 @@ class User < ActiveRecord::Base
       self.save
     end
     
+  end
+=end
+
+  # Create google apps account and redirection via google apps service
+  def create_google_apps
+    GoogleApps.new(self).generate
   end
 
   def create_canonical_name()
