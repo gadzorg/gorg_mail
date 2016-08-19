@@ -36,6 +36,10 @@ class ApplicationController < ActionController::Base
       end
 
     end
+
+    def email_redirect(user)
+      user.email_redirect_accounts.order(:type_redir).select(&:persisted?)
+    end
   
 
 end

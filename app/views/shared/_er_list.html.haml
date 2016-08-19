@@ -4,7 +4,7 @@
     .pam
       Avec un compte Google Apps, j'accède aux mails de la communauté en toute simplicité!
 
-      .mts= link_to ' Créer mon compte Google Apps ', create_google_apps_user_path(@user), :remote=>true,  :class =>"bouton bouton_bleu"
+      .mts= link_to ' Créer mon compte Google Apps ', create_google_apps_user_path(@user), method: :get,:remote=>true,  :class =>"bouton bouton_bleu"
 - @emails_redirect.each do |e|
   -if e.type_redir == "googleapps"
     .pam.bg-blue-dark-2

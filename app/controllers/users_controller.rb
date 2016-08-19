@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :sync_with_gram, :dashboard  ]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :sync_with_gram, :dashboard, :create_google_apps  ]
   autocomplete :user, :hruid , :full => true, :display_value =>:hruid, extra_data: [:id, :firstname ] #, :scopes => [:search_by_name]
 
 
@@ -103,7 +103,7 @@ class UsersController < ApplicationController
   def dashboard
     authorize! :read_dashboard, @user
 
-    return redirect_to setup_path unless @user.email_source_accounts.any? && @user.email_redirect_accounts.any?
+    return redirect_to setup_setup_email_source_accounts_path unless @user.email_source_accounts.any? && @user.email_redirect_accounts.any?
 
     @emails_source = @user.email_source_accounts.select(&:persisted?)
     
@@ -115,6 +115,18 @@ class UsersController < ApplicationController
    
     @emails_redirect.each{|era| authorize! :show, era}
     @emails_source.each{|esa| authorize! :show, esa}
+  end
+
+  def create_google_apps
+    authorize! :update, @user
+    @user.create_google_apps
+
+    @emails_redirect = email_redirect(@user)
+
+    respond_to do |format|
+      format.json { head :no_content }
+      format.js
+    end
   end
 
   

@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'static_pages#landing'
 
+  get 'setup/setup_email_source_accounts' => 'setup#setup_email_source_accounts'
   get 'setup' => 'setup#index'
   get 'setup/finish' => 'setup#finish'
   post 'setup' => 'setup#setup'

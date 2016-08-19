@@ -73,8 +73,7 @@ class EmailRedirectAccountsController < ApplicationController
 
     @email_redirect_account.destroy
 
-    #attention, les deux lignes suivantes sont égaleement dans le controleur user / dashboard
-    @emails_redirect = @user.email_redirect_accounts.order(:type_redir).select(&:persisted?)
+    @emails_redirect = email_redirect(@user)
     
     respond_to do |format|
       format.json { head :no_content }
@@ -88,7 +87,7 @@ class EmailRedirectAccountsController < ApplicationController
     if @email_redirect_account=EmailRedirectAccount.find_by_confirmation_token(token)
       @email_redirect_account.confirmed = true
       if @email_redirect_account.save
-        @emails_redirect = @user.email_redirect_accounts.order(:type_redir).select(&:persisted?)
+        @emails_redirect = email_redirect(@user)
         # on essaie d'activer l'adresse. Si ça ne marche pas ( trop d'adresse de redir, un revois un message différent)
         if @email_redirect_account.set_active
           respond_to do |format|
@@ -161,8 +160,8 @@ class EmailRedirectAccountsController < ApplicationController
             format.js
           end
           else
-            #attention, les deux lignes suivantes sont égaleement dans le controleur user / dashboard
-        @emails_redirect = @user.email_redirect_accounts.order(:type_redir).select(&:persisted?)
+            @emails_redirect = email_redirect(@user)
+
         
             respond_to do |format|
             flash[:error] = "Erreur lors de la désactivation"
