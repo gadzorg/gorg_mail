@@ -103,7 +103,7 @@ class UsersController < ApplicationController
   def dashboard
     authorize! :read_dashboard, @user
 
-    return redirect_to setup_path unless @user.email_source_accounts.any? && @user.email_redirect_accounts.any?
+    return redirect_to setup_setup_email_source_accounts_path unless @user.email_source_accounts.any? && @user.email_redirect_accounts.any?
 
     @emails_source = @user.email_source_accounts.select(&:persisted?)
     

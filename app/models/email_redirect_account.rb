@@ -85,4 +85,11 @@ class EmailRedirectAccount < ActiveRecord::Base
       return false
     end
   end
+
+  def is_internal_domains_address?
+    domains = (Configurable[:default_mail_domains] + " " + Configurable[:default_google_apps_domain]).split.uniq
+    era_domain = self.redirect.split("@").last
+    domains.include?(era_domain)
+  end
+
 end

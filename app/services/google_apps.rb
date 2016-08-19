@@ -13,7 +13,7 @@ class GoogleApps
     # find the first @gadz.org adresse of the users and use it's base
     evd_id = EmailVirtualDomain.find_by(name: DEFAULT_DOMAIN).id
     begin
-      email_base = @user.email_source_accounts.find_by(primary: true).email
+      email_base = @user.primary_email.email
       @google_apps_email = email_base + "@#{@domain}"
     rescue
       puts 'Any Email_source_account with gadz.org for this user :-( Create it before googleapps generation'

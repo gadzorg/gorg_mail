@@ -262,7 +262,9 @@ class User < ActiveRecord::Base
     return name
   end
 
-
+  def primary_email
+    self.email_source_accounts.find_by(primary: true)
+  end
 
 
   private
