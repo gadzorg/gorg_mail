@@ -1,0 +1,51 @@
+%h1 Listing ml_lists
+
+%table
+  %thead
+    %tr
+      %th Name
+      %th Email
+      %th Description
+      %th Aliases
+      %th Diffusion policy
+      %th Inscription policy
+      %th Is public
+      %th Messsage header
+      %th Message footer
+      %th Is archived
+      %th Custom reply to
+      %th Default message deny notification text
+      %th Msg welcome
+      %th Msg goodbye
+      %th Is archived
+      %th Message max bytes size
+      %th
+      %th
+      %th
+
+  %tbody
+    - @ml_lists.each do |ml_list|
+      %tr
+        %td= ml_list.name
+        %td= ml_list.email
+        %td= ml_list.description
+        %td= ml_list.aliases
+        %td= ml_list.diffusion_policy_id
+        %td= ml_list.inscription_policy_id
+        %td= ml_list.is_public
+        %td= ml_list.messsage_header
+        %td= ml_list.message_footer
+        %td= ml_list.is_archived
+        %td= ml_list.custom_reply_to
+        %td= ml_list.default_message_deny_notification_text
+        %td= ml_list.msg_welcome
+        %td= ml_list.msg_goodbye
+        %td= ml_list.is_archived
+        %td= ml_list.message_max_bytes_size
+        %td= link_to 'Show', ml_list
+        %td= link_to 'Edit', edit_ml_list_path(ml_list)
+        %td= link_to 'Destroy', ml_list, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New List', new_ml_list_path

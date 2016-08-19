@@ -1,0 +1,1 @@
+json.array! @ml_lists, partial: 'ml_lists/ml_list', as: :ml_list

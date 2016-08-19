@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  namespace :ml do
+    resources :lists
+  end
   get 'admin/index'
 
   resources :aliases
