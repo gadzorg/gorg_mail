@@ -3,11 +3,12 @@ class SetupController < ApplicationController
   def setup_email_source_accounts
     @user= current_user
     authorize! :setup, @user
-
-    if @user.email_source_accounts.any? && @user.email_redirect_accounts.any?
+    presence_of_email_source = @user.email_source_accounts.any?
+    presence_of_email_redirection = @user.email_redirect_accounts.any?
+    if presence_of_email_source && presence_of_email_redirection
       return redirect_to dashboard_path
     else
-      EmailSourceAccount.create_standard_aliases_for(@user)
+      EmailSourceAccount.create_standard_aliases_for(@user) unless presence_of_email_source
       return redirect_to setup_path
     end
 
@@ -47,8 +48,6 @@ class SetupController < ApplicationController
           @emails_redirect = @user.email_redirect_accounts.order(:type_redir).select(&:persisted?)
           EmailValidationMailer.confirm_email(@user,@email_redirect_account,confirm_user_email_redirect_accounts_url(@user, @email_redirect_account.confirmation_token)).deliver_now
         end
-
-        #TODO: création de GoogleApps
 
         if params[:google_apps]
           @user.create_google_apps
