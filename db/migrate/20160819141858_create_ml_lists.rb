@@ -5,7 +5,7 @@ class CreateMlLists < ActiveRecord::Migration
       t.string :email
       t.string :description
       t.string :aliases
-      t.string :diffusion_policy_id
+      t.string :diffusion_policy
       t.integer :inscription_policy_id
       t.boolean :is_public
       t.string :messsage_header
