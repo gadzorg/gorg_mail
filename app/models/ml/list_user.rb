@@ -4,7 +4,7 @@
 #
 #  id               :integer          not null, primary key
 #  user_id          :integer
-#  list_id          :integer
+#  ml_list_id       :integer
 #  is_ban           :boolean
 #  pending          :boolean
 #  is_on_white_list :boolean

@@ -32,4 +32,6 @@ class Ml::List < ActiveRecord::Base
   validates_inclusion_of :is_archived, :in => [true, false]
   validates :message_max_bytes_size, presence: true
 
+  has_and_belongs_to_many :users
+
 end

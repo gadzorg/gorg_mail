@@ -54,6 +54,7 @@ class User < ActiveRecord::Base
 
   # Associations
   belongs_to :role
+  has_and_belongs_to_many :ml_lists, :class_name => 'Ml::List'
   has_many :email_redirect_accounts, dependent: :destroy
   has_many :email_source_accounts, dependent: :destroy
 
