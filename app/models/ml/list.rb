@@ -34,4 +34,12 @@ class Ml::List < ActiveRecord::Base
 
   has_and_belongs_to_many :users
 
+  def add_user(user)
+    self.users << user unless self.users.include?(user)
+  end
+
+  def remove_user(user)
+    self.users.delete(user)
+  end
+
 end

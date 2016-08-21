@@ -1,0 +1,4 @@
+UnobtrusiveFlash.showFlashFromCookies();
+$("#joined_lists").html("<%= escape_javascript(render partial: 'shared/ml_list', locals: {lists: @lists_joined, user: @user} ) %>");
+$("#not_joined_lists").html("<%= escape_javascript(render partial: 'shared/ml_list', locals: {lists: @lists_not_joined, user: @user} ) %>");
+

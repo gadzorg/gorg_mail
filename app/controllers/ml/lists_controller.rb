@@ -10,6 +10,7 @@ class Ml::ListsController < ApplicationController
   # GET /ml/lists/1
   # GET /ml/lists/1.json
   def show
+    @members = @ml_list.users
   end
 
   # GET /ml/lists/new
@@ -58,6 +59,48 @@ class Ml::ListsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to ml_lists_url, notice: 'List was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def join
+    #todo : add autorizatiosn
+    @user = User.find(params[:user_id])
+    @ml_list = Ml::List.find(params[:list_id])
+
+    if @ml_list.add_user(@user)
+      get_list(@user)
+      respond_to do |format|
+        flash[:notice] = "Tu as rejoint la liste de diffusion #{@ml_list.name}"
+        format.json { head :no_content }
+        format.js
+      end
+    else
+      respond_to do |format|
+        flash[:error] = "Impossible de rejoindre la liste de diffusion #{@ml_list.name}"
+        format.json { head :no_content }
+        format.js
+      end
+    end
+  end
+
+  def leave
+    #todo : add autorizatiosn
+    @user = User.find(params[:user_id])
+    @ml_list = Ml::List.find(params[:list_id])
+
+    if @ml_list.remove_user(@user)
+      get_list(@user)
+      respond_to do |format|
+        flash[:notice] = "Tu as quitté la liste de diffusion #{@ml_list.name}"
+        format.json { head :no_content }
+        format.js {render :join}
+      end
+    else
+      respond_to do |format|
+        flash[:error] = "Impossible de quitter la liste de diffusion #{@ml_list.name}"
+        format.json { head :no_content }
+        format.js {render :join}
+      end
     end
   end
 

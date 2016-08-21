@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   namespace :ml do
-    resources :lists
+    resources :lists do
+      get "join/:user_id", to: "lists#join", as: :join, defaults: { format: 'js' }
+      get "leave/:user_id", to: "lists#leave", as: :leave, defaults: { format: 'js' }
+    end
   end
   get 'admin/index'
 

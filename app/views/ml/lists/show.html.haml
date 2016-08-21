@@ -52,3 +52,5 @@
 = link_to 'Edit', edit_ml_list_path(@ml_list)
 \|
 = link_to 'Back', ml_lists_path
+
+=render partial: "shared/ml_members", locals: {members: @members}
