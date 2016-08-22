@@ -8,7 +8,6 @@
 #  description                            :string(255)
 #  aliases                                :string(255)
 #  diffusion_policy                       :string(255)
-#  inscription_policy_id                  :integer
 #  is_public                              :boolean
 #  messsage_header                        :string(255)
 #  message_footer                         :string(255)
@@ -20,6 +19,8 @@
 #  message_max_bytes_size                 :integer
 #  created_at                             :datetime         not null
 #  updated_at                             :datetime         not null
+#  inscription_policy                     :string(255)
+#  group_uuid                             :string(255)
 #
 
 class Ml::List < ActiveRecord::Base
@@ -27,7 +28,7 @@ class Ml::List < ActiveRecord::Base
   validates :email, uniqueness: true, presence: true
   # validates :diffusion_policy, presence: true, acceptance: { accept: %w(open closed moderated) }
   validates_inclusion_of :diffusion_policy, :in => %w(open closed moderated)
-  validates :inscription_policy_id, presence: true
+  validates_inclusion_of :inscription_policy, :in => %w(open closed in_group)
   validates_inclusion_of :is_public, :in => [true, false]
   validates_inclusion_of :is_archived, :in => [true, false]
   validates :message_max_bytes_size, presence: true
@@ -40,6 +41,11 @@ class Ml::List < ActiveRecord::Base
 
   def remove_user(user)
     self.users.delete(user)
+  end
+
+  def allow_access_to(user)
+    return true if self.is_public
+    # group only
   end
 
 end

@@ -5,7 +5,7 @@ FactoryGirl.define do
     description "MyString"
     aliases "MyString"
     diffusion_policy %w(open closed moderated).sample
-    inscription_policy_id 1
+    inscription_policy "open"
     is_public false
     messsage_header "MyString"
     message_footer "MyString"
