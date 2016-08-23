@@ -127,7 +127,7 @@ class User < ActiveRecord::Base
   end
 
   def syncable?
-    hruid.present?
+    uuid.present?
   end
 
   def next_sync_allowed_at
