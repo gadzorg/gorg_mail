@@ -13,7 +13,11 @@ RSpec.describe Ml::List, type: :model do
   it { should allow_value("moderated").for(:diffusion_policy) }
   it { should_not allow_value(nil).for(:diffusion_policy) }
 
-  it {is_expected.to validate_presence_of(:inscription_policy_id)}
+  it { should allow_value("open").for(:inscription_policy) }
+  it { should allow_value("closed").for(:inscription_policy) }
+  it { should allow_value("in_group").for(:inscription_policy) }
+  it { should_not allow_value(nil).for(:inscription_policy) }
+
 
   it { should allow_value(true).for(:is_public) }
   it { should allow_value(false).for(:is_public) }
