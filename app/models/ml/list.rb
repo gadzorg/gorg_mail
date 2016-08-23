@@ -8,7 +8,6 @@
 #  description                            :string(255)
 #  aliases                                :string(255)
 #  diffusion_policy                       :string(255)
-#  inscription_policy_id                  :integer
 #  is_public                              :boolean
 #  messsage_header                        :string(255)
 #  message_footer                         :string(255)
@@ -20,6 +19,8 @@
 #  message_max_bytes_size                 :integer
 #  created_at                             :datetime         not null
 #  updated_at                             :datetime         not null
+#  inscription_policy                     :string(255)
+#  group_uuid                             :string(255)
 #
 
 class Ml::List < ActiveRecord::Base

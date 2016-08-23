@@ -12,6 +12,13 @@ GIT
     yaml_db (0.2.3)
 
 GIT
+  remote: https://github.com/gadzorg/gram2_api_client_ruby.git
+  revision: 4c3585c76140259d344494a7229795720faf2465
+  specs:
+    gram_v2_client (2.1.0)
+      activeresource (~> 4.0)
+
+GIT
   remote: https://github.com/loocla/omniauth-cas.git
   revision: 16395f85579dc915c0e22f80b4f5d98a019e37ec
   branch: saml
@@ -160,8 +167,6 @@ GEM
     gorg_message_sender (1.0.0)
       bunny (~> 2.2, >= 2.2.2)
       json-schema (~> 2.6)
-    gram_v1_client (1.0.0)
-      activeresource (~> 4.0)
     haml (4.0.7)
       tilt
     haml-rails (0.9.0)
@@ -371,7 +376,7 @@ DEPENDENCIES
   faker
   google-api-client (~> 0.9)
   gorg_message_sender
-  gram_v1_client
+  gram_v2_client!
   haml-rails
   heroku_secrets!
   hirb
