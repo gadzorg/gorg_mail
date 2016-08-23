@@ -23,10 +23,21 @@ class EmailSourceAccount < ActiveRecord::Base
 	belongs_to :email_virtual_domain
 	belongs_to :user
 
-  validates :email, :uniqueness => {:scope => :email_virtual_domain_id}
+  validates :email, :uniqueness => {:scope => :email_virtual_domain_id}, presence: true
+	validates :email_virtual_domain, presence: true
+	validates :user, presence: true
 
-  def to_s
-    "#{self.email}@#{self.email_virtual_domain.name}"
-  end
+
+	def to_s
+		"#{self.email}@#{self.email_virtual_domain.name}"
+	end
+	alias_method :full_email_address, :to_s
+
+# TODO: move this function in email_source_account_generator service
+	def self.create_standard_aliases_for(user)
+		Configurable[:default_mail_domains].split.each do |domain|
+			EmailSourceAccountGenerator.new(user, domain: domain).generate
+		end
+	end
 
 end

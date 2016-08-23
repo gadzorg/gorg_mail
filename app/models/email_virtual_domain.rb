@@ -16,4 +16,16 @@ class EmailVirtualDomain < ActiveRecord::Base
   def aliases
     self.class.where(aliasing: self.id)
   end
+
+  def aliasing_name
+    al = EmailVirtualDomain.where(id: self.aliasing).first
+    al.name if al.present?
+  end
+
+  # return aliasing name if different to domain name
+  # workaround for domain aliasing themselves in platal
+  def aliasing_name_if_not_self
+    aln = self.aliasing_name
+    aln.nil? || aln == self.name ? "" : aln
+  end
 end
