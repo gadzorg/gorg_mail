@@ -276,7 +276,16 @@ class User < ActiveRecord::Base
   end
 
   def groups
-    #todo: api call tu get groups
+    GramV2Client::Account.find(self.uuid).groups
+  end
+
+  def lists_allowed
+    lists_allowed_for_this_user = Ml::List.all_if_open
+    user_groups_uuid = self.groups.map(&:uuid)
+    user_groups_uuid.each do |guuid|
+      lists_allowed_for_this_user << Ml::List.find_by(group_uuid: guuid)
+    end
+    return lists_allowed_for_this_user.compact
   end
 
   private

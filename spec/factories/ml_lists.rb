@@ -5,7 +5,7 @@ FactoryGirl.define do
     description "MyString"
     aliases "MyString"
     diffusion_policy %w(open closed moderated).sample
-    inscription_policy "open"
+    inscription_policy %w(open closed in_group).sample
     is_public false
     messsage_header "MyString"
     message_footer "MyString"
@@ -15,5 +15,6 @@ FactoryGirl.define do
     msg_welcome "MyString"
     msg_goodbye "MyString"
     message_max_bytes_size 1
+    group_uuid nil
   end
 end

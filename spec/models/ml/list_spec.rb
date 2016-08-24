@@ -29,5 +29,11 @@ RSpec.describe Ml::List, type: :model do
 
   it {is_expected.to validate_presence_of(:message_max_bytes_size)}
 
+  it "handle group uuid" do
+    expect(FactoryGirl.build(:ml_list, group_uuid:SecureRandom.uuid).belong_to_group?).to be_truthy
+  end
 
+  it "handle no group uuid" do
+    expect(FactoryGirl.build(:ml_list).belong_to_group?).to be_falsey
+  end
 end

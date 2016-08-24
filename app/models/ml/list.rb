@@ -48,4 +48,16 @@ class Ml::List < ActiveRecord::Base
     # group only
   end
 
+  def belong_to_group?
+    self.group_uuid.present?
+  end
+
+  def group
+    self.belong_to_group? ?  GramV2Client::Group.find(self.group_uuid) : nil
+  end
+
+  def self.all_if_open
+    Ml::List.where(inscription_policy: "open")
+  end
+
 end
