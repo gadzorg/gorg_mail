@@ -8,7 +8,6 @@
 #  description                            :string(255)
 #  aliases                                :string(255)
 #  diffusion_policy                       :string(255)
-#  is_public                              :boolean
 #  messsage_header                        :string(255)
 #  message_footer                         :string(255)
 #  is_archived                            :boolean
