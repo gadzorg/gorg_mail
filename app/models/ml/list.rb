@@ -57,7 +57,7 @@ class Ml::List < ActiveRecord::Base
   end
 
   def self.all_if_open
-    Ml::List.where(inscription_policy: "open")
+    Ml::List.where(inscription_policy: "open").includes(:users)
   end
 
 end

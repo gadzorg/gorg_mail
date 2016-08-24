@@ -112,6 +112,6 @@ class Ml::ListsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def ml_list_params
-      params.require(:ml_list).permit(:name, :email, :description, :aliases, :diffusion_policy, :inscription_policy_id, :is_public, :messsage_header, :message_footer, :is_archived, :custom_reply_to, :default_message_deny_notification_text, :msg_welcome, :msg_goodbye, :is_archived, :message_max_bytes_size)
+      params.require(:ml_list).permit(:name, :email, :description, :aliases, :diffusion_policy, :inscription_policy, :is_public, :messsage_header, :message_footer, :is_archived, :custom_reply_to, :default_message_deny_notification_text, :msg_welcome, :msg_goodbye, :is_archived, :message_max_bytes_size)
     end
 end

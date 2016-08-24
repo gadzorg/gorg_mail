@@ -8,7 +8,8 @@
     = f.input :aliases
     = f.label :diffusion_policy
     = f.select :diffusion_policy, %w(open closed moderated)
-    = f.input :inscription_policy_id
+    = f.label :inscription_policy
+    = f.select :inscription_policy, %w(open closed in_group)
     = f.input :is_public
     = f.input :messsage_header
     = f.input :message_footer

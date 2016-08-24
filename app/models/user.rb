@@ -285,7 +285,7 @@ class User < ActiveRecord::Base
     user_groups_uuid.each do |guuid|
       lists_allowed_for_this_user << Ml::List.find_by(group_uuid: guuid)
     end
-    return lists_allowed_for_this_user.compact
+    return lists_allowed_for_this_user.compact.uniq
   end
 
   private
