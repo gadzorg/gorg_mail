@@ -28,7 +28,6 @@ class Ml::List < ActiveRecord::Base
   # validates :diffusion_policy, presence: true, acceptance: { accept: %w(open closed moderated) }
   validates_inclusion_of :diffusion_policy, :in => %w(open closed moderated)
   validates_inclusion_of :inscription_policy, :in => %w(open closed in_group)
-  validates_inclusion_of :is_public, :in => [true, false]
   validates_inclusion_of :is_archived, :in => [true, false]
   validates :message_max_bytes_size, presence: true
 
