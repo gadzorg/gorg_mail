@@ -288,6 +288,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def lists_allowed_not_joined
+    lists_allowed - self.ml_lists
+  end
+
   def lists_allowed
     lists_allowed_for_this_user = Ml::List.all_if_open
     user_groups_uuid = self.groups.map(&:uuid)
