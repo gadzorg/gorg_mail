@@ -36,7 +36,7 @@ class Ml::List < ActiveRecord::Base
   has_and_belongs_to_many :users
 
   def add_user(user)
-    self.users << user unless self.users.include?(user)
+     self.users.exclude?(user) ? self.users << user : user.errors << ["User already in list"]
   end
 
   def remove_user(user)
