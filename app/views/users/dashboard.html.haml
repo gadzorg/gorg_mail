@@ -3,7 +3,7 @@
 	.grid-5-small-2
 		.box.box-light.shadow-1.mtm.flex-item-double
 			.box-top.box-top-color.pam
-				Si on envoie un mail à:
+				Si on envoie un mail à :
 			.box-bottom.email-list
 				%ul
 					#source
@@ -27,7 +27,7 @@
 
 		.box.box-light.shadow-1.mtm.flex-item-double
 			.box-top.box-top-color.pam
-				Je le reçois sur:
+				Je le reçois sur :
 			.box-bottom.email-list{ :data => {:url => user_email_redirect_accounts_path(@user, :format => :json)} }
 				%ul
 					#redirect
@@ -45,4 +45,22 @@
 
 					-#%li.fr =form_tag user_email_redirect_accounts_path 
 					-# %li.fr= link_to '+ Ajouter ', new_user_session_path, :class =>"bouton-medium bouton_bleu"
-				
+%section.pam
+	%h1 Mes listes de diffustion
+	.grid-2
+		.box.box-light.shadow-1.mtm.flex-item-double
+			.box-top.box-top-color.pam
+				Listes où je suis inscrit :
+			.box-bottom.email-list
+				%ul
+					#joined_lists
+						-if @lists_joined.present?
+							=render partial: "shared/ml_list", locals: {lists: @lists_joined, user: @user}
+		.box.box-light.shadow-1.mtm.flex-item-double
+			.box-top.box-top-color.pam
+				Autres listes :
+			.box-bottom.email-list
+				%ul
+					#not_joined_lists
+						-if @lists_not_joined.present?
+							=render partial: "shared/ml_list", locals: {lists: @lists_not_joined, user: @user}

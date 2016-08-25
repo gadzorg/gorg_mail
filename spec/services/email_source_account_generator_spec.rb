@@ -72,6 +72,16 @@ RSpec.describe EmailSourceAccountGenerator, type: :service do
       it "generate first_name.last_name@gadzarts.org" do
         expect(esas).to include('john.doe@gadzarts.org')
       end
+
+      it "set as primary email email source account selected domain" do
+        #todo: get domain id :-)
+        expect(user.email_source_accounts.find_by(email_virtual_domain_id: 1).primary).to eq(true)
+      end
+
+      it "not set as primary email email source account for domain alias" do
+        #todo: get domain id :-)
+        expect(user.email_source_accounts.find_by(email_virtual_domain_id: 1).primary).to eq(true)
+      end
     end
 
     context 'with existing homonym' do

@@ -1,0 +1,18 @@
+%html
+  %head
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    %title Rails.application.secrets.app_name
+    = csrf_meta_tags
+    = stylesheet_link_tag    "application", media: "all"
+    = javascript_include_tag :application
+    -if slack_chat?
+      =javascript_include_tag 'slack-chat.min.js'
+      =javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js'
+      =stylesheet_link_tag "slack-chat.css"
+      =stylesheet_link_tag "slack-chat-custom.css"
+  %body
+    / - flash.each do |key, value|
+    / #notif
+    /   %div{:class => "#{key} notif"}= value
+
+    = yield

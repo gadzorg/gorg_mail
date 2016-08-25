@@ -86,8 +86,12 @@ gem 'bootstrap-tooltip-rails'
 
 gem 'google-api-client', '~> 0.9'
 
-# Gadz.org Gems
+# Gadz.org Gems Gram v1 client
 gem 'gram_v1_client'
+
+# Gadz.org rabbitMQ message sender
+gem 'gorg_message_sender'
+
 
 gem 'heroku_secrets', github: 'alexpeattie/heroku_secrets'
 
@@ -128,5 +132,6 @@ group :test do
   gem 'launchy'
   gem 'shoulda-matchers', '~> 3.0'
   gem 'database_cleaner'
+  gem 'bogus'
 end
 

@@ -10,7 +10,7 @@
     %tbody
       - @aliases.each do |a|
         %tr
-          %td=a.email
+          %td=a.to_s
           %td=a.redirect
           %td
             = link_to 'Show', a

@@ -1,14 +1,20 @@
 %p#notice= notice
 %section.pam
-  .box.box-light.shadow-1.mtm.txtcenter
+  .box.box-light.shadow-1.mtm.center.w500p
     .box-top.pam.box-top-color
-      %h2 C'est bon !
+      %i.zmdi.zmdi-thumb-up.icon-padding-list
+
+      Ton compte est configuré !
     .box-bottom.pam
-      %p Ton compte est configuré !
+      %p
+        Nous venons de t'envoyer un mail pour que tu
+        %b confirmes ton adresse.
+        Il ne devrait plus tarder...
 
-      %p Nous venons de t'envoyer un mail pour valider ton adresse. Il ne devrait plus tarder ...
+      -if @user.has_google_apps
+        %h3
+          %i.zmdi.zmdi-google.icon-padding-list
+          Compte Google
+        %p Ton compte Google sera créé d'ici quelques instants, tu recevras un mail avec tout les informations importantes dès qu'il sera pret !
 
-      %h4 Message optionnel:
-      %p Ton compte Google sera créé d'ici quelques instants, tu recevras un mail avec tout les informations importantes dès qu'il sera pret !
-
-      =link_to "Accéder à mon Tableau de Bord", dashboard_path, class: "bouton bouton_bleu notempty mtm"
+      =link_to "Ok, j'ai compris !", dashboard_path, class: "bouton bouton_bleu notempty mtm"

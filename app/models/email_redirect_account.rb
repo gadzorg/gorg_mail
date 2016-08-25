@@ -4,17 +4,17 @@
 #
 #  id                 :integer          not null, primary key
 #  uid                :integer
-#  redirect           :string
-#  rewrite            :string
-#  type_redir         :string
-#  action             :string
+#  redirect           :string(255)
+#  rewrite            :string(255)
+#  type_redir         :string(255)
+#  action             :string(255)
 #  broken_date        :date
 #  broken_level       :integer
 #  last               :date
-#  flag               :string
+#  flag               :string(255)
 #  allow_rewrite      :integer
-#  srs_rewrite        :string
-#  confirmation_token :string
+#  srs_rewrite        :string(255)
+#  confirmation_token :string(255)
 #  confirmed          :boolean          default(TRUE)
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
@@ -85,4 +85,11 @@ class EmailRedirectAccount < ActiveRecord::Base
       return false
     end
   end
+
+  def is_internal_domains_address?
+    domains = (Configurable[:default_mail_domains] + " " + Configurable[:default_google_apps_domain]).split.uniq
+    era_domain = self.redirect.split("@").last
+    domains.include?(era_domain)
+  end
+
 end

@@ -3,15 +3,16 @@
 # Table name: email_source_accounts
 #
 #  id                      :integer          not null, primary key
-#  email                   :string
+#  email                   :string(255)
 #  uid                     :integer
 #  type_source             :integer
-#  flag                    :string
+#  flag                    :string(255)
 #  expire                  :date
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
 #  user_id                 :integer
 #  email_virtual_domain_id :integer
+#  primary                 :boolean
 #
 # Indexes
 #
@@ -26,8 +27,7 @@ class EmailSourceAccount < ActiveRecord::Base
   validates :email, :uniqueness => {:scope => :email_virtual_domain_id}, presence: true
 	validates :email_virtual_domain, presence: true
 	validates :user, presence: true
-
-
+	validate :primary, :only_one_primary_by_user
 	def to_s
 		"#{self.email}@#{self.email_virtual_domain.name}"
 	end
@@ -39,5 +39,18 @@ class EmailSourceAccount < ActiveRecord::Base
 			EmailSourceAccountGenerator.new(user, domain: domain).generate
 		end
 	end
+
+
+		def only_one_primary_by_user
+
+			return true if self.user.nil?
+			number_of_primary_email_of_the_user = self.user.email_source_accounts.where(primary: true).count
+			if number_of_primary_email_of_the_user > 0 && self.primary
+				#errors.add("You can't add more than one primary email_source_account by user")
+				return false
+			else
+			  return true
+			end
+		end
 
 end

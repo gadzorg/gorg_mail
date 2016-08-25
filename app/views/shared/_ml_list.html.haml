@@ -1,0 +1,13 @@
+-lists.each do |l|
+  %li
+    =link_to ml_list_path(l) do
+      =l.name
+      =l.email
+    (#{l.users.count} membres)
+    %span.fr
+      -if l.users.include?(user)
+        = link_to ml_list_leave_path(l.id, user.id), title: 'Quitter la liste', rel: 'tooltip', :remote=>true do
+          Quiter
+      -else
+        = link_to ml_list_join_path(l.id, user.id), title: 'Rejoindre la liste', rel: 'tooltip', :remote=>true do
+          Rejoindre

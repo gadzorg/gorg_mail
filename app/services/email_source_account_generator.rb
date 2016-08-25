@@ -1,7 +1,7 @@
 require "i18n"
 class EmailSourceAccountGenerator
 
-  DEFAULT_DOMAIN='gadz.org'
+  DEFAULT_DOMAIN=Configurable[:main_mail_domain]
 
   def initialize(user, options = {})
     @user=user
@@ -60,7 +60,8 @@ class EmailSourceAccountGenerator
       aliases_domains.each do |d|
         @user.email_source_accounts.create(
           email: base,
-          email_virtual_domain: d
+          email_virtual_domain: d,
+          primary:  d.name == DEFAULT_DOMAIN ? true : false #set as primary if the domain is the same as the asked domain
           )
       end
     end

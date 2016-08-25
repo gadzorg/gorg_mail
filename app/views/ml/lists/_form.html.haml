@@ -1,0 +1,24 @@
+= simple_form_for(@ml_list) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :name
+    = f.input :email
+    = f.input :description
+    = f.input :aliases
+    = f.label :diffusion_policy
+    = f.select :diffusion_policy, %w(open closed moderated)
+    = f.input :inscription_policy_id
+    = f.input :is_public
+    = f.input :messsage_header
+    = f.input :message_footer
+    = f.input :is_archived
+    = f.input :custom_reply_to
+    = f.input :default_message_deny_notification_text
+    = f.input :msg_welcome
+    = f.input :msg_goodbye
+    = f.input :is_archived
+    = f.input :message_max_bytes_size
+
+  .form-actions
+    = f.button :submit

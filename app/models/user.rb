@@ -3,21 +3,21 @@
 # Table name: users
 #
 #  id                     :integer          not null, primary key
-#  email                  :string           default(""), not null
-#  encrypted_password     :string           default(""), not null
-#  reset_password_token   :string
+#  email                  :string(255)      default(""), not null
+#  encrypted_password     :string(255)      default(""), not null
+#  reset_password_token   :string(255)
 #  reset_password_sent_at :datetime
 #  remember_created_at    :datetime
 #  sign_in_count          :integer          default(0), not null
 #  current_sign_in_at     :datetime
 #  last_sign_in_at        :datetime
-#  current_sign_in_ip     :string
-#  last_sign_in_ip        :string
+#  current_sign_in_ip     :string(255)
+#  last_sign_in_ip        :string(255)
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
-#  hruid                  :string
-#  firstname              :string
-#  lastname               :string
+#  hruid                  :string(255)
+#  firstname              :string(255)
+#  lastname               :string(255)
 #  role_id                :integer
 #  last_gram_sync_at      :datetime
 #  canonical_name         :string(255)
@@ -54,6 +54,7 @@ class User < ActiveRecord::Base
 
   # Associations
   belongs_to :role
+  has_and_belongs_to_many :ml_lists, :class_name => 'Ml::List'
   has_many :email_redirect_accounts, dependent: :destroy
   has_many :email_source_accounts, dependent: :destroy
 
@@ -180,6 +181,7 @@ class User < ActiveRecord::Base
     email_redirect_accounts.find_by( type_redir: "googleapps")
   end
 
+=begin
   def create_google_apps
     #check if canonical name exist
     unless self.canonical_name.nil?
@@ -197,6 +199,12 @@ class User < ActiveRecord::Base
       self.save
     end
     
+  end
+=end
+
+  # Create google apps account and redirection via google apps service
+  def create_google_apps
+    GoogleApps.new(self).generate
   end
 
   def create_canonical_name()
@@ -255,7 +263,9 @@ class User < ActiveRecord::Base
     return name
   end
 
-
+  def primary_email
+    self.email_source_accounts.find_by(primary: true)
+  end
 
 
   private

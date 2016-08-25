@@ -260,23 +260,7 @@ a:focus {
     }*/
 
 
-/*-----------------------------landing-------------------------*/
-#big-bg{
-    background: url("bg.jpg");
-    min-height: 50vh;
-    background-position: center bottom;
-    background-size: cover;
-}
-#big-bg2{
-    background-color: #473625;
-    background-clip: border-box;
-    background-origin: padding-box;
-    background-image: radial-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.8)), url("bg.jpg");
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
-}
+
 /*-----------------------------redirections-------------------------*/
 .container-grey{
     background: #f7f7f7;

@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  namespace :ml do
+    resources :lists do
+      get "join/:user_id", to: "lists#join", as: :join, defaults: { format: 'js' }
+      get "leave/:user_id", to: "lists#leave", as: :leave, defaults: { format: 'js' }
+    end
+  end
   get 'admin/index'
 
   resources :aliases
@@ -10,14 +16,15 @@ Rails.application.routes.draw do
     :sessions => "users/sessions"
     }
   
-  get 'static_pages/index'
+  get 'static_pages/landing'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'static_pages#index'
+  root 'static_pages#landing'
 
+  get 'setup/setup_email_source_accounts' => 'setup#setup_email_source_accounts'
   get 'setup' => 'setup#index'
   get 'setup/finish' => 'setup#finish'
   post 'setup' => 'setup#setup'

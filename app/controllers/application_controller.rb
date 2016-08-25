@@ -17,7 +17,6 @@ class ApplicationController < ActionController::Base
   end
 
 
-
   rescue_from CanCan::AccessDenied, with: :access_denied
 
   private
@@ -36,6 +35,16 @@ class ApplicationController < ActionController::Base
       end
 
     end
+
+    def email_redirect(user)
+      user.email_redirect_accounts.order(:type_redir).select(&:persisted?)
+    end
+
+    def get_list(user)
+      @lists_not_joined = Ml::List.all.includes(:users) - user.ml_lists
+      @lists_joined = user.ml_lists
+    end
+
   
 
 end

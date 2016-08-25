@@ -1,0 +1,52 @@
+%p#notice= notice
+%section.pam
+  %h1 #{@ml_list.name} (#{@ml_list.email})
+
+  %p
+    %b Description:
+    = @ml_list.description
+  %p
+    %b Aliases:
+    = @ml_list.aliases
+  %p
+    %b Diffusion policy:
+    = @ml_list.diffusion_policy
+  %p
+    %b Inscription policy:
+    = @ml_list.inscription_policy_id
+  %p
+    %b Is public:
+    = @ml_list.is_public
+  %p
+    %b Messsage header:
+    = @ml_list.messsage_header
+  %p
+    %b Message footer:
+    = @ml_list.message_footer
+  %p
+    %b Is archived:
+    = @ml_list.is_archived
+  %p
+    %b Custom reply to:
+    = @ml_list.custom_reply_to
+  %p
+    %b Default message deny notification text:
+    = @ml_list.default_message_deny_notification_text
+  %p
+    %b Msg welcome:
+    = @ml_list.msg_welcome
+  %p
+    %b Msg goodbye:
+    = @ml_list.msg_goodbye
+  %p
+    %b Is archived:
+    = @ml_list.is_archived
+  %p
+    %b Message max bytes size:
+    = @ml_list.message_max_bytes_size
+
+  = link_to 'Edit', edit_ml_list_path(@ml_list)
+  \|
+  = link_to 'Back', ml_lists_path
+
+  =render partial: "shared/ml_members", locals: {members: @members}

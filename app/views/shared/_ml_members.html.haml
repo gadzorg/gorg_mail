@@ -1,0 +1,9 @@
+.grid-2
+  .box.box-light.shadow-1.mtm.flex-item-double
+    .box-top.box-top-color.pam
+      Membres
+    .box-bottom.email-list
+      %ul
+        -@members.each do |m|
+          %li
+            =m.primary_email

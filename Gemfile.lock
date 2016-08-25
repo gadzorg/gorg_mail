@@ -63,7 +63,8 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
-    addressable (2.4.0)
+    addressable (2.3.8)
+    amq-protocol (2.0.1)
     annotate (2.6.10)
       activerecord (>= 3.2, <= 4.3)
       rake (~> 10.4)
@@ -79,10 +80,14 @@ GEM
       rack (>= 0.9.0)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
+    bogus (0.1.6)
+      dependor (>= 0.0.4)
     bootstrap-tooltip-rails (0.1)
       rails (>= 3.1)
       thor
     builder (3.2.2)
+    bunny (2.5.0)
+      amq-protocol (>= 2.0.1)
     byebug (9.0.5)
     cancancan (1.15.0)
     capybara (2.7.1)
@@ -108,6 +113,7 @@ GEM
       rails (> 3.1.0)
     database_cleaner (1.5.3)
     debug_inspector (0.0.2)
+    dependor (1.0.1)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
     devise (4.1.1)
@@ -127,11 +133,11 @@ GEM
     factory_girl_rails (4.7.0)
       factory_girl (~> 4.7.0)
       railties (>= 3.0.0)
-    faker (1.6.5)
+    faker (1.6.6)
       i18n (~> 0.5)
     faraday (0.9.2)
       multipart-post (>= 1.2, < 3)
-    globalid (0.3.6)
+    globalid (0.3.7)
       activesupport (>= 4.1.0)
     google-api-client (0.9.11)
       addressable (~> 2.3)
@@ -151,6 +157,9 @@ GEM
       multi_json (~> 1.11)
       os (~> 0.9)
       signet (~> 0.7)
+    gorg_message_sender (1.0.0)
+      bunny (~> 2.2, >= 2.2.2)
+      json-schema (~> 2.6)
     gram_v1_client (1.0.0)
       activeresource (~> 4.0)
     haml (4.0.7)
@@ -168,7 +177,7 @@ GEM
       haml (~> 4.0.0)
       nokogiri (~> 1.6.0)
       ruby_parser (~> 3.5)
-    httpclient (2.8.0)
+    httpclient (2.8.1)
     hurley (0.2)
     i18n (0.7.0)
     ice_nine (0.11.2)
@@ -182,6 +191,8 @@ GEM
     jquery-ui-rails (5.0.5)
       railties (>= 3.2.16)
     json (1.8.3)
+    json-schema (2.6.2)
+      addressable (~> 2.3.8)
     jwt (1.5.4)
     launchy (2.4.3)
       addressable (~> 2.3)
@@ -259,7 +270,7 @@ GEM
     responders (2.2.0)
       railties (>= 4.2.0, < 5.1)
     retriable (2.1.0)
-    rspec-core (3.5.1)
+    rspec-core (3.5.2)
       rspec-support (~> 3.5.0)
     rspec-expectations (3.5.0)
       diff-lcs (>= 1.2.0, < 2.0)
@@ -280,7 +291,7 @@ GEM
     ruby_parser (3.8.2)
       sexp_processor (~> 4.1)
     sass (3.4.22)
-    sass-rails (5.0.5)
+    sass-rails (5.0.6)
       railties (>= 4.0.0, < 6)
       sass (~> 3.1)
       sprockets (>= 2.8, < 4.0)
@@ -318,7 +329,7 @@ GEM
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uber (0.0.15)
-    uglifier (3.0.0)
+    uglifier (3.0.1)
       execjs (>= 0.3.0, < 3)
     unobtrusive_flash (3.2.0)
       railties
@@ -345,6 +356,7 @@ DEPENDENCIES
   activeresource (~> 4.0.0)
   annotate (~> 2.6.6)
   better_errors
+  bogus
   bootstrap-tooltip-rails
   byebug
   cancancan
@@ -358,6 +370,7 @@ DEPENDENCIES
   factory_girl_rails
   faker
   google-api-client (~> 0.9)
+  gorg_message_sender
   gram_v1_client
   haml-rails
   heroku_secrets!

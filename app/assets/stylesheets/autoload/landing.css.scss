@@ -1,0 +1,18 @@
+/*-----------------------------landing-------------------------*/
+#big-bg{
+  background: url("https://farm8.staticflickr.com/7483/16068850630_ebf0a669f8_o_d.jpg");
+  min-height: 50vh;
+  background-position: center bottom;
+  background-size: cover;
+  color: rgb(255, 255, 255);
+}
+#big-bg2{
+  background-color: #473625;
+  background-clip: border-box;
+  background-origin: padding-box;
+  background-image: radial-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.8)), url("bg.jpg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
