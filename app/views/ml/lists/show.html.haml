@@ -38,33 +38,34 @@
         %b=@ml_list.group.name
         peuvent s'inscrire à cette liste
   %p
-    %b Messsage header:
-    = @ml_list.messsage_header
-  %p
-    %b Message footer:
-    = @ml_list.message_footer
-  %p
     %b Liste archivée:
     = @ml_list.is_archived.to_s.gsub("true", "oui").gsub("false", "non")
-  %p
-    %b Custom reply to:
-    = @ml_list.custom_reply_to
-  %p
-    %b Default message deny notification text:
-    = @ml_list.default_message_deny_notification_text
-  %p
-    %b Msg welcome:
-    = @ml_list.msg_welcome
-  %p
-    %b Msg goodbye:
-    = @ml_list.msg_goodbye
-  %p
-    %b Message max bytes size:
-    = @ml_list.message_max_bytes_size
+  - if can? :manage, Ml::List
+    %p
+      %b Messsage header:
+      = @ml_list.messsage_header
+    %p
+      %b Message footer:
+      = @ml_list.message_footer
+    %p
+      %b Custom reply to:
+      = @ml_list.custom_reply_to
+    %p
+      %b Default message deny notification text:
+      = @ml_list.default_message_deny_notification_text
+    %p
+      %b Msg welcome:
+      = @ml_list.msg_welcome
+    %p
+      %b Msg goodbye:
+      = @ml_list.msg_goodbye
+    %p
+      %b Message max bytes size:
+      = @ml_list.message_max_bytes_size
 
 
 
-  = link_to 'Edit', edit_ml_list_path(@ml_list)
-  = link_to 'Back', ml_lists_path
+    = link_to 'Edit', edit_ml_list_path(@ml_list)
+    = link_to 'Back', ml_lists_path
 
   =render partial: "shared/ml_members", locals: {members: @members}
