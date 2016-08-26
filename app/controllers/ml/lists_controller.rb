@@ -10,21 +10,25 @@ class Ml::ListsController < ApplicationController
   # GET /ml/lists/1
   # GET /ml/lists/1.json
   def show
+    authorize! :read, @ml_list
     @members = @ml_list.users
   end
 
   # GET /ml/lists/new
   def new
     @ml_list = Ml::List.new
+    authorize! :create, @ml_list
   end
 
   # GET /ml/lists/1/edit
   def edit
+    authorize! :update, @ml_list
   end
 
   # POST /ml/lists
   # POST /ml/lists.json
   def create
+    authorize! :create, @ml_list
     @ml_list = Ml::List.new(ml_list_params)
 
     respond_to do |format|
@@ -41,6 +45,7 @@ class Ml::ListsController < ApplicationController
   # PATCH/PUT /ml/lists/1
   # PATCH/PUT /ml/lists/1.json
   def update
+    authorize! :update, @ml_list
     respond_to do |format|
       if @ml_list.update(ml_list_params)
         format.html { redirect_to @ml_list, notice: 'List was successfully updated.' }
@@ -55,6 +60,7 @@ class Ml::ListsController < ApplicationController
   # DELETE /ml/lists/1
   # DELETE /ml/lists/1.json
   def destroy
+    authorize! :delete, @ml_list
     @ml_list.destroy
     respond_to do |format|
       format.html { redirect_to ml_lists_url, notice: 'List was successfully destroyed.' }
@@ -63,9 +69,10 @@ class Ml::ListsController < ApplicationController
   end
 
   def join
-    #todo : add autorizatiosn
     @user = User.find(params[:user_id])
     @ml_list = Ml::List.find(params[:list_id])
+    authorize! :suscribe, @ml_list
+    authorize! :manage_suscribtion, @user
 
     if @ml_list.add_user(@user)
       get_list(@user)
@@ -84,9 +91,10 @@ class Ml::ListsController < ApplicationController
   end
 
   def leave
-    #todo : add autorizatiosn
     @user = User.find(params[:user_id])
     @ml_list = Ml::List.find(params[:list_id])
+    authorize! :suscribe, @ml_list
+    authorize! :manage_suscribtion, @user
 
     if @ml_list.remove_user(@user)
       get_list(@user)

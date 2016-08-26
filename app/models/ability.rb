@@ -44,12 +44,15 @@ class Ability
       can :manage, EmailSourceAccount
       can :manage, Alias
       can :manage, PostfixBlacklist
+      can :manage, Ml::List
     end   
 
-    can [:read, :sync, :setup], User, :id => user.id
+    can [:read, :sync, :setup, :manage_suscribtion], User, :id => user.id
     can :read_dashboard, User, :id => user.id
     can :manage, EmailRedirectAccount, :user_id => user.id
     can :show, EmailSourceAccount, :user_id => user.id
+    can :suscribe, Ml::List
+    can :read, Ml::List, :id => user.lists_allowed.map(&:id)
 
   end
 end
