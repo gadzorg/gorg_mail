@@ -13,9 +13,9 @@ RSpec.describe Ml::List, type: :model do
   it { should allow_value("moderated").for(:diffusion_policy) }
   it { should_not allow_value(nil).for(:diffusion_policy) }
 
-  it { should allow_value("open").for(:inscription_policy) }
-  it { should allow_value("closed").for(:inscription_policy) }
-  it { should allow_value("in_group").for(:inscription_policy) }
+  Ml::List.inscription_policy_list.each do |p|
+    it { should allow_value(p).for(:inscription_policy) }
+  end
   it { should_not allow_value(nil).for(:inscription_policy) }
 
   it { should allow_value(true).for(:is_archived) }

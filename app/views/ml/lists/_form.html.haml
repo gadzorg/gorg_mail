@@ -7,9 +7,9 @@
     = f.input :description
     = f.input :aliases
     = f.label :diffusion_policy
-    = f.select :diffusion_policy, %w(open closed moderated)
+    = f.select :diffusion_policy, Ml::List.inscription_policy_list
     = f.label :inscription_policy
-    = f.select :inscription_policy, %w(open closed in_group)
+    = f.select :inscription_policy, Ml::List.inscription_policy_list
     = f.input :messsage_header
     = f.input :message_footer
     = f.input :is_archived
@@ -17,8 +17,9 @@
     = f.input :default_message_deny_notification_text
     = f.input :msg_welcome
     = f.input :msg_goodbye
-    = f.input :is_archived
     = f.input :message_max_bytes_size
+    = f.label :group_uuid
+    = f.select :group_uuid, GramV2Client::Group.all.map{|g| [g.name, g.uuid]}
 
   .form-actions
     = f.button :submit

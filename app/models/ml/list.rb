@@ -23,11 +23,16 @@
 #
 
 class Ml::List < ActiveRecord::Base
+  # keep this function before validation
+  def self.inscription_policy_list
+    %w(open conditional_gadz closed in_group)
+  end
+
   validates :name, uniqueness: true, presence: true
   validates :email, uniqueness: true, presence: true
   # validates :diffusion_policy, presence: true, acceptance: { accept: %w(open closed moderated) }
   validates_inclusion_of :diffusion_policy, :in => %w(open closed moderated)
-  validates_inclusion_of :inscription_policy, :in => %w(open closed in_group)
+  validates_inclusion_of :inscription_policy, :in => Ml::List.inscription_policy_list
   validates_inclusion_of :is_archived, :in => [true, false]
   validates :message_max_bytes_size, presence: true
 
@@ -57,5 +62,7 @@ class Ml::List < ActiveRecord::Base
   def self.all_if_open
     Ml::List.where(inscription_policy: "open").includes(:users)
   end
+
+
 
 end

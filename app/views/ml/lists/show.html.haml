@@ -1,19 +1,42 @@
 %p#notice= notice
 %section.pam
   %h1 #{@ml_list.name} (#{@ml_list.email})
+  = @ml_list.description
+  -if @ml_list.belong_to_group?
+    %p
+      Liste de diffusion du groupe
+      %b=@ml_list.group.name
+  -else
+    %p Cette liste de diffusion n'est pas liée à un groupe
 
-  %p
-    %b Description:
-    = @ml_list.description
   %p
     %b Aliases:
     = @ml_list.aliases
   %p
-    %b Diffusion policy:
-    = @ml_list.diffusion_policy
+    %b Diffusion des messages:
+    -#= @ml_list.diffusion_policy
+    -case @ml_list.diffusion_policy
+      -when "open"
+        N'importe qui peut écrire sur cette liste
+      -when "cloed"
+        Seul les membres de la liste peuvent envoyer des messages
+      -when "moderated"
+        Tous les messages envoyés à la liste son soumis à moderation
+
   %p
-    %b Inscription policy:
-    = @ml_list.inscription_policy
+    %b Inscriptions :
+    -#= @ml_list.inscription_policy
+    -case @ml_list.inscription_policy
+      -when "open"
+        Tous les Gadzarts ou Sociétaires peuvent s'inscrire
+      -when "conditional_gadz"
+        Seuls les Gadzarts peuvent s'inscrire
+      -when "cloed"
+        Les inscriptions à cette liste ne sont possible que pour un administrateur
+      -when "in_group"
+        Seuls les membres du groupe
+        %b=@ml_list.group.name
+        peuvent s'inscrire à cette liste
   %p
     %b Messsage header:
     = @ml_list.messsage_header
@@ -21,8 +44,8 @@
     %b Message footer:
     = @ml_list.message_footer
   %p
-    %b Is archived:
-    = @ml_list.is_archived
+    %b Liste archivée:
+    = @ml_list.is_archived.to_s.gsub("true", "oui").gsub("false", "non")
   %p
     %b Custom reply to:
     = @ml_list.custom_reply_to
@@ -36,14 +59,12 @@
     %b Msg goodbye:
     = @ml_list.msg_goodbye
   %p
-    %b Is archived:
-    = @ml_list.is_archived
-  %p
     %b Message max bytes size:
     = @ml_list.message_max_bytes_size
 
+
+
   = link_to 'Edit', edit_ml_list_path(@ml_list)
-  \|
   = link_to 'Back', ml_lists_path
 
   =render partial: "shared/ml_members", locals: {members: @members}
