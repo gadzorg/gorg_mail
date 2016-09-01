@@ -20,6 +20,6 @@ Devise.setup do |config|
                   ssl: true,
                   disable_ssl_verification: true,
                   return_url: false,
-                  renew: true
+                  renew: false
 
 end
