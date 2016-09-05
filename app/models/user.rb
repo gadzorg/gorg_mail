@@ -281,9 +281,11 @@ class User < ActiveRecord::Base
     #TODO : move this dirty hack to gem
     rescue => error
       if error.to_s.include?("Response code = 404")
-      return []
+        return []
       else
-        raise error
+        # This is very bad.
+        puts error
+        return []
       end
     end
   end

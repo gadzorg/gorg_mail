@@ -133,7 +133,7 @@ RSpec.describe User, type: :model do
 
 
   it "has the attribute synced_with_gram" do
-    expect(FactoryGirl.create(:user,hruid:"alexandre.narbonne.2011")).respond_to? :synced_with_gram
+    expect(FactoryGirl.create(:user,hruid:"alexandre.narbonne.2011", uuid: "559bb0aa-ddac-4607-ad41-7e520ee40819")).respond_to? :synced_with_gram
   end
 
   describe "has default value when initialized" do
@@ -153,10 +153,10 @@ RSpec.describe User, type: :model do
 
         before :each do
 
-          @gram_get_account_response=gram_account_mocked({'firstname' => 'Alexandre', 'lastname' => 'NARBONNE' ,'email' => 'alexandre.narbonne@gadz.org'})
+          @gram_get_account_response=gram_account_mocked({'firstname' => 'Alexandre', 'lastname' => 'NARBONNE' ,'email' => 'alexandre.narbonne@gadz.org', 'uuid' => '559bb0aa-ddac-4607-ad41-7e520ee40819'})
 
           ActiveResource::HttpMock.respond_to do |mock|
-            mock.get '/api/v1/accounts/alexandre.narbonne.2011/accounts.json', {'Accept' => 'application/json', "Authorization"=>"Basic cmF0YXRvc2s6dGVzdF9wYXNz"}, @gram_get_account_response, 200
+            mock.get '/api/v2/accounts/559bb0aa-ddac-4607-ad41-7e520ee40819', {'Accept' => 'application/json', "Authorization"=>"Basic cmF0YXRvc2s6dGVzdF9wYXNz"}, @gram_get_account_response, 200
           end
           @user=@user.update_from_gram
         end 

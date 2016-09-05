@@ -33,6 +33,7 @@ FactoryGirl.define do
     # canonical_name { firstname.downcase.gsub(/[^a-z ]/, '')+'.'+lastname.downcase.gsub(/[^a-z ]/, '')}
     password Devise.friendly_token[0,20]
     password_confirmation {password}
+    uuid SecureRandom.uuid
 
 	  factory :admin do   
 	    	role {FactoryGirl.create(:role, name:"admin")}
