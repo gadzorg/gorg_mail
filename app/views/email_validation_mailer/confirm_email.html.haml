@@ -15,10 +15,10 @@
       %p Nous t'invitons à confirmer que tu es bien à l'origine de cette demande.
 
       .txtcenter.bouton.bouton_bleu
-        =link_to "Activer la redirection vers #{@era.redirect}", @confirmation_url ,:class => "bouton bouton_orange_1 txtcenter"
+        =link_to "J'active ma redirection vers #{@era.redirect}", @confirmation_url ,:class => "bouton bouton_orange_1 txtcenter"
 
       %p
-        Si ce lien ne fonctionne pas, copie l'adresse suivante puis colle-la dans une nouvelle fenêtre de navigateur.
+        Si ce lien ne fonctionne pas, copie l'adresse suivante puis colle-la dans une nouvelle fenêtre de navigateur :
       %p
         #{@confirmation_url}
       %p
