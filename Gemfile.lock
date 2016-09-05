@@ -118,6 +118,8 @@ GEM
     concurrent-ruby (1.0.2)
     configurable_engine (0.4.8)
       rails (> 3.1.0)
+    css_parser (1.4.5)
+      addressable
     database_cleaner (1.5.3)
     debug_inspector (0.0.2)
     dependor (1.0.1)
@@ -182,6 +184,7 @@ GEM
       haml (~> 4.0.0)
       nokogiri (~> 1.6.0)
       ruby_parser (~> 3.5)
+    htmlentities (4.3.4)
     httpclient (2.8.1)
     hurley (0.2)
     i18n (0.7.0)
@@ -230,6 +233,12 @@ GEM
     orm_adapter (0.5.0)
     os (0.9.6)
     pkg-config (1.1.7)
+    premailer (1.8.7)
+      css_parser (>= 1.4.5)
+      htmlentities (>= 4.0.0)
+    premailer-rails (1.9.4)
+      actionmailer (>= 3, < 6)
+      premailer (~> 1.7, >= 1.7.9)
     rack (1.6.4)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -387,8 +396,10 @@ DEPENDENCIES
   launchy
   letter_opener
   mysql2 (~> 0.3.20)
+  nokogiri
   omniauth
   omniauth-cas!
+  premailer-rails
   rails (= 4.2.3)
   rails-erd
   rails4-autocomplete
