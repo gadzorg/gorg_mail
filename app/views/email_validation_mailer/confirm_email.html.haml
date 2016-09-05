@@ -5,7 +5,7 @@
       %p=image_tag "http://www.arts-et-metiers.asso.fr/images/logo.png", height: '50'
 
       %p Sal's #{@user.firstname},
-      %p Tu as demandé à ce que les mails envoyés sur ton adresse #{@user.primary_email.full_email_address} soit redirigés sur cette adresse.
+      %p Tu as demandé à ce que les mails envoyés sur ton adresse #{@user.primary_email.full_email_address} soient redirigés sur cette adresse.
       %p Nous t'invitons à confirmer que tu es bien à l'origine de cette demande.
 
       .txtcenter.bouton.bouton_bleu
@@ -17,7 +17,8 @@
 
       %p
         Si ce lien ne fonctionne pas, copie l'URL suivante puis colle-la dans une nouvelle fenêtre de navigateur.
-        %br#{@confirmation_url}
+        %br
+          #{@confirmation_url}
       %p
         Si tu as reçu ce message par erreur, ou si tu n'as pas formulé de demande en ce sens, aucune action supplémentaire de ta part n'est requise. Par conséquent, tu peux ignorer ce message.
 
