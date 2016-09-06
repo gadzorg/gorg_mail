@@ -19,7 +19,7 @@ require 'rails_helper'
 # that an instance is receiving a specific message.
 
 RSpec.describe Ml::ExternalEmailsController, type: :controller do
-
+  include Devise::TestHelpers
   # This should return the minimal set of attributes required to create a valid
   # Ml::ExternalEmail. As you add validations to Ml::ExternalEmail, be sure to
   # adjust the attributes here as well.
