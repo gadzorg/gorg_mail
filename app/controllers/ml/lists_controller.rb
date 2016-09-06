@@ -5,6 +5,7 @@ class Ml::ListsController < ApplicationController
   # GET /ml/lists.json
   def index
     @ml_lists = Ml::List.all
+    authorize! :read, @ml_lists
   end
 
   # GET /ml/lists/1
@@ -28,8 +29,8 @@ class Ml::ListsController < ApplicationController
   # POST /ml/lists
   # POST /ml/lists.json
   def create
-    authorize! :create, @ml_list
     @ml_list = Ml::List.new(ml_list_params)
+    authorize! :create, @ml_list
 
     respond_to do |format|
       if @ml_list.save

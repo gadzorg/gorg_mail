@@ -37,6 +37,7 @@ class Ml::List < ActiveRecord::Base
   validates :message_max_bytes_size, presence: true
 
   has_and_belongs_to_many :users
+  has_many :ml_external_emails, :class_name => 'Ml::ExternalEmail'
 
   def add_user(user)
     self.users << user unless self.users.include?(user) or user.lists_allowed.exclude?(self)

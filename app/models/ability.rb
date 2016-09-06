@@ -45,7 +45,8 @@ class Ability
       can :manage, Alias
       can :manage, PostfixBlacklist
       can :manage, Ml::List
-    end   
+      can :manage, Ml::ExternalEmail
+    end
 
     can [:read, :sync, :setup, :manage_suscribtion], User, :id => user.id
     can :read_dashboard, User, :id => user.id
