@@ -13,6 +13,7 @@ class Ml::ListsController < ApplicationController
   def show
     authorize! :read, @ml_list
     @members = @ml_list.users
+    @external_emails = @ml_list.ml_external_emails
   end
 
   # GET /ml/lists/new
@@ -111,6 +112,24 @@ class Ml::ListsController < ApplicationController
         format.js {render :join}
       end
     end
+  end
+
+  def add_email
+    authorize! :manage, @ml_lists
+    @ml_list = Ml::List.find(params[:list_id])
+    if @ml_list.add_email(params[:email])
+        redirect_to @ml_list
+    else
+      redirect_to @ml_list, :flash => { :error => "Impossible d'ajouter cette adresse" }
+    end
+
+
+  end
+
+  def remove_email
+    authorize! :manage, @ml_lists
+    @ml_list = Ml::List.find(params[:list_id])
+
   end
 
   private

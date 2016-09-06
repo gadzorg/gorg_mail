@@ -64,6 +64,23 @@ class Ml::List < ActiveRecord::Base
     Ml::List.where(inscription_policy: "open").includes(:users)
   end
 
+  ############# external emails #############
+  def add_email(email_address)
+    era = EmailRedirectAccount.find_by(redirect: email_address)
+    if era.nil?
+      email_external = Ml::ExternalEmail.new(email: email_address)
+
+      self.ml_external_emails << email_external
+      email_external.save
+    else
+      add_user(era.user)
+    end
+  end
+
+  def remove_email(email_external)
+    self.delete(email_external)
+  end
+
 
 
 end

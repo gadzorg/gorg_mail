@@ -68,4 +68,14 @@
     = link_to 'Edit', edit_ml_list_path(@ml_list)
     = link_to 'Back', ml_lists_path
 
-  =render partial: "shared/ml_members", locals: {members: @members}
+  %div.pam
+    =form_tag  ml_list_add_email_path(@ml_list)   do
+      .fl.group.group-m-form
+        =email_field_tag :email
+        .span.highlight.w100
+        .span.bar.w100
+        =label_tag "email@domaine.fr"
+      .fr.plm.plr
+        =submit_tag '+ Ajouter',:class => "bouton bouton_bleu"
+
+  =render partial: "shared/ml_members", locals: {members: @members, external_emails: @external_emails}

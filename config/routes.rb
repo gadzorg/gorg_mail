@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     resources :lists do
       get "join/:user_id", to: "lists#join", as: :join, defaults: { format: 'js' }
       get "leave/:user_id", to: "lists#leave", as: :leave, defaults: { format: 'js' }
+      post "add_email", to: "lists#add_email", as: :add_email
     end
   end
   get 'admin/index'
