@@ -27,6 +27,7 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   def gram_account_mocked (hash={})
     @gen_gram_account={
+      "uuid"=>"559bb0aa-ddac-4607-ad41-7e520ee40819",
       "hruid"=>"alexandre.narbonne.2011",
       "firstname"=>"Alexandre",
       "lastname"=>"NARBONNE",
@@ -146,7 +147,7 @@ RSpec.describe User, type: :model do
     context "has an hruid" do
 
       before :each do
-        @user = FactoryGirl.create(:user,firstname:'Alex', lastname:'Narbon',email:'un.email@email.com',hruid:"alexandre.narbonne.2011")
+        @user = FactoryGirl.create(:user,firstname:'Alex', lastname:'Narbon',email:'un.email@email.com',hruid:"alexandre.narbonne.2011", uuid:"559bb0aa-ddac-4607-ad41-7e520ee40819")
       end
 
       context "can connect to gram" do
@@ -156,7 +157,7 @@ RSpec.describe User, type: :model do
           @gram_get_account_response=gram_account_mocked({'firstname' => 'Alexandre', 'lastname' => 'NARBONNE' ,'email' => 'alexandre.narbonne@gadz.org', 'uuid' => '559bb0aa-ddac-4607-ad41-7e520ee40819'})
 
           ActiveResource::HttpMock.respond_to do |mock|
-            mock.get '/api/v2/accounts/559bb0aa-ddac-4607-ad41-7e520ee40819', {'Accept' => 'application/json', "Authorization"=>"Basic cmF0YXRvc2s6dGVzdF9wYXNz"}, @gram_get_account_response, 200
+            mock.get '/api/v2/accounts/559bb0aa-ddac-4607-ad41-7e520ee40819.json', {'Accept' => 'application/json', "Authorization"=>"Basic cmF0YXRvc2s6dGVzdF9wYXNz"}, @gram_get_account_response, 200
           end
           @user=@user.update_from_gram
         end 
@@ -186,7 +187,7 @@ RSpec.describe User, type: :model do
 
         before :each do
           ActiveResource::HttpMock.respond_to do |mock|
-            mock.get '/api/v1/accounts/alexandre.narbonne.2011/accounts.json', {'Accept' => 'application/json', "Authorization"=>"Basic cmF0YXRvc2s6dGVzdF9wYXNz"}, nil,503
+            mock.get '/api/v2/accounts/559bb0aa-ddac-4607-ad41-7e520ee40819.json', {'Accept' => 'application/json', "Authorization"=>"Basic cmF0YXRvc2s6dGVzdF9wYXNz"}, nil,503
           end
           @user.update_from_gram
         end 
@@ -197,9 +198,9 @@ RSpec.describe User, type: :model do
       end
     end
 
-    context "doesn't have an hruid" do
+    context "doesn't have an uuid" do
       before :each do
-        @user = FactoryGirl.create(:user,hruid:nil)
+        @user = FactoryGirl.create(:user,uuid:nil)
         @user.update_from_gram
       end
 
@@ -215,11 +216,11 @@ RSpec.describe User, type: :model do
   describe "is find via omniauth" do
 
     before :each do
-      @omniauth_data = OmniAuth::AuthHash.new(omniauth_hash({'extra' =>{'firstname' => 'Alex', 'lastname' => 'NARBON'},'infos'=>{'email' => 'alexandre.narbonne+CAS@gadz.org'}}))
+      @omniauth_data = OmniAuth::AuthHash.new(omniauth_hash({'extra' =>{'firstname' => 'Alex', 'lastname' => 'NARBON', 'uuid' => '559bb0aa-ddac-4607-ad41-7e520ee40819'},'infos'=>{'email' => 'alexandre.narbonne+CAS@gadz.org'}}))
       @gram_get_account_response= gram_account_mocked
 
       ActiveResource::HttpMock.respond_to do |mock|
-        mock.get '/api/v1/accounts/alexandre.narbonne.2011/accounts.json', {'Accept' => 'application/json', "Authorization"=>"Basic cmF0YXRvc2s6dGVzdF9wYXNz"}, @gram_get_account_response, 200
+        mock.get '/api/v2/accounts/559bb0aa-ddac-4607-ad41-7e520ee40819.json', {'Accept' => 'application/json', "Authorization"=>"Basic cmF0YXRvc2s6dGVzdF9wYXNz"}, @gram_get_account_response, 200
       end
 
     end
@@ -227,6 +228,7 @@ RSpec.describe User, type: :model do
     context "and user already exist" do
       before :each do
         @user = FactoryGirl.create(:user,
+                                   uuid:"559bb0aa-ddac-4607-ad41-7e520ee40819",
                                    hruid:"alexandre.narbonne.2011",
                                    email:"coucou@text.com",
                                    firstname:"Alex",
@@ -275,7 +277,7 @@ RSpec.describe User, type: :model do
         before :each do
           @gram_get_account_mocked_response= gram_account_mocked({'firstname' => 'Alexandre', 'lastname' => 'NARBONNE' ,'email' => 'alexandre.narbonne@gadz.org'})
           ActiveResource::HttpMock.respond_to do |mock|
-            mock.get '/api/v1/accounts/alexandre.narbonne.2011/accounts.json', {'Accept' => 'application/json', "Authorization"=>"Basic cmF0YXRvc2s6dGVzdF9wYXNz"}, @gram_get_account_mocked_response, 200
+            mock.get '/api/v2/accounts/559bb0aa-ddac-4607-ad41-7e520ee40819.json', {'Accept' => 'application/json', "Authorization"=>"Basic cmF0YXRvc2s6dGVzdF9wYXNz"}, @gram_get_account_mocked_response, 200
           end
         end
 
@@ -298,7 +300,7 @@ RSpec.describe User, type: :model do
       context "cannot connect to gram API" do
         before :each do
           ActiveResource::HttpMock.respond_to do |mock|
-            mock.get '/api/v1/accounts/alexandre.narbonne.2011/accounts.json', {'Accept' => 'application/json', "Authorization"=>"Basic cmF0YXRvc2s6dGVzdF9wYXNz"}, nil,503
+            mock.get '/api/v2/accounts/559bb0aa-ddac-4607-ad41-7e520ee40819.json', {'Accept' => 'application/json', "Authorization"=>"Basic cmF0YXRvc2s6dGVzdF9wYXNz"}, nil,503
           end
           @user=User.omniauth(@omniauth_data)
         end 
