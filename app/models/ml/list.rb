@@ -35,16 +35,19 @@ class Ml::List < ActiveRecord::Base
   validates_inclusion_of :inscription_policy, :in => Ml::List.inscription_policy_list
   validates_inclusion_of :is_archived, :in => [true, false]
   validates :message_max_bytes_size, presence: true
+  after_save :sync_with_mailing_list_service
 
   has_and_belongs_to_many :users
   has_many :ml_external_emails, :class_name => 'Ml::ExternalEmail'
 
   def add_user(user)
     self.users << user unless self.users.include?(user) or user.lists_allowed.exclude?(self)
+    sync_with_mailing_list_service
   end
 
   def remove_user(user)
     self.users.delete(user)
+    sync_with_mailing_list_service
   end
 
   def allow_access_to(user)
@@ -64,6 +67,12 @@ class Ml::List < ActiveRecord::Base
     Ml::List.where(inscription_policy: "open").includes(:users)
   end
 
+  def all_emails
+    members_emails = self.users.map{|u| u.primary_email.to_s}
+    external_emails = self.ml_external_emails.map(&:email)
+    members_emails + external_emails
+  end
+
   ############# external emails #############
   def add_email(email_address)
     era = EmailRedirectAccount.find_by(redirect: email_address)
@@ -72,6 +81,7 @@ class Ml::List < ActiveRecord::Base
 
       self.ml_external_emails << email_external
       email_external.save
+      sync_with_mailing_list_service
     else
       add_user(era.user)
     end
@@ -79,6 +89,12 @@ class Ml::List < ActiveRecord::Base
 
   def remove_email(email_external)
     self.delete(email_external)
+    sync_with_mailing_list_service
+  end
+
+  # send notification to update ML in Ml service
+  def sync_with_mailing_list_service
+    MailingListsService.new(self).update
   end
 
 

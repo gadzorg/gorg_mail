@@ -18,7 +18,7 @@ class MailingListsService
             primary_email: @mailing_list.email,
             description: @mailing_list.description,
             aliases: @mailing_list.aliases.split,
-            members: @mailing_list.users.map{|u| u.primary_email.to_s},
+            members: @mailing_list.all_emails,
             message_max_bytes_size: @mailing_list.message_max_bytes_size ,
             object_tag:  @mailing_list.messsage_header,
             message_footer: @mailing_list.message_footer ,
