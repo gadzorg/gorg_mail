@@ -48,7 +48,7 @@ class Ability
       can :manage, Ml::ExternalEmail
     end
 
-    can [:read, :sync, :setup, :manage_suscribtion], User, :id => user.id
+    can [:read, :sync, :setup, :manage_suscribtion, :create_google_apps], User, :id => user.id
     can :read_dashboard, User, :id => user.id
     can :manage, EmailRedirectAccount, :user_id => user.id
     can :show, EmailSourceAccount, :user_id => user.id
