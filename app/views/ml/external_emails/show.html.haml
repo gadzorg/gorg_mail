@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b List:
+  = @ml_external_email.list_id
+%p
+  %b Email:
+  = @ml_external_email.email
+
+= link_to 'Edit', edit_ml_external_email_path(@ml_external_email)
+\|
+= link_to 'Back', ml_external_emails_path

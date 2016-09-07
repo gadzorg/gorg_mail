@@ -1,0 +1,2 @@
+module Ml::ExternalEmailsHelper
+end

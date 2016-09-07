@@ -1,52 +1,95 @@
 %p#notice= notice
 %section.pam
   %h1 #{@ml_list.name} (#{@ml_list.email})
+  = @ml_list.description
+  -if @ml_list.belong_to_group?
+    %p
+      Liste de diffusion du groupe
+      %b=@ml_list.group.name
+  -else
+    %p Cette liste de diffusion n'est pas liée à un groupe
 
-  %p
-    %b Description:
-    = @ml_list.description
   %p
     %b Aliases:
     = @ml_list.aliases
   %p
-    %b Diffusion policy:
-    = @ml_list.diffusion_policy
-  %p
-    %b Inscription policy:
-    = @ml_list.inscription_policy_id
-  %p
-    %b Is public:
-    = @ml_list.is_public
-  %p
-    %b Messsage header:
-    = @ml_list.messsage_header
-  %p
-    %b Message footer:
-    = @ml_list.message_footer
-  %p
-    %b Is archived:
-    = @ml_list.is_archived
-  %p
-    %b Custom reply to:
-    = @ml_list.custom_reply_to
-  %p
-    %b Default message deny notification text:
-    = @ml_list.default_message_deny_notification_text
-  %p
-    %b Msg welcome:
-    = @ml_list.msg_welcome
-  %p
-    %b Msg goodbye:
-    = @ml_list.msg_goodbye
-  %p
-    %b Is archived:
-    = @ml_list.is_archived
-  %p
-    %b Message max bytes size:
-    = @ml_list.message_max_bytes_size
+    %b Diffusion des messages:
+    -#= @ml_list.diffusion_policy
+    -case @ml_list.diffusion_policy
+      -when "open"
+        N'importe qui peut écrire sur cette liste
+      -when "cloed"
+        Seul les membres de la liste peuvent envoyer des messages
+      -when "moderated"
+        Tous les messages envoyés à la liste son soumis à moderation
 
-  = link_to 'Edit', edit_ml_list_path(@ml_list)
-  \|
-  = link_to 'Back', ml_lists_path
+  %p
+    %b Inscriptions :
+    -#= @ml_list.inscription_policy
+    -case @ml_list.inscription_policy
+      -when "open"
+        Tous les Gadzarts ou Sociétaires peuvent s'inscrire
+      -when "conditional_gadz"
+        Seuls les Gadzarts peuvent s'inscrire
+      -when "cloed"
+        Les inscriptions à cette liste ne sont possible que pour un administrateur
+      -when "in_group"
+        Seuls les membres du groupe
+        %b=@ml_list.group.name
+        peuvent s'inscrire à cette liste
+  %p
+    %b Liste archivée:
+    = @ml_list.is_archived.to_s.gsub("true", "oui").gsub("false", "non")
+  - if can? :manage, Ml::List
+    %p
+      %b Messsage header:
+      = @ml_list.messsage_header
+    %p
+      %b Message footer:
+      = @ml_list.message_footer
+    %p
+      %b Custom reply to:
+      = @ml_list.custom_reply_to
+    %p
+      %b Default message deny notification text:
+      = @ml_list.default_message_deny_notification_text
+    %p
+      %b Msg welcome:
+      = @ml_list.msg_welcome
+    %p
+      %b Msg goodbye:
+      = @ml_list.msg_goodbye
+    %p
+      %b Message max bytes size:
+      = @ml_list.message_max_bytes_size
 
-  =render partial: "shared/ml_members", locals: {members: @members}
+
+
+    = link_to 'Edit', edit_ml_list_path(@ml_list)
+    = link_to 'Back', ml_lists_path
+
+    .grid-2
+      .box.box-light.shadow-1.mtm
+        .box-top.box-top-color.pam
+          Ajouter un membre
+        .box-bottom.pam
+          TODO
+
+      .box.box-light.shadow-1.mtm
+        .box-top.box-top-color.pam
+          Ajouter une adresse externe
+        .box-bottom.pam
+
+          %p Permet d'ajouter une adresse qui n'est pas liée à un compte externe. Si l'adresse est déjà une adresse de redirection, le compte associé sera rattaché et non pas l'adresse seule.
+
+          %div.pam
+            =form_tag  ml_list_add_email_path(@ml_list)   do
+              .fl.group.group-m-form
+                =email_field_tag :email
+                .span.highlight.w100
+                .span.bar.w100
+                =label_tag "email@domaine.fr"
+              .fr.plm.plr
+                =submit_tag '+ Ajouter',:class => "bouton bouton_bleu"
+
+  =render partial: "shared/ml_members", locals: {members: @members, external_emails: @external_emails}

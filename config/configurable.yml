@@ -1,3 +1,8 @@
+site_url:
+  name: Site Url (avec un "/" à la fin)
+  default: http://localhost:3000/
+  type: string
+
 use_helpdesk_chat:
   name: Activer la messagerie instantannée de support
   default: true

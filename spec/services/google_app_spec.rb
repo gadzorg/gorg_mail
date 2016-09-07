@@ -27,7 +27,7 @@ RSpec.describe GoogleApps, type: :service do
       gapps_email = user.email_redirect_accounts.find_by(type_redir: 'googleapps').redirect
       message = {
           google_apps_account: {
-              account_uuid: "user.uuid",
+              account_uuid: user.uuid,
               email: gapps_email,
               email_aliases:  user.email_source_accounts.map(&:to_s)
           }
@@ -40,7 +40,7 @@ RSpec.describe GoogleApps, type: :service do
       gapps_email = user.email_redirect_accounts.find_by(type_redir: 'googleapps').redirect
       message = {
           google_apps_account: {
-              account_uuid: "user.uuid",
+              account_uuid: user.uuid,
               email_aliases:  user.email_source_accounts.map(&:to_s)
           }
       }

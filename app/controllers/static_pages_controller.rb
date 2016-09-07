@@ -3,6 +3,10 @@ class StaticPagesController < ApplicationController
   end
 
   def landing
-    render layout: "landing"
+    if current_user.nil?
+      render layout: "landing"
+    else
+      redirect_to dashboard_path
+    end
   end
 end

@@ -71,22 +71,29 @@ class EmailRedirectAccountsController < ApplicationController
   def destroy
 		authorize! :destroy, @email_redirect_account
 
-    @email_redirect_account.destroy
-
     @emails_redirect = email_redirect(@user)
-    
+    actives_eras_count = (@emails_redirect.select{|e| e.active?} - [@email_redirect_account]).count
+
     respond_to do |format|
-      format.json { head :no_content }
-      format.js
+      if actives_eras_count > 0 || @email_redirect_account.inactive?
+        @email_redirect_account.destroy
+        @emails_redirect = email_redirect(@user)
+        format.json { head :no_content }
+        format.js
+      else
+        flash[:error] = "Impossible de supprimer cette adresse, il n'y aurait plus de redirection."
+        format.json { head :no_content }
+        format.js
+      end
     end
   end
-  
+
   def confirm
     token=params[:token]
     
     if @email_redirect_account=EmailRedirectAccount.find_by_confirmation_token(token)
       @email_redirect_account.confirmed = true
-      if @email_redirect_account.save
+      if @email_redirect_account.save && @email_redirect_account.set_active
         @emails_redirect = email_redirect(@user)
         # on essaie d'activer l'adresse. Si ça ne marche pas ( trop d'adresse de redir, un revois un message différent)
         if @email_redirect_account.set_active

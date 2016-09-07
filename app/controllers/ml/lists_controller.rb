@@ -5,27 +5,33 @@ class Ml::ListsController < ApplicationController
   # GET /ml/lists.json
   def index
     @ml_lists = Ml::List.all
+    authorize! :read, @ml_lists
   end
 
   # GET /ml/lists/1
   # GET /ml/lists/1.json
   def show
+    authorize! :read, @ml_list
     @members = @ml_list.users
+    @external_emails = @ml_list.ml_external_emails
   end
 
   # GET /ml/lists/new
   def new
     @ml_list = Ml::List.new
+    authorize! :create, @ml_list
   end
 
   # GET /ml/lists/1/edit
   def edit
+    authorize! :update, @ml_list
   end
 
   # POST /ml/lists
   # POST /ml/lists.json
   def create
     @ml_list = Ml::List.new(ml_list_params)
+    authorize! :create, @ml_list
 
     respond_to do |format|
       if @ml_list.save
@@ -41,6 +47,7 @@ class Ml::ListsController < ApplicationController
   # PATCH/PUT /ml/lists/1
   # PATCH/PUT /ml/lists/1.json
   def update
+    authorize! :update, @ml_list
     respond_to do |format|
       if @ml_list.update(ml_list_params)
         format.html { redirect_to @ml_list, notice: 'List was successfully updated.' }
@@ -55,6 +62,7 @@ class Ml::ListsController < ApplicationController
   # DELETE /ml/lists/1
   # DELETE /ml/lists/1.json
   def destroy
+    authorize! :delete, @ml_list
     @ml_list.destroy
     respond_to do |format|
       format.html { redirect_to ml_lists_url, notice: 'List was successfully destroyed.' }
@@ -63,9 +71,10 @@ class Ml::ListsController < ApplicationController
   end
 
   def join
-    #todo : add autorizatiosn
     @user = User.find(params[:user_id])
     @ml_list = Ml::List.find(params[:list_id])
+    authorize! :suscribe, @ml_list
+    authorize! :manage_suscribtion, @user
 
     if @ml_list.add_user(@user)
       get_list(@user)
@@ -84,9 +93,10 @@ class Ml::ListsController < ApplicationController
   end
 
   def leave
-    #todo : add autorizatiosn
     @user = User.find(params[:user_id])
     @ml_list = Ml::List.find(params[:list_id])
+    authorize! :suscribe, @ml_list
+    authorize! :manage_suscribtion, @user
 
     if @ml_list.remove_user(@user)
       get_list(@user)
@@ -104,6 +114,27 @@ class Ml::ListsController < ApplicationController
     end
   end
 
+  def add_email
+    authorize! :manage, @ml_lists
+    @ml_list = Ml::List.find(params[:list_id])
+    if @ml_list.add_email(params[:email])
+        redirect_to @ml_list
+    else
+      redirect_to @ml_list, :flash => { :error => "Impossible d'ajouter cette adresse" }
+    end
+  end
+
+  def remove_email
+    authorize! :manage, @ml_lists
+    @ml_list = Ml::List.find(params[:list_id])
+    email_external = Ml::ExternalEmail.find(params[:email_id])
+    if @ml_list.remove_email(email_external)
+      redirect_to @ml_list
+    else
+      redirect_to @ml_list, :flash => { :error => "Impossible de supprimer cette adresse" }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_ml_list
@@ -112,6 +143,6 @@ class Ml::ListsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def ml_list_params
-      params.require(:ml_list).permit(:name, :email, :description, :aliases, :diffusion_policy, :inscription_policy_id, :is_public, :messsage_header, :message_footer, :is_archived, :custom_reply_to, :default_message_deny_notification_text, :msg_welcome, :msg_goodbye, :is_archived, :message_max_bytes_size)
+      params.require(:ml_list).permit(:name, :email, :description, :aliases, :diffusion_policy, :inscription_policy, :is_public, :messsage_header, :message_footer, :is_archived, :custom_reply_to, :default_message_deny_notification_text, :msg_welcome, :msg_goodbye, :is_archived, :message_max_bytes_size, :group_uuid)
     end
 end

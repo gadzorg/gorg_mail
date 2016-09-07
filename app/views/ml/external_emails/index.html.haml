@@ -1,0 +1,23 @@
+%h1 Listing ml_external_emails
+
+%table
+  %thead
+    %tr
+      %th List
+      %th Email
+      %th
+      %th
+      %th
+
+  %tbody
+    - @ml_external_emails.each do |ml_external_email|
+      %tr
+        %td= ml_external_email.list_id
+        %td= ml_external_email.email
+        %td= link_to 'Show', ml_external_email
+        %td= link_to 'Edit', edit_ml_external_email_path(ml_external_email)
+        %td= link_to 'Destroy', ml_external_email, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New External email', new_ml_external_email_path
