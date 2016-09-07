@@ -52,7 +52,7 @@ class GoogleApps
             email_aliases:  @email_aliases
         }
     }
-    send_message(msg, 'request.google_app.create')
+    send_message(msg, 'request.googleapps.user.create')
   end
 
   def request_google_apps_update
@@ -62,7 +62,7 @@ class GoogleApps
             email_aliases:  @email_aliases
         }
     }
-    send_message(msg, 'request.google_app.update')
+    send_message(msg, 'request.googleapps.user.update')
   end
 
   private
