@@ -47,9 +47,9 @@ class GoogleApps
   def request_google_apps_creation
     msg = {
         google_apps_account: {
-            account_uuid: @user.uuid,
-            email: @google_apps_email,
-            email_aliases:  @email_aliases
+            gram_account_uuid: @user.uuid,
+            primary_email: @google_apps_email,
+            aliases:  @email_aliases
         }
     }
     send_message(msg, 'request.googleapps.user.create')
@@ -58,8 +58,8 @@ class GoogleApps
   def request_google_apps_update
     msg = {
         google_apps_account: {
-            account_uuid: @user.uuid,
-            email_aliases:  @email_aliases
+            gram_account_uuid: @user.uuid,
+            aliases:  @email_aliases
         }
     }
     send_message(msg, 'request.googleapps.user.update')
