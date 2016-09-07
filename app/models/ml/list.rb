@@ -88,7 +88,7 @@ class Ml::List < ActiveRecord::Base
   end
 
   def remove_email(email_external)
-    self.delete(email_external)
+    email_external.destroy
     sync_with_mailing_list_service
   end
 

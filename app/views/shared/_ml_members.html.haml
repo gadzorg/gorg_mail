@@ -19,6 +19,6 @@
             =m.email
             -if can? :destroy, m
               %span.fr
-                =link_to m, :method => :delete, :data => { :confirm => 'Are you sure?' } do
+                =link_to ml_list_remove_email_path(list_id: @ml_list.id, email_id: m.id), :method => :delete, :data => { :confirm => 'Are you sure?' } do
                   %i.zmdi.zmdi-delete.icon-padding-list
 

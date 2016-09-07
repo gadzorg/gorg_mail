@@ -122,14 +122,17 @@ class Ml::ListsController < ApplicationController
     else
       redirect_to @ml_list, :flash => { :error => "Impossible d'ajouter cette adresse" }
     end
-
-
   end
 
   def remove_email
     authorize! :manage, @ml_lists
     @ml_list = Ml::List.find(params[:list_id])
-
+    email_external = Ml::ExternalEmail.find(params[:email_id])
+    if @ml_list.remove_email(email_external)
+      redirect_to @ml_list
+    else
+      redirect_to @ml_list, :flash => { :error => "Impossible de supprimer cette adresse" }
+    end
   end
 
   private
