@@ -11,9 +11,9 @@ class GoogleApps
     @message_sender=options[:message_sender] || GorgMessageSender.new
     
 
-    email_base = options[:email_base]|| @user.primary_email && @user.primary_email.email
+    email_base = options[:email_base]||@user.primary_email && @user.primary_email.email
 
-    raise "No email base provided and user doesn't have a primary email"
+    raise "No email base provided and user doesn't have a primary email" unless email_base
 
     @google_apps_email = email_base + "@#{gapps_domain}"
     @google_apps_email_alias = email_base + "@#{gapps_domain_alias}"
