@@ -29,9 +29,9 @@ main_mail_domain:
 default_mail_domains:
   name: Domaines pour lequels les adresses mails sont créée par défaut lors de l'inscrption. Il n'est pas necessaire de spécifier les alias de domaine (voir admin/domaines). Cette liste dois contenir le "main_mail_domains". Domaines séparés par les espaces.
   default: gadz.org m4am.net
-default_google_apps_domain:
+default_google_apps_domain_alias:
   name: Domaine google apps par défaut
   default: gadz.fr
 availables_google_apps_domain:
-  name: Domaine google apps pour lesquels il est possible de créer un adresse. Cette liste dois contenir le "default_google_apps_domain". Domaines séparés par les espaces.
-  default: gadz.fr agoram.org
+  name: Domaine google apps pour lesquels il est possible de créer un adresse. Domaines séparés par les espaces.
+  default: gadz.org agoram.org

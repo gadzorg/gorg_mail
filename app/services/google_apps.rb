@@ -2,19 +2,19 @@ require 'gorg_message_sender'
 
 class GoogleApps
   DEFAULT_DOMAIN=Configurable[:main_mail_domain]
-  DEFAULT_GOOGLE_APPS_DOMAIN=Configurable[:default_google_apps_domain]
+  DEFAULT_GAPPS_DOMAIN_ALIAS=Configurable[:default_google_apps_domain_alias]
 
   def initialize(user, options = {})
     @user=user
-    @domain=options[:domain] || DEFAULT_GOOGLE_APPS_DOMAIN
+    @domain=options[:domain] || DEFAULT_DOMAIN
+    @domain_alias=options[:domain_alias] || DEFAULT_GAPPS_DOMAIN_ALIAS
     @message_sender=options[:message_sender] || GorgMessageSender.new
     @email_aliases = @user.email_source_accounts.map(&:to_s)
 
-    # find the first @gadz.org adresse of the users and use it's base
-    evd_id = EmailVirtualDomain.find_by(name: DEFAULT_DOMAIN).id
     begin
       email_base = @user.primary_email.email
       @google_apps_email = email_base + "@#{@domain}"
+      @google_apps_email_alias = email_base + "@#{@domain_alias}"
     rescue
       puts 'Any Email_source_account with gadz.org for this user :-( Create it before googleapps generation'
       return false
@@ -35,7 +35,7 @@ class GoogleApps
     # if @user.email_source_account
     unless @user.has_google_apps
     @user.email_redirect_accounts.create(
-        redirect: @google_apps_email,
+        redirect: @google_apps_email_alias,
         type_redir: 'googleapps',
         flag: 'active',
         confirmed: true
