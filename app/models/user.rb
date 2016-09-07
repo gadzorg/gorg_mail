@@ -161,7 +161,7 @@ class User < ActiveRecord::Base
       user.update_from_gram
       user
     else
-      logger.error "Donnees revoyes par le CAS invalide : "+auth_data.to_s
+      logger.error "Donnees renvoyes par le CAS invalide : "+auth_data.to_s+" ---- "+user.errors.messages
       nil
     end
   end
