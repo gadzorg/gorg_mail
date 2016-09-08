@@ -41,7 +41,7 @@ class Ml::List < ActiveRecord::Base
   has_many :ml_external_emails, :class_name => 'Ml::ExternalEmail'
 
   def add_user(user)
-    self.users.exclude?(user) ? self.users << user : user.errors << ["User already in list"]
+    self.users.exclude?(user) ? self.users << user : errors.add(:user, "User already in list")
     sync_with_mailing_list_service
   end
 
@@ -76,15 +76,20 @@ class Ml::List < ActiveRecord::Base
   ############# external emails #############
   def add_email(email_address)
     era = EmailRedirectAccount.find_by(redirect: email_address)
-    if era.nil?
+    esa = EmailSourceAccount.find_by_full_email(email_address)
+
+    if era.present?
+      add_user(era.user)
+    elsif esa.present?
+      add_user(esa.user)
+    else
       email_external = Ml::ExternalEmail.new(email: email_address)
 
       self.ml_external_emails << email_external
       email_external.save
-      sync_with_mailing_list_service
-    else
-      add_user(era.user)
+
     end
+    sync_with_mailing_list_service
   end
 
   def remove_email(email_external)

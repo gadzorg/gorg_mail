@@ -53,4 +53,9 @@ class EmailSourceAccount < ActiveRecord::Base
 			end
 		end
 
+	def self.find_by_full_email(full_email)
+		email_base, domain = full_email.split("@")
+		EmailSourceAccount.joins(:email_virtual_domain).where(email_source_accounts: {email: email_base}, email_virtual_domains: {name: domain}).first
+	end
+
 end
