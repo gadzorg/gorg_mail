@@ -14,6 +14,7 @@ class Ml::ListsController < ApplicationController
     authorize! :read, @ml_list
     @members = @ml_list.users
     @external_emails = @ml_list.ml_external_emails
+    @redirection_alias = @ml_list.redirection_alias
   end
 
   # GET /ml/lists/new

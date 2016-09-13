@@ -98,5 +98,11 @@ class Ml::List < ActiveRecord::Base
   end
 
 
+  ################# email_alias ################
+
+  def redirection_alias
+    Alias.find_by_email(self.email)
+  end
+
 
 end
