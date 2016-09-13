@@ -48,8 +48,7 @@ class SetupController < ApplicationController
           @emails_redirect = @user.email_redirect_accounts.order(:type_redir).select(&:persisted?)
           EmailValidationMailer.confirm_email(@user,@email_redirect_account,confirm_user_email_redirect_accounts_url(@user, @email_redirect_account.confirmation_token)).deliver_now
         end
-
-        if params[:google_apps]
+        if params[:google_apps] == "true"
           @user.create_google_apps
         end
 
