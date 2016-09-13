@@ -86,6 +86,24 @@ class EmailRedirectAccount < ActiveRecord::Base
     end
   end
 
+  def set_confirmed
+    self.confirmed = true
+    self.save
+  end
+
+  def set_unconfirmed
+    self.confirmed = false
+    self.save
+  end
+
+  def set_active_and_confirm
+    set_active && set_confirmed
+  end
+
+  def set_inactive_and_unconfirmed
+    set_inactive && set_unconfirmed
+  end
+
   def is_internal_domains_address?
     domains = (Configurable[:default_mail_domains] + " " + Configurable[:default_google_apps_domain_alias]).split.uniq
     era_domain = self.redirect.split("@").last
