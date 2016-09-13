@@ -150,7 +150,7 @@ class EmailRedirectAccountsController < ApplicationController
             @emails_redirect = @user.email_redirect_accounts.order(:type_redir).select(&:persisted?)
           
             respond_to do |format|
-            flash[:error] = "Erreur lors de l'activation"
+            flash[:error] = "Tu ne peux pas activer plus de #{Configurable[:max_actives_era]} adresses en même temps"
             format.json { head :no_content }
             format.js
           end
