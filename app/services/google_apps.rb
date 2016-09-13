@@ -6,30 +6,31 @@ class GoogleApps
 
   def initialize(user, options = {})
     @user=user
-    @domain=options[:domain] || DEFAULT_DOMAIN
-    @domain_alias=options[:domain_alias] || DEFAULT_GAPPS_DOMAIN_ALIAS
+    gapps_domain=options[:domain] || DEFAULT_DOMAIN
+    gapps_domain_alias=options[:domain_alias] || DEFAULT_GAPPS_DOMAIN_ALIAS
     @message_sender=options[:message_sender] || GorgMessageSender.new
-    @email_aliases = @user.email_source_accounts.map(&:to_s)
+    
 
-    begin
-      email_base = @user.primary_email.email
-      @google_apps_email = email_base + "@#{@domain}"
-      @google_apps_email_alias = email_base + "@#{@domain_alias}"
-    rescue
-      puts 'Any Email_source_account with gadz.org for this user :-( Create it before googleapps generation'
-      return false
-    end
+    email_base = options[:email_base]||@user.primary_email && @user.primary_email.email
+
+    raise "No email base provided and user doesn't have a primary email" unless email_base
+
+    @google_apps_email = email_base + "@#{gapps_domain}"
+    @google_apps_email_alias = email_base + "@#{gapps_domain_alias}"
+
+    @email_aliases = @user.email_source_accounts.map(&:to_s) - [@google_apps_email, @google_apps_email_alias]
   end
 
   def generate
     request_google_apps_creation
     create_google_apps_redirection
-
   end
 
   def update
     request_google_apps_update
   end
+
+  private
 
   def create_google_apps_redirection
     # if @user.email_source_account
@@ -41,7 +42,6 @@ class GoogleApps
         confirmed: true
     )
     end
-
   end
 
   def request_google_apps_creation
@@ -61,7 +61,6 @@ class GoogleApps
     send_message(msg, 'request.googleapps.user.update')
   end
 
-  private
   def send_message(msg, routing_key)
     begin
       @message_sender.send_message(msg, routing_key)
