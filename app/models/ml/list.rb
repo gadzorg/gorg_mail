@@ -40,14 +40,34 @@ class Ml::List < ActiveRecord::Base
   has_and_belongs_to_many :users
   has_many :ml_external_emails, :class_name => 'Ml::ExternalEmail'
 
-  def add_user(user)
+  def add_user_no_sync(user)
     self.users.exclude?(user) ? self.users << user : user.errors << ["User already in list"]
-    sync_with_mailing_list_service
+  end
+
+  def remove_user_no_sync(user)
+    self.users.delete(user)
+  end
+
+  def add_user(user)
+    add_user_no_sync(user)
+    if sync_with_mailing_list_service
+      return true
+    else
+      remove_user_no_sync(user)
+      logger.fatal "Unable to sync with mailing list service -- Possible connexion issue with rabbitMQ"
+      return false
+    end
   end
 
   def remove_user(user)
-    self.users.delete(user)
-    sync_with_mailing_list_service
+    remove_user_no_sync(user)
+    if sync_with_mailing_list_service
+      return true
+    else
+      add_user_no_sync(user)
+      logger.fatal "Unable to sync with mailing list service -- Possible connexion issue with rabbitMQ"
+      return false
+    end
   end
 
   def allow_access_to(user)
