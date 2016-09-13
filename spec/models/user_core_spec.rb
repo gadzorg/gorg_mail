@@ -44,7 +44,8 @@ RSpec.describe User, type: :model do
       "birthdate"=>"1987-09-17 00:00:00",
       "login_validation_check"=>"CGU=2015-06-04;",
       "description"=>"Agoram inscription - via module register - creation 2015-06-04 11:32:48",
-      "entities"=>["comptes", "gram"]
+      "entities"=>["comptes", "gram"],
+      "is_gadz"=>"true"
     }
 
     @gen_gram_account.merge(hash).to_json
@@ -154,7 +155,7 @@ RSpec.describe User, type: :model do
 
         before :each do
 
-          @gram_get_account_response=gram_account_mocked({'firstname' => 'Alexandre', 'lastname' => 'NARBONNE' ,'email' => 'alexandre.narbonne@gadz.org', 'uuid' => '559bb0aa-ddac-4607-ad41-7e520ee40819'})
+          @gram_get_account_response=gram_account_mocked({'firstname' => 'Alexandre', 'lastname' => 'NARBONNE' ,'email' => 'alexandre.narbonne@gadz.org', 'uuid' => '559bb0aa-ddac-4607-ad41-7e520ee40819', 'is_gadz'=>'true'})
 
           ActiveResource::HttpMock.respond_to do |mock|
             mock.get '/api/v2/accounts/559bb0aa-ddac-4607-ad41-7e520ee40819.json', {'Accept' => 'application/json', "Authorization"=>"Basic cmF0YXRvc2s6dGVzdF9wYXNz"}, @gram_get_account_response, 200
@@ -275,7 +276,7 @@ RSpec.describe User, type: :model do
 
       context "can connect to gram API" do
         before :each do
-          @gram_get_account_mocked_response= gram_account_mocked({'firstname' => 'Alexandre', 'lastname' => 'NARBONNE' ,'email' => 'alexandre.narbonne@gadz.org'})
+          @gram_get_account_mocked_response= gram_account_mocked({'firstname' => 'Alexandre', 'lastname' => 'NARBONNE' ,'email' => 'alexandre.narbonne@gadz.org', "is_gadz" => "true"})
           ActiveResource::HttpMock.respond_to do |mock|
             mock.get '/api/v2/accounts/559bb0aa-ddac-4607-ad41-7e520ee40819.json', {'Accept' => 'application/json', "Authorization"=>"Basic cmF0YXRvc2s6dGVzdF9wYXNz"}, @gram_get_account_mocked_response, 200
           end
