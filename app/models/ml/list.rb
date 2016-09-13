@@ -41,7 +41,7 @@ class Ml::List < ActiveRecord::Base
   has_many :ml_external_emails, :class_name => 'Ml::ExternalEmail'
 
   def add_user(user)
-    self.users << user unless self.users.include?(user) or user.lists_allowed.exclude?(self)
+    self.users.exclude?(user) ? self.users << user : user.errors << ["User already in list"]
     sync_with_mailing_list_service
   end
 

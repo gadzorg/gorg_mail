@@ -13,19 +13,16 @@ class MailingListsService
 
   def request_mailing_list_update
     msg = {
-        mailing_list: {
-            name: @mailing_list.name,
-            primary_email: @mailing_list.email,
-            description: @mailing_list.description,
-            aliases: @mailing_list.aliases.split,
-            members: @mailing_list.all_emails,
-            message_max_bytes_size: @mailing_list.message_max_bytes_size ,
-            object_tag:  @mailing_list.messsage_header,
-            message_footer: @mailing_list.message_footer ,
-            is_archived: @mailing_list.is_archived,
-            distribution_policy: @mailing_list.diffusion_policy
-
-        }
+      name: @mailing_list.name,
+      primary_email: @mailing_list.email,
+      description: @mailing_list.description,
+      aliases: @mailing_list.aliases.split,
+      members: @mailing_list.all_emails,
+      message_max_bytes_size: @mailing_list.message_max_bytes_size ,
+      object_tag:  @mailing_list.messsage_header,
+      message_footer: @mailing_list.message_footer ,
+      is_archived: @mailing_list.is_archived,
+      distribution_policy: @mailing_list.diffusion_policy
     }
     send_message(msg, 'request.mailinglist.update')
   end

@@ -119,7 +119,7 @@ class UsersController < ApplicationController
   end
 
   def create_google_apps
-    authorize! :update, @user
+    authorize! :create_google_apps, @user
     @user.create_google_apps
 
     @emails_redirect = email_redirect(@user)

@@ -1,14 +1,13 @@
 default: &default
-  rabbitmq:
-    sender: gorgmail
-    host: localhost
-    port: 5672
-    vhost: "/"
-    queue_name: logs
-    deferred_time: 1800000
-    exchange_name: "agoram_event_exchange"
-    user: my_user
-    password: P4ssWord
+  sender: gorgmail
+  host: localhost
+  port: 5672
+  vhost: "/"
+  queue_name: logs
+  deferred_time: 1800000
+  exchange_name: "agoram_event_exchange"
+  user: my_user
+  password: P4ssWord
 
 
 development:

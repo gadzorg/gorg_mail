@@ -24,27 +24,23 @@ RSpec.describe GoogleApps, type: :service do
     # TODO : switch to real uuid after GrAM2 migration
     it "Request a message sending to the message sender for Google Apps creation" do
       gapps = GoogleApps.new(user, message_sender: message_sender).generate
-      gapps_email = user.email_redirect_accounts.find_by(type_redir: 'googleapps').redirect
+      gapps_email = user.primary_email.to_s
       message = {
-          google_apps_account: {
-              account_uuid: user.uuid,
-              email: gapps_email,
-              email_aliases:  user.email_source_accounts.map(&:to_s)
-          }
+        gram_account_uuid: user.uuid,
+        primary_email: gapps_email,
+        aliases:  user.email_source_accounts.map(&:to_s)-['john.doe@gadz.org']
       }
-      expect(message_sender).to have_received.send_message(message, 'request.google_app.create')
+      expect(message_sender).to have_received.send_message(message, 'request.googleapps.user.create')
     end
 
     it "Request a message sending to the message sender for Google Apps update" do
       gapps = GoogleApps.new(user, message_sender: message_sender).update
-      gapps_email = user.email_redirect_accounts.find_by(type_redir: 'googleapps').redirect
+      gapps_email = user.primary_email.to_s
       message = {
-          google_apps_account: {
-              account_uuid: user.uuid,
-              email_aliases:  user.email_source_accounts.map(&:to_s)
-          }
+        gram_account_uuid: user.uuid,
+        aliases:  user.email_source_accounts.map(&:to_s)-['john.doe@gadz.org']
       }
-      expect(message_sender).to have_received.send_message(message, 'request.google_app.update')
+      expect(message_sender).to have_received.send_message(message, 'request.googleapps.user.update')
     end
 
 
