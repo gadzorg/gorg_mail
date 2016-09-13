@@ -19,7 +19,7 @@ namespace :import_ml do
           messsage_header:ml_row["messsage_header"],
           message_footer:ml_row["message_footer"],
           is_archived: true,
-          custom_reply_to: nil,
+          custom_reply_to: ml_row["custom_reply_to"],
           default_message_deny_notification_text: nil,
           msg_welcome:ml_row["msg_welcome"],
           msg_goodbye:ml_row["msg_goodbye"],
