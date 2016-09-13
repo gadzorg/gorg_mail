@@ -22,6 +22,7 @@
 #  last_gram_sync_at      :datetime
 #  canonical_name         :string(255)
 #  uuid                   :string(255)
+#  is_gadz                :boolean
 #
 # Indexes
 #
@@ -104,6 +105,7 @@ class User < ActiveRecord::Base
         self.lastname=gram_data.lastname
         self.last_gram_sync_at = Time.now
         self.hruid = gram_data.hruid
+        self.is_gadz = gram_data.is_gadz
         if self.save
           self.synced_with_gram = true 
           return self
@@ -271,8 +273,12 @@ class User < ActiveRecord::Base
   end
 
   def is_gadz?
-    #todo: is gadz => retrive from gram
-    return true
+    self.update_attribute( :is_gadz, GramV2Client::Account.find(self.uuid).is_gadz)
+    self.is_gadz
+  end
+
+  def is_gadz_cached?
+    self.is_gadz
   end
 
   def groups
