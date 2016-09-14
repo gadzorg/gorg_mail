@@ -43,3 +43,7 @@ module Imelavi
 end
 
 ActiveSupport::Deprecation.behavior = [:stderr, :log]
+
+require File.expand_path('config/extra_config.rb',Rails.root)
+
+RABBITMQ_CONFIG=ExtraConfig.new(File.expand_path("config/rabbitmq.yml",Rails.root),"RABBITMQ")
