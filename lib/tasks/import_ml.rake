@@ -43,11 +43,14 @@ namespace :import_ml do
     members_imported = 0.to_f
     start_date = DateTime.now
 
-    ml_members.each do |ml_member_row|
+    CSV.foreach(CSV_ML_MEMBERS_PATH,{:headers => :first_row}) do |ml_member_row|
+
       elapsed_time =(DateTime.now - start_date)*1.days
       remaining_time = elapsed_time/members_imported * (members_count-members_imported)
       percentage = (members_imported/(members_count+1)*100)
+
       puts members_imported.to_s + " / " + members_count.to_s + " | "+ percentage.round(2).to_s + "% | Temps écoulé : " +elapsed_time.round(2).to_s + "s | Temps restant : " + remaining_time.round(2).to_s + "s | "+ ml_member_row["list_email"] + " " + ml_member_row["member_email"]
+
       ml=Ml::List.find_by(email: ml_member_row["list_email"])
       ml.add_email(ml_member_row["member_email"])
 

@@ -76,17 +76,14 @@ class Ml::List < ActiveRecord::Base
   ############# external emails #############
   def add_email(email_address)
     era = EmailRedirectAccount.find_by(redirect: email_address)
-    esa = EmailSourceAccount.find_by_full_email(email_address)
+    esa = EmailSourceAccount.find_by_full_email(email_address) unless era.nil?
 
     if era.present?
       add_user(era.user)
     elsif esa.present?
       add_user(esa.user)
     else
-      email_external = Ml::ExternalEmail.new(email: email_address)
-
-      self.ml_external_emails << email_external
-      email_external.save
+      Ml::ExternalEmail.create(email: email_address, list_id: self.id)
 
     end
     sync_with_mailing_list_service
