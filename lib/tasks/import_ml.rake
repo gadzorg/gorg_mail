@@ -2,6 +2,8 @@ namespace :import_ml do
   desc "TODO"
   task import_csv: :environment do
     require 'csv'
+    require 'benchmark'
+
 
     CSV_ML_LIST_PATH=File.join(Rails.root,'lib/assets/ml_list.csv')
     CSV_ML_MEMBERS_PATH=File.join(Rails.root,'lib/assets/ml_members.csv')
@@ -51,9 +53,10 @@ namespace :import_ml do
 
       puts members_imported.to_s + " / " + members_count.to_s + " | "+ percentage.round(2).to_s + "% | Temps écoulé : " +elapsed_time.round(2).to_s + "s | Temps restant : " + remaining_time.round(2).to_s + "s | "+ ml_member_row["list_email"] + " " + ml_member_row["member_email"]
 
+      puts Benchmark.measure {
       ml=Ml::List.find_by(email: ml_member_row["list_email"])
       ml.add_email(ml_member_row["member_email"])
-
+      }
       members_imported +=1
 
     end

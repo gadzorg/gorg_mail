@@ -68,15 +68,15 @@ class Ml::List < ActiveRecord::Base
   end
 
   def all_emails
-    members_emails = self.users.map{|u| u.primary_email.to_s}
+    members_emails = self.users.includes(email_source_accounts: :email_virtual_domain).where(email_source_accounts: {primary: true}) #Take all primary email of user. More perf than user.primary
     external_emails = self.ml_external_emails.map(&:email)
     members_emails + external_emails
   end
 
   ############# external emails #############
   def add_email(email_address)
-    era = EmailRedirectAccount.find_by(redirect: email_address)
-    esa = EmailSourceAccount.find_by_full_email(email_address) unless era.nil?
+    era = EmailRedirectAccount.includes(:user).find_by(redirect: email_address)
+    esa = EmailSourceAccount.includes(:user).find_by_full_email(email_address) unless era.nil?
 
     if era.present?
       add_user(era.user)

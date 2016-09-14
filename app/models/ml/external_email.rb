@@ -12,6 +12,5 @@
 class Ml::ExternalEmail < ActiveRecord::Base
   belongs_to :ml_list, :class_name => 'Ml::List'
 
-  validates :email, uniqueness: { scope: :list_id}
-  validates :email, presence: true
+  validates :email, uniqueness: { scope: :list_id} , presence: true
 end
