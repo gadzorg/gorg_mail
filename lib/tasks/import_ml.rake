@@ -6,11 +6,14 @@ namespace :import_ml do
     CSV_ML_LIST_PATH=File.join(Rails.root,'lib/assets/ml_list.csv')
     CSV_ML_MEMBERS_PATH=File.join(Rails.root,'lib/assets/ml_members.csv')
 
+    puts "Load CSV..."
     ml_list=CSV.parse(File.read(CSV_ML_LIST_PATH),headers: true)
     ml_members=CSV.parse(File.read(CSV_ML_MEMBERS_PATH),headers: true)
-
+    puts "Done!"
+    puts "Load ML..."
     ml_list.each do |ml_row|
-      Ml::List.create(
+      puts ml_row["name"]
+      Ml::List.create!(
           name:ml_row["name"],
           email:ml_row["email"],
           description:ml_row["description"],
@@ -27,12 +30,16 @@ namespace :import_ml do
           inscription_policy:ml_row["inscription_policy"], #open conditional_gadz closed in_group
       )
     end
+    puts "Done!"
 
+    puts "Load ML members..."
     ml_members.each do |ml_member_row|
-
+      puts ml_member_row["list_email"] + " " + ml_member_row["member_email"]
       ml=Ml::List.find_by(email: ml_member_row["list_email"])
       ml.add_email(ml_member_row["member_email"])
     end
+
+    puts "Done! YOU ROCK!"
 
   end
 end
