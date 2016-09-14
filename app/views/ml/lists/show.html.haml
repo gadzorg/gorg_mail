@@ -9,6 +9,10 @@
   -else
     %p Cette liste de diffusion n'est pas liée à un groupe
 
+  - if can? :manage, Ml::List
+    %p
+      %b Alias de redirection zenimel:
+      = link_to @redirection_alias, @redirection_alias
   %p
     %b Aliases:
     = @ml_list.aliases
@@ -62,9 +66,6 @@
     %p
       %b Message max bytes size:
       = @ml_list.message_max_bytes_size
-    %p
-      %b Alias de redirection zenimel:
-      = @redirection_alias
 
 
 
