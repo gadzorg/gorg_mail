@@ -37,7 +37,9 @@ class GoogleAppsCreatedMessageHandler < ApplicationMessageHandler
     user=User.find_by(uuid: msg[:uuid])
 
     gapps_era=user.google_apps
+    gapps_era.set_active_and_confirm
 
+    #Todo : mailler
     
     
   end
