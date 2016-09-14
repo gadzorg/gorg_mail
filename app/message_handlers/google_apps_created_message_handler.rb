@@ -1,6 +1,6 @@
 require "json-schema"
 
-class UpdateGroupMessageHandler < ApplicationMessageHandler
+class GoogleAppsCreatedMessageHandler < ApplicationMessageHandler
   
   def validate_payload
     schema={"$schema"=>"http://json-schema.org/draft-04/schema#",
@@ -35,6 +35,8 @@ class UpdateGroupMessageHandler < ApplicationMessageHandler
   def process
     #Recherche de l'utilisateur via son UUID
     user=User.find_by(uuid: msg[:uuid])
+
+    gapps_era=user.google_apps
 
     
     
