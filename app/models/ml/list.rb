@@ -21,6 +21,11 @@
 #  inscription_policy                     :string(255)
 #  group_uuid                             :string(255)
 #
+# Indexes
+#
+#  index_ml_lists_on_email       (email)
+#  index_ml_lists_on_group_uuid  (group_uuid)
+#
 
 class Ml::List < ActiveRecord::Base
   # keep this function before validation
@@ -68,13 +73,13 @@ class Ml::List < ActiveRecord::Base
   end
 
   def all_emails
-    members_emails = self.users.includes(email_source_accounts: :email_virtual_domain).where(email_source_accounts: {primary: true}) #Take all primary email of user. More perf than user.primary
-    external_emails = self.ml_external_emails.map(&:email)
+    members_emails = self.users.includes(email_source_accounts: :email_virtual_domain).where(email_source_accounts: {primary: true}).pluck(:email) #Take all primary email of user. More perf than user.primary
+    external_emails = self.ml_external_emails.pluck(:email)
     members_emails + external_emails
   end
 
   ############# external emails #############
-  def add_email(email_address)
+  def add_email(email_address,sync = true)
     era = EmailRedirectAccount.includes(:user).find_by(redirect: email_address)
     esa = EmailSourceAccount.includes(:user).find_by_full_email(email_address) unless era.nil?
 
@@ -86,7 +91,7 @@ class Ml::List < ActiveRecord::Base
       Ml::ExternalEmail.create(email: email_address, list_id: self.id)
 
     end
-    sync_with_mailing_list_service
+    sync_with_mailing_list_service if sync == true
   end
 
   def remove_email(email_external)

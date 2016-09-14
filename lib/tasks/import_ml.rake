@@ -54,13 +54,18 @@ namespace :import_ml do
       puts members_imported.to_s + " / " + members_count.to_s + " | "+ percentage.round(2).to_s + "% | Temps écoulé : " +elapsed_time.round(2).to_s + "s | Temps restant : " + remaining_time.round(2).to_s + "s | "+ ml_member_row["list_email"] + " " + ml_member_row["member_email"]
 
       puts Benchmark.measure {
-      ml=Ml::List.find_by(email: ml_member_row["list_email"])
-      ml.add_email(ml_member_row["member_email"])
+        ml=Ml::List.find_by(email: ml_member_row["list_email"])
+        ml.add_email(ml_member_row["member_email"],false) #add email w/o sync
       }
       members_imported +=1
 
     end
 
+    puts "Done!"
+    puts "Resync all ML..."
+    puts Benchmark.measure {
+      Ml::List.all.each{|ml| ml.sync_with_mailing_list_service}
+    }
     puts "Done! YOU ROCK!"
 
   end

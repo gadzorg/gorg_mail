@@ -16,7 +16,10 @@
 #
 # Indexes
 #
+#  index_email_source_accounts_on_email                    (email)
 #  index_email_source_accounts_on_email_virtual_domain_id  (email_virtual_domain_id)
+#  index_email_source_accounts_on_flag                     (flag)
+#  index_email_source_accounts_on_primary                  (primary)
 #  index_email_source_accounts_on_user_id                  (user_id)
 #
 
