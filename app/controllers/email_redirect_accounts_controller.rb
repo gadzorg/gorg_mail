@@ -131,10 +131,9 @@ class EmailRedirectAccountsController < ApplicationController
  
  #for changin flag
  def flag
-
-      authorize! :update, @email_redirect_account
-      flag = params[:flag]
       era = EmailRedirectAccount.find(params[:email_redirect_account_id])
+      authorize! :update, era
+      flag = params[:flag]
       case flag
       when "active"
         if era.set_active
@@ -151,7 +150,7 @@ class EmailRedirectAccountsController < ApplicationController
             @emails_redirect = @user.email_redirect_accounts.order(:type_redir).select(&:persisted?)
           
             respond_to do |format|
-            flash[:error] = "Erreur lors de l'activation"
+            flash[:error] = "Tu ne peux pas activer plus de #{Configurable[:max_actives_era]} adresses en même temps"
             format.json { head :no_content }
             format.js
           end
@@ -162,7 +161,7 @@ class EmailRedirectAccountsController < ApplicationController
         @emails_redirect = @user.email_redirect_accounts.order(:type_redir).select(&:persisted?)
         
           respond_to do |format|
-            flash[:notice] = "Adresse désactrivée avec succés!"
+            flash[:notice] = "Adresse désactivée avec succés!"
             # format.json { head :no_content }
             format.js
           end
