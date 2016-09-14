@@ -20,6 +20,7 @@ class AliasesController < ApplicationController
   def new
     @alias = Alias.new
     authorize! :create, @alias
+    @evd = EmailVirtualDomain.all
   end
 
   # GET /aliases/1/edit

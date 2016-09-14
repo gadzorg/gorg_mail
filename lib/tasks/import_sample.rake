@@ -9,12 +9,19 @@ namespace :import_sample do
     CSV_ESA_PATH=File.join(Rails.root,'lib/assets/esa.csv')
     CSV_ALIAS_PATH=File.join(Rails.root,'lib/assets/alias.csv')
     CSV_BLACKLIST_PATH=File.join(Rails.root,'lib/assets/blacklist.csv')
+    CSV_UUID_PATH=File.join(Rails.root,'lib/assets/uuid.csv')
 
     accounts_csv=CSV.parse(File.read(CSV_ACCOUNTS_PATH),headers: true)
     era_csv=CSV.parse(File.read(CSV_ERA_PATH),headers: true)
     esa_csv=CSV.parse(File.read(CSV_ESA_PATH),headers: true)
     alias_csv=CSV.parse(File.read(CSV_ALIAS_PATH),headers: true)
     blacklist_csv=CSV.parse(File.read(CSV_BLACKLIST_PATH),headers: true)
+    uuid_csv=CSV.parse(File.read(CSV_UUID_PATH),headers: true)
+
+    uuids={}
+    uuid_csv.each do |uuid_row|
+      uuids[uuid_row[:hruid]]=uuid_row[:uuid]
+    end
 
 
     accounts_csv.each do |ac_row|
@@ -23,6 +30,7 @@ namespace :import_sample do
         password: Devise.friendly_token[0,20],
         firstname: ac_row['firstname'],
         lastname: ac_row['lastname'],
+        uuid: uuids[ac_row['hruid']],
         ).find_or_create_by(hruid: ac_row['hruid'])
 
       puts ac_row['hruid']+" : OK"
@@ -117,7 +125,7 @@ namespace :import_sample do
           if Alias.create(
               email: row["email"],
               srs_rewrite: row["srs_rewrite"],
-              email_virtual_domain_id: row["domain"],
+              email_virtual_domain: EmailVirtualDomain.find_or_create_by(name: row['name']),
               redirect: row["redirect"],
               alias_type: row["type"]
           )
@@ -134,7 +142,7 @@ namespace :import_sample do
           redirect_base, redirect_domain = redirect.split("@")
 
           email = row["email"]
-          domain_id = row["domain"]
+          domain_id = EmailVirtualDomain.find_or_create_by(name: row['name']).id
 
           user = nil
           evda=EmailVirtualDomain.where(name: "#{redirect_domain}")
@@ -160,7 +168,7 @@ namespace :import_sample do
                   email: row["email"],
                   redirect: row["redirect"],
                   srs_rewrite: row["srs_rewrite"],
-                  email_virtual_domain_id: row["domain"],
+                  email_virtual_domain: EmailVirtualDomain.find_or_create_by(name: row['name']),
                   alias_type: row["type"]
               )
                 count[:nik_and_fam_pased_as_standard] = count[:nik_and_fam_pased_as_standard].to_i + 1
@@ -173,7 +181,7 @@ namespace :import_sample do
               email: row["email"],
               redirect: row["redirect"],
               srs_rewrite: row["srs_rewrite"],
-              email_virtual_domain_id: row["domain"],
+              email_virtual_domain: EmailVirtualDomain.find_or_create_by(name: row['name']),
               alias_type: row["type"]
           )
             count[:alias_unknown] = count[:alias_unknown].to_i + 1
