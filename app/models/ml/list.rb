@@ -28,7 +28,7 @@ class Ml::List < ActiveRecord::Base
     %w(open conditional_gadz closed in_group)
   end
 
-  validates :name, uniqueness: true, presence: true
+  validates :name, presence: true #, uniqueness: true
   validates :email, uniqueness: true, presence: true
   # validates :diffusion_policy, presence: true, acceptance: { accept: %w(open closed moderated) }
   validates_inclusion_of :diffusion_policy, :in => %w(open closed moderated)
