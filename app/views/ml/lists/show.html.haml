@@ -85,7 +85,11 @@
           Ajouter une adresse externe
         .box-bottom.pam
 
-          %p Permet d'ajouter une adresse qui n'est pas liée à un compte externe. Si l'adresse est déjà une adresse de redirection, le compte associé sera rattaché et non pas l'adresse seule.
+          %p
+            Permet d'ajouter une adresse qui n'est pas liée à un compte externe. Si l'adresse est déjà une adresse de redirection, le compte associé sera rattaché et non pas l'adresse seule.
+            Attention les adresses avec un
+            %span.red"+"
+            ne peuvent pas être ajoutées
 
           %div.pam
             =form_tag  ml_list_add_email_path(@ml_list)   do

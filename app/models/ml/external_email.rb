@@ -17,7 +17,7 @@
 class Ml::ExternalEmail < ActiveRecord::Base
   belongs_to :ml_list, :class_name => 'Ml::List'
 
-  validates :email, uniqueness: { scope: :list_id} , presence: true
+  validates :email, uniqueness: { scope: :list_id} , presence: true, format: { with: /\A([^@+\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i}
 
 
 end
