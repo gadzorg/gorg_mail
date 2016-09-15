@@ -45,14 +45,35 @@ class Ml::List < ActiveRecord::Base
   has_and_belongs_to_many :users
   has_many :ml_external_emails, :class_name => 'Ml::ExternalEmail'
 
+
+  def add_user_no_sync(user)
+    self.users.exclude?(user) ? self.users << user : user.errors << ["User already in list"]
+  end
+
+  def remove_user_no_sync(user)
+    self.users.delete(user)
+  end
+
   def add_user(user)
-    self.users.exclude?(user) ? self.users << user : errors.add(:user, "User already in list")
-    sync_with_mailing_list_service
+    add_user_no_sync(user)
+    if sync_with_mailing_list_service
+      return true
+    else
+      remove_user_no_sync(user)
+      logger.fatal "Unable to sync with mailing list service -- Possible connexion issue with rabbitMQ"
+      return false
+    end
   end
 
   def remove_user(user)
-    self.users.delete(user)
-    sync_with_mailing_list_service
+    remove_user_no_sync(user)
+    if sync_with_mailing_list_service
+      return true
+    else
+      add_user_no_sync(user)
+      logger.fatal "Unable to sync with mailing list service -- Possible connexion issue with rabbitMQ"
+      return false
+    end
   end
 
   def allow_access_to(user)
@@ -84,12 +105,11 @@ class Ml::List < ActiveRecord::Base
     esa = EmailSourceAccount.includes(:user).find_by_full_email(email_address) unless era.nil?
 
     if era.present?
-      add_user(era.user)
+      add_user_no_sync(era.user)
     elsif esa.present?
-      add_user(esa.user)
+      add_user_no_sync(esa.user)
     else
       Ml::ExternalEmail.create(email: email_address, list_id: self.id)
-
     end
     sync_with_mailing_list_service if sync == true
   end

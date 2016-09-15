@@ -28,7 +28,7 @@ RSpec.describe GoogleApps, type: :service do
       message = {
         gram_account_uuid: user.uuid,
         primary_email: gapps_email,
-        aliases:  user.email_source_accounts.map(&:to_s)
+        aliases:  user.email_source_accounts.map(&:to_s)-['john.doe@gadz.org']
       }
       expect(message_sender).to have_received.send_message(message, 'request.googleapps.user.create')
     end
@@ -38,7 +38,7 @@ RSpec.describe GoogleApps, type: :service do
       gapps_email = user.primary_email.to_s
       message = {
         gram_account_uuid: user.uuid,
-        aliases:  user.email_source_accounts.map(&:to_s)
+        aliases:  user.email_source_accounts.map(&:to_s)-['john.doe@gadz.org']
       }
       expect(message_sender).to have_received.send_message(message, 'request.googleapps.user.update')
     end

@@ -35,6 +35,7 @@ Rails.application.routes.draw do
   get 'admin' => 'admin#index'
   get 'roles' => 'roles#index'
   get 'dashboard' => 'users#dashboard'
+  get 'mailinglists' => 'users#dashboard_ml'
 
   resources :users do
 

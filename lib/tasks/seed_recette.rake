@@ -29,6 +29,6 @@ namespace :db do
     puts "Reconfig default domains"
     Configurable[:default_mail_domains] = "poubs.org m4am.net"
     Configurable[:main_mail_domain] = "poubs.org"
-    Configurable[:default_google_apps_domain] = "poubs.net"
+    Configurable[:default_google_apps_domain_alias] = "poubs.net"
   end
 end
