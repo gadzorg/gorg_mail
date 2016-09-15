@@ -95,7 +95,7 @@ class Ml::List < ActiveRecord::Base
   end
 
   def all_emails
-    members_emails = self.users.includes(email_source_accounts: :email_virtual_domain).where(email_source_accounts: {primary: true}).pluck(:email) #Take all primary email of user. More perf than user.primary
+    members_emails = self.users.includes(email_source_accounts: :email_virtual_domain).where(email_source_accounts: {primary: true}).pluck(:"CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name)") #Take all primary email of user. More perf than user.primary
     external_emails = self.ml_external_emails.pluck(:email)
     members_emails + external_emails
   end
