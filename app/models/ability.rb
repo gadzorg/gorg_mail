@@ -54,7 +54,7 @@ class Ability
     can :manage, EmailRedirectAccount, :user_id => user.id
     can :show, EmailSourceAccount, :user_id => user.id
     can :suscribe, Ml::List
-    can :read, Ml::List, :id => user.lists_allowed.map(&:id)
+    can :read, Ml::List, :id => user.lists_allowed(true).map(&:id)
 
   end
 end
