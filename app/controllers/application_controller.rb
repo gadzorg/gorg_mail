@@ -42,7 +42,7 @@ class ApplicationController < ActionController::Base
 
     def get_list(user)
       @lists_not_joined = user.lists_allowed_not_joined
-      @lists_joined = user.ml_lists
+      @lists_joined = user.ml_lists.includes(:users)
     end
 
   

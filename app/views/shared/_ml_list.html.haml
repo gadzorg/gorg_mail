@@ -3,7 +3,7 @@
     =link_to ml_list_path(l) do
       %b=l.name
       =l.email
-    (#{l.users.count} membres)
+    (#{l.users.count+l.ml_external_emails.count} membres)
     %span.fr
       -if l.users.include?(user)
         = link_to ml_list_leave_path(l.id, user.id), title: 'Me desinscire de la liste', rel: 'tooltip', :remote=>true do
