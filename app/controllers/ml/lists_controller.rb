@@ -103,6 +103,7 @@ class Ml::ListsController < ApplicationController
       get_list(@user)
       respond_to do |format|
         flash[:notice] = "Tu as quitté la liste de diffusion #{@ml_list.name}"
+        format.html{redirect_to @ml_list}
         format.json { head :no_content }
         format.js {render :join}
       end
@@ -112,6 +113,8 @@ class Ml::ListsController < ApplicationController
         flash[:error] = "Impossible de quitter la liste de diffusion #{@ml_list.name}"
         format.json { head :no_content }
         format.js {render :join}
+        format.html{render @ml_list}
+
       end
     end
   end
