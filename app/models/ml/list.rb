@@ -103,7 +103,7 @@ class Ml::List < ActiveRecord::Base
   ############# external emails #############
   def add_email(email_address,sync = true)
     era = EmailRedirectAccount.includes(:user).find_by(redirect: email_address)
-    esa = EmailSourceAccount.includes(:user).find_by_full_email(email_address) unless era.nil?
+    esa = EmailSourceAccount.includes(:user).find_by_full_email(email_address) if era.nil?
 
     if era.present?
       add_user_no_sync(era.user)
