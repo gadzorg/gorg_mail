@@ -21,6 +21,11 @@
 #  inscription_policy                     :string(255)
 #  group_uuid                             :string(255)
 #
+# Indexes
+#
+#  index_ml_lists_on_email       (email)
+#  index_ml_lists_on_group_uuid  (group_uuid)
+#
 
 class Ml::List < ActiveRecord::Base
   # keep this function before validation
@@ -28,7 +33,7 @@ class Ml::List < ActiveRecord::Base
     %w(open conditional_gadz closed in_group)
   end
 
-  validates :name, uniqueness: true, presence: true
+  validates :name, presence: true #, uniqueness: true
   validates :email, uniqueness: true, presence: true
   # validates :diffusion_policy, presence: true, acceptance: { accept: %w(open closed moderated) }
   validates_inclusion_of :diffusion_policy, :in => %w(open closed moderated)
@@ -39,6 +44,7 @@ class Ml::List < ActiveRecord::Base
 
   has_and_belongs_to_many :users
   has_many :ml_external_emails, :class_name => 'Ml::ExternalEmail'
+
 
   def add_user_no_sync(user)
     self.users.exclude?(user) ? self.users << user : user.errors << ["User already in list"]
@@ -88,23 +94,24 @@ class Ml::List < ActiveRecord::Base
   end
 
   def all_emails
-    members_emails = self.users.map{|u| u.primary_email.to_s}
-    external_emails = self.ml_external_emails.map(&:email)
+    members_emails = self.users.includes(email_source_accounts: :email_virtual_domain).where(email_source_accounts: {primary: true}).pluck(:email) #Take all primary email of user. More perf than user.primary
+    external_emails = self.ml_external_emails.pluck(:email)
     members_emails + external_emails
   end
 
   ############# external emails #############
-  def add_email(email_address)
-    era = EmailRedirectAccount.find_by(redirect: email_address)
-    if era.nil?
-      email_external = Ml::ExternalEmail.new(email: email_address)
+  def add_email(email_address,sync = true)
+    era = EmailRedirectAccount.includes(:user).find_by(redirect: email_address)
+    esa = EmailSourceAccount.includes(:user).find_by_full_email(email_address) unless era.nil?
 
-      self.ml_external_emails << email_external
-      email_external.save
-      sync_with_mailing_list_service
+    if era.present?
+      add_user_no_sync(era.user)
+    elsif esa.present?
+      add_user_no_sync(esa.user)
     else
-      add_user(era.user)
+      Ml::ExternalEmail.create(email: email_address, list_id: self.id)
     end
+    sync_with_mailing_list_service if sync == true
   end
 
   def remove_email(email_external)

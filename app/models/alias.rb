@@ -12,6 +12,12 @@
 #  expire                  :date
 #  srs_rewrite             :integer
 #
+# Indexes
+#
+#  index_aliases_on_email                    (email)
+#  index_aliases_on_email_virtual_domain_id  (email_virtual_domain_id)
+#  index_aliases_on_redirect                 (redirect)
+#
 
 class Alias < ActiveRecord::Base
   belongs_to :email_virtual_domain,  class_name: "EmailVirtualDomain"

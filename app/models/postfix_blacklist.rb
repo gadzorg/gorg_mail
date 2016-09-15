@@ -8,6 +8,10 @@
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
+# Indexes
+#
+#  index_postfix_blacklists_on_email  (email)
+#
 
 class PostfixBlacklist < ActiveRecord::Base
 end

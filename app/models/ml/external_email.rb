@@ -8,10 +8,16 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
+# Indexes
+#
+#  index_ml_external_emails_on_email    (email)
+#  index_ml_external_emails_on_list_id  (list_id)
+#
 
 class Ml::ExternalEmail < ActiveRecord::Base
   belongs_to :ml_list, :class_name => 'Ml::List'
 
-  validates :email, uniqueness: { scope: :list_id}
-  validates :email, presence: true
+  validates :email, uniqueness: { scope: :list_id} , presence: true
+
+
 end
