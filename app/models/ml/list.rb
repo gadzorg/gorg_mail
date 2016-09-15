@@ -41,6 +41,7 @@ class Ml::List < ActiveRecord::Base
   validates_inclusion_of :is_archived, :in => [true, false]
   validates :message_max_bytes_size, presence: true
   after_save :sync_with_mailing_list_service
+  after_create {Alias.new_for_mailinglist(self)}
 
   has_and_belongs_to_many :users
   has_many :ml_external_emails, :class_name => 'Ml::ExternalEmail'
@@ -124,6 +125,12 @@ class Ml::List < ActiveRecord::Base
     MailingListsService.new(self).update
   end
 
+
+  ################# email_alias ################
+
+  def redirection_alias
+    Alias.find_by_email(self.email)
+  end
 
 
 end
