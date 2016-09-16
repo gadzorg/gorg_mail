@@ -23,6 +23,7 @@
 #  canonical_name         :string(255)
 #  uuid                   :string(255)
 #  is_gadz                :boolean
+#  lists_allowed_cache    :text(65535)
 #
 # Indexes
 #
@@ -303,13 +304,18 @@ class User < ActiveRecord::Base
     lists_allowed - self.ml_lists
   end
 
-  def lists_allowed
-    lists_allowed_for_this_user = Ml::List.all_if_open
-    user_groups_uuid = self.groups.map(&:uuid)
-    user_groups_uuid.each do |guuid|
-      lists_allowed_for_this_user << Ml::List.find_by(group_uuid: guuid)
+  def lists_allowed(from_cache=false)
+    cache_name = "a#{self.uuid}-#{self.updated_at.to_i}-lists_allowed"
+    puts cache_name
+    Rails.cache.delete(cache_name) if from_cache == false
+    Rails.cache.fetch(cache_name, expires_in: 10.minute) do
+      lists_allowed_for_this_user = Ml::List.all_if_open
+      user_groups_uuid = self.groups.map(&:uuid)
+      user_groups_uuid.each do |guuid|
+        lists_allowed_for_this_user << Ml::List.find_by(group_uuid: guuid)
+      end
+      lists_allowed_for_this_user.compact.uniq
     end
-    return lists_allowed_for_this_user.compact.uniq
   end
 
   private

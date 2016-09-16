@@ -114,8 +114,6 @@ class UsersController < ApplicationController
    
     @emails_redirect.each{|era| authorize! :show, era}
     @emails_source.each{|esa| authorize! :show, esa}
-
-    get_list(@user)
   end
 
   # GET /users/1/dashboard
