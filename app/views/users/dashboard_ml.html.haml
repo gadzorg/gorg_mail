@@ -6,11 +6,11 @@
         Listes où je suis inscrit :
       #joined_lists
         -if @lists_joined.present?
-          =render partial: "shared/ml_list", locals: {lists: @lists_joined, user: @user}
+          =render partial: "shared/ml_list", locals: {lists: @lists_joined, user: @user, already_joined: true}
     %div.ptm.mtm
       %h1
         %i.zmdi.zmdi-comment-outline.icon-padding-list
         Autres listes :
       #not_joined_lists
         -if @lists_not_joined.present?
-          =render partial: "shared/ml_list", locals: {lists: @lists_not_joined, user: @user}
+          =render partial: "shared/ml_list", locals: {lists: @lists_not_joined, user: @user, already_joined: false}

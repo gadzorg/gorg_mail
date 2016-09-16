@@ -20,6 +20,7 @@
 #  updated_at                             :datetime         not null
 #  inscription_policy                     :string(255)
 #  group_uuid                             :string(255)
+#  members_count_cache                    :integer
 #
 # Indexes
 #
@@ -98,6 +99,13 @@ class Ml::List < ActiveRecord::Base
     members_emails = self.users.includes(email_source_accounts: :email_virtual_domain).where(email_source_accounts: {primary: true}).pluck(:"CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name)") #Take all primary email of user. More perf than user.primary
     external_emails = self.ml_external_emails.pluck(:email)
     members_emails + external_emails
+  end
+
+  def members_count
+    cache_name = "a#{self.email}-#{self.updated_at.to_i}-list_member_count"
+    Rails.cache.fetch(cache_name, expires_in: 10.minute) do
+      self.users.count + self.ml_external_emails.count
+    end
   end
 
   ############# external emails #############

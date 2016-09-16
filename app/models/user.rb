@@ -23,7 +23,6 @@
 #  canonical_name         :string(255)
 #  uuid                   :string(255)
 #  is_gadz                :boolean
-#  lists_allowed_cache    :text(65535)
 #
 # Indexes
 #
@@ -311,6 +310,7 @@ class User < ActiveRecord::Base
     Rails.cache.fetch(cache_name, expires_in: 10.minute) do
       lists_allowed_for_this_user = Ml::List.all_if_open
       user_groups_uuid = self.groups.map(&:uuid)
+      lists_allowed_for_this_user = lists_allowed_for_this_user + Ml::List.where(inscription_policy: "conditional_gadz")
       user_groups_uuid.each do |guuid|
         lists_allowed_for_this_user << Ml::List.find_by(group_uuid: guuid)
       end
