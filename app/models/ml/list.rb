@@ -34,7 +34,7 @@ class Ml::List < ActiveRecord::Base
   end
 
   validates :name, presence: true #, uniqueness: true
-  validates :email, uniqueness: true, presence: true
+  validates :email, uniqueness: true, presence: true, format: { with: /\A([^@+_\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i}
   # validates :diffusion_policy, presence: true, acceptance: { accept: %w(open closed moderated) }
   validates_inclusion_of :diffusion_policy, :in => %w(open closed moderated)
   validates_inclusion_of :inscription_policy, :in => Ml::List.inscription_policy_list
