@@ -39,6 +39,8 @@ class GoogleAppsCreatedMessageHandler < ApplicationMessageHandler
     gapps_era=user.google_apps
     gapps_era.set_active_and_confirm
 
+    EmailValidationMailer.notice_google_apps(user).deliver_now
+
     #Todo : mailler
     
     
