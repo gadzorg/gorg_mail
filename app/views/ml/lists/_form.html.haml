@@ -7,7 +7,7 @@
     = f.input :description
     = f.input :aliases
     = f.label :diffusion_policy
-    = f.select :diffusion_policy, Ml::List.inscription_policy_list
+    = f.select :diffusion_policy, %w(open closed moderated)
     %p Un changement de la politique d'inscription ne supprime pas les membres déjà dans la liste qui n'auraient plus le droit d'y accéder
     = f.label :inscription_policy
     = f.select :inscription_policy, Ml::List.inscription_policy_list
