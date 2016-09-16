@@ -1,7 +1,9 @@
+require 'faker'
+
 FactoryGirl.define do
   factory :ml_list, class: 'Ml::List' do
     name "MyString"
-    email "MyString"
+    email { Faker::Internet.email.gsub("_","") }
     description "MyString"
     aliases "MyString"
     diffusion_policy %w(open closed moderated).sample
