@@ -7,6 +7,7 @@
       -if can? :update, @user
         = link_to t('users.forms.buttons.edit'), edit_user_path(@user), class:"button fr button-primary box"
         = link_to 'Dashboard', dashboard_user_path(@user), class:"button fr button-primary box mrm"
+        = link_to 'Mainlinglists', dashboard_ml_user_path(@user), class:"button fr button-primary box mrm"
     .box-bottom.pam
       .fr
         #info-tech.pam.mam.box.box-light.bggrey

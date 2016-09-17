@@ -10,6 +10,7 @@
         -else
           -@members.each do |m|
             %li
+              %b=m.fullname
               =m.primary_email
               -if can?( :suscribe, @ml_list) && can?( :read, m)
                 %span.fr

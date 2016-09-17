@@ -25,4 +25,14 @@
               =l.email
               =l.description
               %span.fr
+                Liste
+                -case l.inscription_policy
+                -when  "open"
+                  ouverte
+                -when "conditional_gadz"
+                  reservée aux gadz
+                -when "closed"
+                  gérée par un admin
+                -when "in_group"
+                  reservée aux membres du groupe
                 (#{l.members_count} membres)
