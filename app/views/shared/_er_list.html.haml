@@ -2,7 +2,7 @@
 -unless @user.has_google_apps
   %div.bg-blue-dark-2
     .pam
-      Avec un compte Google Apps, j'accède aux mails de la communauté en toute simplicité!
+      Avec un compte Google Apps, je reçois mes mails gadz.org en toute simplicité !
 
       .mts= link_to ' Créer mon compte Google Apps ', create_google_apps_user_path(@user), method: :get,:remote=>true,  :class =>"bouton bouton_bleu"
   -if @emails_redirect.select{|e| e.active?}.count == 0
@@ -14,7 +14,7 @@
     .pam.bg-blue-dark-2
       %span
         %i.zmdi.zmdi-google.icon-padding-list
-        Google Apps Gadz
+        GMail #{@user.primary_email}
       %span.fr= link_to 'Connexion', "https://mail.google.com/a/gadz.org", :class =>"bouton-light"
 
   -else
@@ -56,4 +56,8 @@
         -unless e.confirmed
           %br/
           .red Suis les instructions dans le mail envoyé à cette adresse pour la valider.
+        -if e.broken?
+          %br/
+          .red Cette adresse semble ne plus fonctionner
+
 
