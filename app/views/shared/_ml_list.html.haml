@@ -25,14 +25,21 @@
               =l.email
               =l.description
               %span.fr
-                Liste
+                Inscriptions
                 -case l.inscription_policy
                 -when  "open"
-                  ouverte
+                  libres
                 -when "conditional_gadz"
-                  reservée aux gadz
+                  reservées aux gadz
                 -when "closed"
                   gérée par un admin
                 -when "in_group"
-                  reservée aux membres du groupe
+                  reservées aux membres du groupe
+                -case l.diffusion_policy
+                -when "open"
+                  , tout le monde peut y écrire
+                -when "closed"
+                  , seuls les membres peuvent y écrire
+                -when "moderated"
+                  , messages modérés
                 (#{l.members_count} membres)
