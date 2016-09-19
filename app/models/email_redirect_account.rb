@@ -34,6 +34,7 @@ class EmailRedirectAccount < ActiveRecord::Base
 
   validates :redirect, :uniqueness => {:scope => :user_id}
   validates :redirect, :email => true
+  after_create :email_redirect_account_completer
 
   def generate_new_token()
     self.confirmation_token = loop do
@@ -95,4 +96,13 @@ class EmailRedirectAccount < ActiveRecord::Base
     domains.include?(era_domain)
   end
 
+
+  def email_redirect_account_completer
+    set_rewite
+  end
+
+  def set_rewite
+    rewrite = self.user.primary_email
+    allow_rewrite = 1
+  end
 end
