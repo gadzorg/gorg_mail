@@ -14,6 +14,7 @@ class Ml::ListsController < ApplicationController
     authorize! :read, @ml_list
     @members = @ml_list.users
     @external_emails = @ml_list.ml_external_emails
+    @redirection_alias = @ml_list.redirection_alias
   end
 
   # GET /ml/lists/new
@@ -75,7 +76,6 @@ class Ml::ListsController < ApplicationController
     @ml_list = Ml::List.find(params[:list_id])
     authorize! :suscribe, @ml_list
     authorize! :manage_suscribtion, @user
-
     if @ml_list.add_user(@user)
       get_list(@user)
       respond_to do |format|
@@ -84,6 +84,7 @@ class Ml::ListsController < ApplicationController
         format.js
       end
     else
+      get_list(@user)
       respond_to do |format|
         flash[:error] = "Impossible de rejoindre la liste de diffusion #{@ml_list.name}"
         format.json { head :no_content }
@@ -102,14 +103,18 @@ class Ml::ListsController < ApplicationController
       get_list(@user)
       respond_to do |format|
         flash[:notice] = "Tu as quitté la liste de diffusion #{@ml_list.name}"
+        format.html{redirect_to @ml_list}
         format.json { head :no_content }
         format.js {render :join}
       end
     else
+      get_list(@user)
       respond_to do |format|
         flash[:error] = "Impossible de quitter la liste de diffusion #{@ml_list.name}"
         format.json { head :no_content }
         format.js {render :join}
+        format.html{render @ml_list}
+
       end
     end
   end

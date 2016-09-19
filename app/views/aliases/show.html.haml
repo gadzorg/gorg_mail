@@ -1,5 +1,13 @@
 %p#notice= notice
 
+%h1 Alias
+%p
+  %b Origine:
+  = @alias.to_s
+%p
+  %b Destination:
+  = @alias.redirect
+
 
 = link_to 'Edit', edit_alias_path(@alias)
 \|

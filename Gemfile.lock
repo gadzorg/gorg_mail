@@ -243,7 +243,11 @@ GEM
     premailer-rails (1.9.4)
       actionmailer (>= 3, < 6)
       premailer (~> 1.7, >= 1.7.9)
+    quiet_assets (1.1.0)
+      railties (>= 3.1, < 5.0)
     rack (1.6.4)
+    rack-mini-profiler (0.10.1)
+      rack (>= 1.2.0)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (4.2.3)
@@ -405,6 +409,8 @@ DEPENDENCIES
   omniauth
   omniauth-cas!
   premailer-rails
+  quiet_assets
+  rack-mini-profiler
   rails (= 4.2.3)
   rails-erd
   rails4-autocomplete

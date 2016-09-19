@@ -27,8 +27,11 @@
 # Indexes
 #
 #  index_users_on_email                 (email) UNIQUE
+#  index_users_on_hruid                 (hruid) UNIQUE
+#  index_users_on_is_gadz               (is_gadz)
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #  index_users_on_role_id               (role_id)
+#  index_users_on_uuid                  (uuid) UNIQUE
 #
 
 # Indexes
@@ -300,13 +303,19 @@ class User < ActiveRecord::Base
     lists_allowed - self.ml_lists
   end
 
-  def lists_allowed
-    lists_allowed_for_this_user = Ml::List.all_if_open
-    user_groups_uuid = self.groups.map(&:uuid)
-    user_groups_uuid.each do |guuid|
-      lists_allowed_for_this_user << Ml::List.find_by(group_uuid: guuid)
+  def lists_allowed(from_cache=false)
+    cache_name = "a#{self.uuid}-#{self.updated_at.to_i}-lists_allowed"
+    puts cache_name
+    Rails.cache.delete(cache_name) if from_cache == false
+    Rails.cache.fetch(cache_name, expires_in: 10.minute) do
+      lists_allowed_for_this_user = Ml::List.all_if_open
+      user_groups_uuid = self.groups.map(&:uuid)
+      lists_allowed_for_this_user = lists_allowed_for_this_user + Ml::List.where(inscription_policy: "conditional_gadz")
+      user_groups_uuid.each do |guuid|
+        lists_allowed_for_this_user << Ml::List.find_by(group_uuid: guuid)
+      end
+      lists_allowed_for_this_user.compact.uniq
     end
-    return lists_allowed_for_this_user.compact.uniq
   end
 
   private

@@ -9,6 +9,10 @@
   -else
     %p Cette liste de diffusion n'est pas liée à un groupe
 
+  - if can? :manage, Ml::List
+    %p
+      %b Alias de redirection zenimel:
+      = link_to @redirection_alias, @redirection_alias
   %p
     %b Aliases:
     = @ml_list.aliases
@@ -18,8 +22,8 @@
     -case @ml_list.diffusion_policy
       -when "open"
         N'importe qui peut écrire sur cette liste
-      -when "cloed"
-        Seul les membres de la liste peuvent envoyer des messages
+      -when "closed"
+        Suel les membres de la liste peuvent envoyer librement des mails, les extérieurs sont refusés
       -when "moderated"
         Tous les messages envoyés à la liste son soumis à moderation
 
@@ -65,6 +69,7 @@
 
 
 
+
     = link_to 'Edit', edit_ml_list_path(@ml_list)
     = link_to 'Back', ml_lists_path
 
@@ -77,10 +82,14 @@
 
       .box.box-light.shadow-1.mtm
         .box-top.box-top-color.pam
-          Ajouter une adresse externe
+          Ajouter une adresse
         .box-bottom.pam
 
-          %p Permet d'ajouter une adresse qui n'est pas liée à un compte externe. Si l'adresse est déjà une adresse de redirection, le compte associé sera rattaché et non pas l'adresse seule.
+          %p
+            Permet d'ajouter une adresse qui n'est pas liée à un compte externe. Si l'adresse est déjà une adresse de redirection, le compte associé sera rattaché et non pas l'adresse seule.
+            Attention les adresses avec un
+            %span.red"+"
+            ne peuvent pas être ajoutées
 
           %div.pam
             =form_tag  ml_list_add_email_path(@ml_list)   do

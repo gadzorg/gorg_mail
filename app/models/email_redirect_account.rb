@@ -23,6 +23,9 @@
 # Indexes
 #
 #  index_email_redirect_accounts_on_confirmation_token  (confirmation_token) UNIQUE
+#  index_email_redirect_accounts_on_flag                (flag)
+#  index_email_redirect_accounts_on_redirect            (redirect)
+#  index_email_redirect_accounts_on_type_redir          (type_redir)
 #  index_email_redirect_accounts_on_user_id             (user_id)
 #
 
