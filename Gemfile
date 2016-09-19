@@ -100,6 +100,7 @@ gem 'nokogiri'
 
 
 gem 'heroku_secrets', github: 'alexpeattie/heroku_secrets'
+gem 'puma'
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
