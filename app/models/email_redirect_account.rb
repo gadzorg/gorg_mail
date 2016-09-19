@@ -98,11 +98,11 @@ class EmailRedirectAccount < ActiveRecord::Base
 
 
   def email_redirect_account_completer
-    set_rewite
+    self.set_rewrite
   end
 
-  def set_rewite
-    rewrite = self.user.primary_email
-    allow_rewrite = 1
+  def set_rewrite
+    self.rewrite = self.user.primary_email
+    self.allow_rewrite = 1
   end
 end

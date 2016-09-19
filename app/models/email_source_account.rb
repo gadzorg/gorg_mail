@@ -64,7 +64,7 @@ class EmailSourceAccount < ActiveRecord::Base
 	end
 
 	def update_rewrite
-		self.user.email_redirect_accounts.set_rewite
+		self.user.email_redirect_accounts.map(&:set_rewite) if self.user
 	end
 
 end
