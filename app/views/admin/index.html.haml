@@ -20,7 +20,7 @@
           Roles
   %h2 Listes de diffusion
   .grid-4-small-1
-    - if can? :manage, :admin
+    - if can? :manage, Ml::List
       =link_to  ml_lists_path, class:'box box-light shadow-1 mtm bouton bouton-light' do
         %i.zmdi.zmdi-format-list-bulleted
         %div.small-inbl

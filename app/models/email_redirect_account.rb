@@ -23,6 +23,9 @@
 # Indexes
 #
 #  index_email_redirect_accounts_on_confirmation_token  (confirmation_token) UNIQUE
+#  index_email_redirect_accounts_on_flag                (flag)
+#  index_email_redirect_accounts_on_redirect            (redirect)
+#  index_email_redirect_accounts_on_type_redir          (type_redir)
 #  index_email_redirect_accounts_on_user_id             (user_id)
 #
 
@@ -86,8 +89,26 @@ class EmailRedirectAccount < ActiveRecord::Base
     end
   end
 
+  def set_confirmed
+    self.confirmed = true
+    self.save
+  end
+
+  def set_unconfirmed
+    self.confirmed = false
+    self.save
+  end
+
+  def set_active_and_confirm
+    set_active && set_confirmed
+  end
+
+  def set_inactive_and_unconfirmed
+    set_inactive && set_unconfirmed
+  end
+
   def is_internal_domains_address?
-    domains = (Configurable[:default_mail_domains] + " " + Configurable[:default_google_apps_domain]).split.uniq
+    domains = (Configurable[:default_mail_domains] + " " + Configurable[:default_google_apps_domain_alias]).split.uniq
     era_domain = self.redirect.split("@").last
     domains.include?(era_domain)
   end

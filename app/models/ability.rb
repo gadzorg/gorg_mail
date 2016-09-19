@@ -44,12 +44,17 @@ class Ability
       can :manage, EmailSourceAccount
       can :manage, Alias
       can :manage, PostfixBlacklist
-    end   
+      can :manage, Ml::List
+      can :manage, Ml::ExternalEmail
+    end
 
-    can [:read, :sync, :setup], User, :id => user.id
-    can :read_dashboard, User, :id => user.id
+
+    can [:read, :setup, :manage_suscribtion, :create_google_apps], User, :id => user.id if user.is_gadz_cached?
+    can :read_dashboard, User, :id => user.id if user.is_gadz_cached?
     can :manage, EmailRedirectAccount, :user_id => user.id
     can :show, EmailSourceAccount, :user_id => user.id
+    can :suscribe, Ml::List
+    can :read, Ml::List, :id => user.lists_allowed(true).map(&:id) if user.persisted?
 
   end
 end

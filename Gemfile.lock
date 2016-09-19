@@ -12,6 +12,13 @@ GIT
     yaml_db (0.2.3)
 
 GIT
+  remote: https://github.com/gadzorg/gram2_api_client_ruby.git
+  revision: 4c3585c76140259d344494a7229795720faf2465
+  specs:
+    gram_v2_client (2.1.0)
+      activeresource (~> 4.0)
+
+GIT
   remote: https://github.com/loocla/omniauth-cas.git
   revision: 16395f85579dc915c0e22f80b4f5d98a019e37ec
   branch: saml
@@ -111,6 +118,8 @@ GEM
     concurrent-ruby (1.0.2)
     configurable_engine (0.4.8)
       rails (> 3.1.0)
+    css_parser (1.4.5)
+      addressable
     database_cleaner (1.5.3)
     debug_inspector (0.0.2)
     dependor (1.0.1)
@@ -160,8 +169,10 @@ GEM
     gorg_message_sender (1.0.0)
       bunny (~> 2.2, >= 2.2.2)
       json-schema (~> 2.6)
-    gram_v1_client (1.0.0)
-      activeresource (~> 4.0)
+    gorg_service (4.0.1)
+      bunny (~> 2.2, >= 2.2.2)
+      gorg_message_sender (~> 1)
+      json-schema (~> 2.6)
     haml (4.0.7)
       tilt
     haml-rails (0.9.0)
@@ -177,6 +188,7 @@ GEM
       haml (~> 4.0.0)
       nokogiri (~> 1.6.0)
       ruby_parser (~> 3.5)
+    htmlentities (4.3.4)
     httpclient (2.8.1)
     hurley (0.2)
     i18n (0.7.0)
@@ -225,7 +237,17 @@ GEM
     orm_adapter (0.5.0)
     os (0.9.6)
     pkg-config (1.1.7)
+    premailer (1.8.7)
+      css_parser (>= 1.4.5)
+      htmlentities (>= 4.0.0)
+    premailer-rails (1.9.4)
+      actionmailer (>= 3, < 6)
+      premailer (~> 1.7, >= 1.7.9)
+    quiet_assets (1.1.0)
+      railties (>= 3.1, < 5.0)
     rack (1.6.4)
+    rack-mini-profiler (0.10.1)
+      rack (>= 1.2.0)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (4.2.3)
@@ -371,7 +393,8 @@ DEPENDENCIES
   faker
   google-api-client (~> 0.9)
   gorg_message_sender
-  gram_v1_client
+  gorg_service
+  gram_v2_client!
   haml-rails
   heroku_secrets!
   hirb
@@ -382,8 +405,12 @@ DEPENDENCIES
   launchy
   letter_opener
   mysql2 (~> 0.3.20)
+  nokogiri
   omniauth
   omniauth-cas!
+  premailer-rails
+  quiet_assets
+  rack-mini-profiler
   rails (= 4.2.3)
   rails-erd
   rails4-autocomplete

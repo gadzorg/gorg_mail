@@ -86,11 +86,17 @@ gem 'bootstrap-tooltip-rails'
 
 gem 'google-api-client', '~> 0.9'
 
-# Gadz.org Gems Gram v1 client
-gem 'gram_v1_client'
+# Gadz.org Gems Gram v2 client
+gem 'gram_v2_client', git: 'https://github.com/gadzorg/gram2_api_client_ruby.git'
 
 # Gadz.org rabbitMQ message sender
 gem 'gorg_message_sender'
+
+gem 'gorg_service'
+
+# For HTML mails
+gem 'premailer-rails'
+gem 'nokogiri'
 
 
 gem 'heroku_secrets', github: 'alexpeattie/heroku_secrets'
@@ -125,6 +131,9 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'faker'
+  gem 'quiet_assets'
+  gem 'rack-mini-profiler'
+
 end
 
 group :test do

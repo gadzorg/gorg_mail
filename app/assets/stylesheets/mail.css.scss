@@ -1,0 +1,81 @@
+.mw500p {
+  max-width: 500px;
+}
+.mw800p {
+  max-width: 800px;
+}
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+.txtcenter {
+  text-align: center;
+}
+
+
+body, button, input, select, textarea {
+    color: #4C4C4C;
+    font-family: "proxima_novalight", sans-serif;
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+.small{
+  font-size: 12px;
+}
+
+a.bouton_bleu {
+    background-color: #14BFCC;
+}
+
+a.bouton_orange_1 {
+    background-color: #F39200;
+}
+
+
+a.bouton{
+    display: inline-block;
+    font-family: "bebas_neueregular", sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: #FFF;
+    /*height: 45px;*/
+    /*line-height: 45px;*/
+    text-decoration: none;
+    text-align: center;
+    border-radius: 3px;
+    transition: all 0.4s ease 0s;
+    padding: 5px 10px;
+}
+
+a.bouton-medium{
+        display: inline-block;
+    font-family: "bebas_neueregular", sans-serif;
+    font-weight: 400;
+    color: #FFF;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 3px;
+    transition: all 0.4s ease 0s;
+    padding: 0px 7px;
+}
+
+a.bouton-light{
+    color: #14BFCC;
+    font-family: "bebas_neueregular", sans-serif;
+    text-decoration: none;
+}
+a:focus {
+    outline: 0px none;
+}
+
+body{background: #F7F7F7;}
+.content{background: #fff;}
+
+
+.mam {
+  margin: 2rem;
+}
+.pam {
+  padding: 2rem;
+}

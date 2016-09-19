@@ -21,12 +21,17 @@
 #  role_id                :integer
 #  last_gram_sync_at      :datetime
 #  canonical_name         :string(255)
+#  uuid                   :string(255)
+#  is_gadz                :boolean
 #
 # Indexes
 #
 #  index_users_on_email                 (email) UNIQUE
+#  index_users_on_hruid                 (hruid) UNIQUE
+#  index_users_on_is_gadz               (is_gadz)
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #  index_users_on_role_id               (role_id)
+#  index_users_on_uuid                  (uuid) UNIQUE
 #
 
 # Indexes
@@ -97,11 +102,13 @@ class User < ActiveRecord::Base
     self.synced_with_gram = false
     if self.syncable?
       begin
-        gram_data=GramV1Client::Account.find(self.hruid)
+        gram_data= GramV2Client::Account.find(self.uuid)
         self.email=gram_data.email
         self.firstname=gram_data.firstname
         self.lastname=gram_data.lastname
         self.last_gram_sync_at = Time.now
+        self.hruid = gram_data.hruid
+        self.is_gadz = gram_data.is_gadz
         if self.save
           self.synced_with_gram = true 
           return self
@@ -109,7 +116,7 @@ class User < ActiveRecord::Base
           return false
         end
       rescue ActiveResource::ResourceNotFound
-        logger.error "[GrAM] Utilisateur introuvable : #{self.hruid}"
+        logger.error "[GrAM] Utilisateur introuvable : hruid = #{self.hruid} uuid = #{self.uuid}"
         return false
       rescue ActiveResource::ServerError
         logger.error "[GrAM] Connexion au serveur impossible"
@@ -125,7 +132,7 @@ class User < ActiveRecord::Base
   end
 
   def syncable?
-    hruid.present?
+    uuid.present?
   end
 
   def next_sync_allowed_at
@@ -143,13 +150,14 @@ class User < ActiveRecord::Base
     logger.debug auth_data.inspect
 
     # auth_data : take a look on Users::OmniauthCallbacksController
-    unless user = User.find_by_hruid(auth_data[:uid])
+    unless user = User.find_by_uuid(auth_data[:extra][:uuid])
       user = User.new(
           email: auth_data[:info][:email],
           password: Devise.friendly_token[0,20],
           hruid: auth_data[:uid],
           firstname: auth_data[:extra][:firstname],
           lastname: auth_data[:extra][:lastname],
+          uuid: auth_data[:extra][:uuid],
       )
       user.save
     end
@@ -158,7 +166,7 @@ class User < ActiveRecord::Base
       user.update_from_gram
       user
     else
-      logger.error "Donnees revoyes par le CAS invalide : "+auth_data.to_s
+      logger.error "Donnees renvoyes par le CAS invalide : "+auth_data.to_s+" ---- "+user.errors.messages.inspect
       nil
     end
   end
@@ -267,6 +275,48 @@ class User < ActiveRecord::Base
     self.email_source_accounts.find_by(primary: true)
   end
 
+  def is_gadz?
+    self.update_attribute( :is_gadz, GramV2Client::Account.find(self.uuid).is_gadz)
+    self.is_gadz
+  end
+
+  def is_gadz_cached?
+    self.is_gadz
+  end
+
+  def groups
+    begin
+      GramV2Client::Account.find(self.uuid).groups
+    #TODO : move this dirty hack to gem
+    rescue => error
+      if error.to_s.include?("Response code = 404")
+        return []
+      else
+        # This is very bad.
+        puts error
+        return []
+      end
+    end
+  end
+
+  def lists_allowed_not_joined
+    lists_allowed - self.ml_lists
+  end
+
+  def lists_allowed(from_cache=false)
+    cache_name = "a#{self.uuid}-#{self.updated_at.to_i}-lists_allowed"
+    puts cache_name
+    Rails.cache.delete(cache_name) if from_cache == false
+    Rails.cache.fetch(cache_name, expires_in: 10.minute) do
+      lists_allowed_for_this_user = Ml::List.all_if_open
+      user_groups_uuid = self.groups.map(&:uuid)
+      lists_allowed_for_this_user = lists_allowed_for_this_user + Ml::List.where(inscription_policy: "conditional_gadz")
+      user_groups_uuid.each do |guuid|
+        lists_allowed_for_this_user << Ml::List.find_by(group_uuid: guuid)
+      end
+      lists_allowed_for_this_user.compact.uniq
+    end
+  end
 
   private
 

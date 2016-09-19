@@ -71,22 +71,28 @@ class EmailRedirectAccountsController < ApplicationController
   def destroy
 		authorize! :destroy, @email_redirect_account
 
-    @email_redirect_account.destroy
-
     @emails_redirect = email_redirect(@user)
-    
+    actives_eras_count = (@emails_redirect.select{|e| e.active?} - [@email_redirect_account]).count
+
     respond_to do |format|
-      format.json { head :no_content }
-      format.js
+      if actives_eras_count > 0 || @email_redirect_account.inactive?
+        @email_redirect_account.destroy
+        @emails_redirect = email_redirect(@user)
+        format.json { head :no_content }
+        format.js
+      else
+        flash[:error] = "Impossible de supprimer cette adresse, il n'y aurait plus de redirection."
+        format.json { head :no_content }
+        format.js
+      end
     end
   end
-  
+
   def confirm
     token=params[:token]
     
     if @email_redirect_account=EmailRedirectAccount.find_by_confirmation_token(token)
-      @email_redirect_account.confirmed = true
-      if @email_redirect_account.save
+      if @email_redirect_account.set_confirmed
         @emails_redirect = email_redirect(@user)
         # on essaie d'activer l'adresse. Si ça ne marche pas ( trop d'adresse de redir, un revois un message différent)
         if @email_redirect_account.set_active
@@ -124,10 +130,9 @@ class EmailRedirectAccountsController < ApplicationController
  
  #for changin flag
  def flag
-
-      authorize! :update, @email_redirect_account
-      flag = params[:flag]
       era = EmailRedirectAccount.find(params[:email_redirect_account_id])
+      authorize! :update, era
+      flag = params[:flag]
       case flag
       when "active"
         if era.set_active
@@ -144,7 +149,7 @@ class EmailRedirectAccountsController < ApplicationController
             @emails_redirect = @user.email_redirect_accounts.order(:type_redir).select(&:persisted?)
           
             respond_to do |format|
-            flash[:error] = "Erreur lors de l'activation"
+            flash[:error] = "Tu ne peux pas activer plus de #{Configurable[:max_actives_era]} adresses en même temps"
             format.json { head :no_content }
             format.js
           end
@@ -155,7 +160,7 @@ class EmailRedirectAccountsController < ApplicationController
         @emails_redirect = @user.email_redirect_accounts.order(:type_redir).select(&:persisted?)
         
           respond_to do |format|
-            flash[:notice] = "Adresse désactrivée avec succés!"
+            flash[:notice] = "Adresse désactivée avec succés!"
             # format.json { head :no_content }
             format.js
           end

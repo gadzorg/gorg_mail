@@ -205,9 +205,11 @@ a:focus {
     border-top: 1px solid #ddd; 
 }
 
-
+.green {color: #27ae60}
 .red {color: #c0392b}
 .inactive {color: #AAA;}
+.bg-red { background-color: #c0392b; color: #fff}
+
 .bg-blue { background-color: #14BFCC}
 .bg-blue-dark-2 { background-color: #017782; color: #fff;}
 .bg-blue-dark-1 { background-color: #01B0C0; color: #fff;}

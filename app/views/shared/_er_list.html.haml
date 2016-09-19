@@ -2,16 +2,25 @@
 -unless @user.has_google_apps
   %div.bg-blue-dark-2
     .pam
-      Avec un compte Google Apps, j'accède aux mails de la communauté en toute simplicité!
+      Avec un compte Google Apps, je reçois mes mails gadz.org en toute simplicité !
 
       .mts= link_to ' Créer mon compte Google Apps ', create_google_apps_user_path(@user), method: :get,:remote=>true,  :class =>"bouton bouton_bleu"
+  -if @emails_redirect.select{|e| e.active?}.count == 0
+    %div.bg-red
+      .pam
+        Attention ! Tu dois activer une des adresses ci-dessous ou créer un compte Google Gadz.org pour recevoir les mail envoyés à ton adresse gadz.org,
 - @emails_redirect.each do |e|
   -if e.type_redir == "googleapps"
     .pam.bg-blue-dark-2
-      %span
-        %i.zmdi.zmdi-google.icon-padding-list
-        Google Apps Gadz
-      %span.fr= link_to 'Connexion', "https://mail.google.com/a/gadz.org", :class =>"bouton-light"
+      -if e.confirmed
+        %span
+          %i.zmdi.zmdi-google.icon-padding-list
+          GMail #{@user.primary_email}
+        %span.fr= link_to 'Connexion', "https://mail.google.com/a/gadz.org", :class =>"bouton-light", :target => "_blank"
+      -else
+        %span
+          %i.zmdi.zmdi-google.icon-padding-list
+          Google Apps Gadz en cours de création...
 
   -else
     %li
@@ -47,4 +56,13 @@
         -if can? :destroy, e
           = link_to user_email_redirect_account_path(@user,e), method: :delete, :remote => true, confirm: true,  title: 'Supprimer cette adresse', rel: 'tooltip', data: {confirm: "Tu vas supprimer définitivement cette addresse, es-tu bien certain ? Tu pourras dans tous les cas la recréer plus tard si tu le souhaites."} do
             %i.zmdi.zmdi-delete.icon-padding-list
+
+      %span
+        -unless e.confirmed
+          %br/
+          .red Suis les instructions dans le mail envoyé à cette adresse pour la valider.
+        -if e.broken?
+          %br/
+          .red Cette adresse semble ne plus fonctionner
+
 

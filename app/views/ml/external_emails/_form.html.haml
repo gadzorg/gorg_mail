@@ -1,0 +1,9 @@
+= simple_form_for(@ml_external_email) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :list_id
+    = f.input :email
+
+  .form-actions
+    = f.button :submit

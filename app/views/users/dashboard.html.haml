@@ -1,66 +1,49 @@
+-content_for :header do
+  =javascript_include_tag 'user/dashboard.js.erb'
 %section.pam
-	%h1 Mes redirections email
-	.grid-5-small-2
-		.box.box-light.shadow-1.mtm.flex-item-double
-			.box-top.box-top-color.pam
-				Si on envoie un mail à :
-			.box-bottom.email-list
-				%ul
-					#source
-						=render partial: "shared/es_list", locals: {emails_source: @emails_source}
+  %h1 Mes redirections email
+  .grid-5-small-2
+    .box.box-light.shadow-1.mtm.flex-item-double
+      .box-top.box-top-color.pam
+        Si on envoie un mail à :
+      .box-bottom.email-list
+        %ul
+          #source
+            =render partial: "shared/es_list", locals: {emails_source: @emails_source}
 
-					-if can? :create, @new_esa
-						.fr.pam
-							=form_for  [@user,@new_esa], :remote=>true  do |f|
-								.group.group-m-form 
-									=f.text_field :email, :size => 10
-									.span.highlight
-									.span.bar
-									=f.label "email"
-									=f.select :email_virtual_domain_id,EmailVirtualDomain.all.map { |e| [e.name,e.id] }
-									=f.submit '+ Ajouter',:class => "bouton bouton_bleu"
+          -if can? :create, @new_esa
+            .fr.pam
+              =form_for  [@user,@new_esa], :remote=>true  do |f|
+                .group.group-m-form
+                  =f.text_field :email, :size => 10
+                  .span.highlight
+                  .span.bar
+                  =f.label "email"
+                  =f.select :email_virtual_domain_id,EmailVirtualDomain.all.map { |e| [e.name,e.id] }
+                  =f.submit '+ Ajouter',:class => "bouton bouton_bleu"
 
 
-		.ma1.small-hidden
-			.txtcenter.vertical-center
-				%i.zmdi.zmdi-long-arrow-right#big-arrow
+    .ma1.small-hidden
+      .txtcenter.vertical-center
+        %i.zmdi.zmdi-long-arrow-right#big-arrow
 
-		.box.box-light.shadow-1.mtm.flex-item-double
-			.box-top.box-top-color.pam
-				Je le reçois sur :
-			.box-bottom.email-list{ :data => {:url => user_email_redirect_accounts_path(@user, :format => :json)} }
-				%ul
-					#redirect
-						=render partial: "shared/er_list", locals: {emails_redirect: @emails_redirect}
+    .box.box-light.shadow-1.mtm.mbm.flex-item-double
+      .box-top.box-top-color.pam
+        Je le reçois sur :
+      .box-bottom.email-list{ :data => {:url => user_email_redirect_accounts_path(@user, :format => :json)} }
+        %ul
+          #redirect
+            =render partial: "shared/er_list", locals: {emails_redirect: @emails_redirect}
 
-					.pam
-						=form_for  [@user,@new_era], :remote=>true   do |f|
-							.fl.group.group-m-form
-								=f.email_field :redirect, :size => 15
-								.span.highlight.w100
-								.span.bar.w100
-								=label_tag "email@domaine.fr"
-							.fr.plm.plr
-								=f.submit '+ Ajouter',:class => "bouton bouton_bleu"
+          .pam
+            =form_for  [@user,@new_era], :remote=>true   do |f|
+              .fl.group.group-m-form
+                =f.email_field :redirect, :size => 15
+                .span.highlight.w100
+                .span.bar.w100
+                =label_tag "email@domaine.fr"
+              .fr.plm.plr
+                =f.submit '+ Ajouter',:class => "bouton bouton_bleu"
 
-					-#%li.fr =form_tag user_email_redirect_accounts_path 
-					-# %li.fr= link_to '+ Ajouter ', new_user_session_path, :class =>"bouton-medium bouton_bleu"
-%section.pam
-	%h1 Mes listes de diffustion
-	.grid-2
-		.box.box-light.shadow-1.mtm.flex-item-double
-			.box-top.box-top-color.pam
-				Listes où je suis inscrit :
-			.box-bottom.email-list
-				%ul
-					#joined_lists
-						-if @lists_joined.present?
-							=render partial: "shared/ml_list", locals: {lists: @lists_joined, user: @user}
-		.box.box-light.shadow-1.mtm.flex-item-double
-			.box-top.box-top-color.pam
-				Autres listes :
-			.box-bottom.email-list
-				%ul
-					#not_joined_lists
-						-if @lists_not_joined.present?
-							=render partial: "shared/ml_list", locals: {lists: @lists_not_joined, user: @user}
+          -#%li.fr =form_tag user_email_redirect_accounts_path
+          -# %li.fr= link_to '+ Ajouter ', new_user_session_path, :class =>"bouton-medium bouton_bleu"

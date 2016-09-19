@@ -16,7 +16,10 @@
 #
 # Indexes
 #
+#  index_email_source_accounts_on_email                    (email)
 #  index_email_source_accounts_on_email_virtual_domain_id  (email_virtual_domain_id)
+#  index_email_source_accounts_on_flag                     (flag)
+#  index_email_source_accounts_on_primary                  (primary)
 #  index_email_source_accounts_on_user_id                  (user_id)
 #
 
@@ -52,5 +55,10 @@ class EmailSourceAccount < ActiveRecord::Base
 			  return true
 			end
 		end
+
+	def self.find_by_full_email(full_email)
+		email_base, domain = full_email.split("@")
+		EmailSourceAccount.joins(:email_virtual_domain).where(email_source_accounts: {email: email_base}, email_virtual_domains: {name: domain}).first
+	end
 
 end
