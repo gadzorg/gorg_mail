@@ -31,6 +31,8 @@ class EmailSourceAccount < ActiveRecord::Base
 	validates :email_virtual_domain, presence: true
 	validates :user, presence: true
 	validate :primary, :only_one_primary_by_user
+	after_save :update_rewrite
+
 	def to_s
 		"#{self.email}@#{self.email_virtual_domain.name}"
 	end
@@ -59,6 +61,10 @@ class EmailSourceAccount < ActiveRecord::Base
 	def self.find_by_full_email(full_email)
 		email_base, domain = full_email.split("@")
 		EmailSourceAccount.joins(:email_virtual_domain).where(email_source_accounts: {email: email_base}, email_virtual_domains: {name: domain}).first
+	end
+
+	def update_rewrite
+		self.user.email_redirect_accounts.map(&:set_rewrite) if self.user
 	end
 
 end
