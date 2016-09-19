@@ -3,12 +3,14 @@ namespace :import_sample do
   task import_csv: :environment do
     require 'csv'
     require 'devise'
+    Rails.logger.level = Logger::DEBUG
 
     CSV_ACCOUNTS_PATH=File.join(Rails.root,'lib/assets/accounts.csv')
     CSV_ERA_PATH=File.join(Rails.root,'lib/assets/era.csv')
     CSV_ESA_PATH=File.join(Rails.root,'lib/assets/esa.csv')
     CSV_ALIAS_PATH=File.join(Rails.root,'lib/assets/alias.csv')
     CSV_BLACKLIST_PATH=File.join(Rails.root,'lib/assets/blacklist.csv')
+    CSV_UUID_PATH=File.join(Rails.root,'lib/assets/uuid.csv')
 
     accounts_csv=CSV.parse(File.read(CSV_ACCOUNTS_PATH),headers: true)
     era_csv=CSV.parse(File.read(CSV_ERA_PATH),headers: true)
@@ -16,8 +18,35 @@ namespace :import_sample do
     alias_csv=CSV.parse(File.read(CSV_ALIAS_PATH),headers: true)
     blacklist_csv=CSV.parse(File.read(CSV_BLACKLIST_PATH),headers: true)
 
+    uuid_csv=CSV.parse(File.read(CSV_UUID_PATH),headers: true)
 
-    accounts_csv.each do |ac_row|
+    puts "Load uuid file"
+    uuids={}
+    uuid_csv.each do |uuid_row|
+      uuids[uuid_row[:hruid]]=uuid_row[:uuid]
+    end
+
+
+    puts "done"
+
+    puts "Delete all ERA and ESA"
+    EmailSourceAccount.delete_all
+    EmailRedirectAccount.delete_all
+    puts "done"
+
+    accounts_count = accounts_csv.count.to_f
+    accounts_imported = 0.to_f
+    start_date = DateTime.now
+
+    CSV.foreach(CSV_ACCOUNTS_PATH,{:headers => :first_row}) do |ac_row|
+
+        elapsed_time =(DateTime.now - start_date)*1.days
+      remaining_time = elapsed_time/accounts_imported * (accounts_count-accounts_imported)
+      percentage = (accounts_imported/(accounts_count+1)*100)
+
+      puts accounts_imported.to_s + " / " + accounts_count.to_s + " | "+ percentage.round(2).to_s + "% | Temps écoulé : " +elapsed_time.round(2).to_s + "s | Temps restant : " + remaining_time.round(2).to_s + "s | "
+
+      puts Benchmark.measure{
       if u=User.create_with(
         email: ac_row['email'],
         password: Devise.friendly_token[0,20],
@@ -25,9 +54,9 @@ namespace :import_sample do
         lastname: ac_row['lastname'],
         ).find_or_create_by(hruid: ac_row['hruid'])
 
-      puts ac_row['hruid']+" : OK"
-      u.email_source_accounts.delete_all
-      u.email_redirect_accounts.delete_all
+        puts ac_row['hruid']+" : OK"
+        #u.email_source_accounts.delete_all
+        #u.email_redirect_accounts.delete_all
 
       else
 
@@ -35,6 +64,9 @@ namespace :import_sample do
         puts ac_row
 
       end
+      }
+      accounts_imported +=1
+
     end
 
 #  id            :integer          not null, primary key

@@ -20,7 +20,6 @@
 #  updated_at                             :datetime         not null
 #  inscription_policy                     :string(255)
 #  group_uuid                             :string(255)
-#  members_count_cache                    :integer
 #
 # Indexes
 #
