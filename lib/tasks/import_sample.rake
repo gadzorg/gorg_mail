@@ -52,6 +52,7 @@ namespace :import_sample do
         password: Devise.friendly_token[0,20],
         firstname: ac_row['firstname'],
         lastname: ac_row['lastname'],
+        uuid: uuids[ac_row['hruid']]
         ).find_or_create_by(hruid: ac_row['hruid'])
 
         puts ac_row['hruid']+" : OK"
