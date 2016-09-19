@@ -104,5 +104,6 @@ class EmailRedirectAccount < ActiveRecord::Base
   def set_rewrite
     self.rewrite = self.user.primary_email
     self.allow_rewrite = 1
+    self.save
   end
 end
