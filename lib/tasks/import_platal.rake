@@ -63,7 +63,7 @@ namespace :import_platal do
             lastname: ac_row['lastname'],
             hruid: ac_row['hruid'],
             uuid: uuid
-            ).find_or_create_by(hruid: ac_row['hruid'])
+            ).find_or_create_by!(hruid: ac_row['hruid'])
 
             puts ac_row['hruid']+" : OK"
           else
