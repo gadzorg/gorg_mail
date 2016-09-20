@@ -27,7 +27,6 @@
 # Indexes
 #
 #  index_users_on_canonical_name        (canonical_name)
-#  index_users_on_email                 (email) UNIQUE
 #  index_users_on_hruid                 (hruid) UNIQUE
 #  index_users_on_is_gadz               (is_gadz)
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
@@ -50,7 +49,7 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable,
-         :rememberable, :trackable, :validatable,
+         :rememberable, :trackable,
          :omniauthable, :omniauth_providers => [:GadzOrg]
 
   ##
