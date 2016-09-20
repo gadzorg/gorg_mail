@@ -1,24 +1,26 @@
-namespace :import_sample do
-  desc "TODO"
-  task import_csv: :environment do
-    require 'csv'
+namespace :import_platal do
+  require 'csv'
+
+  desc "import all"
+  task import_all: :environment do
+    Rake::Task["import_platal:import_users"].invoke
+    Rake::Task["import_platal:import_era"].invoke
+    Rake::Task["import_platal:import_esa"].invoke
+    Rake::Task["import_platal:import_blacklist"].invoke
+    Rake::Task["import_platal:import_aliases"].invoke
+  end
+
+  desc "import users"
+  task import_users: :environment do
     require 'devise'
     Rails.logger.level = Logger::DEBUG
 
     CSV_ACCOUNTS_PATH=File.join(Rails.root,'lib/assets/accounts.csv')
-    CSV_ERA_PATH=File.join(Rails.root,'lib/assets/era.csv')
-    CSV_ESA_PATH=File.join(Rails.root,'lib/assets/esa.csv')
-    CSV_ALIAS_PATH=File.join(Rails.root,'lib/assets/alias.csv')
-    CSV_BLACKLIST_PATH=File.join(Rails.root,'lib/assets/blacklist.csv')
     CSV_UUID_PATH=File.join(Rails.root,'lib/assets/uuid.csv')
 
     accounts_csv=CSV.parse(File.read(CSV_ACCOUNTS_PATH),headers: true)
-    era_csv=CSV.parse(File.read(CSV_ERA_PATH),headers: true)
-    esa_csv=CSV.parse(File.read(CSV_ESA_PATH),headers: true)
-    alias_csv=CSV.parse(File.read(CSV_ALIAS_PATH),headers: true)
-    blacklist_csv=CSV.parse(File.read(CSV_BLACKLIST_PATH),headers: true)
-
     uuid_csv=CSV.parse(File.read(CSV_UUID_PATH),headers: true)
+
 
     puts "Load uuid file"
     uuids={}
@@ -59,6 +61,7 @@ namespace :import_sample do
             password: Devise.friendly_token[0,20],
             firstname: ac_row['firstname'],
             lastname: ac_row['lastname'],
+            hruid: ac_row['hruid'],
             uuid: uuid
             ).find_or_create_by(hruid: ac_row['hruid'])
 
@@ -75,6 +78,13 @@ namespace :import_sample do
       accounts_imported +=1
 
     end
+  end
+
+  desc "import email redirect"
+  task import_era: :environment do
+    CSV_ERA_PATH=File.join(Rails.root,'lib/assets/era.csv')
+
+    era_csv=CSV.parse(File.read(CSV_ERA_PATH),headers: true)
 
 #  id            :integer          not null, primary key
 #  uid           :integer
@@ -92,8 +102,8 @@ namespace :import_sample do
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  user_id       :integer
-
-    era_csv.each do |row|
+    ActiveRecord::Base.transaction do
+      era_csv.each do |row|
       u=User.find_by_hruid(row['hruid'])
       u.email_redirect_accounts.create(
         redirect:row['redirect'],
@@ -108,14 +118,23 @@ namespace :import_sample do
         allow_rewrite:row['allow_rewrite'],
         srs_rewrite:row['srs_rewrite'],
       )
+      end
     end
 
-#  email      :string
-#  uid        :integer
-#  type       :integer
-#  flag       :string
-#  expire     :date
+  end
 
+  desc "import email source account"
+  task import_esa: :environment do
+
+    CSV_ESA_PATH=File.join(Rails.root,'lib/assets/esa.csv')
+
+    esa_csv=CSV.parse(File.read(CSV_ESA_PATH),headers: true)
+
+  #  email      :string
+  #  uid        :integer
+  #  type       :integer
+  #  flag       :string
+  #  expire     :date
     esa_csv.each do |row|
       u=User.find_by_hruid(row['hruid'])
       puts row['flags']
@@ -127,9 +146,14 @@ namespace :import_sample do
         primary: row['flags'].present? && row['flags'].include?("bestalias") ? true : false
       )
     end
+  end
 
+  desc "import blacklist"
+  task import_blaklist: :environment do
 
+    CSV_BLACKLIST_PATH=File.join(Rails.root,'lib/assets/blacklist.csv')
 
+    blacklist_csv=CSV.parse(File.read(CSV_BLACKLIST_PATH),headers: true)
 #  email       :string
 #  reject_text :string
     blacklist_csv.each do |row|
@@ -143,7 +167,14 @@ namespace :import_sample do
 
       end
     end
+  end
 
+  desc "import aliases"
+  task import_aliases: :environment do
+
+    CSV_ALIAS_PATH=File.join(Rails.root,'lib/assets/alias.csv')
+
+    alias_csv=CSV.parse(File.read(CSV_ALIAS_PATH),headers: true)
     # Alias Import
 #  email      :string
 #  redirect   :string
