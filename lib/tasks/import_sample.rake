@@ -70,9 +70,9 @@ namespace :import_sample do
           end
         }
       else
-        accounts_imported_error +=1
+        accounts_imported_error_uuid +=1
       end
-      accounts_imported_error_uuid +=1
+      accounts_imported +=1
 
     end
 
