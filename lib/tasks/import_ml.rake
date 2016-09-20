@@ -1,16 +1,14 @@
 namespace :import_ml do
+  require 'csv'
+  require 'benchmark'
   desc "TODO"
-  task import_csv: :environment do
-    require 'csv'
-    require 'benchmark'
+  task import_ml: :environment do
 
 
     CSV_ML_LIST_PATH=File.join(Rails.root,'lib/assets/ml_list.csv')
-    CSV_ML_MEMBERS_PATH=File.join(Rails.root,'lib/assets/ml_members.csv')
 
     puts "Load CSV..."
     ml_list=CSV.parse(File.read(CSV_ML_LIST_PATH),headers: true)
-    ml_members=CSV.parse(File.read(CSV_ML_MEMBERS_PATH),headers: true)
     puts "Done!"
     puts "Load ML..."
 
@@ -38,6 +36,16 @@ namespace :import_ml do
         end
     end
     puts "Done!"
+  end
+  desc "Import ML members"
+  task import_members: :environment do
+
+    puts "Load CSV..."
+
+    CSV_ML_MEMBERS_PATH=File.join(Rails.root,'lib/assets/ml_members.csv')
+    ml_members=CSV.parse(File.read(CSV_ML_MEMBERS_PATH),headers: true)
+    puts "Done!"
+
 
     puts "Load ML members..."
 
@@ -55,6 +63,17 @@ namespace :import_ml do
 
       puts Benchmark.measure {
         ml=Ml::List.find_by(email: ml_member_row["list_email"])
+
+        #search in renamed ML
+        if ml.nil?
+          e= ml_member_row["list_email"]
+          ml_email_base, ml_domain = e.split('@')
+          new_email = ml_email_base + "." +ml_domain.gsub(".gadz.org", "") + "@gadz.org"
+          puts new_email
+          ml=Ml::List.find_by(email: new_email)
+
+        end
+
         ml.add_email(ml_member_row["member_email"],false) #add email w/o sync
       }
       members_imported +=1

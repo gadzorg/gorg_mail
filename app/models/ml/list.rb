@@ -137,7 +137,7 @@ class Ml::List < ActiveRecord::Base
   ################# email_alias ################
 
   def redirection_alias
-    Alias.find_by_email(self.email)
+    Alias.find_by(redirect: self.email.gsub(Configurable[:main_mail_domain],Configurable[:default_google_apps_domain_alias]))
   end
 
 
