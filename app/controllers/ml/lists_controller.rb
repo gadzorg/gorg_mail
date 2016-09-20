@@ -21,11 +21,13 @@ class Ml::ListsController < ApplicationController
   def new
     @ml_list = Ml::List.new
     authorize! :create, @ml_list
+    @evd = EmailVirtualDomain.all.map(&:name)
   end
 
   # GET /ml/lists/1/edit
   def edit
     authorize! :update, @ml_list
+    @evd = EmailVirtualDomain.all.map(&:name)
   end
 
   # POST /ml/lists

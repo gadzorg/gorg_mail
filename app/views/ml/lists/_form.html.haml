@@ -4,6 +4,9 @@
   .form-inputs
     = f.input :name
     = f.input :email
+    %p
+      L'email doit être une adresse gadz.org ou un des domaines suivants :
+      =@evd
     = f.input :description
     = f.input :aliases
     = f.label :diffusion_policy
