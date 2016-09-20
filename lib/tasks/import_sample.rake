@@ -37,41 +37,42 @@ namespace :import_sample do
     accounts_count = accounts_csv.count.to_f
     accounts_imported = 0.to_f
     accounts_imported_error = 0
+    accounts_imported_error_uuid = 0
     start_date = DateTime.now
 
     CSV.foreach(CSV_ACCOUNTS_PATH,{:headers => :first_row}) do |ac_row|
 
-        elapsed_time =(DateTime.now - start_date)*1.days
+      elapsed_time =(DateTime.now - start_date)*1.days
       remaining_time = elapsed_time/accounts_imported * (accounts_count-accounts_imported)
       percentage = (accounts_imported/(accounts_count+1)*100)
 
       puts accounts_imported.to_s + " / " + accounts_count.to_s + " | "+ percentage.round(2).to_s + "% | Temps écoulé : " +elapsed_time.round(2).to_s + "s | Temps restant : " + remaining_time.round(2).to_s + "s | erreurs" + accounts_imported_error.to_s
 
+      uuid = uuids[ac_row['hruid']]
 
-      puts ac_row['email'].to_s + " | "+ ac_row['firstname'].to_s + " | "+ ac_row['lastname'].to_s + " | "+ uuids[ac_row['hruid'].to_s]
-      puts Benchmark.measure{
-      if u=User.create_with(
-        email: ac_row['email'],
-        password: Devise.friendly_token[0,20],
-        firstname: ac_row['firstname'],
-        lastname: ac_row['lastname'],
-        uuid: uuids[ac_row['hruid']]
-        ).find_or_create_by(hruid: ac_row['hruid'])
+      puts ac_row['email'].to_s + " | "+ ac_row['firstname'].to_s + " | "+ ac_row['lastname'].to_s + " | "+ uuid.to_s
 
-        puts ac_row['hruid']+" : OK"
-        #u.email_source_accounts.delete_all
-        #u.email_redirect_accounts.delete_all
+      if uuid.present?
+        puts Benchmark.measure{
+          if u=User.create_with(
+            email: ac_row['email'],
+            password: Devise.friendly_token[0,20],
+            firstname: ac_row['firstname'],
+            lastname: ac_row['lastname'],
+            uuid: uuid
+            ).find_or_create_by(hruid: ac_row['hruid'])
 
+            puts ac_row['hruid']+" : OK"
+          else
+            puts ac_row['hruid']+" : ERREUR !!!!!!"
+            puts ac_row
+            accounts_imported_error +=1
+          end
+        }
       else
-
-        puts ac_row['hruid']+" : ERREUR !!!!!!"
-        puts ac_row
         accounts_imported_error +=1
-
-
       end
-      }
-      accounts_imported +=1
+      accounts_imported_uuid +=1
 
     end
 
