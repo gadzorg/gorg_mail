@@ -23,7 +23,7 @@ namespace :import_sample do
     puts "Load uuid file"
     uuids={}
     uuid_csv.each do |uuid_row|
-      uuids[uuid_row[:hruid]]=uuid_row[:uuid]
+      uuids[uuid_row['hruid']]=uuid_row['uuid']
     end
 
 
@@ -36,6 +36,7 @@ namespace :import_sample do
 
     accounts_count = accounts_csv.count.to_f
     accounts_imported = 0.to_f
+    accounts_imported_error = 0
     start_date = DateTime.now
 
     CSV.foreach(CSV_ACCOUNTS_PATH,{:headers => :first_row}) do |ac_row|
@@ -44,8 +45,10 @@ namespace :import_sample do
       remaining_time = elapsed_time/accounts_imported * (accounts_count-accounts_imported)
       percentage = (accounts_imported/(accounts_count+1)*100)
 
-      puts accounts_imported.to_s + " / " + accounts_count.to_s + " | "+ percentage.round(2).to_s + "% | Temps écoulé : " +elapsed_time.round(2).to_s + "s | Temps restant : " + remaining_time.round(2).to_s + "s | "
+      puts accounts_imported.to_s + " / " + accounts_count.to_s + " | "+ percentage.round(2).to_s + "% | Temps écoulé : " +elapsed_time.round(2).to_s + "s | Temps restant : " + remaining_time.round(2).to_s + "s | erreurs" + accounts_imported_error.to_s
 
+
+      puts ac_row['email'].to_s + " | "+ ac_row['firstname'].to_s + " | "+ ac_row['lastname'].to_s + " | "+ uuids[ac_row['hruid'].to_s]
       puts Benchmark.measure{
       if u=User.create_with(
         email: ac_row['email'],
@@ -63,6 +66,8 @@ namespace :import_sample do
 
         puts ac_row['hruid']+" : ERREUR !!!!!!"
         puts ac_row
+        accounts_imported_error +=1
+
 
       end
       }
