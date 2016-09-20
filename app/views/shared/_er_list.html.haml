@@ -12,10 +12,15 @@
 - @emails_redirect.each do |e|
   -if e.type_redir == "googleapps"
     .pam.bg-blue-dark-2
-      %span
-        %i.zmdi.zmdi-google.icon-padding-list
-        GMail #{@user.primary_email}
-      %span.fr= link_to 'Connexion', "https://mail.google.com/a/gadz.org", :class =>"bouton-light"
+      -if e.confirmed
+        %span
+          %i.zmdi.zmdi-google.icon-padding-list
+          GMail #{@user.primary_email}
+        %span.fr= link_to 'Connexion', "https://mail.google.com/a/gadz.org", :class =>"bouton-light", :target => "_blank"
+      -else
+        %span
+          %i.zmdi.zmdi-google.icon-padding-list
+          Google Apps Gadz en cours de création...
 
   -else
     %li

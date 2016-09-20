@@ -187,7 +187,7 @@ namespace :import_platal do
           if Alias.create(
               email: row["email"],
               srs_rewrite: row["srs_rewrite"],
-              email_virtual_domain_id: row["domain"],
+              email_virtual_domain: EmailVirtualDomain.find_or_create_by(name: row['name']),
               redirect: row["redirect"],
               alias_type: row["type"]
           )
@@ -204,7 +204,7 @@ namespace :import_platal do
           redirect_base, redirect_domain = redirect.split("@")
 
           email = row["email"]
-          domain_id = row["domain"]
+          domain_id = EmailVirtualDomain.find_or_create_by(name: row['name']).id
 
           user = nil
           evda=EmailVirtualDomain.where(name: "#{redirect_domain}")
@@ -230,7 +230,7 @@ namespace :import_platal do
                   email: row["email"],
                   redirect: row["redirect"],
                   srs_rewrite: row["srs_rewrite"],
-                  email_virtual_domain_id: row["domain"],
+                  email_virtual_domain: EmailVirtualDomain.find_or_create_by(name: row['name']),
                   alias_type: row["type"]
               )
                 count[:nik_and_fam_pased_as_standard] = count[:nik_and_fam_pased_as_standard].to_i + 1
@@ -243,7 +243,7 @@ namespace :import_platal do
               email: row["email"],
               redirect: row["redirect"],
               srs_rewrite: row["srs_rewrite"],
-              email_virtual_domain_id: row["domain"],
+              email_virtual_domain: EmailVirtualDomain.find_or_create_by(name: row['name']),
               alias_type: row["type"]
           )
             count[:alias_unknown] = count[:alias_unknown].to_i + 1

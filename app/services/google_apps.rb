@@ -35,12 +35,12 @@ class GoogleApps
   def create_google_apps_redirection
     # if @user.email_source_account
     unless @user.has_google_apps
-    @user.email_redirect_accounts.create(
+    gapps_era = @user.email_redirect_accounts.create(
         redirect: @google_apps_email_alias,
-        type_redir: 'googleapps',
-        flag: 'active',
-        confirmed: true
+        type_redir: 'googleapps'
     )
+    gapps_era.set_inactive_and_unconfirmed
+
     end
   end
 

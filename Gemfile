@@ -92,12 +92,15 @@ gem 'gram_v2_client', git: 'https://github.com/gadzorg/gram2_api_client_ruby.git
 # Gadz.org rabbitMQ message sender
 gem 'gorg_message_sender'
 
+gem 'gorg_service'
+
 # For HTML mails
 gem 'premailer-rails'
 gem 'nokogiri'
 
 
 gem 'heroku_secrets', github: 'alexpeattie/heroku_secrets'
+gem 'puma'
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views

@@ -92,8 +92,7 @@ class EmailRedirectAccountsController < ApplicationController
     token=params[:token]
     
     if @email_redirect_account=EmailRedirectAccount.find_by_confirmation_token(token)
-      @email_redirect_account.confirmed = true
-      if @email_redirect_account.save && @email_redirect_account.set_active
+      if @email_redirect_account.set_confirmed
         @emails_redirect = email_redirect(@user)
         # on essaie d'activer l'adresse. Si ça ne marche pas ( trop d'adresse de redir, un revois un message différent)
         if @email_redirect_account.set_active

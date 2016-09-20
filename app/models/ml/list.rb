@@ -48,7 +48,7 @@ class Ml::List < ActiveRecord::Base
 
 
   def add_user_no_sync(user)
-    self.users.exclude?(user) ? self.users << user : user.errors << ["User already in list"]
+    self.users.exclude?(user) ? self.users << user : errors.add(:user, "User already in list")
   end
 
   def remove_user_no_sync(user)

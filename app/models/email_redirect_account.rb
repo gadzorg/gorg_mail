@@ -34,6 +34,7 @@ class EmailRedirectAccount < ActiveRecord::Base
 
   validates :redirect, :uniqueness => {:scope => :user_id}
   validates :redirect, :email => true
+  after_create :email_redirect_account_completer
 
   def generate_new_token()
     self.confirmation_token = loop do
@@ -89,10 +90,38 @@ class EmailRedirectAccount < ActiveRecord::Base
     end
   end
 
+  def set_confirmed
+    self.confirmed = true
+    self.save
+  end
+
+  def set_unconfirmed
+    self.confirmed = false
+    self.save
+  end
+
+  def set_active_and_confirm
+    set_active && set_confirmed
+  end
+
+  def set_inactive_and_unconfirmed
+    set_inactive && set_unconfirmed
+  end
+
   def is_internal_domains_address?
     domains = (Configurable[:default_mail_domains] + " " + Configurable[:default_google_apps_domain_alias]).split.uniq
     era_domain = self.redirect.split("@").last
     domains.include?(era_domain)
   end
 
+
+  def email_redirect_account_completer
+    self.set_rewrite
+  end
+
+  def set_rewrite
+    self.rewrite = self.user.primary_email
+    self.allow_rewrite = 1
+    self.save
+  end
 end
