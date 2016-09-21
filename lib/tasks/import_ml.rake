@@ -15,6 +15,14 @@ namespace :import_ml do
     ml_list.each do |ml_row|
       if ml_row["email"]
         puts ml_row["name"] + "  " + ml_row["email"] + "  " + ml_row["max_message_size"]
+
+        alias_to_delete = Alias.find_by_email(ml_row["email"])
+        while !alias_to_delete.nil?
+          alias_to_delete.destroy
+          alias_to_delete = Alias.find_by_email(ml_row["email"])
+        end
+
+        Alias.find_by_email(ml_row["email"])
         a = Ml::List.new(
             name:ml_row["name"],
             email:ml_row["email"],
@@ -33,6 +41,8 @@ namespace :import_ml do
         )
         puts a.inspect
         a.save
+
+
         end
     end
     puts "Done!"
