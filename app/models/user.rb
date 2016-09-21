@@ -70,7 +70,8 @@ class User < ActiveRecord::Base
 
 
   validates :hruid, uniqueness: true, :allow_blank => true, :allow_nil => false
-  validates :email, format: { with: /\A([^@+\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i}
+  #validates :email, :allow_nil => true
+  #validates :email, format: { with: /\A([^@+\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,}) \z/i}  unless nil?
 
 
 
