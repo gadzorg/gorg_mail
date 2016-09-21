@@ -69,10 +69,7 @@ class User < ActiveRecord::Base
   after_create :create_canonical_name
 
 
-  validates :hruid, uniqueness: true, :allow_blank => true, :allow_nil => false
-  #validates :email, :allow_nil => true
-  #validates :email, format: { with: /\A([^@+\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,}) \z/i}  unless nil?
-
+  validates :hruid, uniqueness: true, presence: true
 
 
 
