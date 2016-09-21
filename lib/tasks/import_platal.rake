@@ -1,5 +1,6 @@
 namespace :import_platal do
   require 'csv'
+  require 'activerecord-import'
 
   desc "import all"
   task import_all: :environment do
@@ -28,8 +29,8 @@ namespace :import_platal do
       uuids[uuid_row['hruid']]=uuid_row['uuid']
     end
 
-
     puts "done"
+
 
     puts "Delete all ERA and ESA"
     EmailSourceAccount.delete_all
@@ -42,7 +43,10 @@ namespace :import_platal do
     accounts_imported_error_uuid = 0
     start_date = DateTime.now
 
+    users = []
+
     CSV.foreach(CSV_ACCOUNTS_PATH,{:headers => :first_row}) do |ac_row|
+    #accounts_csv.each do |ac_row|
 
       elapsed_time =(DateTime.now - start_date)*1.days
       remaining_time = elapsed_time/accounts_imported * (accounts_count-accounts_imported)
@@ -58,7 +62,7 @@ namespace :import_platal do
         puts Benchmark.measure{
           if u=User.create_with(
             email: ac_row['email'],
-            password: Devise.friendly_token[0,20],
+            #password: Devise.friendly_token[0,20],
             firstname: ac_row['firstname'],
             lastname: ac_row['lastname'],
             hruid: ac_row['hruid'],
@@ -75,6 +79,7 @@ namespace :import_platal do
       else
         accounts_imported_error_uuid +=1
       end
+      #users << u
       accounts_imported +=1
 
     end
@@ -102,24 +107,36 @@ namespace :import_platal do
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  user_id       :integer
-    ActiveRecord::Base.transaction do
-      era_csv.each do |row|
+    error_count = 0
+    errors =[]
+
+    eras = []
+      era_csv.each_with_index do |row, i|
+      puts i.to_s + " | erreurs " + error_count.to_s + " | " + row.to_s
       u=User.find_by_hruid(row['hruid'])
-      u.email_redirect_accounts.create(
-        redirect:row['redirect'],
-        rewrite:row['rewrite'],
-        type_redir:row['type'],
-        action:row['action'],
-        broken_date:row['broken_date'],
-        broken_level:row['broken_level'],
-        last:row['last'],
-        flag:row['flags'],
-        # hash:row['hash'],
-        allow_rewrite:row['allow_rewrite'],
-        srs_rewrite:row['srs_rewrite'],
-      )
+      if u.present?
+        eras << u.email_redirect_accounts.new(
+          redirect:row['redirect'],
+          rewrite:row['rewrite'],
+          type_redir:row['type'],
+          action:row['action'],
+          broken_date:row['broken_date'],
+          broken_level:row['broken_level'],
+          last:row['last'],
+          flag:row['flags'],
+          # hash:row['hash'],
+          allow_rewrite:row['allow_rewrite'],
+          srs_rewrite:row['srs_rewrite'],
+        )
+      else
+        error_count +=1
+        errors << row.to_s
       end
-    end
+      end
+    puts error
+    puts "Import..."
+    EmailRedirectAccount.import eras
+    puts "Done!"
 
   end
 
@@ -135,17 +152,33 @@ namespace :import_platal do
   #  type       :integer
   #  flag       :string
   #  expire     :date
-    esa_csv.each do |row|
+
+    error_count = 0
+    errors =[]
+
+    esas = []
+
+    esa_csv.each_with_index do |row, i|
       u=User.find_by_hruid(row['hruid'])
-      puts row['flags']
-      u.email_source_accounts.create(
+      if u.present?
+
+        puts i.to_s + " | " + row['flags'].to_s
+        esas << u.email_source_accounts.new(
         email:row['email'],
         email_virtual_domain:EmailVirtualDomain.find_or_create_by(name: row['name']),
         type_source:row['type'],
         flag:row['flags'],
         primary: row['flags'].present? && row['flags'].include?("bestalias") ? true : false
       )
+      else
+        error_count +=1
+        errors << row.to_s
+      end
     end
+    puts errors
+    puts "Import..."
+    EmailSourceAccount.import esas
+    puts "Done!"
   end
 
   desc "import blacklist"

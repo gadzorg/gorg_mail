@@ -102,6 +102,8 @@ gem 'nokogiri'
 gem 'heroku_secrets', github: 'alexpeattie/heroku_secrets'
 gem 'puma'
 
+gem 'activerecord-import'
+
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
