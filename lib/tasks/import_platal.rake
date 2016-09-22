@@ -133,7 +133,7 @@ namespace :import_platal do
         errors << row.to_s
       end
       end
-    puts error
+    puts errors
     puts "Import..."
     EmailRedirectAccount.import eras
     puts "Done!"
