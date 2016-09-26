@@ -4,7 +4,7 @@
     .pam
       Avec un compte Google Apps, je reçois mes mails gadz.org en toute simplicité !
 
-      .mts= link_to ' Créer mon compte Google Apps ', create_google_apps_user_path(@user), method: :get,:remote=>true,  :class =>"bouton bouton_bleu"
+      .mts= link_to ' Créer mon compte Google Apps ', create_google_apps_user_path(@user), method: :get,:remote=>true,  :class =>"bouton bouton_bleu", id: "create_google_apps_button"
   -if @emails_redirect.select{|e| e.active?}.count == 0
     %div.bg-red
       .pam
@@ -16,7 +16,7 @@
         %span
           %i.zmdi.zmdi-google.icon-padding-list
           GMail #{@user.primary_email}
-        %span.fr= link_to 'Connexion', "https://mail.google.com/a/gadz.org", :class =>"bouton-light", :target => "_blank"
+        %span.fr= link_to 'Connexion', "https://mail.google.com/a/gadz.org", :class =>"bouton-light", :target => "_blank", id: "connect_to_google_button"
       -else
         %span
           %i.zmdi.zmdi-google.icon-padding-list
@@ -54,7 +54,7 @@
 
         -#%i.zmdi.zmdi-edit.icon-padding-list
         -if can? :destroy, e
-          = link_to user_email_redirect_account_path(@user,e), method: :delete, :remote => true, confirm: true,  title: 'Supprimer cette adresse', rel: 'tooltip', data: {confirm: "Tu vas supprimer définitivement cette addresse, es-tu bien certain ? Tu pourras dans tous les cas la recréer plus tard si tu le souhaites."} do
+          = link_to user_email_redirect_account_path(@user,e), method: :delete, :remote => true, confirm: true,  title: 'Supprimer cette adresse', rel: 'tooltip',class: :era_del_button ,data: {confirm: "Tu vas supprimer définitivement cette addresse, es-tu bien certain ? Tu pourras dans tous les cas la recréer plus tard si tu le souhaites."} do
             %i.zmdi.zmdi-delete.icon-padding-list
 
       %span
