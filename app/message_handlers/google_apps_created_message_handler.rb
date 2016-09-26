@@ -34,7 +34,7 @@ class GoogleAppsCreatedMessageHandler < ApplicationMessageHandler
 
   def process
     #Recherche de l'utilisateur via son UUID
-    user=User.find_by(uuid: msg[:uuid])
+    user=User.find_by(uuid: msg.data[:uuid])
 
     gapps_era=user.google_apps
     gapps_era.set_active_and_confirm
