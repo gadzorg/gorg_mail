@@ -16,3 +16,5 @@
       #not_joined_lists
         -if @lists_not_joined.present?
           =render partial: "shared/ml_list", locals: {lists: @lists_not_joined, user: @user, already_joined: false}
+
+=javascript_include_tag 'ml_tracking.js' if google_analytics_id
