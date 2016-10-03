@@ -13,13 +13,13 @@
   -if e.type_redir == "googleapps"
     .pam.bg-blue-dark-2
       -if e.confirmed
-        -if can? :desactivate_google_apps_redirection, e
-          -if e.active?
-            = link_to user_email_redirect_account_flag_path(@user.id, e.id, "inactive"), title: 'Désactiver cette redirection', rel: 'tooltip', :remote=>true do
-              %i.zmdi.zmdi-check-square.icon-padding-list
-          -else
-            = link_to user_email_redirect_account_flag_path(@user.id, e.id, "active"), title: 'Activer la redirection des mails vers cette adresse', rel: 'tooltip', :remote=>true do
-              %i.zmdi.zmdi-square-o.icon-padding-list.inactive
+        -# Only admin can desactivate google apps redirection but user can reactivate it.
+        -if e.active?
+          = link_to user_email_redirect_account_flag_path(@user.id, e.id, "inactive"), title: 'Désactiver cette redirection', rel: 'tooltip', :remote=>true do
+            %i.zmdi.zmdi-check-square.icon-padding-list
+        -elsif !e.active? && can?(:desactivate_google_apps_redirection, e)
+          = link_to user_email_redirect_account_flag_path(@user.id, e.id, "active"), title: 'Activer la redirection des mails vers cette adresse', rel: 'tooltip', :remote=>true do
+            %i.zmdi.zmdi-square-o.icon-padding-list
         %span
           %i.zmdi.zmdi-google.icon-padding-list
           GMail #{@user.primary_email}
