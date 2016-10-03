@@ -293,17 +293,26 @@ a:focus {
     padding: 0 6px;
  }
 
-.email-list ul{list-style: outside none none;
+.email-list ul,
+.ml-list ul{list-style: outside none none;
     margin: 0px;
     padding-left: 0px;
 }
-.email-list li{
+.email-list li,
+.ml-list li{
     padding: 2rem;
 }
-.email-list li:hover{
+
+.ml-list li{
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+.email-list li:hover,
+.ml-list li:hover{
     background-color: #eee;
 }
-.email-list *{text-decoration: none;}
+.email-list *,
+.ml-list *{text-decoration: none;}
 
 
 li{
