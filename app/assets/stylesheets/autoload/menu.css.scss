@@ -124,6 +124,9 @@ nav .menu-item:first-child{
     overflow: auto;
     visibility: inherit;
     height: auto ;
+    position: absolute;
+    right:0;
+    top:0;
   }
 
   #navigation:hover .menu-item{
