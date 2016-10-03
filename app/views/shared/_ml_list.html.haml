@@ -1,13 +1,45 @@
 -lists.each do |l|
-  %li
-    =link_to ml_list_path(l) do
-      %b=l.name
-      =l.email
-    (#{l.users.count+l.ml_external_emails.count} membres)
-    %span.fr
-      -if l.users.include?(user)
-        = link_to ml_list_leave_path(l.id, user.id), title: 'Me desinscire de la liste', rel: 'tooltip', :remote=>true do
-          Me desinscrire
-      -else
-        = link_to ml_list_join_path(l.id, user.id), title: "M'inscrire à la liste", rel: 'tooltip', :remote=>true do
-          M'inscrire
+  .box.box-light.shadow-1.mtm.flex-item-double
+    .box-bottom.email-list
+      %ul
+        %li
+          =link_to ml_list_path(l) do
+            %b=l.name
+
+          %span.fr
+            -if already_joined
+              = link_to ml_list_leave_path(l.id, user.id), title: 'Me desinscire de la liste', rel: 'tooltip', :remote=>true, class: "unsubscribe_ml_button" do
+                Me desinscrire
+                %i.icon-padding-list
+                %i.zmdi.zmdi-account.red
+                %i.zmdi.zmdi-arrow-right.red
+            -else
+              = link_to ml_list_join_path(l.id, user.id), title: "M'inscrire à la liste", rel: 'tooltip', :remote=>true, class: "subscribe_ml_button" do
+                M'inscrire
+                %i.icon-padding-list
+                %i.zmdi.zmdi-arrow-right.green
+                %i.zmdi.zmdi-account.green
+          %span
+            %br/
+            .small
+              =l.email
+              =l.description
+              %span.fr
+                Inscriptions
+                -case l.inscription_policy
+                -when  "open"
+                  libres
+                -when "conditional_gadz"
+                  reservées aux gadz
+                -when "closed"
+                  gérée par un admin
+                -when "in_group"
+                  reservées aux membres du groupe
+                -case l.diffusion_policy
+                -when "open"
+                  , tout le monde peut y écrire
+                -when "closed"
+                  , seuls les membres peuvent y écrire
+                -when "moderated"
+                  , messages modérés
+                (#{l.members_count} membres)

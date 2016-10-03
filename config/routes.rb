@@ -47,6 +47,7 @@ Rails.application.routes.draw do
 
     member do
       get :dashboard
+      get :dashboard_ml
       get :create_google_apps
     end
 

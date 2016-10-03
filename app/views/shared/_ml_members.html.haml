@@ -4,25 +4,34 @@
       Membres
     .box-bottom.email-list
       %ul
-        -@members.each do |m|
+        -if @members.count == 0
           %li
-            =m.primary_email
-            -if can?( :suscribe, @ml_list) && can?( :read, m)
-              %span.fr
-                = link_to ml_list_leave_path(@ml_list.id, m.id) do
-                  %i.zmdi.zmdi-delete.icon-padding-list
+            Il n'y a pas de membres dans cette liste
+        -else
+          -@members.each do |m|
+            %li
+              %b=m.fullname
+              =m.primary_email
+              -if can?( :suscribe, @ml_list) && can?( :read, m)
+                %span.fr
+                  = link_to ml_list_leave_path(@ml_list.id, m.id) do
+                    %i.zmdi.zmdi-delete.icon-padding-list
 
 .grid-2
   .box.box-light.shadow-1.mtm.flex-item-double
     .box-top.box-top-color.pam
-      Adresses externes
+      Membre sans adresses gadz.org
     .box-bottom.email-list
       %ul
-        -@external_emails.each do |m|
+        -if @external_emails.count == 0
           %li
-            =m.email
-            -if can? :destroy, m
-              %span.fr
-                =link_to ml_list_remove_email_path(list_id: @ml_list.id, email_id: m.id), :method => :delete, :data => { :confirm => 'Are you sure?' } do
-                  %i.zmdi.zmdi-delete.icon-padding-list
+            Il n'y a pas de membres sans adresse gadz.org dans cette liste
+        -else
+          -@external_emails.each do |m|
+            %li
+              =m.email
+              -if can? :destroy, m
+                %span.fr
+                  =link_to ml_list_remove_email_path(list_id: @ml_list.id, email_id: m.id), :method => :delete, :data => { :confirm => 'Are you sure?' } do
+                    %i.zmdi.zmdi-delete.icon-padding-list
 

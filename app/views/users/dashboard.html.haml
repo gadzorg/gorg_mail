@@ -31,19 +31,17 @@
       .box-top.box-top-color.pam
         Je le reçois sur :
       .box-bottom.email-list{ :data => {:url => user_email_redirect_accounts_path(@user, :format => :json)} }
-        %ul
+        %ul#era_list
           #redirect
             =render partial: "shared/er_list", locals: {emails_redirect: @emails_redirect}
 
           .pam
-            =form_for  [@user,@new_era], :remote=>true   do |f|
+            =form_for  [@user,@new_era], :remote=>true  do |f|
               .fl.group.group-m-form
                 =f.email_field :redirect, :size => 15
                 .span.highlight.w100
                 .span.bar.w100
                 =label_tag "email@domaine.fr"
               .fr.plm.plr
-                =f.submit '+ Ajouter',:class => "bouton bouton_bleu"
-
-          -#%li.fr =form_tag user_email_redirect_accounts_path
-          -# %li.fr= link_to '+ Ajouter ', new_user_session_path, :class =>"bouton-medium bouton_bleu"
+                =f.submit '+ Ajouter',:class => "bouton bouton_bleu", id: :new_email_redirect_account_submit
+=javascript_include_tag 'email_redirect_tracking.js' if google_analytics_id

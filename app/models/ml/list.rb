@@ -34,7 +34,7 @@ class Ml::List < ActiveRecord::Base
   end
 
   validates :name, presence: true #, uniqueness: true
-  validates :email, uniqueness: true, presence: true
+  validates :email, uniqueness: true, presence: true, format: { with: /\A([^@+_\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i}
   # validates :diffusion_policy, presence: true, acceptance: { accept: %w(open closed moderated) }
   validates_inclusion_of :diffusion_policy, :in => %w(open closed moderated)
   validates_inclusion_of :inscription_policy, :in => Ml::List.inscription_policy_list
@@ -42,13 +42,14 @@ class Ml::List < ActiveRecord::Base
   validates :message_max_bytes_size, presence: true
   after_save :sync_with_mailing_list_service
   after_create {Alias.new_for_mailinglist(self)}
+  after_destroy :delete_with_mailing_list_service
 
   has_and_belongs_to_many :users
   has_many :ml_external_emails, :class_name => 'Ml::ExternalEmail'
 
 
   def add_user_no_sync(user)
-    self.users.exclude?(user) ? self.users << user : user.errors << ["User already in list"]
+    self.users.exclude?(user) ? self.users << user : errors.add(:user, "User already in list")
   end
 
   def remove_user_no_sync(user)
@@ -100,6 +101,13 @@ class Ml::List < ActiveRecord::Base
     members_emails + external_emails
   end
 
+  def members_count
+    cache_name = "a#{self.email}-#{self.updated_at.to_i}-list_member_count"
+    Rails.cache.fetch(cache_name, expires_in: 10.minute) do
+      self.users.count + self.ml_external_emails.count
+    end
+  end
+
   ############# external emails #############
   def add_email(email_address,sync = true)
     era = EmailRedirectAccount.includes(:user).find_by(redirect: email_address)
@@ -123,6 +131,10 @@ class Ml::List < ActiveRecord::Base
   # send notification to update ML in Ml service
   def sync_with_mailing_list_service
     MailingListsService.new(self).update
+  end
+
+  def delete_with_mailing_list_service
+    MailingListsService.new(self).delete
   end
 
 

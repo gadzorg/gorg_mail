@@ -3,7 +3,7 @@
 # Table name: users
 #
 #  id                     :integer          not null, primary key
-#  email                  :string(255)      default(""), not null
+#  email                  :string(255)      default("")
 #  encrypted_password     :string(255)      default(""), not null
 #  reset_password_token   :string(255)
 #  reset_password_sent_at :datetime
@@ -15,7 +15,7 @@
 #  last_sign_in_ip        :string(255)
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
-#  hruid                  :string(255)
+#  hruid                  :string(255)      not null
 #  firstname              :string(255)
 #  lastname               :string(255)
 #  role_id                :integer
@@ -23,11 +23,10 @@
 #  canonical_name         :string(255)
 #  uuid                   :string(255)
 #  is_gadz                :boolean
-#  lists_allowed_cache    :text(65535)
 #
 # Indexes
 #
-#  index_users_on_email                 (email) UNIQUE
+#  index_users_on_canonical_name        (canonical_name)
 #  index_users_on_hruid                 (hruid) UNIQUE
 #  index_users_on_is_gadz               (is_gadz)
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
@@ -70,7 +69,7 @@ class User < ActiveRecord::Base
   after_create :create_canonical_name
 
 
-  validates :hruid, uniqueness: true, :allow_blank => true, :allow_nil => true
+  validates :hruid, uniqueness: true, :allow_blank => true, :allow_nil => false
 
 
 
@@ -311,6 +310,7 @@ class User < ActiveRecord::Base
     Rails.cache.fetch(cache_name, expires_in: 10.minute) do
       lists_allowed_for_this_user = Ml::List.all_if_open
       user_groups_uuid = self.groups.map(&:uuid)
+      lists_allowed_for_this_user = lists_allowed_for_this_user + Ml::List.where(inscription_policy: "conditional_gadz")
       user_groups_uuid.each do |guuid|
         lists_allowed_for_this_user << Ml::List.find_by(group_uuid: guuid)
       end

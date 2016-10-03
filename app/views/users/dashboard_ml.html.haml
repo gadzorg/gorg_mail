@@ -1,20 +1,20 @@
 %section.pam
-  %h1 Mes listes de diffusion
-  .grid-2
-    .box.box-light.shadow-1.mtm.flex-item-double
-      .box-top.box-top-color.pam
-        Listes où je suis inscrit :
-      .box-bottom.email-list
-        %ul
-          #joined_lists
-            -if @lists_joined.present?
-              =render partial: "shared/ml_list", locals: {lists: @lists_joined, user: @user}
-
-    .box.box-light.shadow-1.mtm.flex-item-double
-      .box-top.box-top-color.pam
+  .grid
+    %div.ptm
+      %h1
+        %i.zmdi.zmdi-comments.icon-padding-list
+        Listes auxquelles je suis inscrit(e)g :
+      #joined_lists
+        -if @lists_joined.present?
+          =render partial: "shared/ml_list", locals: {lists: @lists_joined, user: @user, already_joined: true}
+        -else
+          Tu n'es inscrit à aucune liste. Tu trouveras ci-dessous les listes auquelles tu peux t'inscrire.
+    %div.ptm.mtm
+      %h1
+        %i.zmdi.zmdi-comment-outline.icon-padding-list
         Autres listes :
-      .box-bottom.email-list
-        %ul
-          #not_joined_lists
-            -if @lists_not_joined.present?
-              =render partial: "shared/ml_list", locals: {lists: @lists_not_joined, user: @user}
+      #not_joined_lists
+        -if @lists_not_joined.present?
+          =render partial: "shared/ml_list", locals: {lists: @lists_not_joined, user: @user, already_joined: false}
+
+=javascript_include_tag 'ml_tracking.js' if google_analytics_id
