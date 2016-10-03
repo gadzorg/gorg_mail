@@ -42,6 +42,7 @@ class Ml::List < ActiveRecord::Base
   validates :message_max_bytes_size, presence: true
   after_save :sync_with_mailing_list_service
   after_create {Alias.new_for_mailinglist(self)}
+  after_destroy :delete_with_mailing_list_service
 
   has_and_belongs_to_many :users
   has_many :ml_external_emails, :class_name => 'Ml::ExternalEmail'
@@ -130,6 +131,10 @@ class Ml::List < ActiveRecord::Base
   # send notification to update ML in Ml service
   def sync_with_mailing_list_service
     MailingListsService.new(self).update
+  end
+
+  def delete_with_mailing_list_service
+    MailingListsService.new(self).delete
   end
 
 
