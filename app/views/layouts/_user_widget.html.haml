@@ -1,12 +1,15 @@
 - if user_signed_in?
-  %li.username
-    = "#{current_user.firstname}"
-    .circle
-      %img{:src => "https://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(current_user.email)}?d=404&s=50",onerror:"this.style.display='none'"}
-        ="#{current_user.firstname.first.upcase}"
+  .menu-item.username>
+    .menu-item-username
+      = "#{current_user.firstname}"
+      .circle
+        %img{:src => "https://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(current_user.email)}?d=404&s=50",onerror:"this.style.display='none'"}
+          ="#{current_user.firstname.first.upcase}"
     %ul.userblock
-      =link_to t('layout.menu.profile'), user_path(current_user)
-      =link_to t('layout.menu.disconnect'), destroy_user_session_path, :method => :delete
+      .menu-item-drop
+        =link_to t('layout.menu.profile'), user_path(current_user), class: "menu-a-drop"
+      .menu-item-drop
+        =link_to t('layout.menu.disconnect'), destroy_user_session_path, :method => :delete, class: "menu-a-drop"
 - else
-  %li.with_button
-    = link_to t('layout.menu.connect'), new_user_session_path, :class =>"bouton bouton_bleu vertical-center" 
+  .menu-item.with_button>
+    = link_to t('layout.menu.connect'), new_user_session_path, :class =>"bouton bouton_bleu"

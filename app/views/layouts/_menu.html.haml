@@ -1,12 +1,24 @@
 -#=cache(action_suffix: "primary") do
 %aside.sidebar
-  %nav#navigation
-    =link_to root_path do
-      =image_tag "logo_alumni.png", :class => "vertical-center"
-    =link_to "Emails", dashboard_path
-    =link_to "Listes de diffusions", mailinglists_path
-    - if user_signed_in?
-      =link_to "Administration", admin_path
+  .plm.prm.int
+    #navigation
+      #logo
+        =link_to root_path do
+          =image_tag "logo_alumni.png", :class => "vertical-center"
+      #menu-button
+        .menu-item>
+          =link_to "#" do
+            %i.zmdi.zmdi-menu
+      %nav
+        .menu-item>
+          =link_to "Emails", dashboard_path, class: "menu-a"
+
+        .menu-item>
+          =link_to "Listes de diffusions", mailinglists_path, class: "menu-a"
+        - if user_signed_in?
+          .menu-item>
+            =link_to "Administration", admin_path, class: "menu-a"
+          = render 'layouts/user_widget'
 
 
 

@@ -19,11 +19,6 @@
 @import "autoload/colors";
 
  /*-----------------------------MENU-------------------------*/
- nav {
-    background: #fff;
-    height: 90px;
-    border-bottom: 1px solid #F2F2F2;
-}
 .menu {
     float: right;
     /*margin-right: 45px;*/
@@ -50,11 +45,6 @@
     line-height: inherit;
 }
 
-li.username{
-    position: relative;
-    text-align:right;
-    line-height:90px;
-}
 
 .circle
 {
@@ -76,29 +66,6 @@ li.username{
   height: 70px;
   width: 70px;
   line-height:70px;
-}
-
-li.username ul.userblock{
-    width: 210px;
-    display:block;
-    position: absolute;
-    right: 0px;
-    top:89px;
-    background-color:white;
-    height:0px;
-    overflow: hidden;
-    transition: all 0.3s cubic-bezier(0.64, 0.09, 0.08, 1)
-}
-li.username:hover ul.userblock{
-    height:auto;
-}
-ul.userblock a{
-    border-top: 1px solid #F2F2F2;
-    display: block;
-    height: 45px;
-    line-height: 45px;
-    font-size:0.8em;
-    text-align:center;
 }
 
 .menu a:hover{
@@ -127,6 +94,7 @@ ul.userblock a{
 }
 body {
     /*background: #EEE none repeat scroll 0% 0%;*/
+    background: #f7f7f7;
     padding: 0px;
     margin: 0px;
 }
