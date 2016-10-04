@@ -1,26 +1,32 @@
 -#=cache(action_suffix: "primary") do
-%header
-  .int.plm.prm
-    %nav
-      #logo.left
+%aside.sidebar
+  .plm.prm.int
+    #navigation
+      #logo
         =link_to root_path do
           =image_tag "logo_alumni.png", :class => "vertical-center"
-      .menu
-        %ul
-          %li
-            =link_to "Emails", dashboard_path
-          %li
-            =link_to "Listes de diffusions", mailinglists_path
-          - if user_signed_in?
-            - if can? :read, :admin
-              %li{style: "width:120px;"}
-                =form_tag  search_by_id_users_path,:method => :get, :user_id => :id_element do
-                  =autocomplete_field_tag 'Hruid', '', autocomplete_user_hruid_users_path, :size => 10, :id_element => '#id', :placeholder => "nom.prenom.année"
-                  =hidden_field_tag "id"
-                  =submit_tag 'GO!', :class => ""
-              %li
-                =link_to "Administration", admin_path
-            -#%li
-              -#=link_to "Menu 1", :back
+      #menu-button
+        .menu-item>
+          =link_to "#" do
+            %i.zmdi.zmdi-menu
+      %nav
+        .menu-item>
+          =link_to "Emails", dashboard_path, class: "menu-a"
 
+        .menu-item>
+          =link_to "Listes de diffusions", mailinglists_path, class: "menu-a"
+        - if user_signed_in?
+          - if can? :read, :admin
+            .menu-item>
+              =form_tag  search_by_id_users_path,:method => :get, :user_id => :id_element do
+                =autocomplete_field_tag 'Hruid', '', autocomplete_user_hruid_users_path, :size => 10, :id_element => '#id', :placeholder => "prenom.nom.année"
+                =hidden_field_tag "id"
+                =submit_tag 'GO!', :class => ""
+            .menu-item>
+              =link_to "Administration", admin_path, class: "menu-a"
           = render 'layouts/user_widget'
+
+
+
+
+

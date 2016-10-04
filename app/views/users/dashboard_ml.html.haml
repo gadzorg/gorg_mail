@@ -3,7 +3,7 @@
     %div.ptm
       %h1
         %i.zmdi.zmdi-comments.icon-padding-list
-        Listes où je suis inscrit :
+        Listes auxquelles je suis inscrit(e)g :
       #joined_lists
         -if @lists_joined.present?
           =render partial: "shared/ml_list", locals: {lists: @lists_joined, user: @user, already_joined: true}
@@ -16,3 +16,5 @@
       #not_joined_lists
         -if @lists_not_joined.present?
           =render partial: "shared/ml_list", locals: {lists: @lists_not_joined, user: @user, already_joined: false}
+
+=javascript_include_tag 'ml_tracking.js' if google_analytics_id

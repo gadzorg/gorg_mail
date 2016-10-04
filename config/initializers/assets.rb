@@ -12,5 +12,5 @@ Rails.application.config.assets.precompile += %w( mail.css )
 # Rails.application.config.assets.precompile += %w( search.js )
 
 ## Assets pour Slack-Chat
-Rails.application.config.assets.precompile += %w( slack-chat.min.js slack-chat.css slack-chat-custom.css slack-chat-caller.js)
+Rails.application.config.assets.precompile += %w( slack-chat.min.js slack-chat.css slack-chat-custom.css slack-chat-caller.js email_redirect_tracking.js ml_tracking.js)
 

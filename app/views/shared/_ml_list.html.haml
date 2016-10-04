@@ -1,6 +1,6 @@
 -lists.each do |l|
-  .box.box-light.shadow-1.mtm.flex-item-double
-    .box-bottom.email-list
+  .box.box-light.shadow-1.mts.flex-item-double
+    .box-bottom.ml-list
       %ul
         %li
           =link_to ml_list_path(l) do
@@ -8,13 +8,13 @@
 
           %span.fr
             -if already_joined
-              = link_to ml_list_leave_path(l.id, user.id), title: 'Me desinscire de la liste', rel: 'tooltip', :remote=>true do
+              = link_to ml_list_leave_path(l.id, user.id), title: 'Me desinscire de la liste', rel: 'tooltip', :remote=>true, class: "unsubscribe_ml_button" do
                 Me desinscrire
                 %i.icon-padding-list
                 %i.zmdi.zmdi-account.red
                 %i.zmdi.zmdi-arrow-right.red
             -else
-              = link_to ml_list_join_path(l.id, user.id), title: "M'inscrire à la liste", rel: 'tooltip', :remote=>true do
+              = link_to ml_list_join_path(l.id, user.id), title: "M'inscrire à la liste", rel: 'tooltip', :remote=>true, class: "subscribe_ml_button" do
                 M'inscrire
                 %i.icon-padding-list
                 %i.zmdi.zmdi-arrow-right.green

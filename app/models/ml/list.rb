@@ -20,7 +20,6 @@
 #  updated_at                             :datetime         not null
 #  inscription_policy                     :string(255)
 #  group_uuid                             :string(255)
-#  members_count_cache                    :integer
 #
 # Indexes
 #
@@ -43,13 +42,14 @@ class Ml::List < ActiveRecord::Base
   validates :message_max_bytes_size, presence: true
   after_save :sync_with_mailing_list_service
   after_create {Alias.new_for_mailinglist(self)}
+  after_destroy :delete_with_mailing_list_service
 
   has_and_belongs_to_many :users
   has_many :ml_external_emails, :class_name => 'Ml::ExternalEmail'
 
 
   def add_user_no_sync(user)
-    self.users.exclude?(user) ? self.users << user : user.errors << ["User already in list"]
+    self.users.where(users: {id: user.id}).blank? ? self.users << user : errors.add(:user, "User already in list")
   end
 
   def remove_user_no_sync(user)
@@ -114,10 +114,13 @@ class Ml::List < ActiveRecord::Base
     esa = EmailSourceAccount.includes(:user).find_by_full_email(email_address) if era.nil?
 
     if era.present?
+      logger.debug "ERA!"
       add_user_no_sync(era.user)
     elsif esa.present?
+      logger.debug "ESA!"
       add_user_no_sync(esa.user)
     else
+      logger.debug "External!"
       Ml::ExternalEmail.create(email: email_address, list_id: self.id)
     end
     sync_with_mailing_list_service if sync == true
@@ -133,11 +136,15 @@ class Ml::List < ActiveRecord::Base
     MailingListsService.new(self).update
   end
 
+  def delete_with_mailing_list_service
+    MailingListsService.new(self).delete
+  end
+
 
   ################# email_alias ################
 
   def redirection_alias
-    Alias.find_by_email(self.email)
+    Alias.find_by(redirect: self.email.gsub(Configurable[:main_mail_domain],Configurable[:default_google_apps_domain_alias]))
   end
 
 

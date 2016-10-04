@@ -4,6 +4,9 @@
   .form-inputs
     = f.input :name
     = f.input :email
+    %p
+      L'email doit être une adresse gadz.org ou un des domaines suivants :
+      =@evd
     = f.input :description
     = f.input :aliases
     = f.label :diffusion_policy
@@ -20,8 +23,8 @@
     = f.input :msg_goodbye
     = f.input :message_max_bytes_size
     %ul
-      %li 31048576 => 1 Mb
-      %li 145728 => 3Mb
+      %li 1048576 => 1 Mb
+      %li 3145728 => 3Mb
       %li 10485760 > 10 Mb
       %li 31457280 => 30Mb
     = f.label :group_uuid

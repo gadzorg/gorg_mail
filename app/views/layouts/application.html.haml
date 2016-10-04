@@ -12,18 +12,25 @@
       =stylesheet_link_tag "slack-chat-custom.css"
 
       
-  %body
+  %body#body
     %header
-      %nav
-        = render 'layouts/menu'
+      = render 'layouts/menu'
 
       / - flash.each do |key, value|
       / #notif
       /   %div{:class => "#{key} notif"}= value
 
 
-    .center.mw1140p
-      = yield
+    .wrapper
+      .center.mw1140p
+        %div
+          .pam.fr
+            %a.nav-button-open{"aria-label" => "open navigation", :href => "#body"}
+            %a.nav-button-close{"aria-label" => "close navigation", :href => "#"}
+
+        = yield
 
     -if slack_chat?
       =slack_chat_box
+
+  = render partial: 'layouts/ga'

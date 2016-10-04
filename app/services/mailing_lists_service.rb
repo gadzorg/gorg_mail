@@ -11,6 +11,10 @@ class MailingListsService
     request_mailing_list_update
   end
 
+  def delete
+    request_mailing_list_delete
+  end
+
   def request_mailing_list_update
     msg = {
       name: @mailing_list.name,
@@ -25,6 +29,13 @@ class MailingListsService
       distribution_policy: @mailing_list.diffusion_policy
     }
     send_message(msg, 'request.mailinglist.update')
+  end
+
+  def request_mailing_list_delete
+    msg = {
+        mailling_list_key: @mailing_list.email,
+    }
+    send_message(msg, 'request.mailinglist.delete')
   end
 
   private

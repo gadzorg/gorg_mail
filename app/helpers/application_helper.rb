@@ -25,4 +25,8 @@ module ApplicationHelper
     }
   end
 
+  def google_analytics_id
+    Rails.application.secrets.google_analytics_id
+  end
+
 end
