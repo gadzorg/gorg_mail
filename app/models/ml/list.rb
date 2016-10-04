@@ -49,7 +49,7 @@ class Ml::List < ActiveRecord::Base
 
 
   def add_user_no_sync(user)
-    self.users.exclude?(user) ? self.users << user : errors.add(:user, "User already in list")
+    self.users.where(users: {id: user.id}).blank? ? self.users << user : errors.add(:user, "User already in list")
   end
 
   def remove_user_no_sync(user)
@@ -114,10 +114,13 @@ class Ml::List < ActiveRecord::Base
     esa = EmailSourceAccount.includes(:user).find_by_full_email(email_address) if era.nil?
 
     if era.present?
+      logger.debug "ERA!"
       add_user_no_sync(era.user)
     elsif esa.present?
+      logger.debug "ESA!"
       add_user_no_sync(esa.user)
     else
+      logger.debug "External!"
       Ml::ExternalEmail.create(email: email_address, list_id: self.id)
     end
     sync_with_mailing_list_service if sync == true
@@ -141,7 +144,7 @@ class Ml::List < ActiveRecord::Base
   ################# email_alias ################
 
   def redirection_alias
-    Alias.find_by_email(self.email)
+    Alias.find_by(redirect: self.email.gsub(Configurable[:main_mail_domain],Configurable[:default_google_apps_domain_alias]))
   end
 
 

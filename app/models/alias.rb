@@ -27,13 +27,41 @@ class Alias < ActiveRecord::Base
   end
 
   def self.new_for_mailinglist(mailinglist)
-    ml_email_baee, ml_domain = mailinglist.email.split('@')
+    ml_email_base, ml_domain = mailinglist.email.split('@')
+
     if ml_domain == Configurable[:main_mail_domain]
       ml_virtual_domain = EmailVirtualDomain.find_by(name: ml_domain)
       ml_redirect_domain = Configurable[:default_google_apps_domain_alias]
-      ml_redirect_email = "#{ml_email_baee}@#{ml_redirect_domain}"
-      Alias.create(email: ml_email_baee, email_virtual_domain: ml_virtual_domain, redirect: ml_redirect_email)
+      ml_redirect_email = "#{ml_email_base}@#{ml_redirect_domain}"
+      Alias.create(email: ml_email_base, email_virtual_domain: ml_virtual_domain, redirect: ml_redirect_email)
+
+
+      # If mailinglist email is not the main google apps domain (i.e subdomain)
+      # - update the ML domain for a the main mail domain
+      # - create alias with the old domain to the google apps domain
+    elsif ml_domain.split(".").last(2).join(".") == Configurable[:main_mail_domain]
+      #ml_email_base = burs
+      #ml_domain = jp.gadz.org
+
+      sub_domain = ml_domain.gsub("."+ Configurable[:main_mail_domain], "")
+      #sub_domain = jp
+
+      ml_email_base_new = ml_email_base + "." + sub_domain
+      #ml_email_base_new = burs.jp
+
+      ml_domain_new = Configurable[:main_mail_domain]
+      #ml_domain_new = gadz.org
+
+      mailinglist.email = ml_email_base_new + "@" + ml_domain_new
+      mailinglist.save
+
+      ml_virtual_domain = EmailVirtualDomain.find_by(name: ml_domain)
+      ml_redirect_domain = Configurable[:default_google_apps_domain_alias]
+      ml_redirect_email = "#{ml_email_base_new}@#{ml_redirect_domain}"
+      #ml_redirect_email = burs.jp@gadz.fr
+      Alias.create(email: ml_email_base, email_virtual_domain: ml_virtual_domain, redirect: ml_redirect_email)
     end
+
   end
 
   def self.find_by_email(email)
