@@ -19,7 +19,7 @@
           - if can? :read, :admin
             .menu-item>
               =form_tag  search_by_id_users_path,:method => :get, :user_id => :id_element do
-                =autocomplete_field_tag 'Hruid', '', autocomplete_user_hruid_users_path, :size => 10, :id_element => '#id', :placeholder => "nom.prenom.année"
+                =autocomplete_field_tag 'Hruid', '', autocomplete_user_hruid_users_path, :size => 10, :id_element => '#id', :placeholder => "prenom.nom.année"
                 =hidden_field_tag "id"
                 =submit_tag 'GO!', :class => ""
             .menu-item>
