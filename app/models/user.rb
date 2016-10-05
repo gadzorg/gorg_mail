@@ -49,7 +49,7 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable,
-         :rememberable, :trackable, :validatable,
+         :rememberable, :trackable,
          :omniauthable, :omniauth_providers => [:GadzOrg]
 
   ##
@@ -69,8 +69,7 @@ class User < ActiveRecord::Base
   after_create :create_canonical_name
 
 
-  validates :hruid, uniqueness: true, :allow_blank => true, :allow_nil => false
-
+  validates :hruid, uniqueness: true, presence: true
 
 
 

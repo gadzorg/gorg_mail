@@ -76,11 +76,18 @@
     transition: all 0.4s ease 0s;
 }
 
-
+.vertical-center-parent{
+  position: relative;
+}
 .vertical-center{
-    position: relative;
-    top: 50%;
+    position: absolute;
+    left: 50%;
     transform: translateY(-50%);
+}
+.horizontal-center{
+  position: absolute;
+  top: 50%;
+  transform: translatex(-50%);
 }
 
 #logo{

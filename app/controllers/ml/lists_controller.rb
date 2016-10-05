@@ -41,6 +41,7 @@ class Ml::ListsController < ApplicationController
         format.html { redirect_to @ml_list, notice: 'List was successfully created.' }
         format.json { render :show, status: :created, location: @ml_list }
       else
+
         format.html { render :new }
         format.json { render json: @ml_list.errors, status: :unprocessable_entity }
       end

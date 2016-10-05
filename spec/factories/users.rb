@@ -41,7 +41,7 @@ FactoryGirl.define do
 	  end
 
     factory :invalid_user do
-      email nil
+      hruid nil
     end
 
   end

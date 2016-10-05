@@ -78,9 +78,6 @@ RSpec.describe User, type: :model do
     expect(FactoryGirl.build(:user,hruid:"alexandre.narbonne.2011")).not_to be_valid
   end
 
-  it "is invalid if email have invalid format" do
-    expect(FactoryGirl.build(:user,email:"invalid_email")).not_to be_valid
-  end
 
 
   describe "can have a role" do
@@ -255,7 +252,7 @@ RSpec.describe User, type: :model do
 
         context "and data are invalid" do
           before :each do
-            @omniauth_data = OmniAuth::AuthHash.new(omniauth_hash({'info'=>{'email'=>'invalid_email'}}))
+            @omniauth_data = OmniAuth::AuthHash.new(omniauth_hash({'uid'=>''}))
           end
           it "return nil" do
             expect(User.omniauth(@omniauth_data)).to eq(nil)
