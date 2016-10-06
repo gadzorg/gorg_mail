@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
 
   include ConfigurableEngine::ConfigurablesController
 
+  before_filter :check_maintenance_mode
+
   after_filter :prepare_unobtrusive_flash
   private
 
@@ -45,6 +47,17 @@ class ApplicationController < ActionController::Base
       @lists_joined = user.ml_lists.includes(:users)
     end
 
-  
+    def check_maintenance_mode
+      # caching maintenance state
+      maintenance_mode = Rails.cache.fetch("maintenance_mode", expires_in: 1.minute){ Configurable[:maintenance_mode] }
+
+      if maintenance_mode && controller_name != 'devise/sessions' && controller_name != 'static_page' && !current_user.nil?
+        unless current_user.has_role?(:admin)  || current_user.has_role?(:support) || Configurable[:allowed_uuid_in_maintenance_mode].split.include?(current_user.uuid)
+          cookies.delete(:secureusertokens)
+          reset_session
+          redirect_to root_path
+        end
+      end
+    end
 
 end
