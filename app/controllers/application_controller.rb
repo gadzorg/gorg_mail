@@ -44,7 +44,7 @@ class ApplicationController < ActionController::Base
 
     def get_list(user)
       @lists_not_joined = user.lists_allowed_not_joined
-      @lists_joined = user.ml_lists.includes(:users)
+      @lists_joined = user.ml_lists
     end
 
     def redirect_if_maintenance_mode
