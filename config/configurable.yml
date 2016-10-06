@@ -35,3 +35,17 @@ default_google_apps_domain_alias:
 availables_google_apps_domain:
   name: Domaine google apps pour lesquels il est possible de créer un adresse. Domaines séparés par les espaces.
   default: gadz.org agoram.org
+
+maintenance_mode:
+  name: Mode maintenance
+  default: false
+  type: boolean
+
+allowed_uuid_in_maintenance_mode:
+  name: UUID autorisés à se connecter en mode maintenance ( séparés par un espace )
+  type: string
+
+
+maintenance_message:
+  name: Message maintenance
+  default: Le site n'est pas encore ouvert, reviens à partir du 8 octobre :-)

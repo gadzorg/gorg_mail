@@ -1,15 +1,19 @@
 #big-bg
-  .int.article.center
-    .pal
+  .int.article.center.txtcenter
+    .pam
       =link_to root_path do
-        =image_tag "logo_alumni_nb.png", :class => "vertical-center"
+        =image_tag "logo_alumni_nb.png", :class => ""
 
-      .txtcenter
-        %h1 Email gadz.org, Gadzmelv2, Imelavi, listes de diffusion.
-        Retrouve tous les services mails gadz.org dans un même endroit.
+      %div
+        .vertical-center.horizontal-center.txtcenter
+          %h1 Email gadz.org, Gadzmelv2, Imelavi, listes de diffusion.
+          Retrouve tous les services mails gadz.org dans un même endroit.
 
-  .skip-links.sup
-  .txtcenter.sup= link_to t('layout.menu.connect'), new_user_session_path, :class =>"bouton bouton_bleu vertical-center"
+          .skip-links.sup
+          -if @maintenance_mode
+            %p=@maintenance_message
+          -else
+            .txtcenter.sup= link_to t('layout.menu.connect'), new_user_session_path, :class =>"bouton bouton_bleu ptl mtl"
 
 .int.center.pal
   .grid-2
