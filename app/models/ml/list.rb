@@ -108,6 +108,11 @@ class Ml::List < ActiveRecord::Base
     end
   end
 
+  # Return an array of array [ id_user, full_name, primary_email]
+  def members_list_with_emails
+    self.users.includes(email_source_accounts: :email_virtual_domain).where(email_source_accounts: {primary: true}).pluck("users.id", :"CONCAT(users.firstname, ' ', users.lastname)", :"CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name)")
+  end
+
   ############# external emails #############
   def add_email(email_address,sync = true)
     era = EmailRedirectAccount.includes(:user).find_by(redirect: email_address)
