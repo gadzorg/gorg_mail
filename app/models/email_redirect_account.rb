@@ -33,7 +33,7 @@ class EmailRedirectAccount < ActiveRecord::Base
 	belongs_to :user
 
   validates :redirect, :uniqueness => {:scope => :user_id}
-  validates :redirect, :email => true
+  validates :redirect, :email => true, format: { with: /\A([^@+\s\'\`]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i}
   after_create :email_redirect_account_completer
 
   def generate_new_token()
