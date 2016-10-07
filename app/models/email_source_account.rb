@@ -32,6 +32,8 @@ class EmailSourceAccount < ActiveRecord::Base
 	validates :user, presence: true
 	validate :primary, :only_one_primary_by_user
 	after_save :update_rewrite
+	after_save :update_google_aliases_if_has_one
+	after_destroy :update_google_aliases_if_has_one
 
 	def to_s
 		"#{self.email}@#{self.email_virtual_domain.name}"
@@ -65,6 +67,12 @@ class EmailSourceAccount < ActiveRecord::Base
 
 	def update_rewrite
 		self.user.email_redirect_accounts.map(&:set_rewrite) if self.user
+	end
+
+	def update_google_aliases_if_has_one
+		if self.user.present? && self.user.has_google_apps
+			GoogleApps.new(self.user).update
+		end
 	end
 
 end

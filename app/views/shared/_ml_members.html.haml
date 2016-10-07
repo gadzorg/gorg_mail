@@ -10,11 +10,11 @@
         -else
           -@members.each do |m|
             %li
-              %b=m.fullname
-              =m.primary_email
-              -if can?( :suscribe, @ml_list) && can?( :read, m)
+              %b=m[1]
+              =m[2]
+              -if can?( :manage, @ml_list)
                 %span.fr
-                  = link_to ml_list_leave_path(@ml_list.id, m.id) do
+                  = link_to ml_list_leave_path(@ml_list.id, m[0]) do
                     %i.zmdi.zmdi-delete.icon-padding-list
 
 .grid-2
