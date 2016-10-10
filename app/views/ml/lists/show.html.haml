@@ -1,6 +1,6 @@
 %p#notice= notice
 %section.pam
-  %h1 #{@ml_list.name} (#{@ml_list.email})
+  %h1 #{@ml_list.name} (#{@redirection_alias})
   = @ml_list.description
   -if @ml_list.belong_to_group?
     %p
@@ -10,12 +10,18 @@
     %p Cette liste de diffusion n'est pas liée à un groupe
 
   - if can? :manage, Ml::List
-    %p
-      %b Alias de redirection zenimel:
-      = link_to @redirection_alias, @redirection_alias
-  %p
-    %b Aliases:
-    = @ml_list.aliases
+    .grid
+      .box.box-light.shadow-1.mtm
+        .box-bottom.pam
+          %p
+            %b Identifiant de la liste chez Google :
+            =@ml_list.email
+          %p
+            %b Alias de redirection zenimel:
+            = link_to @redirection_alias.to_s + " => " + @redirection_alias.redirect, @redirection_alias
+          %p
+            %b Aliases:
+            = @ml_list.aliases
   %p
     %b Diffusion des messages:
     -#= @ml_list.diffusion_policy
