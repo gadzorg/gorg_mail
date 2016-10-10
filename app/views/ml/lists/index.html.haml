@@ -1,4 +1,4 @@
-%h1 Listing ml_lists
+%h1 Listes de diffusion
 =form_tag ml_lists_path(), :method => :get ,class: "mtm"do
   =text_field_tag :search, params[:search], :placeholder => "Recherche par email", :class => "w100 login", :autofocus => true
 %table
@@ -7,6 +7,7 @@
       %th Name
       %th Email
       %th Description
+      %th Alias zenimel
       %th Aliases
       %th Diffusion
       %th Inscription
@@ -19,6 +20,7 @@
         %td=link_to ml_list.name, ml_list
         %td= ml_list.email
         %td= ml_list.description
+        %td= ml_list.redirection_alias
         %td= ml_list.aliases
         %td= ml_list.diffusion_policy
         %td= ml_list.inscription_policy
