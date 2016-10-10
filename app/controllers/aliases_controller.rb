@@ -7,7 +7,7 @@ class AliasesController < ApplicationController
   # GET /aliases.json
   def index
     search = params[:search] || ""
-    @aliases = Alias.where("email LIKE %'#{search}%'").accessible_by(current_ability).includes(:email_virtual_domain)
+    @aliases = Alias.where("email LIKE '%#{search}%'").accessible_by(current_ability).includes(:email_virtual_domain)
     authorize! :read, Alias
   end
 
