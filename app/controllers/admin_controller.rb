@@ -7,7 +7,10 @@ class AdminController < ApplicationController
     authorize! :read, :admin
     search = params[:search] || nil
 
-    unless search.nil?
+    if search.blank?
+      @external_emails, @eras, @esas, @aliases = [[]]*4
+    else
+
       @external_emails = Ml::ExternalEmail.where("email LIKE '%#{search}%'")
       @esas = EmailSourceAccount.where("email LIKE '%#{search.split('@').first}%'")
       @eras = EmailRedirectAccount.where("redirect LIKE '%#{search}%'")
