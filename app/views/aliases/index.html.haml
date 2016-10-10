@@ -1,5 +1,7 @@
 %section.pam.center
   %h1 Alias
+  =form_tag aliases_path(), :method => :get ,class: "mtm"do
+    =text_field_tag :search, params[:search], :placeholder => "Recherche...", :class => "w80 login", :autofocus => true
   %table.box
     %thead
       %tr
