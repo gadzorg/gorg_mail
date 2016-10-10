@@ -33,6 +33,7 @@ Rails.application.routes.draw do
   post 'setup' => 'setup#setup'
 
   get 'admin' => 'admin#index'
+  get 'admin/search_email' => 'admin#search_email'
   get 'roles' => 'roles#index'
   get 'dashboard' => 'users#dashboard'
   get 'mailinglists' => 'users#dashboard_ml'
