@@ -1,10 +1,11 @@
+%h1 Recherche par email
 =form_tag admin_search_email_path(), :method => :get ,class: "mtm"do
   =text_field_tag :search, params[:search], :placeholder => "Recherche par email", :class => "w100 login", :autofocus => true
 
-.grid-4
+.grid-2
   .box.box-light.shadow-1.mtm
     .box-top.box-top-color.pam
-      External email
+      External email (#{@external_emails.count})
     .box-bottom
       -if @external_emails.present?
         %ul
@@ -15,7 +16,7 @@
   .box.box-light.shadow-1.mtm
     .box-top.box-top-color.pam
 
-      Email source
+      Email source (#{@esas.count})
     .box-bottom
       -if @esas.present?
         %ul
@@ -23,7 +24,7 @@
             %li=link_to e.to_s, e.user
   .box.box-light.shadow-1.mtm
     .box-top.box-top-color.pam
-      Redirection
+      Redirection (#{@eras.count})
     .box-bottom
       -if @eras.present?
         %ul
@@ -31,9 +32,12 @@
             %li=link_to e.redirect, e.user
   .box.box-light.shadow-1.mtm
     .box-top.box-top-color.pam
-      Alias
+      Alias (#{@aliases.count})
     .box-bottom
       -if @aliases.present?
-        %ul
+        %table.box
           -@aliases.each do |e|
-            %li=link_to e.to_s, e
+            %thead
+              %tr
+                %td=link_to e.to_s, e
+                %td=e.redirect.to_s
