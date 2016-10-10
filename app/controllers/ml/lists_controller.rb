@@ -4,7 +4,8 @@ class Ml::ListsController < ApplicationController
   # GET /ml/lists
   # GET /ml/lists.json
   def index
-    @ml_lists = Ml::List.all
+    search = params[:search] || ""
+    @ml_lists = Ml::List.all.where("email LIKE '%#{search}%'")
     authorize! :read, @ml_lists
   end
 
