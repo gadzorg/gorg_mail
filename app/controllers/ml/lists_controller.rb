@@ -5,7 +5,7 @@ class Ml::ListsController < ApplicationController
   # GET /ml/lists.json
   def index
     search = params[:search] || ""
-    @ml_lists = Ml::List.all.where("email LIKE '%#{search}%'")
+    @ml_lists = Ml::List.all.includes(redirection_aliases: :email_virtual_domain).where("email LIKE '%#{search}%'")
     authorize! :read, @ml_lists
   end
 
@@ -15,7 +15,7 @@ class Ml::ListsController < ApplicationController
     authorize! :read, @ml_list
     @members = @ml_list.members_list_with_emails
     @external_emails = @ml_list.ml_external_emails
-    @redirection_alias = @ml_list.redirection_alias
+    @redirection_aliases = @ml_list.redirection_aliases
   end
 
   # GET /ml/lists/new

@@ -8,6 +8,13 @@
   %b Destination:
   = @alias.redirect
 
+%p
+  -if @alias.ml_list.present?
+    %b Liste de diffusion:
+    =link_to @alias.ml_list.name, @alias.ml_list
+  -else
+    %b Pas de liste de diffusion
+
 
 = link_to 'Edit', edit_alias_path(@alias)
 \|

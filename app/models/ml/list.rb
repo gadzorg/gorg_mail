@@ -45,8 +45,8 @@ class Ml::List < ActiveRecord::Base
   after_destroy :delete_with_mailing_list_service
 
   has_and_belongs_to_many :users
-  has_many :ml_external_emails, :class_name => 'Ml::ExternalEmail'
-
+  has_many :ml_external_emails, :class_name => 'Ml::ExternalEmail', :dependent => :destroy
+  has_many :redirection_aliases,  :class_name => 'Alias'
 
   def add_user_no_sync(user)
     self.users.where(users: {id: user.id}).blank? ? self.users << user : errors.add(:user, "User already in list")
@@ -148,8 +148,19 @@ class Ml::List < ActiveRecord::Base
 
   ################# email_alias ################
 
-  def redirection_alias
+  def redirection_alias_old
     Alias.find_by(redirect: self.email.gsub(Configurable[:main_mail_domain],Configurable[:default_google_apps_domain_alias]))
+  end
+
+  def redirection_alias
+    self.redirection_aliases.take
+  end
+
+  def self.fix_aliases_association
+    Ml::List.all.each do |l|
+      redir_alias = l.redirection_alias_old
+      l.redirection_aliases << redir_alias
+    end
   end
 
 

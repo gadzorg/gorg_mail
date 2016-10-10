@@ -22,12 +22,14 @@ class AliasesController < ApplicationController
     @alias = Alias.new
     authorize! :create, @alias
     @evd = EmailVirtualDomain.all
+    @ml = Ml::List.all.order(:email)
   end
 
   # GET /aliases/1/edit
   def edit
     authorize! :update, @alias
     @evd = EmailVirtualDomain.all
+    @ml = Ml::List.all.order(:email)
   end
 
   # POST /aliases

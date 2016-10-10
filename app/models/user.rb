@@ -299,7 +299,7 @@ class User < ActiveRecord::Base
   end
 
   def lists_allowed_not_joined
-    lists_allowed - self.ml_lists
+    lists_allowed - self.ml_lists.includes(redirection_aliases: :email_virtual_domain)
   end
 
   def lists_allowed(from_cache=false)
@@ -307,9 +307,9 @@ class User < ActiveRecord::Base
     puts cache_name
     Rails.cache.delete(cache_name) if from_cache == false
     Rails.cache.fetch(cache_name, expires_in: 10.minute) do
-      lists_allowed_for_this_user = Ml::List.all_if_open
+      lists_allowed_for_this_user = Ml::List.all_if_open.includes(redirection_aliases: :email_virtual_domain)
       user_groups_uuid = self.groups.map(&:uuid)
-      lists_allowed_for_this_user = lists_allowed_for_this_user + Ml::List.where(inscription_policy: "conditional_gadz")
+      lists_allowed_for_this_user = lists_allowed_for_this_user + Ml::List.includes(redirection_aliases: :email_virtual_domain).where(inscription_policy: "conditional_gadz")
       user_groups_uuid.each do |guuid|
         lists_allowed_for_this_user << Ml::List.find_by(group_uuid: guuid)
       end

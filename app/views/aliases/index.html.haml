@@ -2,23 +2,28 @@
   %h1 Alias
   =form_tag aliases_path(), :method => :get ,class: "mtm"do
     =text_field_tag :search, params[:search], :placeholder => "Recherche...", :class => "w80 login", :autofocus => true
+  = link_to 'Nouvel Alias', new_alias_path
   %table.box
     %thead
       %tr
         %th Origine
         %th Destination
+        %th Liste
         %th
 
     %tbody
-      - @aliases.each do |a|
-        %tr
-          %td=a.to_s
-          %td=a.redirect
-          %td
-            = link_to 'Show', a
-            = link_to 'Edit', edit_alias_path(a)
-            = link_to 'Destroy', a, :method => :delete, :data => { :confirm => 'Are you sure?' }
+    - @aliases.each do |a|
+      %tr
+      %td=a.to_s
+      %td=a.redirect
+      %td
+        -if a.ml_list.present?
+          =link_to a.ml_list.name, a.ml_list
+        -else
+          non
+      %td
+        = link_to 'Show', a
+        = link_to 'Edit', edit_alias_path(a)
+        = link_to 'Destroy', a, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
-  %br
 
-  = link_to 'New Alias', new_alias_path
