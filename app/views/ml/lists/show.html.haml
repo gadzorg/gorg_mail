@@ -18,7 +18,13 @@
             =@ml_list.email
           %p
             %b Alias de redirection zenimel:
-            = link_to @redirection_alias.to_s + " => " + @redirection_alias.redirect, @redirection_alias
+            -@redirection_aliases.each do |r|
+              %ul
+                %li
+                  = link_to r do
+                    =r.to_s
+                    %i.zmdi.zmdi-long-arrow-right
+                    =r.redirect
           %p
             %b Aliases:
             = @ml_list.aliases
