@@ -6,4 +6,32 @@
 
       %p Sal's #{@user.firstname},
       %p
-        Ton compte Google Apps @gadz.org vient d'être créé ! C'EST LA FÊTE !
+        Ton compte G Suite* for Gadz.org vient d’être activé. Il te permet d’accéder à l’ensemble des outils Google de la suite mise à ta disposition, et notamment à ta boite mail
+        %b=@user.primary_email
+        \.
+
+      %p
+        Tu peux t'y connecter dès maintenant !
+      
+      %p Identifiant :
+      .txtcenter.pam.big= @user.primary_email
+      %p Mot de passe :
+      .txtcenter.pam.big Ton mot de passe Soce/Gadz.org
+
+      .txtcenter.bouton.bouton_bleu
+        =link_to "Me connecter à ma boite mail G Suite", "https://accounts.google.com/ServiceLogin?service=mail" ,:class => "bouton bouton_orange_1 txtcenter"
+
+      %p
+        Tu peux accéder directement à tes mails sur cette adresse : <a href="https://mail.gadz.org" class="light">mail.gadz.org</a>
+
+      %p
+        Le mot de passe de ton compte G Suite restera synchronisé avec celui de ton compte Gadz.org
+
+      %p
+        Pense aussi à jeter un oeil à
+        =link_to "la liste des outils Google", "https://www.google.fr/intl/fr/about/products/",:class => "light"
+        utilisables grace à ton compte G Suite et à cette
+        =link_to "aide rédigée par la communauté","https://confluence.gadz.org/display/AIDE/La+suite+Google+Application+pour+Gadz.org",:class => "light"
+
+      %p.small
+        * Nouveau nom de la suite applicative Google Apps
