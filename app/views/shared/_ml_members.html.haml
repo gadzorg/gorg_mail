@@ -6,13 +6,13 @@
       %ul
         -if @members.count == 0
           %li
-            Il n'y a pas de membres dans cette liste
+            Il n'y a pas de membre dans cette liste
         -else
           -@members.each do |m|
             %li
               %b=m[1]
-              =m[2]
               -if can?( :manage, @ml_list)
+                =m[2]
                 %span.fr
                   = link_to ml_list_leave_path(@ml_list.id, m[0]) do
                     %i.zmdi.zmdi-delete.icon-padding-list
@@ -20,12 +20,12 @@
 .grid-2
   .box.box-light.shadow-1.mtm.flex-item-double
     .box-top.box-top-color.pam
-      Membre sans adresses gadz.org
+      Membres sans adresses gadz.org
     .box-bottom.ml-list
       %ul
         -if @external_emails.count == 0
           %li
-            Il n'y a pas de membres sans adresse gadz.org dans cette liste
+            Il n'y a pas de membre sans adresse gadz.org dans cette liste
         -else
           -@external_emails.each do |m|
             %li

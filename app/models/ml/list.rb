@@ -110,7 +110,7 @@ class Ml::List < ActiveRecord::Base
 
   # Return an array of array [ id_user, full_name, primary_email]
   def members_list_with_emails
-    self.users.includes(email_source_accounts: :email_virtual_domain).where(email_source_accounts: {primary: true}).pluck("users.id", :"CONCAT(users.firstname, ' ', users.lastname)", :"CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name)")
+    self.users.includes(email_source_accounts: :email_virtual_domain).where(email_source_accounts: {primary: true}).order(:firstname).pluck("users.id", :"CONCAT(users.firstname, ' ', users.lastname)", :"CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name)")
   end
 
   ############# external emails #############
