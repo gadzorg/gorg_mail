@@ -138,7 +138,7 @@ a.bouton_bleu, a.button-primary {
     background-color: #14BFCC;
 }
 
-a.bouton_bleu:hover a.button-primary:hover{
+a.bouton_bleu:hover, a.button-primary:hover{
     background-color: rgba(20, 191, 204, 0.85);
     color: #fff;
 }

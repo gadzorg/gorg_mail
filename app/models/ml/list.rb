@@ -163,5 +163,17 @@ class Ml::List < ActiveRecord::Base
     end
   end
 
+  ################ google link ###############
 
+  def email_base
+    email.split('@').first
+  end
+
+  def moderation_link
+    "https://groups.google.com/a/gadz.org/forum/#!pendingmsg/#{email_base}"
+  end
+
+  def archive_link
+    "https://groups.google.com/a/gadz.org/forum/#!forum/#{email_base}"
+  end
 end

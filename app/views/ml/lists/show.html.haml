@@ -1,6 +1,6 @@
 %p#notice= notice
 %section.pam
-  %h1 #{@ml_list.name} (#{@redirection_alias})
+  %h1 #{@ml_list.name} (#{@redirection_aliases.first})
   = @ml_list.description
   -if @ml_list.belong_to_group?
     %p
@@ -37,7 +37,8 @@
       -when "closed"
         Seul les membres de la liste peuvent envoyer librement des mails, les extérieurs sont refusés
       -when "moderated"
-        Tous les messages envoyés à la liste sont soumis à moderation
+        Tous les messages envoyés à la liste sont soumis à modération
+        =link_to "Voir les messages en modération",@ml_list.moderation_link, target: "_blank", :class =>"bouton-medium bouton_bleu"
 
   %p
     %b Inscriptions :
@@ -51,11 +52,17 @@
         Les inscriptions à cette liste ne sont possible que pour un administrateur
       -when "in_group"
         Seuls les membres du groupe
-        %b=@ml_list.group.name
+        %b=@ml_list.group.namen
         peuvent s'inscrire à cette liste
   %p
-    %b Liste archivée:
+    %b Liste archivée :
     = @ml_list.is_archived.to_s.gsub("true", "oui").gsub("false", "non")
+    -if @ml_list.is_archived
+      =link_to  "Consulter les archives", @ml_list.archive_link, target: "_blank", :class =>"bouton-medium bouton_bleu"
+      -unless @current_user.has_google_apps
+        (nécéssite un compte Google Gadz.org :
+        =link_to "Créer mon compte Google Gadz.org", dashboard_path
+        )
   - if can? :manage, Ml::List
     %p
       %b Messsage header:
