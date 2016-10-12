@@ -298,12 +298,13 @@ class User < ActiveRecord::Base
     end
   end
 
+  ################ lists  ###############
   def lists_allowed_not_joined
-    lists_allowed.where.not(id: self.ml_lists.pluck(:id))
+  lists_allowed.where.not(id: self.ml_lists.pluck(:id))
   end
 
   def lists_allowed(from_cache=false)
-    cache_name = "a#{self.uuid}-#{self.updated_at.to_i}-lists_allowed"
+  cache_name = "a#{self.uuid}-#{self.updated_at.to_i}-lists_allowed"
     puts cache_name
     Rails.cache.delete(cache_name) if from_cache == false
     Rails.cache.fetch(cache_name, expires_in: 10.minute) do
@@ -312,6 +313,23 @@ class User < ActiveRecord::Base
       conditions += " OR group_uuid IN (#{user_groups_uuid.join(",")})" if user_groups_uuid.any?
       Ml::List.includes(redirection_aliases: :email_virtual_domain).where(conditions)
     end
+  end
+
+  ################ lists role ###############
+  def lists_moderable
+    Ml::ListsUser.where(user_id: self.id, is_moderator: true)
+  end
+
+  def lists_adminable
+    Ml::ListsUser.where(user_id: self.id, is_admin: true)
+  end
+
+  def can_moderate_this_list?(list_id)
+    Ml::ListsUser.where(user_id: self.id, list_id: list_id, is_moderator: true).any?
+  end
+
+  def can_admin_this_list?(list_id)
+    Ml::ListsUser.where(user_id: self.id, list_id: list_id, is_admin: true).any?
   end
 
   private

@@ -38,7 +38,8 @@
         Seul les membres de la liste peuvent envoyer librement des mails, les extérieurs sont refusés
       -when "moderated"
         Tous les messages envoyés à la liste sont soumis à modération
-        =link_to "Voir les messages en modération",@ml_list.moderation_link, target: "_blank", :class =>"bouton-medium bouton_bleu"
+        -if can? :manage, Ml::List
+          =link_to "Voir les messages en modération",@ml_list.moderation_link, target: "_blank", :class =>"bouton-medium bouton_bleu"
 
   %p
     %b Inscriptions :

@@ -55,7 +55,8 @@ class Ability
     can :show, EmailSourceAccount, :user_id => user.id
     can :suscribe, Ml::List
     can :read, Ml::List, :id => user.lists_allowed(true).map(&:id) if user.persisted?
-
+    can :admin_members, Ml::List if user.can_admin_this_list?(:id)
+    can :moderate_messages, Ml::List if user.can_admin_this_list?(:id)
   end
 end
 

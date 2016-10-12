@@ -146,6 +146,15 @@ class Ml::List < ActiveRecord::Base
   end
 
 
+  ################ members role ###############
+  def list_admins
+    Ml::ListsUser.where(list_id: self.id, is_admin: true)
+  end
+
+  def list_moderators
+    Ml::ListsUser.where(list_id: self.id, is_moderator: true)
+  end
+
   ################# email_alias ################
 
   def redirection_alias_old

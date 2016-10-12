@@ -14,7 +14,7 @@
 #  updated_at       :datetime         not null
 #
 
-class Ml::ListUser < ActiveRecord::Base
+class Ml::ListsUser < ActiveRecord::Base
   validates :user_id, presence: true
   validates :list_id, presence: true
 
