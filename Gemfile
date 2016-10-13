@@ -98,7 +98,7 @@ gem 'gorg_service'
 gem 'premailer-rails'
 gem 'nokogiri'
 
-
+gem 'rails_12factor'
 gem 'heroku_secrets', github: 'alexpeattie/heroku_secrets'
 gem 'puma'
 gem 'scout_apm'
