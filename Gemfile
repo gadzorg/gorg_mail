@@ -21,7 +21,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 gem 'execjs'
-gem 'therubyracer', :platforms => :ruby
+
 
 #Documentation
 gem 'annotate', '~> 2.6.6'
@@ -117,7 +117,7 @@ end
 group :development, :test do
   # Use sqlite3 as the database for Active Record
   gem 'sqlite3'
-
+  gem 'therubyracer', :platforms => :ruby
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
   
