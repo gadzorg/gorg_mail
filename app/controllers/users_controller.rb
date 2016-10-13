@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.accessible_by(current_ability)
+    @users = User.accessible_by(current_ability).limit(10)
     authorize! :read, User
   end
 

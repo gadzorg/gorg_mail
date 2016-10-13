@@ -3,10 +3,10 @@
 # Table name: email_source_accounts
 #
 #  id                      :integer          not null, primary key
-#  email                   :string(255)
+#  email                   :string
 #  uid                     :integer
 #  type_source             :integer
-#  flag                    :string(255)
+#  flag                    :string
 #  expire                  :date
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
@@ -47,19 +47,29 @@ class EmailSourceAccount < ActiveRecord::Base
 		end
 	end
 
+	############## primary email ##############
+	# primary email is user for Google Apps creation and is sent
+	# for mailinglist subscriptions
+	def only_one_primary_by_user
 
-		def only_one_primary_by_user
-
-			return true if self.user.nil?
-			number_of_primary_email_of_the_user = self.user.email_source_accounts.where(primary: true).count
-			if number_of_primary_email_of_the_user > 0 && self.primary
-				#errors.add("You can't add more than one primary email_source_account by user")
-				return false
-			else
-			  return true
-			end
+		return true if self.user.nil?
+		number_of_primary_email_of_the_user = self.user.email_source_accounts.where(primary: true).count
+		if number_of_primary_email_of_the_user > 0 && self.primary
+			#errors.add("You can't add more than one primary email_source_account by user")
+			return false
+		else
+			return true
 		end
+	end
 
+	def set_as_primary
+		ActiveRecord::Base.transaction do
+			EmailSourceAccount.where(user_id: self.user_id).update_all(primary: false)
+			self.reload.update_attributes!(primary: true)
+		end
+	end
+
+	############## Callbacks ##############
 	def self.find_by_full_email(full_email)
 		email_base, domain = full_email.split("@")
 		EmailSourceAccount.joins(:email_virtual_domain).where(email_source_accounts: {email: email_base}, email_virtual_domains: {name: domain}).first
