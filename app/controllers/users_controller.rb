@@ -102,8 +102,8 @@ class UsersController < ApplicationController
   # GET /users/1/dashboard
   def dashboard
     authorize! :read_dashboard, @user
-
-    return redirect_to setup_setup_email_source_accounts_path unless @user.email_source_accounts.any? && @user.email_redirect_accounts.any?
+    
+    return redirect_to setup_setup_email_source_accounts_path unless @user!=current_user || @user.email_source_accounts.any? && @user.email_redirect_accounts.any?
     @emails_source = @user.email_source_accounts.select(&:persisted?)
     
     #attention, les deux lignes suivantes sont égaleement dans le controleur ERA / create / destroy
@@ -120,7 +120,7 @@ class UsersController < ApplicationController
   def dashboard_ml
     authorize! :read_dashboard, @user
 
-    return redirect_to setup_setup_email_source_accounts_path unless @user.email_source_accounts.any? && @user.email_redirect_accounts.any?
+    return redirect_to setup_setup_email_source_accounts_path unless @user!=current_user || @user.email_source_accounts.any? && @user.email_redirect_accounts.any?
     @emails_source = @user.email_source_accounts.select(&:persisted?)
 
     get_list(@user)
