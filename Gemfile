@@ -101,6 +101,7 @@ gem 'nokogiri'
 
 gem 'heroku_secrets', github: 'alexpeattie/heroku_secrets'
 gem 'puma'
+gem 'scout_apm'
 
 gem 'activerecord-import'
 
