@@ -109,8 +109,14 @@ class Ml::List < ActiveRecord::Base
   end
 
   # Return an array of array [ id_user, full_name, primary_email]
-  def members_list_with_emails
-    self.users.includes(email_source_accounts: :email_virtual_domain).where(email_source_accounts: {primary: true}).order(:firstname).pluck("users.id", :"CONCAT(users.firstname, ' ', users.lastname)", :"CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name)")
+  def members_list_with_emails(search = nil)
+    if search.present?
+      search_query = "CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name) LIKE '%#{search}%' OR users.firstname LIKE '%#{search}%' OR users.lastname LIKE '%#{search}%'"
+    else
+      search_query = nil
+    end
+
+    self.users.includes(email_source_accounts: :email_virtual_domain).where(email_source_accounts: {primary: true}).order(:firstname).where(search_query).pluck("users.id", :"CONCAT(users.firstname, ' ', users.lastname)", :"CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name)")
   end
 
   ############# external emails #############

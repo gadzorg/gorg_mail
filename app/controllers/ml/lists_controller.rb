@@ -13,7 +13,8 @@ class Ml::ListsController < ApplicationController
   # GET /ml/lists/1.json
   def show
     authorize! :read, @ml_list
-    @members = @ml_list.members_list_with_emails
+    @search = params[:search]
+    @search.present? ? @members = @ml_list.members_list_with_emails(@search) : @members = []
     @external_emails = @ml_list.ml_external_emails
     @redirection_aliases = @ml_list.redirection_aliases
   end

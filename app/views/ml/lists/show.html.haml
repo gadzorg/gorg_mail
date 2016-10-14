@@ -1,6 +1,8 @@
 %p#notice= notice
 %section.pam
-  %h1 #{@ml_list.name} (#{@redirection_aliases.first})
+  %h1 #{@ml_list.name}
+  %p
+    %b #{@redirection_aliases.first}, #{@ml_list.members_count} membres
   = @ml_list.description
   -if @ml_list.belong_to_group?
     %p

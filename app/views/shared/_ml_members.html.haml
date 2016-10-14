@@ -3,10 +3,14 @@
     .box-top.box-top-color.pam
       Membres
     .box-bottom.ml-list
+      =form_tag ml_list_path(@ml_list), :method => :get ,class: "mam"do
+        =text_field_tag :search, params[:search], :placeholder => "Recherche par adresse, nom ou prénom parmis les #{@ml_list.members_count} membres de cette liste", :class => "w100 login", :autofocus => false
       %ul
         -if @members.count == 0
           %li
-            Il n'y a pas de membre dans cette liste
+            -if @search.present?
+              Aucun membre trouvé
+
         -else
           -@members.each do |m|
             %li
