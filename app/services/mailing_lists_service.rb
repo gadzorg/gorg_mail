@@ -21,6 +21,8 @@ class MailingListsService
       primary_email: @mailing_list.email,
       description: @mailing_list.description,
       aliases: @mailing_list.aliases.split,
+      owners: @mailing_list.admins.primary_emails,
+      managers: @mailing_list.moderators.primary_emails,
       members: @mailing_list.all_emails,
       message_max_bytes_size: @mailing_list.message_max_bytes_size ,
       object_tag:  @mailing_list.messsage_header,

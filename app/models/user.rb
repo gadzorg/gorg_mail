@@ -59,9 +59,13 @@ class User < ActiveRecord::Base
 
   # Associations
   belongs_to :role
-  has_and_belongs_to_many :ml_lists, :class_name => 'Ml::List'
+
   has_many :email_redirect_accounts, dependent: :destroy
   has_many :email_source_accounts, dependent: :destroy
+
+  has_many :ml_lists_users, :class_name => 'Ml::ListsUser'
+  has_many :ml_lists, through: :ml_lists_users, :class_name => 'Ml::List'
+
 
 
   after_initialize :set_default_values
@@ -325,12 +329,18 @@ class User < ActiveRecord::Base
   end
 
   def can_moderate_this_list?(list_id)
-    Ml::ListsUser.where(user_id: self.id, list_id: list_id, is_moderator: true).any?
+    Ml::ListsUser.where(user_id: self.id, list_id: list_id, role: 'moderator').any?
   end
 
   def can_admin_this_list?(list_id)
-    Ml::ListsUser.where(user_id: self.id, list_id: list_id, is_admin: true).any?
+    Ml::ListsUser.where(user_id: self.id, list_id: list_id, role: 'admin').any?
   end
+
+  def self.primary_emails
+    #Take all primary email of user. More perf than user.primary
+    includes(email_source_accounts: :email_virtual_domain).where(email_source_accounts: {primary: true}).pluck(:"CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name)")
+  end
+
 
   private
 

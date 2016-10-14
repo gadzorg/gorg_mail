@@ -44,9 +44,25 @@ class Ml::List < ActiveRecord::Base
   after_create {Alias.new_for_mailinglist(self)}
   after_destroy :delete_with_mailing_list_service
 
-  has_and_belongs_to_many :users
   has_many :ml_external_emails, :class_name => 'Ml::ExternalEmail', :dependent => :destroy
   has_many :redirection_aliases,  :class_name => 'Alias'
+
+  has_many :lists_users, :class_name => "Ml::ListsUser"
+  has_many :users, through: :lists_users
+
+  # set associations for roles
+  # Create :
+  #
+  # lists_users_banneds
+  # banneds (liste des users)
+  # moderators_banned
+  # moderators (liste des users)
+  # ...
+  #
+  (Ml::ListsUser.roles.keys.map(&:pluralize)+["all_members"]).each do |role_name|
+    has_many "lists_users_#{role_name}".to_sym, -> { send(role_name) }, :class_name => "Ml::ListsUser"
+    has_many "#{role_name}".to_sym, through: "lists_users_#{role_name}".to_sym, :class_name => "User", :source => :user
+  end
 
   def add_user_no_sync(user)
     self.users.where(users: {id: user.id}).blank? ? self.users << user : errors.add(:user, "User already in list")
@@ -96,7 +112,7 @@ class Ml::List < ActiveRecord::Base
   end
 
   def all_emails
-    members_emails = self.users.includes(email_source_accounts: :email_virtual_domain).where(email_source_accounts: {primary: true}).pluck(:"CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name)") #Take all primary email of user. More perf than user.primary
+    members_emails = self.all_members.primary_emails
     external_emails = self.ml_external_emails.pluck(:email)
     members_emails + external_emails
   end
@@ -104,7 +120,7 @@ class Ml::List < ActiveRecord::Base
   def members_count
     cache_name = "a#{self.email}-#{self.updated_at.to_i}-list_member_count"
     Rails.cache.fetch(cache_name, expires_in: 10.minute) do
-      self.users.count + self.ml_external_emails.count
+      self.all_members.count + self.ml_external_emails.count
     end
   end
 
@@ -116,7 +132,7 @@ class Ml::List < ActiveRecord::Base
       search_query = nil
     end
 
-    self.users.includes(email_source_accounts: :email_virtual_domain).where(email_source_accounts: {primary: true}).order(:firstname).where(search_query).pluck("users.id", :"CONCAT(users.firstname, ' ', users.lastname)", :"CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name)")
+    self.all_members.includes(email_source_accounts: :email_virtual_domain).where(email_source_accounts: {primary: true}).order(:firstname).where(search_query).pluck("users.id", :"CONCAT(users.firstname, ' ', users.lastname)", :"CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name)")
   end
 
   ############# external emails #############
@@ -153,12 +169,8 @@ class Ml::List < ActiveRecord::Base
 
 
   ################ members role ###############
-  def list_admins
-    Ml::ListsUser.where(list_id: self.id, is_admin: true)
-  end
-
-  def list_moderators
-    Ml::ListsUser.where(list_id: self.id, is_moderator: true)
+  def set_role(user,role)
+    self.lists_users.find_by(user_id: user.id)&&self.lists_users.find_by(user_id: user.id).update_attributes(role: role.to_s)
   end
 
   ################# email_alias ################
