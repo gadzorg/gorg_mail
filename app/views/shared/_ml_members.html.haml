@@ -1,7 +1,9 @@
 .grid-2
-  .box.box-light.shadow-1.mtm.flex-item-double
-    .box-top.box-top-color.pam
-      Membres
+  .box.box-light.shadow-1.flex-item-double
+    .box-top.box-top-light.pam
+      %span
+        %i.zmdi.zmdi-accounts-alt
+        Membres
     .box-bottom.ml-list
       =form_tag ml_list_path(@ml_list), :method => :get ,class: "mam"do
         =text_field_tag :search, params[:search], :placeholder => "Recherche par adresse, nom ou prénom parmis les #{@ml_list.members_count} membres de cette liste", :class => "w100 login", :autofocus => false
@@ -18,24 +20,18 @@
               -if can?( :manage, @ml_list)
                 =m[2]
                 %span.fr
-                  = link_to set_role_ml_list_users_path(@ml_list.id, m[0], role: "admin", id: @ml_list.id), method: :post do
-                    Admin
-                  = link_to set_role_ml_list_users_path(@ml_list.id, m[0], role: "moderator", id: @ml_list.id), method: :post do
-                    Modo
-                  = link_to set_role_ml_list_users_path(@ml_list.id, m[0], role: "ban", id: @ml_list.id), method: :post do
-                    -#"%i.zmdi.icon-padding-list.zmdi-minus-circle
-                    Ban
-                  = link_to set_role_ml_list_users_path(@ml_list.id, m[0], role: "pending", id: @ml_list.id), method: :post do
-                    Pending
-                  = link_to set_role_ml_list_users_path(@ml_list.id, m[0], role: "member", id: @ml_list.id), method: :post do
-                    Membre
+                  -["admin", "moderator", "ban", "pen"].each do |role_name|
+                    = link_to set_role_ml_list_users_path(@ml_list.id, m[0], role: role_name, id: @ml_list.id), method: :post do
+                      =role_name.capitalize
                   = link_to ml_list_leave_path(@ml_list.id, m[0]) do
                     %i.zmdi.zmdi-delete.icon-padding-list
 
 .grid-2
   .box.box-light.shadow-1.mtm.flex-item-double
-    .box-top.box-top-color.pam
-      Membres sans adresses gadz.org
+    .box-top.box-top-light.pam
+      %span
+        %i.zmdi.zmdi-accounts-outline
+        Membres sans adresses gadz.org
     .box-bottom.ml-list
       %ul
         -if @external_emails.count == 0
