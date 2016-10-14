@@ -14,6 +14,17 @@
               -if can?( :manage, @ml_list)
                 =m[2]
                 %span.fr
+                  = link_to set_role_ml_list_users_path(@ml_list.id, m[0], role: "admin", id: @ml_list.id), method: :post do
+                    Admin
+                  = link_to set_role_ml_list_users_path(@ml_list.id, m[0], role: "moderator", id: @ml_list.id), method: :post do
+                    Modo
+                  = link_to set_role_ml_list_users_path(@ml_list.id, m[0], role: "ban", id: @ml_list.id), method: :post do
+                    -#"%i.zmdi.icon-padding-list.zmdi-minus-circle
+                    Ban
+                  = link_to set_role_ml_list_users_path(@ml_list.id, m[0], role: "pending", id: @ml_list.id), method: :post do
+                    Pending
+                  = link_to set_role_ml_list_users_path(@ml_list.id, m[0], role: "member", id: @ml_list.id), method: :post do
+                    Membre
                   = link_to ml_list_leave_path(@ml_list.id, m[0]) do
                     %i.zmdi.zmdi-delete.icon-padding-list
 

@@ -1,5 +1,5 @@
 class Ml::ListsController < ApplicationController
-  before_action :set_ml_list, only: [:show, :edit, :update, :destroy]
+  before_action :set_ml_list, only: [:show, :edit, :update, :destroy, :set_role]
 
   # GET /ml/lists
   # GET /ml/lists.json
@@ -144,10 +144,32 @@ class Ml::ListsController < ApplicationController
     end
   end
 
+  def set_role
+    authorize! :manage, @ml_lists
+    role = params[:role]
+    user = User.find(params[:user_id])
+    case role
+      when "admin"
+        puts "add admin role"
+      when "moderator"
+        puts "add modo role"
+      when "pending"
+        puts "add pending role"
+      when "ban"
+        puts "add ban role"
+
+
+    end
+
+    redirect_to @ml_list
+
+  end
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_ml_list
-      @ml_list = Ml::List.find(params[:id])
+      @ml_list = Ml::List.find(params[:id]) || Ml::List.find(params[:list_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
