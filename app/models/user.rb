@@ -329,11 +329,11 @@ class User < ActiveRecord::Base
   end
 
   def can_moderate_this_list?(list_id)
-    Ml::ListsUser.where(user_id: self.id, list_id: list_id, is_moderator: true).any?
+    Ml::ListsUser.where(user_id: self.id, list_id: list_id, role: 'moderator').any?
   end
 
   def can_admin_this_list?(list_id)
-    Ml::ListsUser.where(user_id: self.id, list_id: list_id, is_admin: true).any?
+    Ml::ListsUser.where(user_id: self.id, list_id: list_id, role: 'admin').any?
   end
 
   def self.primary_emails
