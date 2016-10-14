@@ -17,6 +17,11 @@ class Ml::ListsController < ApplicationController
     @search.present? ? @members = @ml_list.members_list_with_emails(@search) : @members = []
     @external_emails = @ml_list.ml_external_emails
     @redirection_aliases = @ml_list.redirection_aliases
+    @admins_and_moderators = @ml_list.members_list_with_emails(nil, "admins") + @ml_list.members_list_with_emails(nil, "moderators")
+    if can? @current_user, :admin_members
+      @pendings = @ml_list.members_list_with_emails(nil, "pendings")
+      @banneds = @ml_list.members_list_with_emails(nil,"banneds")
+    end
   end
 
   # GET /ml/lists/new
@@ -148,21 +153,13 @@ class Ml::ListsController < ApplicationController
   def set_role
     authorize! :manage, @ml_lists
     role = params[:role]
+    search = params[:search]
     user = User.find(params[:user_id])
-    case role
-      when "admin"
-        puts "add admin role"
-      when "moderator"
-        puts "add modo role"
-      when "pending"
-        puts "add pending role"
-      when "ban"
-        puts "add ban role"
-
-
+    if @ml_list.set_role(user, role)
+      redirect_to ml_list_path(@ml_list, search: search)
+    else
+      redirect_to ml_list_path(@ml_list, search: search), :flash => { :error => "Impossible d'attribuer le rôle #{role}" }
     end
-
-    redirect_to @ml_list
 
   end
 

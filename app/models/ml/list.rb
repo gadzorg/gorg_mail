@@ -125,14 +125,14 @@ class Ml::List < ActiveRecord::Base
   end
 
   # Return an array of array [ id_user, full_name, primary_email]
-  def members_list_with_emails(search = nil)
+  def members_list_with_emails(search = nil, role = "all_members")
     if search.present?
       search_query = "CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name) LIKE '%#{search}%' OR users.firstname LIKE '%#{search}%' OR users.lastname LIKE '%#{search}%'"
     else
       search_query = nil
     end
 
-    self.all_members.includes(email_source_accounts: :email_virtual_domain).where(email_source_accounts: {primary: true}).order(:firstname).where(search_query).pluck("users.id", :"CONCAT(users.firstname, ' ', users.lastname)", :"CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name)")
+    self.send(role).includes(email_source_accounts: :email_virtual_domain).where(email_source_accounts: {primary: true}).order(:firstname).where(search_query).pluck("users.id", :"CONCAT(users.firstname, ' ', users.lastname)", :"CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name), ml_lists_users.role")
   end
 
   ############# external emails #############

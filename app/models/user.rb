@@ -336,6 +336,10 @@ class User < ActiveRecord::Base
     Ml::ListsUser.where(user_id: self.id, list_id: list_id, role: 'admin').any?
   end
 
+  def get_role_in_list(list_id)
+    self.ml_lists_users.find_by(list_id: list_id).role
+  end
+
   def self.primary_emails
     #Take all primary email of user. More perf than user.primary
     includes(email_source_accounts: :email_virtual_domain).where(email_source_accounts: {primary: true}).pluck(:"CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name)")

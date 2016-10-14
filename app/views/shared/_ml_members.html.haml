@@ -1,30 +1,5 @@
-.grid-2
-  .box.box-light.shadow-1.flex-item-double
-    .box-top.box-top-light.pam
-      %span
-        %i.zmdi.zmdi-accounts-alt
-        Membres
-    .box-bottom.ml-list
-      =form_tag ml_list_path(@ml_list), :method => :get ,class: "mam"do
-        =text_field_tag :search, params[:search], :placeholder => "Recherche par adresse, nom ou prénom parmis les #{@ml_list.members_count} membres de cette liste", :class => "w100 login", :autofocus => false
-      %ul
-        -if @members.count == 0
-          %li
-            -if @search.present?
-              Aucun membre trouvé
+=render partial: "shared/ml_members_list_box", locals: {members: @members, show_search: true, name: "Membres"}
 
-        -else
-          -@members.each do |m|
-            %li
-              %b=m[1]
-              -if can?( :manage, @ml_list)
-                =m[2]
-                %span.fr
-                  -["admin", "moderator", "ban", "pen"].each do |role_name|
-                    = link_to set_role_ml_list_users_path(@ml_list.id, m[0], role: role_name, id: @ml_list.id), method: :post do
-                      =role_name.capitalize
-                  = link_to ml_list_leave_path(@ml_list.id, m[0]) do
-                    %i.zmdi.zmdi-delete.icon-padding-list
 
 .grid-2
   .box.box-light.shadow-1.mtm.flex-item-double
@@ -45,4 +20,12 @@
                 %span.fr
                   =link_to ml_list_remove_email_path(list_id: @ml_list.id, email_id: m.id), :method => :delete, :data => { :confirm => 'Are you sure?' } do
                     %i.zmdi.zmdi-delete.icon-padding-list
+
+.mtm=render partial: "shared/ml_members_list_box", locals: {members: @admins_and_moderators, show_search: false,name: "Admins et modo"}
+-if can? :admin_members, @ml_list
+  -if @pendings.any?
+    .mtm=render partial: "shared/ml_members_list_box", locals: {members: @pendings, show_search: false,name: "Inscriptions en attente"}
+  -if @banneds.any?
+    .mtm=render partial: "shared/ml_members_list_box", locals: {members: @banneds, show_search: false,name: "Bannis"}
+
 
