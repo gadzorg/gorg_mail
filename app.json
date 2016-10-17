@@ -84,7 +84,7 @@
       "size": "Standard-1X"
     },
     "worker": {
-      "quantity": 1,
+      "quantity": 0,
       "size": "Standard-1X"
     }
   },
