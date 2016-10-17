@@ -90,7 +90,6 @@
   },
   "addons": [
     "logentries",
-    "scout",
     "sendgrid"
   ],
   "buildpacks": [
