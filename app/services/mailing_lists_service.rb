@@ -8,11 +8,11 @@ class MailingListsService
   end
 
   def update
-    request_mailing_list_update
+    request_mailing_list_update unless NO_SYNC
   end
 
   def delete
-    request_mailing_list_delete
+    request_mailing_list_delete unless NO_SYNC
   end
 
   def request_mailing_list_update
@@ -38,6 +38,15 @@ class MailingListsService
         mailling_list_key: @mailing_list.email,
     }
     send_message(msg, 'request.mailinglist.delete')
+  end
+
+  def self.no_sync_block
+    begin
+      NO_SYNC=true
+      yield
+    ensure
+      NO_SYNC=false
+    end
   end
 
   private

@@ -65,11 +65,15 @@ class Ml::List < ActiveRecord::Base
   end
 
   def add_user_no_sync(user)
-    self.users.where(users: {id: user.id}).blank? ? self.users << user : errors.add(:user, "User already in list")
+    MailingListsService.no_sync_block do
+      self.users.where(users: {id: user.id}).blank? ? self.users << user : errors.add(:user, "User already in list")
+    end
   end
 
   def remove_user_no_sync(user)
-    self.users.delete(user)
+    MailingListsService.no_sync_block do
+      self.users.delete(user)
+    end
   end
 
   def add_user(user)

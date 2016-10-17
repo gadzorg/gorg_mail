@@ -23,6 +23,9 @@ class Ml::ListsUser < ActiveRecord::Base
   validates :user_id, presence: true
   validates :list_id, presence: true
 
+  after_save :sync
+  around_destroy :sync_destroy
+
 
   enum role: [:banned, :pending, :member, :moderator, :admin ]
   #Crée le scope plurielalisé de chaque role
@@ -44,6 +47,25 @@ class Ml::ListsUser < ActiveRecord::Base
 
   def in_all_members?
     role_id > self.class.roles['member']
+  end
+
+  private
+
+  def sync
+    if self.changes.keys.any? {|key| ["id","role"].include?(key) }
+      trigger_ml_sync
+    end
+  end
+
+  def sync_destroy
+    l=self.list
+    yield
+    trigger_ml_sync(l)
+  end
+
+  def trigger_ml_sync(l=self.list)
+    byebug
+    l && MailingListsService.new(l).update
   end
 
 end
