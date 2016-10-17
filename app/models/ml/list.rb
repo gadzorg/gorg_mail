@@ -3,23 +3,23 @@
 # Table name: ml_lists
 #
 #  id                                     :integer          not null, primary key
-#  name                                   :string(255)
-#  email                                  :string(255)
-#  description                            :string(255)
-#  aliases                                :string(255)
-#  diffusion_policy                       :string(255)
-#  messsage_header                        :string(255)
-#  message_footer                         :string(255)
+#  name                                   :string
+#  email                                  :string
+#  description                            :string
+#  aliases                                :string
+#  diffusion_policy                       :string
+#  messsage_header                        :string
+#  message_footer                         :string
 #  is_archived                            :boolean
-#  custom_reply_to                        :string(255)
-#  default_message_deny_notification_text :string(255)
-#  msg_welcome                            :string(255)
-#  msg_goodbye                            :string(255)
+#  custom_reply_to                        :string
+#  default_message_deny_notification_text :string
+#  msg_welcome                            :string
+#  msg_goodbye                            :string
 #  message_max_bytes_size                 :integer
 #  created_at                             :datetime         not null
 #  updated_at                             :datetime         not null
-#  inscription_policy                     :string(255)
-#  group_uuid                             :string(255)
+#  inscription_policy                     :string
+#  group_uuid                             :string
 #
 # Indexes
 #
@@ -129,8 +129,14 @@ class Ml::List < ActiveRecord::Base
   end
 
   # Return an array of array [ id_user, full_name, primary_email]
-  def members_list_with_emails
-    self.all_members.includes(email_source_accounts: :email_virtual_domain).where(email_source_accounts: {primary: true}).order(:firstname).pluck("users.id", :"CONCAT(users.firstname, ' ', users.lastname)", :"CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name)")
+  def members_list_with_emails(search = nil, role = "all_members")
+    if search.present?
+      search_query = "CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name) LIKE '%#{search}%' OR users.firstname LIKE '%#{search}%' OR users.lastname LIKE '%#{search}%'"
+    else
+      search_query = nil
+    end
+
+    self.send(role).includes(email_source_accounts: :email_virtual_domain).where(email_source_accounts: {primary: true}).order(:firstname).where(search_query).pluck("users.id", :"CONCAT(users.firstname, ' ', users.lastname)", :"CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name), ml_lists_users.role")
   end
 
   ############# external emails #############

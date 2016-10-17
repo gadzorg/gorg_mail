@@ -83,7 +83,7 @@ class AliasesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def alias_params
-      params.require(:alias).permit(:email, :redirect, :email_virtual_domain_id; :list_id)
+      params.require(:alias).permit(:email, :redirect, :email_virtual_domain_id, :list_id)
 
     end
 end

@@ -6,8 +6,11 @@
     =e.email + "@" + e.email_virtual_domain.name
     %span.fr
       -if e.primary
-
         %i.zmdi.zmdi-star.icon-padding-list{ title: "Adresse principale", rel: 'tooltip'}
+      -elsif can? :update, e
+        = link_to user_email_source_account_set_as_primary_path(@user, e.id, :id => e.id), :remote => true, confirm: true,data: {confirm: "Tu vas changer l'email principal de cet utilisateur .Si il n'a pas de Google Apps, ça va changer l'adresse qui sera attribuée à son Google Apps si il en créé un. Cela va aussi changer l'adresse inscrite dans les listes de diffusion où il est inscrit ainsi que la réécriture d'adresse. Tu es bien certain ?"} do
+          %i.zmdi.zmdi-star-outline.icon-padding-list
+
       -if can? :destroy, e
-        = link_to user_email_source_account_path(@user,e.id), method: :delete, :remote => true, confirm: true do
+        = link_to user_email_source_account_path(@user,e.id), method: :delete, :remote => true, confirm: true, data: {confirm: "Attention, tu va supprimer un email source, l'utilisateur ne pourra plus recevoir les mails envoyés à l'adresse #{e.email}@#{e.email_virtual_domain.name}. Tu es bien certain ?"} do
           %i.zmdi.zmdi-delete.icon-padding-list

@@ -8,6 +8,9 @@ Rails.application.routes.draw do
       get "leave/:user_id", to: "lists#leave", as: :leave
       post "add_email", to: "lists#add_email", as: :add_email
       delete "remove_email", to: "lists#remove_email", as: :remove_email
+      resource :users do
+        post "set_role/:user_id", to: "lists#set_role", as: :set_role
+      end
     end
   end
   get 'admin/index'
@@ -52,7 +55,9 @@ Rails.application.routes.draw do
       get :create_google_apps
     end
 
-    resources :email_source_accounts, only: [:index, :show, :create,:update,:destroy]  
+    resources :email_source_accounts, only: [:index, :show, :create,:update,:destroy] do
+      get :set_as_primary
+    end
     
     resources :email_redirect_accounts, only: [:index, :show, :create,:update,:destroy] do
       # get :flag

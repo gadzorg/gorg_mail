@@ -69,9 +69,17 @@ a:focus {
     outline: 0px none;
 }
 
+a.light {
+  color: #444343;
+}
+
 body{background: #F7F7F7;}
 .content{background: #fff;}
 
+.big {
+  font-size:1.2em;
+  font-weight:bold;
+}
 
 .mam {
   margin: 2rem;

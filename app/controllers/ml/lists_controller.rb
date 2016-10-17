@@ -1,5 +1,5 @@
 class Ml::ListsController < ApplicationController
-  before_action :set_ml_list, only: [:show, :edit, :update, :destroy]
+  before_action :set_ml_list, only: [:show, :edit, :update, :destroy, :set_role]
 
   # GET /ml/lists
   # GET /ml/lists.json
@@ -13,9 +13,15 @@ class Ml::ListsController < ApplicationController
   # GET /ml/lists/1.json
   def show
     authorize! :read, @ml_list
-    @members = @ml_list.members_list_with_emails
+    @search = params[:search]
+    @search.present? ? @members = @ml_list.members_list_with_emails(@search) : @members = []
     @external_emails = @ml_list.ml_external_emails
     @redirection_aliases = @ml_list.redirection_aliases
+    @admins_and_moderators = @ml_list.members_list_with_emails(nil, "admins") + @ml_list.members_list_with_emails(nil, "moderators")
+    if can? @current_user, :admin_members
+      @pendings = @ml_list.members_list_with_emails(nil, "pendings")
+      @banneds = @ml_list.members_list_with_emails(nil,"banneds")
+    end
   end
 
   # GET /ml/lists/new
@@ -144,10 +150,24 @@ class Ml::ListsController < ApplicationController
     end
   end
 
+  def set_role
+    authorize! :manage, @ml_lists
+    role = params[:role]
+    search = params[:search]
+    user = User.find(params[:user_id])
+    if @ml_list.set_role(user, role)
+      redirect_to ml_list_path(@ml_list, search: search)
+    else
+      redirect_to ml_list_path(@ml_list, search: search), :flash => { :error => "Impossible d'attribuer le rôle #{role}" }
+    end
+
+  end
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_ml_list
-      @ml_list = Ml::List.find(params[:id])
+      @ml_list = Ml::List.find(params[:id]) || Ml::List.find(params[:list_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
