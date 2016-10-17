@@ -77,20 +77,15 @@
   "formation": {
     "web": {
       "quantity": 1,
-      "size": "Standard-1X"
+      "size": "hobby"
     },
     "service_rabbitmq": {
       "quantity": 1,
-      "size": "Standard-1X"
-    },
-    "worker": {
-      "quantity": 0,
-      "size": "Standard-1X"
+      "size": "hobby"
     }
   },
   "addons": [
     "logentries",
-    "scout",
     "sendgrid"
   ],
   "buildpacks": [

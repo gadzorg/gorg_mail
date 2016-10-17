@@ -3,23 +3,23 @@
 # Table name: ml_lists
 #
 #  id                                     :integer          not null, primary key
-#  name                                   :string
-#  email                                  :string
-#  description                            :string
-#  aliases                                :string
-#  diffusion_policy                       :string
-#  messsage_header                        :string
-#  message_footer                         :string
+#  name                                   :string(255)
+#  email                                  :string(255)
+#  description                            :string(255)
+#  aliases                                :string(255)
+#  diffusion_policy                       :string(255)
+#  messsage_header                        :string(255)
+#  message_footer                         :string(255)
 #  is_archived                            :boolean
-#  custom_reply_to                        :string
-#  default_message_deny_notification_text :string
-#  msg_welcome                            :string
-#  msg_goodbye                            :string
+#  custom_reply_to                        :string(255)
+#  default_message_deny_notification_text :string(255)
+#  msg_welcome                            :string(255)
+#  msg_goodbye                            :string(255)
 #  message_max_bytes_size                 :integer
 #  created_at                             :datetime         not null
 #  updated_at                             :datetime         not null
-#  inscription_policy                     :string
-#  group_uuid                             :string
+#  inscription_policy                     :string(255)
+#  group_uuid                             :string(255)
 #
 # Indexes
 #
@@ -44,16 +44,36 @@ class Ml::List < ActiveRecord::Base
   after_create {Alias.new_for_mailinglist(self)}
   after_destroy :delete_with_mailing_list_service
 
-  has_and_belongs_to_many :users
   has_many :ml_external_emails, :class_name => 'Ml::ExternalEmail', :dependent => :destroy
   has_many :redirection_aliases,  :class_name => 'Alias'
 
+  has_many :lists_users, :class_name => "Ml::ListsUser"
+  has_many :users, through: :lists_users
+
+  # set associations for roles
+  # Create :
+  #
+  # lists_users_banneds
+  # banneds (liste des users)
+  # moderators_banned
+  # moderators (liste des users)
+  # ...
+  #
+  (Ml::ListsUser.roles.keys.map(&:pluralize)+["all_members"]).each do |role_name|
+    has_many "lists_users_#{role_name}".to_sym, -> { send(role_name) }, :class_name => "Ml::ListsUser"
+    has_many "#{role_name}".to_sym, through: "lists_users_#{role_name}".to_sym, :class_name => "User", :source => :user
+  end
+
   def add_user_no_sync(user)
-    self.users.where(users: {id: user.id}).blank? ? self.users << user : errors.add(:user, "User already in list")
+    MailingListsService.no_sync_block do
+      self.users.where(users: {id: user.id}).blank? ? self.users << user : errors.add(:user, "User already in list")
+    end
   end
 
   def remove_user_no_sync(user)
-    self.users.delete(user)
+    MailingListsService.no_sync_block do
+      self.users.delete(user)
+    end
   end
 
   def add_user(user)
@@ -96,7 +116,7 @@ class Ml::List < ActiveRecord::Base
   end
 
   def all_emails
-    members_emails = self.users.includes(email_source_accounts: :email_virtual_domain).where(email_source_accounts: {primary: true}).pluck(:"CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name)") #Take all primary email of user. More perf than user.primary
+    members_emails = self.all_members.primary_emails
     external_emails = self.ml_external_emails.pluck(:email)
     members_emails + external_emails
   end
@@ -104,13 +124,19 @@ class Ml::List < ActiveRecord::Base
   def members_count
     cache_name = "a#{self.email}-#{self.updated_at.to_i}-list_member_count"
     Rails.cache.fetch(cache_name, expires_in: 10.minute) do
-      self.users.count + self.ml_external_emails.count
+      self.all_members.count + self.ml_external_emails.count
     end
   end
 
   # Return an array of array [ id_user, full_name, primary_email]
-  def members_list_with_emails
-    self.users.includes(email_source_accounts: :email_virtual_domain).where(email_source_accounts: {primary: true}).order(:firstname).pluck("users.id", :"CONCAT(users.firstname, ' ', users.lastname)", :"CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name)")
+  def members_list_with_emails(search = nil, role = "all_members")
+    if search.present?
+      search_query = "CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name) LIKE '%#{search}%' OR users.firstname LIKE '%#{search}%' OR users.lastname LIKE '%#{search}%'"
+    else
+      search_query = nil
+    end
+
+    self.send(role).includes(email_source_accounts: :email_virtual_domain).where(email_source_accounts: {primary: true}).order(:firstname).where(search_query).pluck("users.id", :"CONCAT(users.firstname, ' ', users.lastname)", :"CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name), ml_lists_users.role")
   end
 
   ############# external emails #############
@@ -146,6 +172,11 @@ class Ml::List < ActiveRecord::Base
   end
 
 
+  ################ members role ###############
+  def set_role(user,role)
+    self.lists_users.find_by(user_id: user.id)&&self.lists_users.find_by(user_id: user.id).update_attributes(role: role.to_s)
+  end
+
   ################# email_alias ################
 
   def redirection_alias_old
@@ -163,5 +194,17 @@ class Ml::List < ActiveRecord::Base
     end
   end
 
+  ################ google link ###############
 
+  def email_base
+    email.split('@').first
+  end
+
+  def moderation_link
+    "https://groups.google.com/a/gadz.org/forum/#!pendingmsg/#{email_base}"
+  end
+
+  def archive_link
+    "https://groups.google.com/a/gadz.org/forum/#!forum/#{email_base}"
+  end
 end
