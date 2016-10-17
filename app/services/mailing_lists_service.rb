@@ -8,11 +8,11 @@ class MailingListsService
   end
 
   def update
-    request_mailing_list_update unless NO_SYNC
+    request_mailing_list_update unless @no_sync
   end
 
   def delete
-    request_mailing_list_delete unless NO_SYNC
+    request_mailing_list_delete unless @no_sync
   end
 
   def request_mailing_list_update
@@ -42,10 +42,10 @@ class MailingListsService
 
   def self.no_sync_block
     begin
-      NO_SYNC=true
+      @no_sync=true
       yield
     ensure
-      NO_SYNC=false
+      @no_sync=false
     end
   end
 
