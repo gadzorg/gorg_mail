@@ -4,7 +4,7 @@
 #
 #  id         :integer          not null, primary key
 #  list_id    :integer
-#  email      :string(255)
+#  email      :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #

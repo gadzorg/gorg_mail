@@ -55,7 +55,9 @@ Rails.application.routes.draw do
       get :create_google_apps
     end
 
-    resources :email_source_accounts, only: [:index, :show, :create,:update,:destroy]  
+    resources :email_source_accounts, only: [:index, :show, :create,:update,:destroy] do
+      get :set_as_primary
+    end
     
     resources :email_redirect_accounts, only: [:index, :show, :create,:update,:destroy] do
       # get :flag

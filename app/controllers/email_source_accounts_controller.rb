@@ -1,5 +1,5 @@
 class EmailSourceAccountsController < ApplicationController
-  before_action :set_email_source_account, only: [:show, :edit, :update, :destroy]
+  before_action :set_email_source_account, only: [:show, :edit, :update, :destroy, :set_as_primary]
   before_action :set_user
 
 
@@ -55,6 +55,19 @@ class EmailSourceAccountsController < ApplicationController
     respond_to do |format|
       format.js
       format.json { head :no_content }
+    end
+  end
+
+  def set_as_primary
+    authorize! :update, @email_source_account
+    respond_to do |format|
+      if @email_source_account.set_as_primary
+        format.js do
+          @emails_source = @user.email_source_accounts.map { |e| e }
+        end
+      else
+        format.js { render :show }
+      end
     end
   end
 

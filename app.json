@@ -1,0 +1,101 @@
+{
+  "name": "gorg_mail",
+  "scripts": {
+    "postdeploy": "rake db:migrate;rake db:seed_recette"
+  },
+  "env": {
+    "_SECRET_APP_NAME": {
+      "required": true
+    },
+    "_SECRET_CAS_PROVIDER_URL": {
+      "required": true
+    },
+    "_SECRET_GOOGLE_ANALYTICS_ID": {
+      "required": true
+    },
+    "_SECRET_GRAM_API_PASSWORD": {
+      "required": true
+    },
+    "_SECRET_GRAM_API_SITE": {
+      "required": true
+    },
+    "_SECRET_GRAM_API_USER": {
+      "required": true
+    },
+    "_SECRET_SECRET_KEY_BASE": {
+      "required": true
+    },
+    "_SECRET_SLACK_CHAT_CHANNEL_ID": {
+      "required": true
+    },
+    "_SECRET_SLACK_CHAT_TOKEN": {
+      "required": true
+    },
+    "DATABASE_URL": {
+      "required": true
+    },
+    "LANG": {
+      "required": true
+    },
+    "RABBITMQ_EXCHANGE_NAME": {
+      "required": true
+    },
+    "RABBITMQ_HOST": {
+      "required": true
+    },
+    "RABBITMQ_PASSWORD": {
+      "required": true
+    },
+    "RABBITMQ_PORT": {
+      "required": true
+    },
+    "RABBITMQ_SENDER": {
+      "required": true
+    },
+    "RABBITMQ_SENDER_ID": {
+      "required": true
+    },
+    "RABBITMQ_USER": {
+      "required": true
+    },
+    "RABBITMQ_VHOST": {
+      "required": true
+    },
+    "RACK_ENV": {
+      "required": true
+    },
+    "RAILS_ENV": {
+      "required": true
+    },
+    "RAILS_SERVE_STATIC_FILES": {
+      "required": true
+    },
+    "SECRET_KEY_BASE": {
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "Standard-1X"
+    },
+    "service_rabbitmq": {
+      "quantity": 1,
+      "size": "Standard-1X"
+    },
+    "worker": {
+      "quantity": 0,
+      "size": "Standard-1X"
+    }
+  },
+  "addons": [
+    "logentries",
+    "scout",
+    "sendgrid"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/ruby"
+    }
+  ]
+}
