@@ -69,7 +69,6 @@ class Ml::ListsUser < ActiveRecord::Base
   end
 
   def trigger_ml_sync(l=self.list)
-    byebug
     l && MailingListsService.new(l).update
   end
 
