@@ -64,8 +64,8 @@ class User < ActiveRecord::Base
   has_many :email_source_accounts, dependent: :destroy
 
   has_many :ml_lists_users, :class_name => 'Ml::ListsUser'
-  has_many :ml_lists, through: :ml_lists_users, :class_name => 'Ml::List'
-
+  has_many :lists, through: :ml_lists_users, :class_name => 'Ml::List'
+  alias_method :ml_lists, :lists
 
 
   after_initialize :set_default_values
