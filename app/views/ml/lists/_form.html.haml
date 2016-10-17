@@ -28,7 +28,7 @@
       %li 10485760 > 10 Mb
       %li 31457280 => 30Mb
     = f.label :group_uuid
-    = f.select :group_uuid, GramV2Client::Group.all.map{|g| [g.name, g.uuid]}
+    = f.select :group_uuid, [nil, nil] + GramV2Client::Group.all.map{|g| [g.name, g.uuid]}
 
   .form-actions
     = f.button :submit

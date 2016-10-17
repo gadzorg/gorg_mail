@@ -1,0 +1,24 @@
+%ul
+  -if members.count == 0
+    %li
+      -if @search.present?
+        Aucun membre trouvé
+
+  -else
+    -members.each do |m|
+      %li
+        %b=m[1]
+        %span.red=Ml::ListsUser.roles_list[m[3]].gsub("member","").capitalize
+        -if can?( :manage, @ml_list)
+          =m[2]
+          .fr
+            .dropdown
+              Rôles
+              .dropdown-content.shadow-3
+                %div
+                  -Ml::ListsUser.roles_list.each do |role_name|
+                    %div
+                      = link_to set_role_ml_list_users_path(@ml_list.id, m[0], role: role_name, id: @ml_list.id, search: @search), method: :post do
+                        =role_name.capitalize
+            = link_to ml_list_leave_path(@ml_list.id, m[0]) do
+              %i.zmdi.zmdi-delete.icon-padding-list

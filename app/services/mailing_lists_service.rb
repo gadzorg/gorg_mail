@@ -8,11 +8,11 @@ class MailingListsService
   end
 
   def update
-    request_mailing_list_update
+    request_mailing_list_update unless @no_sync
   end
 
   def delete
-    request_mailing_list_delete
+    request_mailing_list_delete unless @no_sync
   end
 
   def request_mailing_list_update
@@ -21,6 +21,8 @@ class MailingListsService
       primary_email: @mailing_list.email,
       description: @mailing_list.description,
       aliases: @mailing_list.aliases.split,
+      owners: @mailing_list.admins.primary_emails,
+      managers: @mailing_list.moderators.primary_emails,
       members: @mailing_list.all_emails,
       message_max_bytes_size: @mailing_list.message_max_bytes_size ,
       object_tag:  @mailing_list.messsage_header,
@@ -36,6 +38,15 @@ class MailingListsService
         mailling_list_key: @mailing_list.email,
     }
     send_message(msg, 'request.mailinglist.delete')
+  end
+
+  def self.no_sync_block
+    begin
+      @no_sync=true
+      yield
+    ensure
+      @no_sync=false
+    end
   end
 
   private

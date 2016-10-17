@@ -3,25 +3,25 @@
 # Table name: users
 #
 #  id                     :integer          not null, primary key
-#  email                  :string           default("")
-#  encrypted_password     :string           default(""), not null
-#  reset_password_token   :string
+#  email                  :string(255)      default("")
+#  encrypted_password     :string(255)      default(""), not null
+#  reset_password_token   :string(255)
 #  reset_password_sent_at :datetime
 #  remember_created_at    :datetime
 #  sign_in_count          :integer          default(0), not null
 #  current_sign_in_at     :datetime
 #  last_sign_in_at        :datetime
-#  current_sign_in_ip     :string
-#  last_sign_in_ip        :string
+#  current_sign_in_ip     :string(255)
+#  last_sign_in_ip        :string(255)
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
-#  hruid                  :string           not null
-#  firstname              :string
-#  lastname               :string
+#  hruid                  :string(255)      not null
+#  firstname              :string(255)
+#  lastname               :string(255)
 #  role_id                :integer
 #  last_gram_sync_at      :datetime
-#  canonical_name         :string
-#  uuid                   :string
+#  canonical_name         :string(255)
+#  uuid                   :string(255)
 #  is_gadz                :boolean
 #
 # Indexes
@@ -59,9 +59,13 @@ class User < ActiveRecord::Base
 
   # Associations
   belongs_to :role
-  has_and_belongs_to_many :ml_lists, :class_name => 'Ml::List'
+
   has_many :email_redirect_accounts, dependent: :destroy
   has_many :email_source_accounts, dependent: :destroy
+
+  has_many :ml_lists_users, :class_name => 'Ml::ListsUser'
+  has_many :ml_lists, through: :ml_lists_users, :class_name => 'Ml::List'
+
 
 
   after_initialize :set_default_values
@@ -298,12 +302,13 @@ class User < ActiveRecord::Base
     end
   end
 
+  ################ lists  ###############
   def lists_allowed_not_joined
-    lists_allowed.where.not(id: self.ml_lists.pluck(:id))
+  lists_allowed.where.not(id: self.ml_lists.pluck(:id))
   end
 
   def lists_allowed(from_cache=false)
-    cache_name = "a#{self.uuid}-#{self.updated_at.to_i}-lists_allowed"
+  cache_name = "a#{self.uuid}-#{self.updated_at.to_i}-lists_allowed"
     puts cache_name
     Rails.cache.delete(cache_name) if from_cache == false
     Rails.cache.fetch(cache_name, expires_in: 10.minute) do
@@ -313,6 +318,33 @@ class User < ActiveRecord::Base
       Ml::List.includes(redirection_aliases: :email_virtual_domain).where(conditions)
     end
   end
+
+  ################ lists role ###############
+  def lists_moderable
+    Ml::ListsUser.where(user_id: self.id, is_moderator: true)
+  end
+
+  def lists_adminable
+    Ml::ListsUser.where(user_id: self.id, is_admin: true)
+  end
+
+  def can_moderate_this_list?(list_id)
+    Ml::ListsUser.where(user_id: self.id, list_id: list_id, role: 'moderator').any?
+  end
+
+  def can_admin_this_list?(list_id)
+    Ml::ListsUser.where(user_id: self.id, list_id: list_id, role: 'admin').any?
+  end
+
+  def get_role_in_list(list_id)
+    self.ml_lists_users.find_by(list_id: list_id).role
+  end
+
+  def self.primary_emails
+    #Take all primary email of user. More perf than user.primary
+    includes(email_source_accounts: :email_virtual_domain).where(email_source_accounts: {primary: true}).pluck(:"CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name)")
+  end
+
 
   private
 
