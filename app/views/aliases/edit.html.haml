@@ -1,10 +1,7 @@
 %h1 Editing alias
-hello
-=@search
-hello
 = render partial: 'form', locals:{search: @search}
 
 
 = link_to 'Show', @alias
 \|
-= link_to 'Back', aliases_path
+= link_to 'Retour à la recherche', aliases_path(search: @search)
