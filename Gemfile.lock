@@ -95,7 +95,7 @@ GEM
       rails (>= 3.1)
       thor
     builder (3.2.2)
-    bunny (2.5.1)
+    bunny (2.6.0)
       amq-protocol (>= 2.0.1)
     byebug (9.0.6)
     cancancan (1.15.0)
@@ -167,7 +167,7 @@ GEM
       multi_json (~> 1.11)
       os (~> 0.9)
       signet (~> 0.7)
-    gorg_message_sender (1.4.0)
+    gorg_message_sender (1.4.1)
       bunny (~> 2.2, >= 2.2.2)
       json-schema (~> 2.6)
     gorg_service (4.1.0)
