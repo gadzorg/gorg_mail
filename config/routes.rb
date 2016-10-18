@@ -9,7 +9,8 @@ Rails.application.routes.draw do
       post "add_email", to: "lists#add_email", as: :add_email
       delete "remove_email", to: "lists#remove_email", as: :remove_email
       resource :users do
-        post "set_role/:user_id", to: "lists#set_role", as: :set_role
+        #post "set_role/:user_id", to: "lists#set_role", as: :set_role
+        get "set_role/:user_id", to: "lists#set_role", as: :set_role
       end
     end
   end

@@ -18,7 +18,7 @@
                 %div
                   -Ml::ListsUser.roles_list.each do |role_name|
                     %div
-                      = link_to set_role_ml_list_users_path(@ml_list.id, m[0], role: role_name, id: @ml_list.id, search: @search), method: :post do
+                      %a{href: "/ml/lists/#{@ml_list.id}/users/set_role/#{m[0]}?id=#{@ml_list.id}&amp;role=#{role_name}&amp;search=#{@search}", method: :get}
                         =role_name.capitalize
-            = link_to ml_list_leave_path(@ml_list.id, m[0]) do
+            %a{href: "/ml/lists/#{@ml_list.id}/leave/#{m[0]}?search=#{@search}", method: :get}
               %i.zmdi.zmdi-delete.icon-padding-list
