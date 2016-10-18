@@ -10,20 +10,25 @@
         %th Destination
         %th Liste
         %th
-
     %tbody
-    - @aliases.each do |a|
-      %tr
-      %td=a.to_s
-      %td=a.redirect
-      %td
-        -if a.ml_list.present?
-          =link_to a.ml_list.name, a.ml_list
-        -else
-          non
-      %td
-        = link_to 'Show', a
-        = link_to 'Edit', edit_alias_path(a)
-        = link_to 'Destroy', a, :method => :delete, :data => { :confirm => 'Are you sure?' }
+      -if @aliases.present?
+        - @aliases.each do |a|
+          %tr
+            %td=a.to_s
+            %td=a.redirect
+            %td
+              -if a.ml_list.present?
+                =link_to a.ml_list.name, a.ml_list
+              -else
+                non
+            %td
+              = link_to 'Show', a
+              = link_to 'Edit', edit_alias_path(a)
+              = link_to 'Destroy', a, :method => :delete, :data => { :confirm => 'Are you sure?' }
+      -else
+        %tr
+          %td
+            Recherche un alias
+
 
 
