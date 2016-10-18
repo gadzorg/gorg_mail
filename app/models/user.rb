@@ -3,25 +3,25 @@
 # Table name: users
 #
 #  id                     :integer          not null, primary key
-#  email                  :string           default("")
-#  encrypted_password     :string           default(""), not null
-#  reset_password_token   :string
+#  email                  :string(255)      default("")
+#  encrypted_password     :string(255)      default(""), not null
+#  reset_password_token   :string(255)
 #  reset_password_sent_at :datetime
 #  remember_created_at    :datetime
 #  sign_in_count          :integer          default(0), not null
 #  current_sign_in_at     :datetime
 #  last_sign_in_at        :datetime
-#  current_sign_in_ip     :string
-#  last_sign_in_ip        :string
+#  current_sign_in_ip     :string(255)
+#  last_sign_in_ip        :string(255)
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
-#  hruid                  :string           not null
-#  firstname              :string
-#  lastname               :string
+#  hruid                  :string(255)      not null
+#  firstname              :string(255)
+#  lastname               :string(255)
 #  role_id                :integer
 #  last_gram_sync_at      :datetime
-#  canonical_name         :string
-#  uuid                   :string
+#  canonical_name         :string(255)
+#  uuid                   :string(255)
 #  is_gadz                :boolean
 #
 # Indexes
@@ -64,8 +64,8 @@ class User < ActiveRecord::Base
   has_many :email_source_accounts, dependent: :destroy
 
   has_many :ml_lists_users, :class_name => 'Ml::ListsUser'
-  has_many :ml_lists, through: :ml_lists_users, :class_name => 'Ml::List'
-
+  has_many :lists, through: :ml_lists_users, :class_name => 'Ml::List'
+  alias_method :ml_lists, :lists
 
 
   after_initialize :set_default_values
