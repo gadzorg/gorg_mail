@@ -1,6 +1,9 @@
 %h1 Editing alias
+hello
+=@search
+hello
+= render partial: 'form', locals:{search: @search}
 
-= render 'form'
 
 = link_to 'Show', @alias
 \|

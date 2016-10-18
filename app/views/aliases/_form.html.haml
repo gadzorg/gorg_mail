@@ -1,11 +1,14 @@
-= simple_form_for(@alias) do |f|
+= simple_form_for(@alias, search: search) do |f|
   = f.error_notification
-
+  coucou
+  =search
+  coucou
   .form-inputs
     = f.input :email
     -#= f.input :email_virtual_domain_id
     = f.association :email_virtual_domain, collection: @evd
     = f.input :redirect
     = f.association :ml_list, collection: @ml
+    = hidden_field_tag :search, search
   .form-actions
     = f.button :submit
