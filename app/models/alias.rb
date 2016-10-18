@@ -25,6 +25,8 @@ class Alias < ActiveRecord::Base
   belongs_to :email_virtual_domain,  class_name: "EmailVirtualDomain"
   belongs_to :ml_list, :class_name => 'Ml::List', :foreign_key => "list_id"
 
+  validates_presence_of :email_virtual_domain_id
+
 
   def to_s
     "#{self.email}@#{self.email_virtual_domain.name}"
