@@ -4,8 +4,8 @@
       =link_to root_path do
         =image_tag "logo_alumni_nb.png", :class => ""
 
-      %div
-        .vertical-center.horizontal-center.txtcenter
+      %div#landing-text
+        .txtcenter
           %h1 Email gadz.org, Gadzmelv2, Imelavi, listes de diffusion.
           Retrouve tous les services mails gadz.org dans un même endroit.
 
@@ -16,7 +16,7 @@
             .txtcenter.sup= link_to t('layout.menu.connect'), new_user_session_path, :class =>"bouton bouton_bleu ptl mtl"
 
 .int.center.pal
-  .grid-2
+  .grid-2-small-1
     %div.prm.plm
       .txtcenter
         %i.zmdi.zmdi-email.zmdi-hc-3x

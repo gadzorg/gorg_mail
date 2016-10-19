@@ -1,11 +1,17 @@
 /*-----------------------------landing-------------------------*/
 #big-bg{
-  background: url("https://farm8.staticflickr.com/7483/16068850630_ebf0a669f8_o_d.jpg");
-  min-height: 50vh;
+  background: image-url("bg.jpg");
+  //min-height: 50vh;
+  //height:100%;
   background-position: center bottom;
   background-size: cover;
   color: rgb(255, 255, 255);
   position: relative;
+}
+
+#landing-text{
+  padding-top: 15%;
+  padding-bottom: 15%;
 }
 #big-bg2{
   background-color: #473625;
