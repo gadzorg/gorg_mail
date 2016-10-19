@@ -49,3 +49,7 @@ allowed_uuid_in_maintenance_mode:
 maintenance_message:
   name: Message maintenance
   default: Le site n'est pas encore ouvert, reviens à partir du 8 octobre :-)
+
+moncompte_url:
+  name: URL de moncompte.gadz.org ( avec un "/" à la fin )
+  default: https://moncompte.gadz.org/
