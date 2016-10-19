@@ -54,7 +54,7 @@ class Ability
     can [:create, :read, :update, :destroy], EmailRedirectAccount, :user_id => user.id
     can :show, EmailSourceAccount, :user_id => user.id
     can :suscribe, Ml::List
-    can :read, Ml::List, :id => user.lists_allowed(true).map(&:id) if user.persisted?
+    can :read, Ml::List, :id => (user.lists_allowed(true).pluck(:id) + user.lists.pluck(:id)) if user.persisted?
     can :admin_members, Ml::List if user.can_admin_this_list?(:id)
     can :moderate_messages, Ml::List if user.can_admin_this_list?(:id)
   end
