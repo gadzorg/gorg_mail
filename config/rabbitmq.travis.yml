@@ -1,0 +1,20 @@
+default: &default
+  sender: gorgmail
+  host: localhost
+  port: 5672
+  vhost: "/"
+  queue_name: logs
+  deferred_time: 500
+  exchange_name: "agoram_event_exchange"
+  user: guest
+  password: guest
+
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  <<: *default
