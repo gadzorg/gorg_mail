@@ -14,7 +14,7 @@ class Ml::ListsController < ApplicationController
   def show
     authorize! :read, @ml_list
     @search = params[:search]
-    @search.present? ? @members = @ml_list.members_list_with_emails(@search) : @members = []
+    @members = @search.present? ? @ml_list.members_list_with_emails(@search) : []
     @external_emails = @ml_list.ml_external_emails
     @redirection_aliases = @ml_list.redirection_aliases
     @admins_and_moderators = @ml_list.members_list_with_emails(nil, "admins") + @ml_list.members_list_with_emails(nil, "moderators")

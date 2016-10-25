@@ -7,7 +7,7 @@
   -else
     -members.each do |m|
       %li
-        %b=m[1]
+        %b=link_to m[1], user_path(m[0])
         %span.red=Ml::ListsUser.roles_list[m[3]].gsub("member","").capitalize
         -if can?( :manage, @ml_list)
           =m[2]
