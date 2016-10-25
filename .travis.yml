@@ -10,8 +10,10 @@ before_script:
   - mysql -e 'create database myapp_test;'
   - cp config/database.travis.yml config/database.yml
   - cp config/secrets.travis.yml config/secrets.yml
+  - cp config/rabbitmq.travis.yml config/rabbitmq.yml
 services:
   - mysql
+  - rabbitmq
 script:  
   - RAILS_ENV=test bundle exec rake db:migrate
   - RAILS_ENV=test bundle exec rspec spec/

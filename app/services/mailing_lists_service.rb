@@ -8,11 +8,11 @@ class MailingListsService
   end
 
   def update
-    request_mailing_list_update unless @no_sync
+    request_mailing_list_update unless self.class.no_sync?
   end
 
   def delete
-    request_mailing_list_delete unless @no_sync
+    request_mailing_list_delete unless self.class.no_sync?
   end
 
   def request_mailing_list_update
@@ -40,6 +40,7 @@ class MailingListsService
     send_message(msg, 'request.mailinglist.delete')
   end
 
+
   def self.no_sync_block
     begin
       @no_sync=true
@@ -58,5 +59,9 @@ class MailingListsService
         Rails.logger.error "Unable to connect to RabbitMQ server"
         return false
       end
+    end
+
+    def self.no_sync?
+      @no_sync
     end
   end
