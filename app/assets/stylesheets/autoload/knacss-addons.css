@@ -1,3 +1,7 @@
 .mw500p {
   max-width: 500px;
 }
+
+.bl {
+    display: block;
+}
