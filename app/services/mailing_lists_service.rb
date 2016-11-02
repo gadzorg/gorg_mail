@@ -20,7 +20,7 @@ class MailingListsService
       name: @mailing_list.name,
       primary_email: @mailing_list.email,
       description: @mailing_list.description,
-      aliases: @mailing_list.aliases.split,
+      aliases: @mailing_list.aliases ? @mailing_list.aliases.split : [],
       owners: @mailing_list.admins.primary_emails,
       managers: @mailing_list.moderators.primary_emails,
       members: @mailing_list.all_emails,
