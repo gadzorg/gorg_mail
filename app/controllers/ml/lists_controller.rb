@@ -1,5 +1,5 @@
 class Ml::ListsController < ApplicationController
-  before_action :set_ml_list, only: [:show, :edit, :update, :destroy, :set_role]
+  before_action :set_ml_list, only: [:show, :edit, :update, :destroy, :set_role, :sync_with_google]
 
   # GET /ml/lists
   # GET /ml/lists.json
@@ -163,11 +163,17 @@ class Ml::ListsController < ApplicationController
 
   end
 
+  def sync_with_google
+    authorize! :manage, @ml_list
+    flash=MailingListsService.new(@ml_list).update ? {notice: "Ordre envoyé"} : {error: "Impossible de se connecter au serveur de messagerie"}
+    redirect_to ml_list_path(@ml_list), :flash =>flash
+  end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_ml_list
-      @ml_list = Ml::List.find(params[:id]) || Ml::List.find(params[:list_id])
+      @ml_list = Ml::List.find_by(id: params[:id]) || Ml::List.find_by(id: params[:list_id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
