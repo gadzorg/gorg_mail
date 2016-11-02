@@ -31,7 +31,9 @@ class Users::OmniauthCallbacksController < ApplicationController
     #       "full_name"=>"Thomas Fuzeau"}}
     data = request.env['omniauth.auth']
 
-        @user = User.omniauth(data)
+    @user = User.omniauth(data)
+
+    return redirect_to root, notice: "Impossible d'identifier cet utilisateur" unless @user
 
     if @user.persisted?
         flash[:notice] = I18n.t "devise.omniauth_callbacks.success"

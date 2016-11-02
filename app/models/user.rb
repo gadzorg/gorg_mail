@@ -152,6 +152,8 @@ class User < ActiveRecord::Base
     logger.debug "Infos de connection :"
     logger.debug auth_data.inspect
 
+    return nil unless auth_data[:extra][:uuid]
+
     # auth_data : take a look on Users::OmniauthCallbacksController
     unless user = User.find_by_uuid(auth_data[:extra][:uuid])
       user = User.new(
