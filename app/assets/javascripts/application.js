@@ -22,7 +22,7 @@
 
 
 
-UnobtrusiveFlash.flashOptions['timeout'] = 15000; // milliseconds
+UnobtrusiveFlash.flashOptions['timeout'] = 45000; // milliseconds
 
 $(function(){
   $("a[rel='tooltip']").tooltip();
