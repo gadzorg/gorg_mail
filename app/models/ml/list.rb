@@ -40,9 +40,9 @@ class Ml::List < ActiveRecord::Base
   validates_inclusion_of :inscription_policy, :in => Ml::List.inscription_policy_list
   validates_inclusion_of :is_archived, :in => [true, false]
   validates :message_max_bytes_size, presence: true
-  after_save :sync_with_mailing_list_service
   after_create {Alias.new_for_mailinglist(self)}
-  after_destroy :delete_with_mailing_list_service
+  after_save :sync_with_mailing_list_service
+  after_destroy {|record|delete_with_mailing_list_service(record)}
 
   has_many :ml_external_emails, :class_name => 'Ml::ExternalEmail', :dependent => :destroy
   has_many :redirection_aliases,  :class_name => 'Alias'
@@ -167,8 +167,8 @@ class Ml::List < ActiveRecord::Base
     MailingListsService.new(self).update
   end
 
-  def delete_with_mailing_list_service
-    MailingListsService.new(self).delete
+  def delete_with_mailing_list_service(record)
+    MailingListsService.new(record).delete
   end
 
 
