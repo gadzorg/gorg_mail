@@ -51,3 +51,4 @@ lib/assets/*.csv
 
 .byebug_history
 
+.idea
