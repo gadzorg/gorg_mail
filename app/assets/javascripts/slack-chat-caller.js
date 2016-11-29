@@ -17,7 +17,7 @@ $(document).ready(function() {
     defaultSysImg: gon.global.slack_chat_default_sys_img,
     defaultSysUser: 'Equipe Gadz.org',
     chatBoxHeader: gon.global.slack_chat_chat_box_header,
-    botUser: 'ChatSupport - '+gon.global.slack_app_name,
+    botUser: 'ChatSupport - '+gon.global.slack_chat_app_name,
     elementToDisable: $('.message-box'),
     disableIfAway: false,
     webCache: false,
