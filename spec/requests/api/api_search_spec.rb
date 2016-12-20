@@ -1,0 +1,38 @@
+require 'rails_helper'
+
+RSpec.describe "Api::Search", type: :request do
+#  include Devise::TestHelpers
+
+  let(:user){FactoryGirl.create(:user_with_addresses)}
+
+  let(:source_address){user.email_source_accounts.first}
+
+  describe "GET /api/search/test" do
+    context "existing account" do
+      let(:query){source_address.to_s}
+      before(:each) {get api_search_path(query)}
+
+      it "have status 200" do
+        expect(response).to have_http_status(200)
+      end
+
+      it "returns user UUID" do
+        expect(JSON.parse(response.body)).to include("uuid" => user.uuid)
+      end
+    end
+
+    context "not existing account" do
+      let(:query){"not_existent@example.com"}
+      before(:each) {get api_search_path(query)}
+
+      it "have status 404" do
+        expect(response).to have_http_status(404)
+      end
+
+      it "returns an error" do
+        expect(JSON.parse(response.body)).to include("error" => {"status" => 404, "message" => "Email not found"})
+      end
+
+    end
+  end
+end
