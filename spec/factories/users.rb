@@ -44,5 +44,12 @@ FactoryGirl.define do
       hruid nil
     end
 
+    factory :user_with_addresses do
+      after(:create) do |user, evaluator|
+        create(:email_source_account, user: user)
+        create(:email_redirect_account, user: user)
+      end
+    end
+
   end
 end
