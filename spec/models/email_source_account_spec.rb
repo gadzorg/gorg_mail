@@ -60,4 +60,27 @@ RSpec.describe EmailSourceAccount, type: :model do
     end
   end
 
+  describe "search an email address" do
+
+    let(:user){FactoryGirl.create(:user_with_addresses)}
+    let(:esa) {user.email_source_accounts.first}
+
+    it "find an address" do
+      expect(EmailSourceAccount.find_by_full_email(esa.to_s)).to eq(esa)
+    end
+
+    it "return nil when not found" do
+      expect(EmailSourceAccount.find_by_full_email("not_existent")).to be_nil
+    end
+
+    it "find with domain alias" do
+      domain=esa.email_virtual_domain
+      domain.aliases.create(name:"example.org")
+      query="#{esa.email}@example.org"
+      expect(EmailSourceAccount.find_by_full_email(query)).to eq(esa)
+    end
+
+  end
+
+
 end
