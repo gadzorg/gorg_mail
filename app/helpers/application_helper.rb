@@ -6,7 +6,7 @@ module ApplicationHelper
   end
 
   def slack_chat_box
-
+    session[:foo] = "bar"
     user_name = current_user ? current_user.fullname : "Utilisateur Anonyme - " + session.id[0..4].upcase
     user_id = current_user ? current_user.hruid.to_s : ""
     user_link = current_user ? "https://moncompte.gadz.org/admin/info_user?uuid=#{current_user.uuid}" : "moncompte.gadz.org"

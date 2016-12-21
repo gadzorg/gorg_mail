@@ -316,7 +316,7 @@ class User < ActiveRecord::Base
     Rails.cache.fetch(cache_name, expires_in: 10.minute) do
       user_groups_uuid = self.groups.map(&:uuid)
       conditions = "inscription_policy IN ('conditional_gadz', 'open')"
-      conditions += " OR group_uuid IN (#{user_groups_uuid.join(",")})" if user_groups_uuid.any?
+      conditions += " OR group_uuid IN (#{user_groups_uuid.map{|e|"\"#{e}\""}.join(",")})" if user_groups_uuid.any?
       Ml::List.includes(redirection_aliases: :email_virtual_domain).where(conditions)
     end
   end

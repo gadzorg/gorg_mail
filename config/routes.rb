@@ -72,6 +72,10 @@ Rails.application.routes.draw do
 
   end
 
+  namespace :api, :defaults => {:format => :json} do
+    get '/search/:query', to: 'search#search', as: :search, :query => /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i
+  end
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

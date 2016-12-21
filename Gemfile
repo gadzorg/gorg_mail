@@ -98,14 +98,17 @@ gem 'gorg_service'
 gem 'premailer-rails'
 gem 'nokogiri'
 
-gem 'rails_12factor'
-gem 'heroku_secrets', github: 'alexpeattie/heroku_secrets'
 gem 'puma'
 gem 'scout_apm'
 
 gem 'activerecord-import'
 
 gem 'gon'
+
+group :production do
+  gem 'rails_12factor'
+  gem 'heroku_secrets', github: 'alexpeattie/heroku_secrets'
+end
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
@@ -143,10 +146,12 @@ group :development, :test do
 end
 
 group :test do
+  gem 'cucumber-rails', :require => false
   gem 'capybara'
   gem 'launchy'
   gem 'shoulda-matchers', '~> 3.0'
   gem 'database_cleaner'
   gem 'bogus'
+  gem 'webmock'
 end
 
