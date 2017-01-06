@@ -130,7 +130,7 @@ class Ml::ListsController < ApplicationController
   end
 
   def add_email
-    authorize! :manage, @ml_lists
+    authorize! :admin_members, @ml_lists
     @ml_list = Ml::List.find(params[:list_id])
     if @ml_list.add_email(params[:email])
         redirect_to @ml_list
@@ -140,7 +140,7 @@ class Ml::ListsController < ApplicationController
   end
 
   def remove_email
-    authorize! :manage, @ml_lists
+    authorize! :admin_members, @ml_lists
     @ml_list = Ml::List.find(params[:list_id])
     email_external = Ml::ExternalEmail.find(params[:email_id])
     if @ml_list.remove_email(email_external)
@@ -151,7 +151,7 @@ class Ml::ListsController < ApplicationController
   end
 
   def set_role
-    authorize! :manage, @ml_lists
+    authorize! :admin_members, @ml_lists
     role = params[:role]
     search = params[:search]
     user = User.find(params[:user_id])
