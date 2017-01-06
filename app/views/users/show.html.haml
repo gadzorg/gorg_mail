@@ -25,7 +25,7 @@
               =display_attribute(@user, attribute)
             -if can?(:sync, @user) && @user.syncable?
               -if @user.next_sync_allowed_at <= Time.now
-                = link_to t('users.forms.buttons.sync_now'), sync_user_path, class:"button button-primary"
+                = link_to t('users.forms.buttons.sync_now'), sync_user_path(user), class:"button button-primary"
               -else
                 .button.button-primary= t('users.forms.buttons.syncable_in_x', count:(@user.next_sync_allowed_at-Time.now).round)
           -if can? :read, :admin
