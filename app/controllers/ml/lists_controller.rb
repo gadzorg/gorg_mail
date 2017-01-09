@@ -130,7 +130,6 @@ class Ml::ListsController < ApplicationController
   end
 
   def add_email
-    authorize! :admin_members, @ml_list
     @ml_list = Ml::List.find(params[:list_id])
     if @ml_list.add_email(params[:email])
         redirect_to @ml_list
@@ -141,7 +140,6 @@ class Ml::ListsController < ApplicationController
 
   def remove_email
     authorize! :admin_members, @ml_list
-    @ml_list = Ml::List.find(params[:list_id])
     email_external = Ml::ExternalEmail.find(params[:email_id])
     if @ml_list.remove_email(email_external)
       redirect_to @ml_list
