@@ -82,9 +82,9 @@ class Ml::ListsController < ApplicationController
   end
 
   def join
-    @user = User.find(params[:user_id])
-    @ml_list = Ml::List.find(params[:list_id])
+    @ml_list = Ml::List.find_by(id: params[:list_id])
     authorize! :suscribe, @ml_list
+    @user = User.find(params[:user_id])
     authorize! :manage_suscribtion, @user
     if @ml_list.add_user(@user)
       get_list(@user)
@@ -104,9 +104,9 @@ class Ml::ListsController < ApplicationController
   end
 
   def leave
-    @user = User.find(params[:user_id])
-    @ml_list = Ml::List.find(params[:list_id])
+    @ml_list = Ml::List.find_by(params[:list_id])
     authorize! :suscribe, @ml_list
+    @user = User.find(params[:user_id])
     authorize! :manage_suscribtion, @user
 
     if @ml_list.remove_user(@user)

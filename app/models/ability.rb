@@ -48,15 +48,17 @@ class Ability
       can :manage, Ml::ExternalEmail
     end
 
+    if user.persisted?
+      can [:read, :setup, :manage_suscribtion, :create_google_apps], User, :id => user.id if user.is_gadz_cached?
+      can :read_dashboard, User, :id => user.id if user.is_gadz_cached?
+      can [:create, :read, :update, :destroy], EmailRedirectAccount, :user_id => user.id
+      can :show, EmailSourceAccount, :user_id => user.id
+      can :suscribe, Ml::List, :id => (user.lists_allowed(true).pluck(:id) + user.lists.pluck(:id))
+      can :read, Ml::List, :id => (user.lists_allowed(true).pluck(:id) + user.lists.pluck(:id))
+      can :admin_members, Ml::List, :id => user.lists_admins.pluck(:id)
+      can :moderate_messages, Ml::List, :id => user.lists_moderators.pluck(:id)
+    end
 
-    can [:read, :setup, :manage_suscribtion, :create_google_apps], User, :id => user.id if user.is_gadz_cached?
-    can :read_dashboard, User, :id => user.id if user.is_gadz_cached?
-    can [:create, :read, :update, :destroy], EmailRedirectAccount, :user_id => user.id
-    can :show, EmailSourceAccount, :user_id => user.id
-    can :suscribe, Ml::List, :id => (user.lists_allowed(true).pluck(:id) + user.lists.pluck(:id)) if user.persisted?
-    can :read, Ml::List, :id => (user.lists_allowed(true).pluck(:id) + user.lists.pluck(:id)) if user.persisted?
-    can :admin_members, Ml::List if user.can_admin_this_list?(:id)
-    can :moderate_messages, Ml::List if user.can_admin_this_list?(:id)
   end
 end
 
