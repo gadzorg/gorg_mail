@@ -108,33 +108,42 @@ class Ml::ListsController < ApplicationController
     authorize! :destroy, lists_user
 
     if lists_user
-      @ml_list = Ml::List.find_by(params[:list_id])
-      @user = User.find(params[:user_id])
+      @ml_list = lists_user.list
+      @user = lists_user.user
 
       if @ml_list.remove_user(@user)
-        get_list(@user)
         respond_to do |format|
           flash[:notice] = "Tu as quitté la liste de diffusion #{@ml_list.name}"
-          format.html{redirect_to @ml_list}
+          format.html{redirect_to ml_list_path(@ml_list, search: params[:search])}
           format.json { head :no_content }
-          format.js {render :join}
+          format.js do
+            get_list(@user)
+            render :join
+          end
         end
+
       else
         get_list(@user)
         respond_to do |format|
           flash[:error] = "Impossible de quitter la liste de diffusion #{@ml_list.name}"
+          format.html{redirect_to ml_list_path(@ml_list, search: params[:search])}
           format.json { head :no_content }
-          format.js {render :join}
-          format.html{redirect_to @ml_list, search: params[:search]}
+          format.js do
+            get_list(@user)
+            render :join
+          end
         end
       end
     else
       get_list(@user)
       respond_to do |format|
         flash[:notice] = "Cet utilisateur n'appartient pas à la liste #{@ml_list.name}"
-        format.html{redirect_to @ml_list}
+        format.html{redirect_to ml_list_path(@ml_list, search: params[:search])}
         format.json { head :no_content }
-        format.js {render :join}
+        format.js do
+          get_list(@user)
+          render :join
+        end
       end
     end
   end
