@@ -138,7 +138,7 @@ class Ml::ListsController < ApplicationController
         format.js {render :join}
       end
     end
-      end
+  end
 
   def add_email
     @ml_list = Ml::List.find(params[:list_id])
