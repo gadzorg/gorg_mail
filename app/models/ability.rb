@@ -56,11 +56,11 @@ class Ability
       can :show, EmailSourceAccount, :user_id => user.id
       can :suscribe, Ml::List, :id => (user.lists_allowed(true).pluck(:id) + user.lists.pluck(:id))
       can :read, Ml::List, :id => (user.lists_allowed(true).pluck(:id) + user.lists.pluck(:id))
-      can :admin_members, Ml::List, :id => user.lists_admins.pluck(:id)
-      can :destroy, Ml::ExternalEmail, :list_id => user.lists_admins.pluck(:id)
-      can :moderate_messages, Ml::List, :id => user.lists_moderators.pluck(:id)
-      can :destroy, Ml::ListsUser, :user_id => user.id, :role => [1,2,3,4]
-      can :destroy, Ml::ListsUser, :list_id => user.lists_admins.pluck(:id)
+      can :admin_members, Ml::List, :id => user.ml_lists_users_admins.pluck(:list_id)
+      can :destroy, Ml::ExternalEmail, :list_id => user.ml_lists_users_admins.pluck(:list_id)
+      can :moderate_messages, Ml::List, :id => user.ml_lists_users_moderators.pluck(:list_id)
+      can :destroy, Ml::ListsUser, :role => [1,2,3,4], :user_id => user.id
+      can :destroy, Ml::ListsUser, :list_id => user.ml_lists_users_admins.pluck(:list_id)
     end
 
   end
