@@ -141,7 +141,7 @@ class Ml::ListsController < ApplicationController
   end
 
   def add_email
-    @ml_list = Ml::List.find(params[:list_id])
+    authorize! :admin_members, @ml_list
     if @ml_list.add_email(params[:email])
         redirect_to @ml_list
     else

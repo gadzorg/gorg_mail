@@ -70,7 +70,7 @@ class User < ActiveRecord::Base
   validates :hruid, uniqueness: true, presence: true
 
   ## Ml::Lists
-  has_many :ml_lists_users, :class_name => 'Ml::ListsUser'
+  has_many :ml_lists_users, :class_name => 'Ml::ListsUser', dependent: :delete_all
   has_many :lists, through: :ml_lists_users, :class_name => 'Ml::List'
   alias_method :ml_lists, :lists
 
