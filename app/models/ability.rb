@@ -56,6 +56,7 @@ class Ability
       can :suscribe, Ml::List, :id => (user.lists_allowed(true).pluck(:id) + user.lists.pluck(:id))
       can :read, Ml::List, :id => (user.lists_allowed(true).pluck(:id) + user.lists.pluck(:id))
       can :admin_members, Ml::List, :id => user.lists_admins.pluck(:id)
+      can :destroy, Ml::ExternalEmail, :list_id => user.lists_admins.pluck(:id)
       can :moderate_messages, Ml::List, :id => user.lists_moderators.pluck(:id)
     end
 
