@@ -45,6 +45,7 @@ class Ability
       can :manage, Alias
       can :manage, PostfixBlacklist
       can :manage, Ml::List
+      can :manage, Ml::ListsUser
       can :manage, Ml::ExternalEmail
     end
 
@@ -58,6 +59,8 @@ class Ability
       can :admin_members, Ml::List, :id => user.lists_admins.pluck(:id)
       can :destroy, Ml::ExternalEmail, :list_id => user.lists_admins.pluck(:id)
       can :moderate_messages, Ml::List, :id => user.lists_moderators.pluck(:id)
+      can :destroy, Ml::ListsUser, :user_id => user.id, :role => [1,2,3,4]
+      can :destroy, Ml::ListsUser, :list_id => user.lists_admins.pluck(:id)
     end
 
   end

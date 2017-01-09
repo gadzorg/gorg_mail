@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
           if user_signed_in?
             render :file => "#{Rails.root}/public/403.html", :status => 403
           else
-            redirect_to new_user_session_path, status: :unauthorized
+            redirect_to new_user_session_path
           end
         }
       end

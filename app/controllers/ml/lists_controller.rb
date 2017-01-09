@@ -104,30 +104,41 @@ class Ml::ListsController < ApplicationController
   end
 
   def leave
-    @ml_list = Ml::List.find_by(params[:list_id])
-    authorize! :suscribe, @ml_list
-    @user = User.find(params[:user_id])
-    authorize! :manage_suscribtion, @user
+    lists_user=Ml::ListsUser.find_by(user_id: params[:user_id],list_id: params[:user_id])
+    authorize! :destroy, lists_user
 
-    if @ml_list.remove_user(@user)
-      get_list(@user)
-      respond_to do |format|
-        flash[:notice] = "Tu as quitté la liste de diffusion #{@ml_list.name}"
-        format.html{redirect_to @ml_list}
-        format.json { head :no_content }
-        format.js {render :join}
+    if lists_user
+      @ml_list = Ml::List.find_by(params[:list_id])
+      @user = User.find(params[:user_id])
+
+      if @ml_list.remove_user(@user)
+        get_list(@user)
+        respond_to do |format|
+          flash[:notice] = "Tu as quitté la liste de diffusion #{@ml_list.name}"
+          format.html{redirect_to @ml_list}
+          format.json { head :no_content }
+          format.js {render :join}
+        end
+      else
+        get_list(@user)
+        respond_to do |format|
+          flash[:error] = "Impossible de quitter la liste de diffusion #{@ml_list.name}"
+          format.json { head :no_content }
+          format.js {render :join}
+          format.html{render @ml_list}
+
+        end
       end
     else
       get_list(@user)
       respond_to do |format|
-        flash[:error] = "Impossible de quitter la liste de diffusion #{@ml_list.name}"
+        flash[:notice] = "Cet utilisateur n'appartient pas à la liste #{@ml_list.name}"
+        format.html{redirect_to @ml_list}
         format.json { head :no_content }
         format.js {render :join}
-        format.html{render @ml_list}
-
       end
     end
-  end
+      end
 
   def add_email
     @ml_list = Ml::List.find(params[:list_id])

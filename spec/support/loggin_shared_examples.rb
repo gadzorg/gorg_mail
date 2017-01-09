@@ -5,7 +5,7 @@ RSpec.shared_examples "a logged users only endpoint" do |method,action,action_pa
     self.send(method, action, action_params)
   end
 
-  it {is_expected.to respond_with :unauthorized }
+  it {is_expected.to respond_with :redirect }
 
 
 
