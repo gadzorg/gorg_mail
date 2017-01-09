@@ -18,7 +18,7 @@ class Ml::ListsController < ApplicationController
     @external_emails = @ml_list.ml_external_emails
     @redirection_aliases = @ml_list.redirection_aliases
     @admins_and_moderators = @ml_list.members_list_with_emails(nil, "admins") + @ml_list.members_list_with_emails(nil, "moderators")
-    if can? @current_user, :admin_members
+    if can? :admin_members, @ml_list
       @pendings = @ml_list.members_list_with_emails(nil, "pendings")
       @banneds = @ml_list.members_list_with_emails(nil,"banneds")
     end
