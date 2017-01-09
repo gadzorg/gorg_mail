@@ -55,7 +55,7 @@ class Ml::List < ActiveRecord::Base
   #
   # lists_users_banneds
   # banneds (liste des users)
-  # moderators_banned
+  # lists_users_moderators
   # moderators (liste des users)
   # ...
   #

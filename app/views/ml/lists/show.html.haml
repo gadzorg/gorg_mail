@@ -105,7 +105,7 @@
 
     .member_block.flex-item-double
       =render partial: "shared/ml_members", locals: {members: @members, external_emails: @external_emails}
-      - if can? :admin_members, Ml::List
+      - if can? :admin_members, @ml_list
         .grid.mbmdorian
           .box.box-light.shadow-1.mtm
             .box-top.box-top-light.pam

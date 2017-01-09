@@ -157,4 +157,46 @@ RSpec.describe Ml::ListsController, type: :controller do
     end
   end
 
+  describe "GET #join" do
+
+    let!(:list) { FactoryGirl.create(:ml_list)}
+    let(:current_user) { FactoryGirl.create(:user, is_gadz: true)}
+    let(:target_user) { current_user}
+
+    it_behaves_like "a logged users only endpoint", :get, :join , {list_id:1, user_id: 1}
+
+    context "logged user" do
+
+      before(:each) do
+        sign_in current_user
+      end
+
+      context "An allowed lists" do
+
+        let!(:list) { FactoryGirl.create(:ml_list,inscription_policy: "open")}
+
+        before(:each) do
+          xhr :get, :join, {list_id:list.id, user_id: target_user.id, format: :js}
+        end
+
+        it {is_expected.to respond_with :success }
+        it "add user to list members" do
+          skip ("Problème avec Rabbit MQ à régler #ToDo")
+          expect(list.members).to include(target_user)
+        end
+      end
+
+      context "Not an allowed lists" do
+        let!(:list) { FactoryGirl.create(:ml_list,inscription_policy: "closed")}
+
+        before(:each) do
+          xhr :get, :join, {list_id:list.id, user_id: target_user.id, format: :js}
+        end
+        it {is_expected.to respond_with :forbidden }
+      end
+
+      context "A lists already joined" do
+      end
+    end
+  end
 end

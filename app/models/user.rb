@@ -63,19 +63,22 @@ class User < ActiveRecord::Base
   has_many :email_redirect_accounts, dependent: :destroy
   has_many :email_source_accounts, dependent: :destroy
 
-  has_many :ml_lists_users, :class_name => 'Ml::ListsUser'
-  has_many :lists, through: :ml_lists_users, :class_name => 'Ml::List'
-  alias_method :ml_lists, :lists
-
-
   after_initialize :set_default_values
   #TODO : switch to GrAM Canonical name
   after_create :create_canonical_name
 
-
   validates :hruid, uniqueness: true, presence: true
 
+  ## Ml::Lists
+  has_many :ml_lists_users, :class_name => 'Ml::ListsUser', dependent: :delete_all
+  has_many :lists, through: :ml_lists_users, :class_name => 'Ml::List'
+  alias_method :ml_lists, :lists
 
+  (Ml::ListsUser.roles.keys.map(&:pluralize)+["all_members"]).each do |role_name|
+    has_many "ml_lists_users_#{role_name}".to_sym, -> { send(role_name) }, :class_name => "Ml::ListsUser"
+    has_many "lists_#{role_name}".to_sym, through: "ml_lists_users_#{role_name}".to_sym, :class_name => "Ml::List", :source => :list
+    alias_method "ml_lists_#{role_name}".to_sym, "lists_#{role_name}".to_sym
+  end
 
 ############################################################################
 #######  TEMPLATE FUNCTIONS  ###############################################
@@ -322,21 +325,6 @@ class User < ActiveRecord::Base
   end
 
   ################ lists role ###############
-  def lists_moderable
-    Ml::ListsUser.where(user_id: self.id, is_moderator: true)
-  end
-
-  def lists_adminable
-    Ml::ListsUser.where(user_id: self.id, is_admin: true)
-  end
-
-  def can_moderate_this_list?(list_id)
-    Ml::ListsUser.where(user_id: self.id, list_id: list_id, role: 'moderator').any?
-  end
-
-  def can_admin_this_list?(list_id)
-    Ml::ListsUser.where(user_id: self.id, list_id: list_id, role: 'admin').any?
-  end
 
   def get_role_in_list(list_id)
     self.ml_lists_users.find_by(list_id: list_id).role
