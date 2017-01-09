@@ -104,7 +104,7 @@ class Ml::ListsController < ApplicationController
   end
 
   def leave
-    lists_user=Ml::ListsUser.find_by(user_id: params[:user_id],list_id: params[:user_id])
+    lists_user=Ml::ListsUser.find_by(user_id: params[:user_id],list_id: params[:list_id])
     authorize! :destroy, lists_user
 
     if lists_user
@@ -125,8 +125,7 @@ class Ml::ListsController < ApplicationController
           flash[:error] = "Impossible de quitter la liste de diffusion #{@ml_list.name}"
           format.json { head :no_content }
           format.js {render :join}
-          format.html{render @ml_list}
-
+          format.html{redirect_to @ml_list, search: params[:search]}
         end
       end
     else
