@@ -1,5 +1,5 @@
 class Ml::ListsController < ApplicationController
-  before_action :set_ml_list, only: [:show, :edit, :update, :destroy, :set_role, :sync_with_google]
+  before_action :set_ml_list, only: [:show, :edit, :update, :destroy, :set_role, :sync_with_google, :add_email, :remove_email]
 
   # GET /ml/lists
   # GET /ml/lists.json
