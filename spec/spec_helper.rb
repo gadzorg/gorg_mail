@@ -132,3 +132,4 @@ RSpec.configure do |config|
   config.include Devise::TestHelpers, type: :view
 end
 
+Dir["./spec/support/**/*.rb"].sort.each { |f| require f}

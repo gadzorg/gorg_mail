@@ -1,12 +1,12 @@
 class Ml::ListsController < ApplicationController
-  before_action :set_ml_list, only: [:show, :edit, :update, :destroy, :set_role, :sync_with_google]
+  before_action :set_ml_list, only: [:show, :edit, :update, :destroy, :set_role, :sync_with_google, :add_email, :remove_email]
 
   # GET /ml/lists
   # GET /ml/lists.json
   def index
     search = params[:search] || ""
-    @ml_lists = Ml::List.all.includes(redirection_aliases: :email_virtual_domain).where("email LIKE '%#{search}%'")
-    authorize! :read, @ml_lists
+    @ml_lists = Ml::List.accessible_by(current_ability).includes(redirection_aliases: :email_virtual_domain).where("email LIKE '%#{search}%'")
+    #authorize! :read, @ml_lists
   end
 
   # GET /ml/lists/1
@@ -18,7 +18,7 @@ class Ml::ListsController < ApplicationController
     @external_emails = @ml_list.ml_external_emails
     @redirection_aliases = @ml_list.redirection_aliases
     @admins_and_moderators = @ml_list.members_list_with_emails(nil, "admins") + @ml_list.members_list_with_emails(nil, "moderators")
-    if can? @current_user, :admin_members
+    if can? :admin_members, @ml_list
       @pendings = @ml_list.members_list_with_emails(nil, "pendings")
       @banneds = @ml_list.members_list_with_emails(nil,"banneds")
     end
@@ -82,9 +82,9 @@ class Ml::ListsController < ApplicationController
   end
 
   def join
-    @user = User.find(params[:user_id])
-    @ml_list = Ml::List.find(params[:list_id])
+    @ml_list = Ml::List.find_by(id: params[:list_id])
     authorize! :suscribe, @ml_list
+    @user = User.find(params[:user_id])
     authorize! :manage_suscribtion, @user
     if @ml_list.add_user(@user)
       get_list(@user)
@@ -104,34 +104,52 @@ class Ml::ListsController < ApplicationController
   end
 
   def leave
-    @user = User.find(params[:user_id])
-    @ml_list = Ml::List.find(params[:list_id])
-    authorize! :suscribe, @ml_list
-    authorize! :manage_suscribtion, @user
+    lists_user=Ml::ListsUser.find_by(user_id: params[:user_id],list_id: params[:list_id])
+    authorize! :destroy, lists_user
 
-    if @ml_list.remove_user(@user)
-      get_list(@user)
-      respond_to do |format|
-        flash[:notice] = "Tu as quitté la liste de diffusion #{@ml_list.name}"
-        format.html{redirect_to @ml_list}
-        format.json { head :no_content }
-        format.js {render :join}
+    if lists_user
+      @ml_list = lists_user.list
+      @user = lists_user.user
+
+      if @ml_list.remove_user(@user)
+        respond_to do |format|
+          flash[:notice] = "Tu as quitté la liste de diffusion #{@ml_list.name}"
+          format.html{redirect_to ml_list_path(@ml_list, search: params[:search])}
+          format.json { head :no_content }
+          format.js do
+            get_list(@user)
+            render :join
+          end
+        end
+
+      else
+        get_list(@user)
+        respond_to do |format|
+          flash[:error] = "Impossible de quitter la liste de diffusion #{@ml_list.name}"
+          format.html{redirect_to ml_list_path(@ml_list, search: params[:search])}
+          format.json { head :no_content }
+          format.js do
+            get_list(@user)
+            render :join
+          end
+        end
       end
     else
       get_list(@user)
       respond_to do |format|
-        flash[:error] = "Impossible de quitter la liste de diffusion #{@ml_list.name}"
+        flash[:notice] = "Cet utilisateur n'appartient pas à la liste #{@ml_list.name}"
+        format.html{redirect_to ml_list_path(@ml_list, search: params[:search])}
         format.json { head :no_content }
-        format.js {render :join}
-        format.html{render @ml_list}
-
+        format.js do
+          get_list(@user)
+          render :join
+        end
       end
     end
   end
 
   def add_email
-    authorize! :manage, @ml_lists
-    @ml_list = Ml::List.find(params[:list_id])
+    authorize! :admin_members, @ml_list
     if @ml_list.add_email(params[:email])
         redirect_to @ml_list
     else
@@ -140,8 +158,7 @@ class Ml::ListsController < ApplicationController
   end
 
   def remove_email
-    authorize! :manage, @ml_lists
-    @ml_list = Ml::List.find(params[:list_id])
+    authorize! :admin_members, @ml_list
     email_external = Ml::ExternalEmail.find(params[:email_id])
     if @ml_list.remove_email(email_external)
       redirect_to @ml_list
@@ -151,7 +168,7 @@ class Ml::ListsController < ApplicationController
   end
 
   def set_role
-    authorize! :manage, @ml_lists
+    authorize! :admin_members, @ml_list
     role = params[:role]
     search = params[:search]
     user = User.find(params[:user_id])

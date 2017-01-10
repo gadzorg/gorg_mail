@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
     def access_denied(exception)
       respond_to do |format|
         format.json { render nothing: true, status: :forbidden }
-        format.html {
+        format.any(:js, :html) {
           store_location_for :user, request.fullpath
           if user_signed_in?
             render :file => "#{Rails.root}/public/403.html", :status => 403
