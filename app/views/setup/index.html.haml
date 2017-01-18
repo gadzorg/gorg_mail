@@ -19,7 +19,7 @@
         %p
           Les mails envoyés sur ton adresse #{@primary_email} peuvent être envoyé également sur l'adresse email de ton choix. Cette adresse est également utilisée en cas de problème.
         .group.group-m-form.inbl.mtm
-          =email_field_tag :redirect,nil, :size => 15, :required => 'required'
+          =email_field_tag :redirect,nil, :size => 40, :required => 'required'
           =label_tag "email@domaine.fr"
         .group
           =submit_tag "Créer mon compte !", class:'mtm'
