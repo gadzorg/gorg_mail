@@ -2,18 +2,11 @@
   %head
     <meta name="viewport" content="width=device-width, initial-scale=1">
     %title= Rails.application.secrets.app_name
-    = Gon::Base.render_data
     = csrf_meta_tags
     = stylesheet_link_tag    "application", media: "all"
     = javascript_include_tag :application
     -if slack_chat?
-      =javascript_include_tag 'pnglib.js'
-      =javascript_include_tag 'identicon.js'
-      =javascript_include_tag 'slack-chat.min.js'
-      =javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js'
-      =javascript_include_tag 'slack-chat-caller.js'
-      =stylesheet_link_tag "slack-chat.css"
-      =stylesheet_link_tag "slack-chat-custom.css"
+      = tags_for_gorg_slack_chat
 
       
   %body#body
@@ -35,6 +28,6 @@
         = yield
 
     -if slack_chat?
-      =slack_chat_box
+      =gorg_slack_chat( name: current_user&&current_user.fullname, id: current_user&&current_user.hruid.to_s, link: current_user&&"https://moncompte.gadz.org/admin/info_user?uuid=#{current_user.uuid}")
 
   = render partial: 'layouts/ga'

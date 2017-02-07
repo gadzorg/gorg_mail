@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.3'
+gem 'rails', '4.2.7.1'
 
 #DATABASE
 # Use mysql2 as the database for Active Record
@@ -94,6 +94,8 @@ gem 'gorg_message_sender'
 
 gem 'gorg_service'
 
+gem 'gorg_slack_chat'
+
 # For HTML mails
 gem 'premailer-rails'
 gem 'nokogiri'
@@ -103,7 +105,6 @@ gem 'scout_apm'
 
 gem 'activerecord-import'
 
-gem 'gon'
 
 group :production do
   gem 'rails_12factor'
