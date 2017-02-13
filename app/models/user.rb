@@ -189,8 +189,8 @@ class User < ActiveRecord::Base
   #######  FORK FUNCTIONS  ###################################################
   ############################################################################
 
-  def self.find_by_id_or_hruid(id)
-    find_by(id: id) || find_by(hruid: id)
+  def self.find_by_id_or_hruid_or_uuid(id)
+    find_by(id: id) || find_by(uuid: id) || find_by(hruid: id)
   end
 
   def has_google_apps

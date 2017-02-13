@@ -43,7 +43,7 @@ Rails.application.routes.draw do
   get 'dashboard' => 'users#dashboard'
   get 'mailinglists' => 'users#dashboard_ml'
 
-  resources :users do
+  resources :users, constraints: { id: /[^\/]+/ } do
 
     resources :roles, only: [:create,:destroy]
 
