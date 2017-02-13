@@ -52,12 +52,17 @@ class MailingListsService
 
   private
     def send_message(msg, routing_key)
-      begin
-        @message_sender.send_message(msg, routing_key)
+      unless RABBITMQ_CONFIG["no_sync"]
+        begin
+          @message_sender.send_message(msg, routing_key)
+          return true
+        rescue Bunny::TCPConnectionFailedForAllHosts
+          Rails.logger.error "Unable to connect to RabbitMQ server"
+          return false
+        end
+      else
+        Rails.logger.error "RabbitMQ sync disabled"
         return true
-      rescue Bunny::TCPConnectionFailedForAllHosts
-        Rails.logger.error "Unable to connect to RabbitMQ server"
-        return false
       end
     end
 
