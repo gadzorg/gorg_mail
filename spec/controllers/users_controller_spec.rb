@@ -69,18 +69,35 @@ include Devise::TestHelpers
     # end
 
     context "user login as admin" do
-      
-      before :each do
-        @admin=FactoryGirl.create(:admin, firstname: 'Admin', email:'admin@hotmail.com')
-        login @admin
-        get :show, :id => @user.id
+
+      context "using user id" do
+        before :each do
+          @admin=FactoryGirl.create(:admin, firstname: 'Admin', email:'admin@hotmail.com')
+          login @admin
+          get :show, :id => @user.id
+        end
+
+        it { is_expected.to respond_with :success }
+        it { is_expected.to render_with_layout :application }
+        it { is_expected.to render_template :show }
+        it "populate @user list with requested user" do
+          expect(assigns(:user)).to eq(@user)
+        end
       end
 
-      it { is_expected.to respond_with :success }
-      it { is_expected.to render_with_layout :application }
-      it { is_expected.to render_template :show }
-      it "populate @user list with requested user" do
-        expect(assigns(:user)).to eq(@user)
+      context "using user hruid" do
+        before :each do
+          @admin=FactoryGirl.create(:admin, firstname: 'Admin', email:'admin@hotmail.com')
+          login @admin
+          get :show, :id => @user.hruid
+        end
+
+        it { is_expected.to respond_with :success }
+        it { is_expected.to render_with_layout :application }
+        it { is_expected.to render_template :show }
+        it "populate @user list with requested user" do
+          expect(assigns(:user)).to eq(@user)
+        end
       end
     end    
   end
