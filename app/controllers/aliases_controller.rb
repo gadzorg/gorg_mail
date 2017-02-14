@@ -24,7 +24,7 @@ class AliasesController < ApplicationController
   def new
     @alias = Alias.new
     authorize! :create, @alias
-    @evd = EmailVirtualDomain.all
+    @evd = EmailVirtualDomain.order(:name)
     @ml = Ml::List.all.order(:email)
   end
 
