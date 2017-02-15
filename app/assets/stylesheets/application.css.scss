@@ -19,6 +19,16 @@
 @import "autoload/colors";
 
  /*-----------------------------MENU-------------------------*/
+header {
+  background: #fff;
+  height: 90px;
+  border-bottom: 1px solid #F2F2F2;
+}
+
+header.masqueraded {
+  background: #FFE0B2;
+}
+
 .menu {
     float: right;
     /*margin-right: 45px;*/

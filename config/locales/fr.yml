@@ -205,3 +205,10 @@ fr:
       long: "%A %d %B %Y %Hh%M"
       short: "%d %b %Hh%M"
     pm: pm
+  layout:
+    menu:
+      reverse_masquerade: "Redevenir Admin"
+  users:
+    forms:
+      buttons:
+        masquerade: "Prendre la place"

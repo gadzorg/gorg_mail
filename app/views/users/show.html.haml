@@ -8,6 +8,8 @@
         = link_to t('users.forms.buttons.edit'), edit_user_path(@user), class:"button fr button-primary box"
         = link_to 'Emails', dashboard_user_path(@user), class:"button fr button-primary box mrm"
         = link_to 'Mailinglists', dashboard_ml_user_path(@user), class:"button fr button-primary box mrm"
+      -if can? :masquerade, @user
+        = link_to t('users.forms.buttons.masquerade'), masquerade_path(@user), class:"bouton fr bouton-primary box mrm"
     .box-bottom.pam
       .grid-2
         #info-perso

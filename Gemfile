@@ -39,6 +39,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'devise', '~> 4.1.1'
 gem 'omniauth'
 gem "omniauth-cas", :git => "https://github.com/loocla/omniauth-cas.git", :branch => 'saml'
+gem 'devise_masquerade'
 
 # Authorisation
 gem 'cancancan'

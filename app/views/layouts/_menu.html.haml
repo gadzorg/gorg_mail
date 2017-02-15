@@ -1,5 +1,5 @@
 -#=cache(action_suffix: "primary") do
-%aside.sidebar
+%aside.sidebar{:class => (user_masquerade? ? "masqueraded" : "")}
   .plm.prm.int
     #navigation
       #logo
