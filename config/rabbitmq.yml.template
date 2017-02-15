@@ -12,6 +12,7 @@ default: &default
 
 development:
   <<: *default
+  no_sync: true # Disable synchronisation
 
 test:
   <<: *default
