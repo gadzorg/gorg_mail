@@ -3,17 +3,22 @@
 %section.pam
   %h2 Mes redirections email
   .row
-    .col.s12.l5
+    .col.s12.l5.email-list
+      %h4
+        Si on envoie un mail à :
       .card
         .card-content
-          %span.card-title
-            Si on envoie un mail à :
-          %ul.collection
+          %ul
             #source
               =render partial: "shared/es_list", locals: {emails_source: @emails_source}
-        .card-action
-          -if can? :create, @new_esa
-            .pam
+        -if can? :create, @new_esa
+          .card-action
+            / Modal Trigger
+            %a.modal-trigger.waves-effect.waves-light.btn{:href => "#modal2"} Ajouter une adresse
+            / Modal Structure
+          #modal1.modal.modal-fixed-footer
+            .modal-content
+              %h4 Ajouter une nouvelle adresse
               =form_for  [@user,@new_esa], :remote=>true  do |f|
                 .input-field.col.m6{style: "margin-bottom: 0px;"}
                   =f.text_field :email, required: "required", class: ""
@@ -23,26 +28,42 @@
                   =f.label "domaine"
                 .pam
                   =f.button '+ Ajouter',:class => "waves-effect waves-light btn primary-color"
+            .modal-footer
+              %a.modal-action.modal-close.waves-effect.waves-green.btn-flat{:href => "#!"} Annuler
+
+
+
 
 
     .ma1.col.l2.hide-on-med-and-down
       .txtcenter.vertical-center.horizontal-center
         %i.zmdi.zmdi-long-arrow-right#big-arrow
-
+    .col.m12.divider.hide-on-large-only
     .col.s12.l5
-      .card
-        .card-content
-          %span.card-title
-            Je le reçois sur :
-          .box-bottom.email-list{ :data => {:url => user_email_redirect_accounts_path(@user, :format => :json)} }
-            #redirect
-              =render partial: "shared/er_list", locals: {emails_redirect: @emails_redirect}
-        .card-action
 
-          =form_for  [@user,@new_era], :remote=>true  do |f|
-            .input-field.s8{style: "margin-bottom: 0px;"}
-              =f.email_field :redirect, required: "required", class: ""
-              =label_tag "Ajouter une adresse"
-            .pam
-              =f.button '+ Ajouter',:class => "waves-effect waves-light btn", id: :new_email_redirect_account_submit
-    =javascript_include_tag 'email_redirect_tracking.js' if google_analytics_id
+      %h4
+        Je le reçois sur :
+      .email-list{ :data => {:url => user_email_redirect_accounts_path(@user, :format => :json)} }
+        #redirect
+          =render partial: "shared/er_list", locals: {emails_redirect: @emails_redirect}
+
+
+        / Modal Structure
+        #modal2.modal.modal-fixed-footer
+          .modal-content
+            %h4 Ajouter une nouvelle adresse de redirection
+            %p Tu peux ajouter ici une nouvelle adresse vers laquelle seront transfèrés les emails envoyés sur tes adresses gadz.org.
+            =form_for  [@user,@new_era], :remote=>true  do |f|
+              .input-field.s8{style: "margin-bottom: 0px;"}
+                =f.email_field :redirect, required: "required", class: ""
+                =label_tag "Entre ici la nouvelle adresse"
+              .pam
+                =f.button '+ Ajouter',:class => "waves-effect waves-light btn modal-close", id: :new_email_redirect_account_submit
+          .modal-footer
+            %a.modal-action.modal-close.waves-effect.waves-green.btn-flat{:href => "#!"} Annuler
+
+
+
+  =javascript_include_tag 'email_redirect_tracking.js' if google_analytics_id
+
+

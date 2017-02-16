@@ -2,7 +2,7 @@
 -# autoriser les suppresion et ajout que pour les admins
 
 - emails_source.each do |e|
-  %li.collection-item
+  %li
     =e.email + "@" + e.email_virtual_domain.name
     .secondary-content
       -if e.primary
