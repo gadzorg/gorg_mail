@@ -1,7 +1,7 @@
 
 -unless @user.has_google_apps
   %div.card.blue-grey.darken-1
-    .card-content.white-text
+    .card-content.white-text.flow-text
       Avec un compte Google Apps, je reçois mes mails gadz.org en toute simplicité !
     .card-action
       .mts= link_to ' Créer mon compte Google Apps ', create_google_apps_user_path(@user), method: :get,:remote=>true,  :class =>"waves-effect waves-light btn white blue-grey-text", id: "create_google_apps_button"

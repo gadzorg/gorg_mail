@@ -8,3 +8,8 @@
     bottom: 0;
     -webkit-transform: translateY(50%);
     transform: translateY(50%);
+}
+
+.circle{
+    margin-left: 0px !important;
+}

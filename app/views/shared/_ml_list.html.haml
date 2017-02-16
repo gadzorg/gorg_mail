@@ -1,9 +1,18 @@
--lists.each do |l|
-  .card
-    .card-content
-      %span.card-title
-        =l.name
-      .small
+
+%ul.ml-list.collection
+  -lists.each do |l|
+    -#=link_to ml_list_path(l), class: "waves-effect black-text" do
+    %li.collection-item.avatar
+      %i.material-icons.circle comment
+      %span.title
+        %b=l.name
+      %p.hide-on-med-and-down
+        =l.description
+        =l.redirection_alias
+      %p.grey-text.hide-on-large-only
+        =l.description
+        =l.redirection_alias
+      .small.hide-on-small-only
         .grey-text
           %span
             %i.zmdi.zmdi-accounts-alt
@@ -26,12 +35,12 @@
             seuls les membres peuvent y écrire
           -when "moderated"
             messages modérés
-      %p
-        =l.description
-        =l.redirection_alias
-    .card-action
-      %span
-        =link_to ml_list_path(l), class: "waves-effect waves-teal btn btn-flat" do
+
+
+      .small.hide-on-small-only
+        -if can? :moderate_messages, Ml::List
+          =link_to "Modérer",l.moderation_link, target: "_blank", :class =>"waves-effect waves-light btn"
+        =link_to ml_list_path(l), class: "waves-effect waves-teal btn btn-flat " do
           Consulter
         -if already_joined
           = link_to ml_list_leave_path(l.id, user.id), title: 'Me desinscire de la liste', rel: 'tooltip', :remote=>true, class: "unsubscribe_ml_button waves-effect waves-teal btn btn-flat " do
@@ -40,6 +49,6 @@
         -else
           = link_to ml_list_join_path(l.id, user.id), title: "M'inscrire à la liste", rel: 'tooltip', :remote=>true, class: "subscribe_ml_button waves-effect waves-teal btn btn-flat" do
             M'inscrire
-        -if can? :moderate_messages, Ml::List
-          =link_to "Modérer",l.moderation_link, target: "_blank", :class =>"waves-effect waves-light btn"
+
+
 

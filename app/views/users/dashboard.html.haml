@@ -14,7 +14,7 @@
         -if can? :create, @new_esa
           .card-action
             / Modal Trigger
-            %a.modal-trigger.waves-effect.waves-light.btn{:href => "#modal2"} Ajouter une adresse
+            %a.modal-trigger.waves-effect.waves-light.btn{:href => "#modal1"} Ajouter une adresse
             / Modal Structure
           #modal1.modal.modal-fixed-footer
             .modal-content
@@ -27,7 +27,7 @@
                   =f.select :email_virtual_domain_id,EmailVirtualDomain.all.map { |e| ["@"+e.name,e.id] },{}, class:''
                   =f.label "domaine"
                 .pam
-                  =f.button '+ Ajouter',:class => "waves-effect waves-light btn primary-color"
+                  =f.button 'Ajouter',:class => "waves-effect waves-light btn primary-color modal-close"
             .modal-footer
               %a.modal-action.modal-close.waves-effect.waves-green.btn-flat{:href => "#!"} Annuler
 
