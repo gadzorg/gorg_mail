@@ -5,6 +5,7 @@
     = csrf_meta_tags
     = stylesheet_link_tag    "application", media: "all"
     = javascript_include_tag :application
+    %link{:href => "https://fonts.googleapis.com/icon?family=Material+Icons", :rel => "stylesheet"}/
     -if slack_chat?
       = tags_for_gorg_slack_chat
 
@@ -19,7 +20,7 @@
 
 
     .wrapper
-      .center.mw1140p
+      .mw1140p.container
         %div
           .pam.fr
             %a.nav-button-open{"aria-label" => "open navigation", :href => "#body"}

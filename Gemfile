@@ -105,6 +105,7 @@ gem 'scout_apm'
 
 gem 'activerecord-import'
 
+gem 'materialize-sass'
 
 group :production do
   gem 'rails_12factor'

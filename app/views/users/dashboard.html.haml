@@ -1,49 +1,48 @@
 -content_for :header do
   =javascript_include_tag 'user/dashboard.js.erb'
 %section.pam
-  %h1 Mes redirections email
-  .grid-5-small-2
-    .box.box-light.shadow-1.mtm.flex-item-double
-      .box-top.box-top-color.pam
-        Si on envoie un mail à :
-      .box-bottom.email-list
-        %ul
-          #source
-            =render partial: "shared/es_list", locals: {emails_source: @emails_source}
-
+  %h2 Mes redirections email
+  .row
+    .col.s12.l5
+      .card
+        .card-content
+          %span.card-title
+            Si on envoie un mail à :
+          %ul.collection
+            #source
+              =render partial: "shared/es_list", locals: {emails_source: @emails_source}
+        .card-action
           -if can? :create, @new_esa
             .pam
               =form_for  [@user,@new_esa], :remote=>true  do |f|
-                .group.group-m-form.w100{style: "margin-bottom: 0px;"}
-                  =f.text_field :email, required: "required", class: "w100"
-                  .span.highlight
-                  .span.bar
+                .input-field.col.m6{style: "margin-bottom: 0px;"}
+                  =f.text_field :email, required: "required", class: ""
                   =f.label "email"
+                .input-field.col.m6
+                  =f.select :email_virtual_domain_id,EmailVirtualDomain.all.map { |e| ["@"+e.name,e.id] },{}, class:''
+                  =f.label "domaine"
                 .pam
-                  =f.select :email_virtual_domain_id,EmailVirtualDomain.all.map { |e| [e.name,e.id] },{}, class:'w100'
-                .pam
-                  =f.submit '+ Ajouter',:class => "bouton bouton_bleu fr bl"
+                  =f.button '+ Ajouter',:class => "waves-effect waves-light btn primary-color"
 
 
-    .ma1.small-hidden
+    .ma1.col.l2.hide-on-med-and-down
       .txtcenter.vertical-center.horizontal-center
         %i.zmdi.zmdi-long-arrow-right#big-arrow
 
-    .box.box-light.shadow-1.mtm.mbm.flex-item-double
-      .box-top.box-top-color.pam
-        Je le reçois sur :
-      .box-bottom.email-list{ :data => {:url => user_email_redirect_accounts_path(@user, :format => :json)} }
-        %ul#era_list
-          #redirect
-            =render partial: "shared/er_list", locals: {emails_redirect: @emails_redirect}
+    .col.s12.l5
+      .card
+        .card-content
+          %span.card-title
+            Je le reçois sur :
+          .box-bottom.email-list{ :data => {:url => user_email_redirect_accounts_path(@user, :format => :json)} }
+            #redirect
+              =render partial: "shared/er_list", locals: {emails_redirect: @emails_redirect}
+        .card-action
 
-          .pam
-            =form_for  [@user,@new_era], :remote=>true  do |f|
-              .group.group-m-form.w100{style: "margin-bottom: 0px;"}
-                =f.email_field :redirect, required: "required", class: "w100"
-                .span.highlight.w100
-                .span.bar.w100
-                =label_tag "Ajouter une adresse"
-              .pam
-                =f.submit '+ Ajouter',:class => "bouton bouton_bleu fr bl", id: :new_email_redirect_account_submit
-=javascript_include_tag 'email_redirect_tracking.js' if google_analytics_id
+          =form_for  [@user,@new_era], :remote=>true  do |f|
+            .input-field.s8{style: "margin-bottom: 0px;"}
+              =f.email_field :redirect, required: "required", class: ""
+              =label_tag "Ajouter une adresse"
+            .pam
+              =f.button '+ Ajouter',:class => "waves-effect waves-light btn", id: :new_email_redirect_account_submit
+    =javascript_include_tag 'email_redirect_tracking.js' if google_analytics_id

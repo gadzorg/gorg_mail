@@ -1,4 +1,4 @@
-%ul
+%ul.collection
   -if members.count == 0
     %li
       -if @search.present?
@@ -6,19 +6,23 @@
 
   -else
     -members.each do |m|
-      %li
+      %li.collection-item
         %b=link_to m[1], user_path(m[0])
-        %span.red=Ml::ListsUser.roles_list[m[3]].gsub("member","").capitalize
+        %span.new.red.badge{"data-badge-caption" => "#{Ml::ListsUser.roles_list[m[3]].gsub("member","").capitalize}"}
         -if can?( :admin_members, @ml_list)
           =m[2]
-          .fr
-            .dropdown
-              Rôles
-              .dropdown-content.shadow-3
-                %div
-                  -Ml::ListsUser.roles_list.each do |role_name|
-                    %div
-                      %a{href: "/ml/lists/#{@ml_list.id}/users/set_role/#{m[0]}?id=#{@ml_list.id}&amp;role=#{role_name}&amp;search=#{@search}", method: :get}
-                        =role_name.capitalize
-            %a{href: "/ml/lists/#{@ml_list.id}/leave/#{m[0]}?search=#{@search}", method: :get}
-              %i.zmdi.zmdi-delete.icon-padding-list
+          .secondary-content
+            %a.dropdown-button{"data-activates" => "dropdown-role#{m[0]}", "constrain-width" => "false", "data-beloworigin"=>"true", "hover" => "false",  :href => "#"}
+              .zmdi.zmdi-more-vert
+
+          %div{id: "dropdown-role#{m[0]}", class: "dropdown-content"}
+            %ul
+              -Ml::ListsUser.roles_list.each do |role_name|
+                %li
+                  %a{href: "/ml/lists/#{@ml_list.id}/users/set_role/#{m[0]}?id=#{@ml_list.id}&amp;role=#{role_name}&amp;search=#{@search}", method: :get}
+                    =role_name.capitalize
+              %li.divider
+              %li
+                %a{href: "/ml/lists/#{@ml_list.id}/leave/#{m[0]}?search=#{@search}", method: :get}
+                  %i.zmdi.zmdi-delete.icon-padding-list
+                  Retirer de la liste

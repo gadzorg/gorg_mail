@@ -1,45 +1,45 @@
 -lists.each do |l|
-  .box.box-light.shadow-1.mts.flex-item-double
-    .box-bottom.ml-list
-      %ul
-        %li
-          =link_to ml_list_path(l) do
-            %b=l.name
-
-          %span.fr
-            -if already_joined
-              = link_to ml_list_leave_path(l.id, user.id), title: 'Me desinscire de la liste', rel: 'tooltip', :remote=>true, class: "unsubscribe_ml_button" do
-                Me desinscrire
-                %i.icon-padding-list
-                %i.zmdi.zmdi-account.red
-                %i.zmdi.zmdi-arrow-right.red
-            -else
-              = link_to ml_list_join_path(l.id, user.id), title: "M'inscrire à la liste", rel: 'tooltip', :remote=>true, class: "subscribe_ml_button" do
-                M'inscrire
-                %i.icon-padding-list
-                %i.zmdi.zmdi-arrow-right.green
-                %i.zmdi.zmdi-account.green
+  .card
+    .card-content
+      %span.card-title
+        =l.name
+      .small
+        .grey-text
           %span
-            %br/
-            .small
-              =l.redirection_alias
-              =l.description
-              %span.fr
-                Inscriptions
-                -case l.inscription_policy
-                -when  "open"
-                  libres
-                -when "conditional_gadz"
-                  reservées aux gadz
-                -when "closed"
-                  gérée par un admin
-                -when "in_group"
-                  reservées aux membres du groupe
-                -case l.diffusion_policy
-                -when "open"
-                  , tout le monde peut y écrire
-                -when "closed"
-                  , seuls les membres peuvent y écrire
-                -when "moderated"
-                  , messages modérés
-                (#{l.members_count} membres)
+            %i.zmdi.zmdi-accounts-alt
+          %span #{l.members_count} membres
+          %i.zmdi.zmdi-account-add
+          Inscriptions
+          -case l.inscription_policy
+          -when  "open"
+            libres,
+          -when "conditional_gadz"
+            reservées aux gadz,
+          -when "closed"
+            gérée par un admin,
+          -when "in_group"
+            reservées aux membres du groupe,
+          -case l.diffusion_policy
+          -when "open"
+            tout le monde peut y écrire
+          -when "closed"
+            seuls les membres peuvent y écrire
+          -when "moderated"
+            messages modérés
+      %p
+        =l.description
+        =l.redirection_alias
+    .card-action
+      %span
+        =link_to ml_list_path(l), class: "waves-effect waves-teal btn btn-flat" do
+          Consulter
+        -if already_joined
+          = link_to ml_list_leave_path(l.id, user.id), title: 'Me desinscire de la liste', rel: 'tooltip', :remote=>true, class: "unsubscribe_ml_button waves-effect waves-teal btn btn-flat " do
+            Me desinscrire
+
+        -else
+          = link_to ml_list_join_path(l.id, user.id), title: "M'inscrire à la liste", rel: 'tooltip', :remote=>true, class: "subscribe_ml_button waves-effect waves-teal btn btn-flat" do
+            M'inscrire
+        -if can? :moderate_messages, Ml::List
+          =link_to "Modérer",l.moderation_link, target: "_blank", :class =>"waves-effect waves-light btn"
+

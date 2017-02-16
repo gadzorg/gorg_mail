@@ -1,23 +1,22 @@
 =render partial: "shared/ml_members_list_box", locals: {members: @members, show_search: true, name: "Membres"}
 
 
-.grid-2
-  .box.box-light.shadow-1.mtm.flex-item-double
-    .box-top.box-top-light.pam
-      %span
-        %i.zmdi.zmdi-accounts-outline
-        Membres sans adresses gadz.org
-    .box-bottom.ml-list
-      %ul
+.card
+  .card-content
+    %span.card-title
+      %i.zmdi.zmdi-accounts-outline
+      Membres sans adresses gadz.org
+    .box-bottom
+      %ul.collection
         -if @external_emails.count == 0
           %li
             Il n'y a pas de membre sans adresse gadz.org dans cette liste
         -else
           -@external_emails.each do |m|
-            %li
+            %li.collection-item
               =m.email
               -if can? :destroy, m
-                %span.fr
+                .secondary-content
                   =link_to ml_list_remove_email_path(list_id: @ml_list.id, email_id: m.id), :method => :delete, :data => { :confirm => 'Are you sure?' } do
                     %i.zmdi.zmdi-delete.icon-padding-list
 

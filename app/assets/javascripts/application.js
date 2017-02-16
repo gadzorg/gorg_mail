@@ -19,6 +19,8 @@
 //= require unobtrusive_flash_ui
 //= require admin
 //= require_tree ./autoload
+//= require materialize
+
 
 
 
@@ -27,9 +29,16 @@ UnobtrusiveFlash.flashOptions['timeout'] = 45000; // milliseconds
 $(function(){
   $("a[rel='tooltip']").tooltip();
 
-});
-  
 
+});
+
+
+
+$(document).ready(function() {
+    $('select').material_select();
+    $(".button-collapse").sideNav();
+
+});
 
 
 
