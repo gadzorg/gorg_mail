@@ -22,6 +22,8 @@ class SetupController < ApplicationController
     authorize! :setup, @user
 
     @primary_email = @user.primary_email.to_s
+    render layout: "no-menu"
+
   end
 
   def setup
