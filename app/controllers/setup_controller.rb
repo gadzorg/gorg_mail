@@ -67,6 +67,8 @@ class SetupController < ApplicationController
   def finish
     @user=current_user
     authorize! :setup, @user
+    render layout: "no-menu"
+
   end
 
 private
