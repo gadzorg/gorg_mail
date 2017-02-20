@@ -4,7 +4,16 @@
       %i.zmdi.zmdi-accounts-alt
       =name
     -if show_search
-      =form_tag ml_list_path(@ml_list), :method => :get ,class: "", id: "search" do
-        =text_field_tag :search, params[:search], :placeholder => "Recherche par adresse, nom ou prénom parmis les #{@ml_list.members_count} membres de cette liste", :class => "w100 login", :autofocus => false
-    =render partial: "ml_members_list", locals: {members: members, block_id: id}
+      .nav
+        .search-wrapper
+          .card
+            =form_tag ml_list_path(@ml_list), :method => :get ,class: "", id: "search" do
+              .input-field
+                =text_field_tag :search, params[:search], :placeholder => "Recherche par adresse, nom ou prénom parmis les #{@ml_list.members_count} membres de cette liste", :class => "w100", :autofocus => false, type: "search"
+                %label.label-icon{:for => "search"}
+                  %i.material-icons search
+                  =hidden_field_tag "id"
+                %i.material-icons close
+    -if members.present?
+      =render partial: "ml_members_list", locals: {members: members, block_id: id}
     =will_paginate(@members_collection, renderer: MaterializeLinkRenderer)
