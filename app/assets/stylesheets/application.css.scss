@@ -331,8 +331,28 @@ li{
 
 /*-----------------------------text-------------------------*/
 .grey{
-    color:#aaa;
+  color:#aaa;
 }
 .red{
-    color: #c0392b
+  color: #c0392b
+}
+
+/*-----------------------------landing-------------------------*/
+.promo .col div{
+  padding-left: 3em;
+  padding-right: 3em;
+  max-width: 50ev;
+}
+
+.promo i{
+  font-size: 6em;
+  padding-top: 0.5em;
+}
+
+.landing-button{
+  margin-top: 3em;
+}
+
+.sub-title{
+  font-size: 1.7em;
 }

@@ -59,7 +59,7 @@
                 =f.email_field :redirect, required: "required", class: "validate"
                 =label_tag(:redirect, "Entre ici la nouvelle adresse","data-error"=>"Cette addresse n'est pas au bon format")
 
-                =f.submit '+ Ajouter',:class => "waves-effect waves-light btn", id: :new_email_redirect_account_submit
+                =f.submit 'Ajouter cette adresse',:class => "waves-effect waves-light btn", id: :new_email_redirect_account_submit
           .modal-footer
             %a.modal-action.modal-close.waves-effect.waves-green.btn-flat{:href => "#!"} Annuler
 
