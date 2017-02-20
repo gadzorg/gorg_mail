@@ -22,6 +22,8 @@ class Ml::ListsController < ApplicationController
       @pendings = @ml_list.members_list_with_emails(nil, "pendings")
       @banneds = @ml_list.members_list_with_emails(nil,"banneds")
     end
+
+    @current_user_is_member = @ml_list.all_members.include?(@current_user)
   end
 
   # GET /ml/lists/new
@@ -90,6 +92,7 @@ class Ml::ListsController < ApplicationController
       get_list(@user)
       respond_to do |format|
         flash[:notice] = "Tu as rejoint la liste de diffusion #{@ml_list.name}"
+        format.html{redirect_to ml_list_path(@ml_list, search: params[:search])}
         format.json { head :no_content }
         format.js
       end

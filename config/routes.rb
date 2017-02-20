@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   namespace :ml do
     resources :lists do
       get "sync_with_google"
-      get "join/:user_id", to: "lists#join", as: :join, defaults: { format: 'js' }
+      get "join/:user_id", to: "lists#join", as: :join
       get "leave/:user_id", to: "lists#leave", as: :leave
       post "add_email", to: "lists#add_email", as: :add_email
       delete "remove_email", to: "lists#remove_email", as: :remove_email

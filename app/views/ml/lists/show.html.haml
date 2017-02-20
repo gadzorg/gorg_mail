@@ -1,6 +1,9 @@
 %p#notice= notice
 %section.pam
   %h2
+    %span.hide-on-med-and-up
+      =link_to ml_lists_path, class: "black-text" do
+        %i.material-icons arrow_back
     #{@ml_list.name}
   .row
     .infos.col.s12.l5
@@ -61,6 +64,12 @@
             -else
               Liste non archivée
         .card-action
+          -if @current_user_is_member
+            = link_to ml_list_leave_path(@ml_list.id, @current_user.id), title: 'Me desinscire de la liste', class: "unsubscribe_ml_button waves-effect waves-red btn btn-flat red white-text" ,data: {confirm: "Tu vas quitter cette cette liste ?"}do
+              Me desinscrire
+          -else
+            = link_to ml_list_join_path(@ml_list.id, @current_user.id), title: "M'inscrire à la liste", class: "subscribe_ml_button waves-effect waves-teal btn" do
+              M'inscrire
           -if can? :moderate_messages, Ml::List
             =link_to "Modérer",@ml_list.moderation_link, target: "_blank", :class =>"waves-effect waves-light btn"
           -if @ml_list.is_archived
