@@ -94,9 +94,7 @@
 }
 
 #logo{
-    display: inline;
-    height: 50px;
-    width: 210px;
+  padding: 7px;
 }
 #logo2{
     display: block;
@@ -130,12 +128,6 @@ section{/*background: #fff;*/}
     margin-left: -85px;
 }
 
-body, button, input, select, textarea {
-    color: #4C4C4C;
-    font-family: "proxima_novalight";
-    //font-size: 18px;
-    line-height: 1.5;
-}
 
 a.bouton_bleu, a.button-primary {
     background-color: #14BFCC;
@@ -337,8 +329,28 @@ li{
 
 /*-----------------------------text-------------------------*/
 .grey{
-    color:#aaa;
+  color:#aaa;
 }
 .red{
-    color: #c0392b
+  color: #c0392b
+}
+
+/*-----------------------------landing-------------------------*/
+.promo .col div{
+  padding-left: 3em;
+  padding-right: 3em;
+  max-width: 50ev;
+}
+
+.promo i{
+  font-size: 6em;
+  padding-top: 0.5em;
+}
+
+.landing-button{
+  margin-top: 3em;
+}
+
+.sub-title{
+  font-size: 1.7em;
 }

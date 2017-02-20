@@ -2,28 +2,32 @@
   .int.article.center.txtcenter
     .pam
       =link_to root_path do
-        =image_tag "logo_alumni_nb.png", :class => ""
+        =image_tag "logo_alumni_nb.png", :class => "landing-button"
 
       %div#landing-text
         .txtcenter
-          %h1 Email gadz.org, Gadzmelv2, Imelavi, listes de diffusion.
-          Retrouve tous les services mails gadz.org dans un même endroit.
+          %h1 Emails gadz.org
+          .sub-title
+            Gadzmelv2, Imelavi, listes de diffusion.
+          %p Retrouve tous les services mails gadz.org dans un même endroit.
 
           .skip-links.sup
           -if @maintenance_mode
             %p=@maintenance_message
           -else
-            .txtcenter.sup= link_to t('layout.menu.connect'), new_user_session_path, :class =>"bouton bouton_bleu ptl mtl"
+            .txtcenter.sup= link_to t('layout.menu.connect'), new_user_session_path, :class =>"waves-effect waves-black btn white black-text landing-button"
 
-.int.center.pal
-  .grid-2-small-1
-    %div.prm.plm
-      .txtcenter
-        %i.zmdi.zmdi-email.zmdi-hc-3x
-        %h2 Redirection mail
-        %p Tu peux gérer ici tes redirections mail pour être toujours joignable sur ton adresse gadz.org.
-    %div.prm.plm
-      .txtcenter
-        %i.zmdi.zmdi-mail-reply-all.zmdi-hc-3x
-        %h2 Liste de diffusion
-        %p Inscription, désinscription et archives, pour pouvoir communiquer avec ta promo ou dans des groupes.
+.container
+  .row.center.promo
+    .col.l6
+      %div.prm.plm
+        .txtcenter
+          %i.zmdi.zmdi-email.zmdi-hc-3x
+          %h4 Redirection mail
+          %p Tu peux gérer ici tes redirections mail pour être toujours joignable sur ton adresse gadz.org.
+    .col.l6
+      %div.prm.plm
+        .txtcenter
+          %i.zmdi.zmdi-mail-reply-all.zmdi-hc-3x
+          %h4 Liste de diffusion
+          %p Inscription, désinscription et archives, pour pouvoir communiquer avec ta promo ou dans des groupes.
