@@ -36,7 +36,6 @@ class Users::OmniauthCallbacksController < ApplicationController
     return redirect_to root_path, flash:{error: "Impossible d'identifier cet utilisateur"} unless @user
 
     if @user.persisted?
-        flash[:notice] = I18n.t "devise.omniauth_callbacks.success"
         sign_in_and_redirect @user, :event => :authentication
     else
         flash[:alert] = I18n.t 'omniauth.error'

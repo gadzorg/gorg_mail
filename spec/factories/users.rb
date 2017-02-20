@@ -46,7 +46,7 @@ FactoryGirl.define do
 
     factory :user_with_addresses do
       after(:create) do |user, evaluator|
-        create(:email_source_account, user: user)
+        create(:email_source_account, user: user, primary: true)
         create(:email_redirect_account, user: user)
       end
     end
