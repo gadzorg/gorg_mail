@@ -49,6 +49,8 @@ class SetupController < ApplicationController
           #attention, les deux lignes suivantes sont égaleement dans le controleur user / dashboard
           @emails_redirect = @user.email_redirect_accounts.order(:type_redir).select(&:persisted?)
           EmailValidationMailer.confirm_email(@user,@email_redirect_account,confirm_user_email_redirect_accounts_url(@user, @email_redirect_account.confirmation_token)).deliver_now
+        else
+          format.html { return redirect_to setup_path, notice: "L'adresse email que tu as entré n'est pas valide"}
         end
         if params[:google_apps] == "true"
           @user.create_google_apps
