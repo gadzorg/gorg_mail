@@ -48,17 +48,18 @@
           =render partial: "shared/er_list", locals: {emails_redirect: @emails_redirect}
 
 
+
         / Modal Structure
-        #modal2.modal.modal-fixed-footer
+        #modal-add-era.modal.modal-fixed-footer
           .modal-content
             %h4 Ajouter une nouvelle adresse de redirection
             %p Tu peux ajouter ici une nouvelle adresse vers laquelle seront transfèrés les emails envoyés sur tes adresses gadz.org.
             =form_for  [@user,@new_era], :remote=>true  do |f|
               .input-field.s8{style: "margin-bottom: 0px;"}
-                =f.email_field :redirect, required: "required", class: ""
-                =label_tag "Entre ici la nouvelle adresse"
-              .pam
-                =f.button '+ Ajouter',:class => "waves-effect waves-light btn modal-close", id: :new_email_redirect_account_submit
+                =f.email_field :redirect, required: "required", class: "validate"
+                =label_tag(:redirect, "Entre ici la nouvelle adresse","data-error"=>"Cette addresse n'est pas au bon format")
+
+                =f.submit '+ Ajouter',:class => "waves-effect waves-light btn", id: :new_email_redirect_account_submit
           .modal-footer
             %a.modal-action.modal-close.waves-effect.waves-green.btn-flat{:href => "#!"} Annuler
 

@@ -19,3 +19,7 @@
 .dropdown-content i{
   display: inline;
 }
+
+input[type="submit"]{
+  @extend button
+}
