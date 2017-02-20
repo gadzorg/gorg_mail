@@ -14,12 +14,13 @@
 //= require jquery_ujs
 //= require bootstrap/bootstrap-tooltip
 //= require jquery-ui
-//= require autocomplete-rails
 //= require unobtrusive_flash
 //= require unobtrusive_flash_ui
 //= require admin
 //= require_tree ./autoload
 //= require materialize
+//= require autocomplete-rails
+
 
 
 
@@ -38,6 +39,16 @@ $(document).ready(function() {
     $('select').material_select();
     $(".button-collapse").sideNav();
     $('.modal').modal();
+    $('input.autocomplete').autocomplete({
+        data: {
+            "Apple": null,
+            "Microsoft": null,
+            "Google": 'http://placehold.it/250x250'
+        },
+        limit: 20, // The max amount of results that can be shown at once. Default: Infinity.
+    });
+
+
 
 });
 

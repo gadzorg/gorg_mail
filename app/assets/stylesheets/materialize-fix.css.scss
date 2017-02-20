@@ -13,3 +13,9 @@
 .circle{
     margin-left: 0px !important;
 }
+
+.nav{ @extend nav}
+
+.dropdown-content i{
+  display: inline;
+}

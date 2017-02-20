@@ -70,7 +70,7 @@ gem 'i18n'
 gem 'unobtrusive_flash', '>=3'
 
 # forconfiguration tables
-gem 'configurable_engine'
+gem 'configurable_engine', github: 'Blaked84/configurable_engine'
 
 # tooltips
 gem 'bootstrap-tooltip-rails'
@@ -106,6 +106,8 @@ gem 'scout_apm'
 gem 'activerecord-import'
 
 gem 'materialize-sass'
+gem 'simple_form-materialize', github: 'patricklindsay/simple_form-materialize'
+
 
 group :production do
   gem 'rails_12factor'

@@ -42,7 +42,14 @@
       - if user_signed_in?
         - if can? :read, :admin
           %li
-            =link_to "Administration", admin_path, class: "menu-a"
+            %a.dropdown-button{"data-constrainwidth"=>"false", "data-activates" => "dropdown1-admin_menu", "data-beloworigin"=>"true", :href => "#!"}
+              %span
+                Administration
+
+                %i.zmdi.zmdi-carret-down.material-icons.right
+
+            %ul#dropdown1-admin_menu.dropdown-content
+              = render 'layouts/menu_admin'
       = render 'layouts/user_widget'
     %ul.right
       - if user_signed_in?
@@ -56,6 +63,16 @@
                 =hidden_field_tag "id"
                 %i.material-icons close
                 -#=submit_tag 'GO!', :class => ""
+          -#%li
+          -#  =form_tag  search_by_id_users_path,:method => :get, :user_id => :id_element do
+          -#    =autocomplete_field_tag 'Hruid', '', autocomplete_user_hruid_users_path, :size => 10, :id_element => '#id', :placeholder => "prenom.nom.année"
+          -#    =hidden_field_tag "id"
+          -#    =submit_tag 'GO!', :class => ""
+          -#%li
+          -#  .input-field.col.s12
+          -#    %i.material-icons.prefix textsms
+          -#    %input#autocomplete-input.autocomplete{:type => "text"}/
+          -#    %label{:for => "autocomplete-input"} Autocomplete
 
 
 
@@ -63,15 +80,15 @@
       = render 'layouts/user_widget_mobile'
 
       %li.divider
-        - if user_signed_in?
-          - if can? :read, :admin
-            %li
-              =link_to "Administration", admin_path, class: "menu-a"
-            %li.divider
       %li
         =link_to "Emails", dashboard_path
       %li
         =link_to "Listes de diffusions", mailinglists_path
+      %li.divider
+        - if user_signed_in?
+          - if can? :read, :admin
+            = render 'layouts/menu_admin'
+
 
 
 
