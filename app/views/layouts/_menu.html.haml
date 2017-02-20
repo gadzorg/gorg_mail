@@ -35,6 +35,16 @@
       %i.material-icons menu
 
     %ul.right.hide-on-med-and-down
+      - if user_signed_in?
+        - if can? :read, :admin
+          %li
+            =form_tag  search_by_id_users_path, :method => :get, :user_id => :id_element do
+              .input-field
+                =autocomplete_field_tag 'Hruid', '', autocomplete_user_hruid_users_path, :id_element => '#id', :placeholder => "prenom.nom.année",type: "search", id: "search"
+                %label.label-icon{:for => "search"}
+                  %i.material-icons search
+                =hidden_field_tag "id"
+                %i.material-icons close
       %li
         =link_to "Emails", dashboard_path
       %li
@@ -51,28 +61,7 @@
             %ul#dropdown1-admin_menu.dropdown-content
               = render 'layouts/menu_admin'
       = render 'layouts/user_widget'
-    %ul.right
-      - if user_signed_in?
-        - if can? :read, :admin
-          %li
-            =form_tag  search_by_id_users_path, :method => :get, :user_id => :id_element do
-              .input-field
-                =autocomplete_field_tag 'Hruid', '', autocomplete_user_hruid_users_path, :id_element => '#id', :placeholder => "prenom.nom.année",type: "search", id: "search"
-                %label.label-icon{:for => "search"}
-                  %i.material-icons search
-                =hidden_field_tag "id"
-                %i.material-icons close
-                -#=submit_tag 'GO!', :class => ""
-          -#%li
-          -#  =form_tag  search_by_id_users_path,:method => :get, :user_id => :id_element do
-          -#    =autocomplete_field_tag 'Hruid', '', autocomplete_user_hruid_users_path, :size => 10, :id_element => '#id', :placeholder => "prenom.nom.année"
-          -#    =hidden_field_tag "id"
-          -#    =submit_tag 'GO!', :class => ""
-          -#%li
-          -#  .input-field.col.s12
-          -#    %i.material-icons.prefix textsms
-          -#    %input#autocomplete-input.autocomplete{:type => "text"}/
-          -#    %label{:for => "autocomplete-input"} Autocomplete
+
 
 
 
@@ -84,10 +73,20 @@
         =link_to "Emails", dashboard_path
       %li
         =link_to "Listes de diffusions", mailinglists_path
-      %li.divider
-        - if user_signed_in?
-          - if can? :read, :admin
-            = render 'layouts/menu_admin'
+
+
+      - if user_signed_in?
+        - if can? :read, :admin
+          %li.search-wrapper
+            .card
+              =form_tag  search_by_id_users_path, :method => :get, :user_id => :id_element, style:"height: 48px"  do
+                .input-field
+                  =autocomplete_field_tag 'Hruid', '', autocomplete_user_hruid_users_path, :id_element => '#id', :placeholder => "prenom.nom.année",type: "search", id: "search"
+                  %label.label-icon{:for => "search"}
+                    %i.material-icons search
+                  =hidden_field_tag "id"
+                  %i.material-icons close
+          = render 'layouts/menu_admin'
 
 
 
