@@ -14,13 +14,13 @@ class Ml::ListsController < ApplicationController
   def show
     authorize! :read, @ml_list
     @search = params[:search]
-    @members = @search.present? ? @ml_list.members_list_with_emails(@search) : []
+    @members = @search.present? ? @ml_list.all_members.search(@search).order(:firstname).page(params[:page]).per_page(10).basic_data_hash : []
     @external_emails = @ml_list.ml_external_emails
     @redirection_aliases = @ml_list.redirection_aliases
-    @admins_and_moderators = @ml_list.members_list_with_emails(nil, "admins") + @ml_list.members_list_with_emails(nil, "moderators")
+    @admins_and_moderators = @ml_list.super_members.basic_data_hash
     if can? :admin_members, @ml_list
-      @pendings = @ml_list.members_list_with_emails(nil, "pendings")
-      @banneds = @ml_list.members_list_with_emails(nil,"banneds")
+      @pendings = @ml_list.pendings.basic_data_hash
+      @banneds = @ml_list.banneds.basic_data_hash
     end
   end
 

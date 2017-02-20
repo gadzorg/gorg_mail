@@ -59,7 +59,7 @@ class Ml::List < ActiveRecord::Base
   # moderators (liste des users)
   # ...
   #
-  (Ml::ListsUser.roles.keys.map(&:pluralize)+["all_members"]).each do |role_name|
+  (Ml::ListsUser.roles.keys.map(&:pluralize)+["all_members","super_members"]).each do |role_name|
     has_many "lists_users_#{role_name}".to_sym, -> { send(role_name) }, :class_name => "Ml::ListsUser"
     has_many "#{role_name}".to_sym, through: "lists_users_#{role_name}".to_sym, :class_name => "User", :source => :user
   end
@@ -126,17 +126,6 @@ class Ml::List < ActiveRecord::Base
     Rails.cache.fetch(cache_name, expires_in: 10.minute) do
       self.all_members.count + self.ml_external_emails.count
     end
-  end
-
-  # Return an array of array [ id_user, full_name, primary_email]
-  def members_list_with_emails(search = nil, role = "all_members")
-    if search.present?
-      search_query = "CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name) LIKE '%#{search}%' OR users.firstname LIKE '%#{search}%' OR users.lastname LIKE '%#{search}%'"
-    else
-      search_query = nil
-    end
-
-    self.send(role).includes(email_source_accounts: :email_virtual_domain).where(email_source_accounts: {primary: true}).order(:firstname).where(search_query).pluck("users.id", :"CONCAT(users.firstname, ' ', users.lastname)", :"CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name), ml_lists_users.role")
   end
 
   ############# external emails #############

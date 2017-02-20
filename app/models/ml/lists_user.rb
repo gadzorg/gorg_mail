@@ -34,6 +34,7 @@ class Ml::ListsUser < ActiveRecord::Base
     scope role.pluralize.to_sym, -> { send(role) }
   end
   scope :all_members, -> { where("role >= ?",self.roles['member']) }
+  scope :super_members, -> { where("role >= ?",self.roles['moderator']) }
 
 
   def initialize(args={})

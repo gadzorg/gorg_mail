@@ -116,7 +116,7 @@
 
 
     .member_block.col.s12.l7
-      =render partial: "shared/ml_members", locals: {members: @members, external_emails: @external_emails}
+      =render partial: "ml_members", locals: {members: @members, external_emails: @external_emails}
       - if can? :admin_members, @ml_list
         .card
           .card-content
@@ -131,7 +131,7 @@
             %div.pam
               .input-field
                 =form_tag  ml_list_add_email_path(@ml_list)   do
-                  =email_field_tag :email, "", class: "validate col s4"
+                  =email_field_tag :email, "", class: "validate col s4", required: 'required'
                   =label_tag "email@domaine.fr"
                   =button_tag '+ Ajouter',:class => "waves-effect waves-light btn"
 
