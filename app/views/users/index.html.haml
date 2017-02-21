@@ -4,7 +4,7 @@
   .search-wrapper
     =form_tag  users_path,:method => :get, :user_id => :id_element, id:'user_index_search' do
       .input-field
-        =search_field_tag 'search', params['query'], {:placeholder => "Rechercher un utilisateur ...", name:"query"}
+        =search_field_tag 'search', params['query'], {:placeholder => "Rechercher un utilisateur ...", name:"query", autofocus: true}
         %label.label-icon{:for => "user_index_search"}
           %i.material-icons search
 

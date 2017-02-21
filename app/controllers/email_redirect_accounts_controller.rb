@@ -48,7 +48,7 @@ class EmailRedirectAccountsController < ApplicationController
         @emails_redirect = @user.email_redirect_accounts.order(:type_redir).select(&:persisted?)
         flash[:error] = "Impossible d'ajouter cette adresse. Elle existe déjà ou elle ne correspond pas au format email@domaine.fr"
         format.json { render json: @email_redirect_account.errors, status: :unprocessable_entity }
-        format.js
+        # format.js
       end
     end
   end

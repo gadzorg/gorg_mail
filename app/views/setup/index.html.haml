@@ -28,7 +28,7 @@
             Mon adresse email :
             .input-field.inline
               =email_field_tag :redirect,nil, :size => 40, :required => 'required', :class=> 'validate'
-              =label_tag "redirect", "email@domaine.fr"
+              =label_tag("redirect", "email@domaine.fr", "data-error"=>"Tu dois entrer ton adresse email au format email@domaine.fr", required: true)
         .card-action
           =button_tag "Créer mon compte", class:'waves-effect waves-teal btn'
 
