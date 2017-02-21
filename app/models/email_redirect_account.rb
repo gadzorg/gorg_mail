@@ -29,6 +29,29 @@
 #  index_email_redirect_accounts_on_user_id             (user_id)
 #
 
+class InternalDomainValidator < ActiveModel::EachValidator
+  def check_validity!
+
+  end
+
+  def validate_each(record, attribute, value)
+   if is_internal?(get_domain(value))
+     record.errors.add(attribute, :internal_domain, message: I18n.t('activerecord.validations.email_redirect_account.domain'))
+   end
+  end
+
+  private
+  def get_domain(addr)
+
+    addr&&addr.match(/@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/).to_a[1]
+  end
+
+  def is_internal?(domain)
+    EmailVirtualDomain.pluck(:name).include?(domain)
+  end
+end
+
+
 
 class EmailRedirectAccount < ActiveRecord::Base
 	belongs_to :user
@@ -38,12 +61,13 @@ class EmailRedirectAccount < ActiveRecord::Base
   validates :redirect, presence: true,
             uniqueness: {:scope => :user_id},
             email: true,
-            format: {with: /\A([^@+\s\'\`]+)@((?!#{Regexp.union(EmailVirtualDomain.pluck(:name))})(?:[-a-z0-9]+\.)+[a-z]{2,})\z/i}
+            format: {with: /\A([^@+\s\'\`]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i},
+            internal_domain: true
   #Validate email format
             #Why are '+' not valid in local part ?
 
             #Does not allow internal domains
-  validates :redirect, format: {without: Regexp.union(EmailVirtualDomain.pluck('CONCAT("@",name)')),message: I18n.t('activerecord.validations.email_redirect_account.domain')}
+  #validates :redirect, format: {without: Regexp.union(EmailVirtualDomain.pluck('CONCAT("@",name)')),message: I18n.t('activerecord.validations.email_redirect_account.domain')}
 
   validates :flag, occurencies: {only:['active'], max: Configurable.max_actives_era,:scope => :user_id, where: {type_redir: 'smtp'}}
   validates :flag, inclusion: { in: FLAGS}
