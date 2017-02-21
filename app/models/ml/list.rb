@@ -66,7 +66,7 @@ class Ml::List < ActiveRecord::Base
 
   def add_user_no_sync(user)
     MailingListsService.no_sync_block do
-      self.users.where(users: {id: user.id}).blank? ? self.users << user : errors.add(:user, "User already in list")
+      self.users.where(users: {id: user.id}).blank? ? self.members << user : errors.add(:user, "User already in list")
     end
   end
 
