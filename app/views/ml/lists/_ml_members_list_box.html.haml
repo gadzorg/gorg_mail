@@ -15,5 +15,6 @@
                   =hidden_field_tag "id"
                 %i.material-icons close
     -if members.present?
-      =render partial: "ml_members_list", locals: {members: members, block_id: id}
-    =will_paginate(@members_collection, renderer: MaterializeLinkRenderer)
+      =render partial: "ml_members_list", locals: {members: members.basic_data_hash, block_id: id}
+    -if members.respond_to? :total_pages
+      =will_paginate(members, renderer: MaterializeLinkRenderer)
