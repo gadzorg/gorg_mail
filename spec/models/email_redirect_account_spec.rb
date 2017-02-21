@@ -8,8 +8,8 @@ RSpec.describe EmailRedirectAccount, type: :model do
 
   describe "validations" do
 
-    it {is_expected.to validate_presence_of(:redirect)}
-    it {is_expected.to validate_uniqueness_of(:redirect).scoped_to(:user_id)}
+    it {is_expected.to validate_presence_of(:redirect).with_message("est vide")}
+    it {is_expected.to validate_uniqueness_of(:redirect).scoped_to(:user_id).with_message("est déjà enregistrée") }
 
     #email format validation
     it {is_expected.to allow_value('alex.narbo@hotmail.com').for(:redirect)}
