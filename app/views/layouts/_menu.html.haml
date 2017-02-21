@@ -38,13 +38,11 @@
       - if user_signed_in?
         - if can? :read, :admin
           %li
-            =form_tag  search_by_id_users_path, :method => :get, :user_id => :id_element do
+            =form_tag users_path, :method => :get, :user_id => :id_element do
               .input-field
-                =autocomplete_field_tag 'Hruid', '', autocomplete_user_hruid_users_path, :id_element => '#id', :placeholder => "prenom.nom.année",type: "search", id: "search"
+                =search_field_tag 'Search', '',  name: 'query', :id_element => '#id', :placeholder => "prenom.nom.année",type: "search", id: "search"
                 %label.label-icon{:for => "search"}
                   %i.material-icons search
-                =hidden_field_tag "id"
-                %i.material-icons close
       %li
         =link_to "Emails", dashboard_path
       %li

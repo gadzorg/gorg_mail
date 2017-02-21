@@ -336,7 +336,7 @@ class User < ActiveRecord::Base
 
 
   def self.search(query)
-    sql_query= query &&"LOWER(CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name)) LIKE :like_query OR LOWER(users.firstname) LIKE :like_query OR LOWER(users.lastname) LIKE :like_query OR LOWER(users.hruid) LIKE :like_query OR LOWER(users.uuid) = :query"
+    sql_query= query &&"LOWER(CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name)) LIKE :like_query OR LOWER(users.firstname) LIKE :like_query OR LOWER(users.lastname) LIKE :like_query OR LOWER(CONCAT(users.firstname,' ',users.lastname)) LIKE :like_query OR LOWER(users.hruid) LIKE :like_query OR LOWER(users.uuid) = :query"
 
     self.includes(email_source_accounts: :email_virtual_domain)
         .where(sql_query,query: query.to_s.downcase,like_query: "%#{query.to_s.downcase}%").references(email_source_accounts: :email_virtual_domain)
