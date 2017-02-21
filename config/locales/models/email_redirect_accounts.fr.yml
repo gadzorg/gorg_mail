@@ -2,4 +2,4 @@ fr:
   activerecord:
     validations:
       email_redirect_account:
-        domain: "ne peux pas avoir pour domaine un domaine Gadz.org"
+        domain: "utilise un domaine Gadz.org"

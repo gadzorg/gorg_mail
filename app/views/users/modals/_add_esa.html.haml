@@ -1,5 +1,5 @@
 .modal-content
-  %h4 Ajouter une nouvelle adresse !!!!!
+  %h4 Ajouter une nouvelle adresse
   =form_for  [user,new_esa], :remote=>true  do |f|
     .input-field.col.m6{style: "margin-bottom: 0px;"}
       =f.text_field :email, required: "required", class: ""

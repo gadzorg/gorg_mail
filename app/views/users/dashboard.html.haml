@@ -14,7 +14,7 @@
         -if can? :create, @new_esa
           .card-action
             / Modal Trigger
-            %a.modal-trigger.waves-effect.waves-light.btn{:href => "#new-esa"} Ajoute une adresse
+            %a.modal-trigger.waves-effect.waves-light.btn{:href => "#new-esa"} Ajouter une adresse
             / Modal Structure
           #new-esa.modal.modal-fixed-footer
             =render partial: "users/modals/add_esa", locals: {user: @user,new_esa: @new_esa}

@@ -58,10 +58,9 @@ class EmailRedirectAccount < ActiveRecord::Base
 
   FLAGS=%w(active inactive broken)
 
-  validates :redirect, presence: true,
-            uniqueness: {:scope => :user_id},
-            email: true,
-            format: {with: /\A([^@+\s\'\`]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i},
+  validates :redirect, presence: {message: "est vide"},
+            uniqueness: {:scope => :user_id, message: "est déjà enregistrée"},
+            format: {with: /\A([^@+\s\'\`]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, message: "n'est pas une adresse mail valide"},
             internal_domain: true
   #Validate email format
             #Why are '+' not valid in local part ?
