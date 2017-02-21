@@ -17,6 +17,8 @@
                   =@user.uuid
                 = link_to 'Voir sur moncompte.gadz.org', "#{Configurable[:moncompte_url]}admin/info_user?uuid=#{@user.uuid}", target: "_blank"
       .card-action
+        -if can? :masquerade, @user
+          = link_to t('users.forms.buttons.masquerade'), masquerade_path(@user), class:"waves-effect waves-light btn"
         -if can? :update, @user
           = link_to 'Emails', dashboard_user_path(@user), class:"waves-effect waves-light btn"
           = link_to 'Mailinglists', dashboard_ml_user_path(@user), class:"waves-effect waves-light btn"

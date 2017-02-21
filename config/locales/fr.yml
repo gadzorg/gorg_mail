@@ -210,3 +210,10 @@ fr:
       previous_label: '&laquo; Pr&eacute;c&eacute;dent'
       next_label: 'Suivant &raquo;'
       page_gap: "..."
+  layout:
+    menu:
+      reverse_masquerade: "Redevenir Admin"
+  users:
+    forms:
+      buttons:
+        masquerade: "Prendre la place"

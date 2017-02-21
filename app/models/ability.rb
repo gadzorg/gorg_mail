@@ -33,10 +33,14 @@ class Ability
     if user.has_role? :admin
       can :manage, :all
       can :manage, Role
+      can :masquerade, User
+      cannot :masquerade, User, :role_id => Role.where(name: ["admin","support"]).pluck(:id)
     elsif user.has_role? :support
       can :read, :admin
       can :manage, User
-      cannot [:update, :destroy, :create], User, :role_id => 1
+      can :masquerade, User
+      cannot [:update, :destroy, :create], User, :role_id => Role.where(name: ["admin"]).pluck(:id)
+      cannot :masquerade, User, :role_id => Role.where(name: ["admin","support"]).pluck(:id)
       can :manage, Role
       cannot :manage, Role, :name => 'admin'
       can :read, Role

@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   include ConfigurableEngine::ConfigurablesController
 
   before_filter :redirect_if_maintenance_mode
+  before_action :masquerade_user!
 
   after_filter :prepare_unobtrusive_flash
   private
