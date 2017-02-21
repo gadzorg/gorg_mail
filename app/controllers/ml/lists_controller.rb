@@ -14,7 +14,7 @@ class Ml::ListsController < ApplicationController
   def show
     authorize! :read, @ml_list
     @search = params[:search]
-    @members_collection = (@search.present? ? @ml_list.all_members.search(@search) : User.none).order(:firstname).page(params[:page]).per_page(10).where(email_source_accounts: {primary: true})
+    @members_collection = (@search.present? ? @ml_list.all_members.search(@search) : User.none).order(:firstname).page(params[:page]).per_page(20).where(email_source_accounts: {primary: true})
     @members = @members_collection.basic_data_hash
     @external_emails = @ml_list.ml_external_emails
     @redirection_aliases = @ml_list.redirection_aliases
