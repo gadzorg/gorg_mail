@@ -1,36 +1,47 @@
 %p#notice= notice
-%section.pam
-  .box.box-light.shadow-1.mtm
-    .box-top.box-top-color.pam
-      .circle.big= "#{current_user.firstname.first.upcase}"
-      = @user.fullname
-      -if can? :update, @user
-        = link_to t('users.forms.buttons.edit'), edit_user_path(@user), class:"button fr button-primary box"
-        = link_to 'Emails', dashboard_user_path(@user), class:"button fr button-primary box mrm"
-        = link_to 'Mailinglists', dashboard_ml_user_path(@user), class:"button fr button-primary box mrm"
-    .box-bottom.pam
-      .grid-2
-        #info-perso
-          - %w(firstname lastname email).each do |attribute|
-            =display_attribute(@user, attribute)
-          -if can? :read, :admin
-            %p
-              %b uuid :
-              =@user.uuid
-            = link_to 'Voir sur moncompte.gadz.org', "#{Configurable[:moncompte_url]}admin/info_user?uuid=#{@user.uuid}", target: "_blank"
-        #info-tech
-          .pam.mam.box.box-light.bggrey
-            %h1= t('users.forms.titles.infos_sync')
-            - %w(hruid last_gram_sync_at).each do |attribute|
-              =display_attribute(@user, attribute)
-            -if can?(:sync, @user) && @user.syncable?
-              -if @user.next_sync_allowed_at <= Time.now
-                = link_to t('users.forms.buttons.sync_now'), sync_user_path(@user), class:"button button-primary"
-              -else
-                .button.button-primary= t('users.forms.buttons.syncable_in_x', count:(@user.next_sync_allowed_at-Time.now).round)
-          -if can? :read, :admin
-            #info-tech.pam.mam.box.box-light.bggrey
-              %h1= t('users.forms.titles.infos_tech')
-              - %w(role sign_in_count last_sign_in_at created_at updated_at).each do |attribute|
+.row
+  .col.l6
+    .card
+      .card-content
+        %span.card-title
+          .circle.big= "#{current_user.firstname.first.upcase}"
+          = @user.fullname
+        .box-bottom.pam
+          .grid-2
+            #info-perso
+              - %w(firstname lastname email).each do |attribute|
                 =display_attribute(@user, attribute)
+              -if can? :read, :admin
+                %p
+                  %b uuid :
+                  =@user.uuid
+                = link_to 'Voir sur moncompte.gadz.org', "#{Configurable[:moncompte_url]}admin/info_user?uuid=#{@user.uuid}", target: "_blank"
+      .card-action
+        -if can? :update, @user
+          = link_to 'Emails', dashboard_user_path(@user), class:"waves-effect waves-light btn"
+          = link_to 'Mailinglists', dashboard_ml_user_path(@user), class:"waves-effect waves-light btn"
+          = link_to t('users.forms.buttons.edit'), edit_user_path(@user), class:"bwaves-effect waves-light btn btn-flat"
+        -if can? :masquerade, @user
+          = link_to t('users.forms.buttons.masquerade'), masquerade_path(@user), class:"waves-effect waves-light btn btn-flat"
+
+  .col.l6
+    .card.blue-grey.white-text
+      .card-content
+        %span.card-title
+          =t('users.forms.titles.infos_sync')
+        - %w(hruid last_gram_sync_at).each do |attribute|
+          =display_attribute(@user, attribute)
+      .card-action
+        -if can?(:sync, @user) && @user.syncable?
+          -if @user.next_sync_allowed_at <= Time.now
+            = link_to t('users.forms.buttons.sync_now'), sync_user_path(@user), class:"waves-effect waves-light btn-flat white-text"
+          -else
+            .button.button-primary= t('users.forms.buttons.syncable_in_x', count:(@user.next_sync_allowed_at-Time.now).round)
+    -if can? :read, :admin
+      .card.blue-grey.white-text
+        .card-content
+          %span.card-title
+            = t('users.forms.titles.infos_tech')
+          - %w(role sign_in_count last_sign_in_at created_at updated_at).each do |attribute|
+            =display_attribute(@user, attribute)
 

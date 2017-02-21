@@ -4,7 +4,7 @@
 - emails_source.each do |e|
   %li
     =e.email + "@" + e.email_virtual_domain.name
-    %span.fr
+    .secondary-content
       -if e.primary
         %i.zmdi.zmdi-star.icon-padding-list{ title: "Adresse principale", rel: 'tooltip'}
       -elsif can? :update, e

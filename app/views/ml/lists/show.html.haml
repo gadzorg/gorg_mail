@@ -1,133 +1,147 @@
 %p#notice= notice
 %section.pam
-  .grid-1-2
-    .infos
-      - if can? :manage, Ml::List
-        .fr
-          = link_to edit_ml_list_path(@ml_list),:class => "bouton bouton-medium bouton-light" do
-            %i.zmdi.zmdi-edit
-            Éditer
-      %h1
-        #{@ml_list.name}
+  %h2
+    %span.hide-on-med-and-up
+      =link_to dashboard_ml_user_path, class: "black-text" do
+        %i.material-icons arrow_back
+    #{@ml_list.name}
+  .row
+    .infos.col.s12.l5
+      .card
+        .card-content
+          %span.card-title
+            = @ml_list.description
 
-      %p
-        %b #{@redirection_aliases.first}, #{@ml_list.members_count} membres
-      = @ml_list.description
-      %p
-        %i.zmdi.zmdi-group-work
-        -if @ml_list.belong_to_group?
-          Liste du groupe
-          %b=@ml_list.group.name
-        -else
-          Cette liste n'est pas liée à un groupe
+          %p
+            %b #{@redirection_aliases.first}
+          %p
+            %i.zmdi.zmdi-accounts-alt
+            #{@ml_list.members_count} membres
+          %p
+            %i.zmdi.zmdi-group-work
+            -if @ml_list.belong_to_group?
+              Liste du groupe
+              %b=@ml_list.group.name
+            -else
+              Cette liste n'est pas liée à un groupe
 
-      %p
-        %i.zmdi.zmdi-email
-        -#= @ml_list.diffusion_policy
-        -case @ml_list.diffusion_policy
-          -when "open"
-            N'importe qui peut écrire sur cette liste
-          -when "closed"
-            Seul les membres de la liste peuvent envoyer librement des mails, les extérieurs sont refusés
-          -when "moderated"
-            Tous les messages envoyés à la liste sont soumis à modération
-            -if can? :moderate_messages, Ml::List
-              =link_to "Voir les messages en modération",@ml_list.moderation_link, target: "_blank", :class =>"bouton-medium bouton_bleu"
+          %p
+            %i.zmdi.zmdi-email
+            -#= @ml_list.diffusion_policy
+            -case @ml_list.diffusion_policy
+              -when "open"
+                N'importe qui peut écrire sur cette liste
+              -when "closed"
+                Seul les membres de la liste peuvent envoyer librement des mails, les extérieurs sont refusés
+              -when "moderated"
+                Tous les messages envoyés à la liste sont soumis à modération
 
-      %p
-        %i.zmdi.zmdi-account-add
-        -#= @ml_list.inscription_policy
-        -case @ml_list.inscription_policy
-          -when "open"
-            Tous les Gadzarts ou Sociétaires peuvent s'inscrire
-          -when "conditional_gadz"
-            Seuls les Gadzarts peuvent s'inscrire
-          -when "closed"
-            Les inscriptions à cette liste ne sont possible que pour un administrateur
-          -when "in_group"
-            Seuls les membres du groupe
-            %b=@ml_list.group.namen
-            peuvent s'inscrire à cette liste
-      %p
-        %i.zmdi.zmdi-archive
-        -if @ml_list.is_archived
-          =link_to  "Consulter les archives", @ml_list.archive_link, target: "_blank", :class =>"bouton-medium bouton_bleu"
-          -unless @current_user.has_google_apps
-            (nécéssite un compte Google Gadz.org :
-            =link_to "Créer mon compte Google Gadz.org", dashboard_path
-            )
-        -else
-          Liste non archivée
-      - if can? :manage, Ml::List
-        %p
-          %b Id Google :
-          =@ml_list.email
-          (
-          =link_to "Sync", ml_list_sync_with_google_path(@ml_list)
-          )
-        %p
-          %b Alias de redirection zenimel:
-          -@redirection_aliases.each do |r|
-            %ul
-              %li
-                = link_to r do
-                  =r.to_s
-                  %i.zmdi.zmdi-long-arrow-right
-                  =r.redirect
-        %p
-          %b Aliases:
-          = @ml_list.aliases
+          %p
+            %i.zmdi.zmdi-account-add
+            -#= @ml_list.inscription_policy
+            -case @ml_list.inscription_policy
+              -when "open"
+                Tous les Gadzarts ou Sociétaires peuvent s'inscrire
+              -when "conditional_gadz"
+                Seuls les Gadzarts peuvent s'inscrire
+              -when "closed"
+                Les inscriptions à cette liste ne sont possible que pour un administrateur
+              -when "in_group"
+                Seuls les membres du groupe
+                %b=@ml_list.group.namens
+                peuvent s'inscrire à cette liste
 
-        %p
-          %b Messsage header:
-          = @ml_list.messsage_header
-        %p
-          %b Message footer:
-          = @ml_list.message_footer
-        %p
-          %b Custom reply to:
-          = @ml_list.custom_reply_to
-        %p
-          %b Default message deny notification text:
-          = @ml_list.default_message_deny_notification_text
-        %p
-          %b Msg welcome:
-          = @ml_list.msg_welcome
-        %p
-          %b Msg goodbye:
-          = @ml_list.msg_goodbye
-        %p
-          %b Message max bytes size:
-          = @ml_list.message_max_bytes_size
+          %p
+            %i.zmdi.zmdi-archive
+            -if @ml_list.is_archived
+              Vous pouvez
+              =link_to  "consulter les archives", @ml_list.archive_link, target: "_blank"
+              des messages
+              -unless @current_user.has_google_apps
+                (nécéssite un compte Google Gadz.org :
+                =link_to "Créer mon compte Google Gadz.org", dashboard_path
+                )
+            -else
+              Liste non archivée
+        .card-action
+          -if @current_user_is_member
+            = link_to ml_list_leave_path(@ml_list.id, @current_user.id), title: 'Me desinscire de la liste', class: "unsubscribe_ml_button waves-effect waves-red btn btn-flat red white-text" ,data: {confirm: "Tu vas quitter cette cette liste ?"}do
+              Me desinscrire
+          -else
+            = link_to ml_list_join_path(@ml_list.id, @current_user.id), title: "M'inscrire à la liste", class: "subscribe_ml_button waves-effect waves-teal btn" do
+              M'inscrire
+          -if can? :moderate_messages, Ml::List
+            =link_to "Modérer",@ml_list.moderation_link, target: "_blank", :class =>"waves-effect waves-light btn"
+          -if @ml_list.is_archived
+            =link_to  "Archives", @ml_list.archive_link, target: "_blank", :class =>"waves-effect waves-light btn btn-flat "
+          - if can? :manage, Ml::List
+            = link_to edit_ml_list_path(@ml_list),:class => "waves-effect waves-light btn btn-flat" do
+              Éditer
+      .card.blue-grey.darken-1
+        .card-content.white-text
+          - if can? :manage, Ml::List
+            %p
+              %b Id Google :
+              =@ml_list.email
+              (
+              =link_to "Sync", ml_list_sync_with_google_path(@ml_list)
+              )
+            %p
+              %b Alias de redirection zenimel:
+              -@redirection_aliases.each do |r|
+                %ul
+                  %li
+                    = link_to r do
+                      =r.to_s
+                      %i.zmdi.zmdi-long-arrow-right
+                      =r.redirect
+            %p
+              %b Aliases:
+              = @ml_list.aliases
+
+            %p
+              %b Messsage header:
+              = @ml_list.messsage_header
+            %p
+              %b Message footer:
+              = @ml_list.message_footer
+            %p
+              %b Custom reply to:
+              = @ml_list.custom_reply_to
+            %p
+              %b Default message deny notification text:
+              = @ml_list.default_message_deny_notification_text
+            %p
+              %b Msg welcome:
+              = @ml_list.msg_welcome
+            %p
+              %b Msg goodbye:
+              = @ml_list.msg_goodbye
+            %p
+              %b Message max bytes size:
+              = @ml_list.message_max_bytes_size
 
 
 
 
-    .member_block.flex-item-double
-      =render partial: "shared/ml_members", locals: {members: @members, external_emails: @external_emails}
+    .member_block.col.s12.l7
+      =render partial: "ml_members", locals: {members: @members, external_emails: @external_emails}
       - if can? :admin_members, @ml_list
-        .grid.mbmdorian
-          .box.box-light.shadow-1.mtm
-            .box-top.box-top-light.pam
+        .card
+          .card-content
+            .card-title
               Ajouter un membre
-            .box-bottom.pam
-              -#%h4 Ajouter un membre
-              -#TODO
-              %h4 Ajouter une adresse
+            Permet d'ajouter une adresse qui n'est pas liée à un compte externe. Si l'adresse est déjà une adresse de redirection, le compte associé sera rattaché et non pas l'adresse seule.
+            Attention les adresses avec un
+            %span.red-text"+"
+            ne peuvent pas être ajoutées
 
-              %p
-                Permet d'ajouter une adresse qui n'est pas liée à un compte externe. Si l'adresse est déjà une adresse de redirection, le compte associé sera rattaché et non pas l'adresse seule.
-                Attention les adresses avec un
-                %span.red"+"
-                ne peuvent pas être ajoutées
-
-              %div.pam
+          .card-action
+            %div.pam
+              .input-field
                 =form_tag  ml_list_add_email_path(@ml_list)   do
-                  .fl.group.group-m-form
-                    =email_field_tag :email
-                    .span.highlight.w100
-                    .span.bar.w100
-                    =label_tag "email@domaine.fr"
-                  .fr.plm.plr
-                    =submit_tag '+ Ajouter',:class => "bouton bouton_bleu"
+                  =email_field_tag :email, "", class: "validate col s4", required: 'required'
+                  =label_tag "email@domaine.fr"
+                  =button_tag '+ Ajouter',:class => "waves-effect waves-light btn"
+
 

@@ -1,0 +1,33 @@
+.collection{
+    overflow: visible!important;
+}
+
+.btn-floating.halfway-fab {
+    position: absolute;
+    right: 24px;
+    bottom: 0;
+    -webkit-transform: translateY(50%);
+    transform: translateY(50%);
+}
+
+.circle{
+    margin-left: 0px !important;
+}
+
+.nav{ @extend nav}
+
+.dropdown-content i{
+  display: inline;
+}
+
+.btn-small{
+  height: 1.5em;
+  width: 1.5em;
+  text-align: center;
+  line-height: 1em;
+  padding-top: 0.3em;
+}
+
+input[type="submit"] {
+  @extend button
+}

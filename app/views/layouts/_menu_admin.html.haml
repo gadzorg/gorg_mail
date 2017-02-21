@@ -1,0 +1,53 @@
+
+%li
+  %span
+    %b Général
+%li
+  - if can? :manage, :admin
+    =link_to admin_configurable_path, class:''  do
+
+      %i.zmdi.zmdi-wrench
+      Configuration
+%li
+  - if can? :read, User
+    =link_to  users_path, class:''  do
+      %i.zmdi.zmdi-accounts
+      Utilisateurs
+%li
+  - if can? :read, Role
+    =link_to  roles_path, class:''  do
+      %i.zmdi.zmdi-key
+      Roles
+%li.divider
+%li
+  %span
+    %b Listes de diffusion
+%li
+  - if can? :manage, Ml::List
+    =link_to  ml_lists_path, class:'' do
+      %i.zmdi.zmdi-format-list-bulleted
+      Lists
+%li.divider
+%li
+  %span
+    %b Zenimel
+%li
+  - if can? :read, Alias
+    =link_to  aliases_path, class:'' do
+      %i.zmdi.zmdi-key
+      Alias
+%li
+  - if can? :read, PostfixBlacklist
+    =link_to  postfix_blacklists_path, class:''  do
+      %i.zmdi.zmdi-key
+      Blacklist
+%li
+  - if can? :read, EmailVirtualDomain
+    =link_to  email_virtual_domains_path, class:''  do
+      %i.zmdi.zmdi-key
+      Domaines
+%li
+  - if can? :read, :email
+    =link_to  admin_search_email_path, class:''  do
+      %i.zmdi.zmdi-search
+      Recherche par email

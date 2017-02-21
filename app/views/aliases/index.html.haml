@@ -1,44 +1,52 @@
-%section.pam.center
-  .box.box-light.shadow-1.mtm
-    .box-top.box-top-light.pam
-      Alias
-      .fr
-        = link_to 'Nouvel Alias', new_alias_path(search: @search),:class => "bouton bouton_bleu"
+%h2 Alias
 
-    .box-bottom.pam
+.nav
+  .search-wrapper
 
-      =form_tag aliases_path(), :method => :get ,class: "mtm"do
-        =text_field_tag :search, params[:search], :placeholder => "Recherche...", :class => "w100 login", :autofocus => true
-      %table.table-auto.box
-        %thead
-          %tr
-            %th Origine
-            %th Destination
-            %th Liste
-            %th
-        %tbody
-          -if @aliases.present?
-            - @aliases.each do |a|
-              %tr
-                %td
-                  = link_to edit_alias_path(a, search: @search) do
-                    %i.zmdi.zmdi-edit.icon-padding-list
-                  =link_to  alias_path(a, search: @search) do
-                    =highlight a.to_s, @search
-                %td=highlight a.redirect, @search
-                %td
-                  -if a.ml_list.present?
-                    =link_to a.ml_list.name, a.ml_list
-                  -else
-                    non
-                %td
-                  = link_to alias_path(a, search: @search), :method => :delete, :data => { :confirm => 'Are you sure?' } do
-                    %i.zmdi.zmdi-delete.icon-padding-list
+    =form_tag aliases_path(), :method => :get ,class: "", id: "search" do
+      .input-field
+        =text_field_tag :search, params[:search], :placeholder => "Recherche...", :class => "w100", :autofocus => true, type: "search"
+        %label.label-icon{:for => "search"}
+          %i.material-icons search
+          =hidden_field_tag "id"
+          %i.material-icons close
 
-          -else
+.card
+  .card-content
+    = link_to 'Nouvel Alias', new_alias_path(search: @search),:class => "waves-effect waves-light btn"
+
+
+
+    %table.table-auto.box
+      %thead
+        %tr
+          %th Origine
+          %th Destination
+          %th Liste
+          %th
+      %tbody
+        -if @aliases.present?
+          - @aliases.each do |a|
             %tr
               %td
-                Recherche un alias
+                = link_to edit_alias_path(a, search: @search) do
+                  %i.zmdi.zmdi-edit.icon-padding-list
+                =link_to  alias_path(a, search: @search) do
+                  =highlight a.to_s, @search
+              %td=highlight a.redirect, @search
+              %td
+                -if a.ml_list.present?
+                  =link_to a.ml_list.name, a.ml_list
+                -else
+                  non
+              %td
+                = link_to alias_path(a, search: @search), :method => :delete, :data => { :confirm => 'Are you sure?' } do
+                  %i.zmdi.zmdi-delete.icon-padding-list
+
+        -else
+          %tr
+            %td
+              Recherche un alias
 
 
 

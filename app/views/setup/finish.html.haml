@@ -1,20 +1,22 @@
 %p#notice= notice
-%section.pam
-  .box.box-light.shadow-1.mtm.center.w500p
-    .box-top.pam.box-top-color
-      %i.zmdi.zmdi-thumb-up.icon-padding-list
 
-      Ton compte est configuré !
-    .box-bottom.pam
-      %p
-        Nous venons de t'envoyer un mail pour que tu
-        %b confirmes ton adresse.
-        Il ne devrait plus tarder...
+%div.center-align
+  %h2
+    %i.zmdi.zmdi-thumb-up.icon-padding-list
+  %h2
+    Ton compte est configuré !
 
-      -if @user.has_google_apps
-        %h3
-          %i.zmdi.zmdi-google.icon-padding-list
-          Compte Google
-        %p Ton compte Google sera créé d'ici quelques instants, tu recevras un mail avec tout les informations importantes dès qu'il sera pret !
 
-      =link_to "Ok, j'ai compris !", dashboard_path, class: "bouton bouton_bleu notempty mtm"
+
+  %p
+    Nous venons de t'envoyer un mail pour que tu
+    %b confirmes ton adresse.
+    Il ne devrait plus tarder...
+
+  -if @user.has_google_apps
+    %h3
+      %i.zmdi.zmdi-google.icon-padding-list
+      Compte Google
+    %p Ton compte Google sera créé d'ici quelques instants, tu recevras un mail avec tout les informations importantes dès qu'il sera pret !
+
+  =link_to "Ok, j'ai compris !", dashboard_path, class: "waves-effect waves-light btn"

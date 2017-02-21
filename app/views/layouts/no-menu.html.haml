@@ -12,19 +12,9 @@
       
   %body#body
     %header
-      = render 'layouts/menu'
-
-      / - flash.each do |key, value|
-      / #notif
-      /   %div{:class => "#{key} notif"}= value
-
 
     .wrapper
       .mw1140p.container
-        %div
-          .pam.fr
-            %a.nav-button-open{"aria-label" => "open navigation", :href => "#body"}
-            %a.nav-button-close{"aria-label" => "close navigation", :href => "#"}
 
         = yield
 
@@ -32,5 +22,3 @@
       =gorg_slack_chat( name: current_user&&current_user.fullname, id: current_user&&current_user.hruid.to_s, link: current_user&&"https://moncompte.gadz.org/admin/info_user?uuid=#{current_user.uuid}")
 
   = render partial: 'layouts/ga'
-
-
