@@ -33,6 +33,6 @@
       =render(partial: "users/modals/modal_sheet_mobile_only_modals", locals: {modal_partial: "users/modals/add_era",id:'add-era',modal_locals:{user: @user, new_era: @user.email_redirect_accounts.new}})
 
 
-hb  =javascript_include_tag 'email_redirect_tracking.js' if google_analytics_id
+  =javascript_include_tag 'email_redirect_tracking.js' if google_analytics_id
 
 
