@@ -77,7 +77,7 @@
         - if can? :read, :admin
           %li.search-wrapper
             .card
-              =form_tag  search_by_id_users_path, :method => :get, :user_id => :id_element, style:"height: 48px"  do
+              =form_tag  users_path, :method => :get, :user_id => :id_element, style:"height: 48px"  do
                 .input-field
                   =search_field_tag 'Search', '',  name: 'query', :id_element => '#id', :placeholder => "prenom.nom.année",type: "search", id: "search"
                   %label.label-icon{:for => "search"}
