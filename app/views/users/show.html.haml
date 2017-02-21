@@ -21,6 +21,8 @@
           = link_to 'Emails', dashboard_user_path(@user), class:"waves-effect waves-light btn"
           = link_to 'Mailinglists', dashboard_ml_user_path(@user), class:"waves-effect waves-light btn"
           = link_to t('users.forms.buttons.edit'), edit_user_path(@user), class:"bwaves-effect waves-light btn btn-flat"
+        -if can? :masquerade, @user
+          = link_to t('users.forms.buttons.masquerade'), masquerade_path(@user), class:"waves-effect waves-light btn btn-flat"
 
   .col.l6
     .card.blue-grey.white-text

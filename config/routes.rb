@@ -23,7 +23,8 @@ Rails.application.routes.draw do
   
   devise_for :users, :controllers => {
     :omniauth_callbacks => "users/omniauth_callbacks",
-    :sessions => "users/sessions"
+    :sessions => "users/sessions",
+    masquerades: "admin/masquerades"
     }
 
   # The priority is based upon order of creation: first created -> highest priority.
