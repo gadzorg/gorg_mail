@@ -1,0 +1,12 @@
+.modal-content
+  %h4 Ajouter une nouvelle adresse !!!!!
+  =form_for  [user,new_esa], :remote=>true  do |f|
+    .input-field.col.m6{style: "margin-bottom: 0px;"}
+      =f.text_field :email, required: "required", class: ""
+      =f.label "email"
+    .input-field.col.m6
+      =f.select :email_virtual_domain_id,EmailVirtualDomain.all.map { |e| ["@"+e.name,e.id] },{}, class:''
+      =f.label "domaine"
+    .pam
+      =f.button 'Ajouter',:class => "waves-effect waves-light btn primary-color modal-close"
+      %a.modal-action.modal-close.waves-effect.waves-green.btn.btn-flat{:href => "#!"} Annuler

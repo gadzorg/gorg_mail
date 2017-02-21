@@ -10,7 +10,10 @@
       =link_to user_path(current_user), class: "menu-a-drop" do
         =t('layout.menu.profile')
       %li
-        =link_to t('layout.menu.disconnect'), destroy_user_session_path, :method => :delete
+        - if user_masquerade?
+          = link_to t('layout.menu.reverse_masquerade'), back_masquerade_path(current_user)
+        -else
+          =link_to t('layout.menu.disconnect'), destroy_user_session_path, :method => :delete
   -else
     %li
       = link_to t('layout.menu.connect'), new_user_session_path, :class =>"waves-effect waves-light btn"

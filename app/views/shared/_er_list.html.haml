@@ -79,6 +79,5 @@
                 .red-text Cette adresse semble ne plus fonctionner
   .card-action
     / Modal Trigger
-    %a.modal-trigger.waves-effect.waves-light.btn{:href => "#modal-add-era"} Ajouter une adresse
-
+    =render(partial: 'users/modals/modal_sheet_mobile_only', locals: {text: "Ajouter une adresse",button_class:'modal-trigger waves-effect waves-light btn', modal_partial: "users/modals/add_era",id:'add-era',modal_locals:{user: @user, new_era: @new_era}})
 
