@@ -1,0 +1,19 @@
+%p#notice= notice
+
+%div.center-align
+  %h1
+    %i.zmdi.zmdi-lock-outline.icon-padding-list
+  %h2
+    Damned ! La porte est verrouillée !
+
+
+  %p.small
+    Erreur 403 - Forbidden / Access Denied
+
+  %p
+    Tu n'as pas le droit d'accéder à cette page !
+
+  =link_to "Revenir en arrière", :back, class: "waves-effect waves-light btn black"
+
+
+  =#link_to "Faire une demande au support", '#', class: "waves-effect waves-light btn btn-flat"
