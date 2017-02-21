@@ -47,7 +47,7 @@ class InternalDomainValidator < ActiveModel::EachValidator
   end
 
   def is_internal?(domain)
-    EmailVirtualDomain.pluck(:name).include?(domain)
+    EmailVirtualDomain.where(name:domain.downcase).any?
   end
 end
 
