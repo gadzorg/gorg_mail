@@ -1,19 +1,20 @@
+-if show_search
+  .nav
+    .search-wrapper
+
+      =form_tag ml_list_path(@ml_list), :method => :get ,class: "", id: "search" do
+        .input-field
+          =text_field_tag :search, params[:search], :placeholder => "Recherche par adresse, nom ou prénom parmis les #{@ml_list.members_count} membres de cette liste", :class => "w100", :autofocus => false, type: "search"
+          %label.label-icon{:for => "search"}
+            %i.material-icons search
+            =hidden_field_tag "id"
+          %i.material-icons close
 .card{id: id}
   .card-content
     %span.card-title
       %i.zmdi.zmdi-accounts-alt
       =name
-    -if show_search
-      .nav
-        .search-wrapper
-          .card
-            =form_tag ml_list_path(@ml_list), :method => :get ,class: "", id: "search" do
-              .input-field
-                =text_field_tag :search, params[:search], :placeholder => "Recherche par adresse, nom ou prénom parmis les #{@ml_list.members_count} membres de cette liste", :class => "w100", :autofocus => false, type: "search"
-                %label.label-icon{:for => "search"}
-                  %i.material-icons search
-                  =hidden_field_tag "id"
-                %i.material-icons close
+
     -if members.present?
       =render partial: "ml_members_list", locals: {members: members.basic_data_hash, block_id: id}
     -if members.respond_to? :total_pages

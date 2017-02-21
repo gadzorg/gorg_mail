@@ -1,14 +1,23 @@
-%section.pam.center
-  .box.box-light.shadow-1.mtm
-    .box-top.box-top-light.pam
-      Alias
-      .fr
-        = link_to 'Nouvel Alias', new_alias_path(search: @search),:class => "bouton bouton_bleu"
+%h2 Alias
+
+.nav
+  .search-wrapper
+
+    =form_tag aliases_path(), :method => :get ,class: "", id: "search" do
+      .input-field
+        =text_field_tag :search, params[:search], :placeholder => "Recherche...", :class => "w100", :autofocus => true, type: "search"
+        %label.label-icon{:for => "search"}
+          %i.material-icons search
+          =hidden_field_tag "id"
+          %i.material-icons close
+
+.card
+  .card-content
+    = link_to 'Nouvel Alias', new_alias_path(search: @search),:class => "waves-effect waves-light btn"
 
     .box-bottom.pam
 
-      =form_tag aliases_path(), :method => :get ,class: "mtm"do
-        =text_field_tag :search, params[:search], :placeholder => "Recherche...", :class => "w100 login", :autofocus => true
+
       %table.table-auto.box
         %thead
           %tr
