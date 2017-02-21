@@ -79,5 +79,5 @@
                 .red-text Cette adresse semble ne plus fonctionner
   .card-action
     / Modal Trigger
-    =render(partial: 'users/modals/modal_sheet_mobile_only', locals: {text: "Ajouter une adresse",button_class:'modal-trigger waves-effect waves-light btn', modal_partial: "users/modals/add_era",id:'add-era',modal_locals:{user: @user, new_era: @user.email_redirect_accounts.new}})
+    =render(partial: 'users/modals/modal_sheet_mobile_only_buttons', locals: {text: "Ajouter une adresse",button_class:'modal-trigger waves-effect waves-light btn',id:'add-era'})
 
