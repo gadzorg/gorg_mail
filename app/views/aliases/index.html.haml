@@ -15,39 +15,38 @@
   .card-content
     = link_to 'Nouvel Alias', new_alias_path(search: @search),:class => "waves-effect waves-light btn"
 
-    .box-bottom.pam
 
 
-      %table.table-auto.box
-        %thead
-          %tr
-            %th Origine
-            %th Destination
-            %th Liste
-            %th
-        %tbody
-          -if @aliases.present?
-            - @aliases.each do |a|
-              %tr
-                %td
-                  = link_to edit_alias_path(a, search: @search) do
-                    %i.zmdi.zmdi-edit.icon-padding-list
-                  =link_to  alias_path(a, search: @search) do
-                    =highlight a.to_s, @search
-                %td=highlight a.redirect, @search
-                %td
-                  -if a.ml_list.present?
-                    =link_to a.ml_list.name, a.ml_list
-                  -else
-                    non
-                %td
-                  = link_to alias_path(a, search: @search), :method => :delete, :data => { :confirm => 'Are you sure?' } do
-                    %i.zmdi.zmdi-delete.icon-padding-list
-
-          -else
+    %table.table-auto.box
+      %thead
+        %tr
+          %th Origine
+          %th Destination
+          %th Liste
+          %th
+      %tbody
+        -if @aliases.present?
+          - @aliases.each do |a|
             %tr
               %td
-                Recherche un alias
+                = link_to edit_alias_path(a, search: @search) do
+                  %i.zmdi.zmdi-edit.icon-padding-list
+                =link_to  alias_path(a, search: @search) do
+                  =highlight a.to_s, @search
+              %td=highlight a.redirect, @search
+              %td
+                -if a.ml_list.present?
+                  =link_to a.ml_list.name, a.ml_list
+                -else
+                  non
+              %td
+                = link_to alias_path(a, search: @search), :method => :delete, :data => { :confirm => 'Are you sure?' } do
+                  %i.zmdi.zmdi-delete.icon-padding-list
+
+        -else
+          %tr
+            %td
+              Recherche un alias
 
 
 

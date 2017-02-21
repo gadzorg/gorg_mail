@@ -6,8 +6,17 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.accessible_by(current_ability).limit(10)
-    authorize! :read, User
+    @query= params[:query]
+    @users = User.accessible_by(current_ability).search(@query).paginate(:page => params[:page])
+    authorize! :update, @users
+    respond_to do |format|
+      format.html do
+        if @users.count==1
+          return redirect_to(user_path(@users.first.id))
+        end
+      end
+      format.json
+    end
   end
 
   # GET /users/1
@@ -74,11 +83,6 @@ class UsersController < ApplicationController
       format.html { redirect_to users_url, notice:  I18n.translate('users.flash.destroy.success', user: username) }
       format.json { head :no_content }
     end
-  end
-
-
-  def search_by_id
-    redirect_to user_path(params[:id])
   end
 
   def sync_with_gram
