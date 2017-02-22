@@ -58,19 +58,20 @@ class Ability
       can :read_dashboard, User, :id => user.id if user.is_gadz_cached?
       can [:create, :read, :update, :destroy], EmailRedirectAccount, :user_id => user.id
       can :show, EmailSourceAccount, :user_id => user.id
-      can :suscribe, Ml::List, :id => (user.lists_allowed(true).pluck(:id) + user.lists.pluck(:id))
-      can :read, Ml::List, :id => (user.lists_allowed(true).pluck(:id) + user.lists.pluck(:id))
 
       #ML member
       can :destroy, Ml::ListsUser, :role => [1,2,3,4], :user_id => user.id
+      can :suscribe, Ml::List, :id => (user.lists_allowed(true).pluck(:id) + user.lists.pluck(:id))
+      can :read, Ml::List, :id => (user.lists_allowed(true).pluck(:id) + user.lists.pluck(:id))
 
       #ML admin authorisations
+      can [:admin_members, :moderate_messages], Ml::List, :id => user.ml_lists_users_admins.pluck(:list_id)
       can :destroy, Ml::ExternalEmail, :list_id => user.ml_lists_users_admins.pluck(:list_id)
-      can [:admin_members,:moderate_messages], Ml::List, :id => user.ml_lists_users_admins.pluck(:list_id)
       can :destroy, Ml::ListsUser, :list_id => user.ml_lists_users_admins.pluck(:list_id)
 
       #ML moderators authorisations
       can :moderate_messages, Ml::List, :id => user.ml_lists_users_moderators.pluck(:list_id)
+
     end
 
   end
