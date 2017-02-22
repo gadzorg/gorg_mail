@@ -10,14 +10,14 @@ Feature: Display available MailingLists
     Given there is a public mailing lists named "Fun Public Group"
     When I visit to mailing lists index
     Then "not_joined_lists" contains "Fun Public Group"
-    And the page has button "M'inscrire à la liste"
+    And the page has button "M'inscrire"
 
   Scenario: I see unsubscribed group-only mailing lists I'm in
     Given I'm in group "76dd86c5-02f9-4b21-aee4-5d4622a44995"
     And there is a group-only mailing lists named "Fun Private Group ML" for group "76dd86c5-02f9-4b21-aee4-5d4622a44995"
     When I visit to mailing lists index
     Then "not_joined_lists" contains "Fun Private Group ML"
-    And the page has button "M'inscrire à la liste"
+    And the page has button "M'inscrire"
 
   Scenario:  I don't see unsubscribed group-only mailing lists I'm not in
     Given there is a group named "Boring Private Group"
@@ -34,14 +34,14 @@ Feature: Display available MailingLists
     Given I subscribed to a public mailing lists named "Fun Public Group"
     When I visit to mailing lists index
     Then "joined_lists" contains "Fun Public Group"
-    And the page has button "Me desinscire de la liste"
+    And the page has button "Me desinscrire"
 
   Scenario:  I see subscribed group-only mailing lists I'm in
     Given I'm in group "76dd86c5-02f9-4b21-aee4-5d4622a44995"
     And I subscribed to a group-only mailing lists named "Fun Private Group ML" for group "76dd86c5-02f9-4b21-aee4-5d4622a44995"
     When I visit to mailing lists index
     Then "joined_lists" contains "Fun Private Group ML"
-    And the page has button "Me desinscire de la liste"
+    And the page has button "Me desinscrire"
 
 
   Scenario: I see subscribed closed mailing lists I'm not in
