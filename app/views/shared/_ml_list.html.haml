@@ -39,10 +39,13 @@
 
 
       .small.hide-on-small-only
-        -if can? :moderate_messages, Ml::List
-          =link_to "Modérer",l.moderation_link, target: "_blank", :class =>"waves-effect waves-light btn"
-        =link_to ml_list_path(l), class: "waves-effect waves-teal btn btn-flat " do
-          Consulter
+        -if can? :moderate_messages, l
+          =link_to ml_list_path(l), class: "waves-effect waves-teal btn " do
+            Consulter
+          =link_to "Modérer",l.moderation_link, target: "_blank", :class =>"waves-effect waves-light btn white black-text"
+        -else
+          =link_to ml_list_path(l), class: "waves-effect waves-teal btn" do
+            Consulter
         -if already_joined
           = link_to ml_list_leave_path(l.id, user.id), title: 'Me desinscire de la liste', rel: 'tooltip', :remote=>true, class: "unsubscribe_ml_button waves-effect waves-teal btn btn-flat ", data: {confirm: "Tu vas quitter cette cette liste ?"} do
             Me desinscrire
