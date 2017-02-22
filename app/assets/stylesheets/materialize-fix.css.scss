@@ -31,3 +31,9 @@
 input[type="submit"] {
   @extend button
 }
+
+
+.modal.bottom-sheet-big
+{
+  max-height: 84%;
+}

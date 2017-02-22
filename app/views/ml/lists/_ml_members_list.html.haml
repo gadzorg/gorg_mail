@@ -7,7 +7,12 @@
   -else
     -members.each do |m|
       %li.collection-item
-        %b=link_to m[:name], user_path(m[:id])
+        %b
+          -# dirty but it create only 30 useless objets so...
+          -if can?( :read, User.new(id: m[:id]))
+            =link_to m[:name], user_path(m[:id])
+          -else
+            =m[:name]
 
         -if can?( :admin_members, @ml_list)
           =m[:email]

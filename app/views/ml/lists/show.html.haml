@@ -65,21 +65,22 @@
               Liste non archivée
         .card-action
           -if @current_user_is_member
-            = link_to ml_list_leave_path(@ml_list.id, @current_user.id), title: 'Me desinscire de la liste', class: "unsubscribe_ml_button waves-effect waves-red btn btn-flat red white-text" ,data: {confirm: "Tu vas quitter cette cette liste ?"}do
+            = link_to ml_list_leave_path(@ml_list.id, @current_user.id), title: 'Me desinscire de la liste', class: "unsubscribe_ml_button waves-effect waves-red btn red white-text" ,data: {confirm: "Tu vas quitter cette cette liste ?"}do
               Me desinscrire
           -else
             = link_to ml_list_join_path(@ml_list.id, @current_user.id), title: "M'inscrire à la liste", class: "subscribe_ml_button waves-effect waves-teal btn" do
               M'inscrire
-          -if can? :moderate_messages, Ml::List
+          -if can? :moderate_messages, @ml_list
             =link_to "Modérer",@ml_list.moderation_link, target: "_blank", :class =>"waves-effect waves-light btn"
           -if @ml_list.is_archived
             =link_to  "Archives", @ml_list.archive_link, target: "_blank", :class =>"waves-effect waves-light btn btn-flat "
-          - if can? :manage, Ml::List
+          - if can? :manage, @ml_list
             = link_to edit_ml_list_path(@ml_list),:class => "waves-effect waves-light btn btn-flat" do
               Éditer
-      .card.blue-grey.darken-1
-        .card-content.white-text
-          - if can? :manage, Ml::List
+      - if can? :manage, @ml_list
+        .card.blue-grey.darken-1
+          .card-content.white-text
+
             %p
               %b Id Google :
               =@ml_list.email
