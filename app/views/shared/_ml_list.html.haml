@@ -44,11 +44,11 @@
         =link_to ml_list_path(l), class: "waves-effect waves-teal btn btn-flat " do
           Consulter
         -if already_joined
-          = link_to ml_list_leave_path(l.id, user.id), title: 'Me desinscire de la liste', rel: 'tooltip', :remote=>true, class: "unsubscribe_ml_button waves-effect waves-teal btn btn-flat ", data: {confirm: "Tu vas quitter cette cette liste ?"} do
+          = link_to ml_list_leave_path(l.id, user.id), :remote=>true, class: "unsubscribe_ml_button waves-effect waves-teal btn btn-flat ", data: {confirm: "Tu vas quitter cette cette liste ?"} do
             Me desinscrire
 
         -else
-          = link_to ml_list_join_path(l.id, user.id), title: "M'inscrire à la liste", rel: 'tooltip', :remote=>true, class: "subscribe_ml_button waves-effect waves-teal btn btn-flat" do
+          = link_to ml_list_join_path(l.id, user.id), :remote=>true, class: "subscribe_ml_button waves-effect waves-teal btn btn-flat" do
             M'inscrire
 
 

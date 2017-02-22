@@ -16,21 +16,22 @@
         -if e.type_redir == "googleapps"
           .pam.bg-blue-dark-2
           .card.blue-grey.darken-1
-            .card-content.white-text
-              -if e.confirmed
+            -if e.confirmed
+              .card-content.white-text
                 -# Only admin can desactivate google apps redirection but user can reactivate it.
                 -if e.active? && can?(:desactivate_google_apps_redirection, e)
-                  = link_to user_email_redirect_account_flag_path(@user.id, e.id, "inactive"), title: 'Désactiver cette redirection', rel: 'tooltip', :remote=>true do
+                  = link_to user_email_redirect_account_flag_path(@user.id, e.id, "inactive"), class: 'tooltipped', 'data-position' => "bottom", 'data-delay' => "100", 'data-tooltip' => 'Désactiver cette redirection', :remote=>true do
                     %i.zmdi.zmdi-check-square.icon-padding-list
                 -elsif !e.active?
-                  = link_to user_email_redirect_account_flag_path(@user.id, e.id, "active"), title: 'Activer la redirection des mails vers cette adresse', rel: 'tooltip', :remote=>true do
+                  = link_to user_email_redirect_account_flag_path(@user.id, e.id, "active"), class: 'tooltipped', 'data-position' => "bottom", 'data-delay' => "100", 'data-tooltip' => 'Activer la redirection des mails vers cette adresse', :remote=>true do
                     %i.zmdi.zmdi-square-o.icon-padding-list
                 %span
                   %i.zmdi.zmdi-google.icon-padding-list
                   GMail #{@user.primary_email}
-                .card-action
-                  = link_to 'Connexion', "https://mail.google.com/a/gadz.org", :class =>"", :target => "_blank", id: "connect_to_google_button"
-              -else
+              .card-action
+                = link_to 'Connexion', "https://mail.google.com/a/gadz.org", :class =>"wave-effect waves-light btn white blue-grey-text", :target => "_blank", id: "connect_to_google_button"
+            -else
+              .card-content.white-text
                 %span
                   %i.zmdi.zmdi-google.icon-padding-list
                   Google Apps Gadz en cours de création...
@@ -43,13 +44,13 @@
               -elsif !e.confirmed
                 %i.zmdi.zmdi-square-o.icon-padding-list.inactive
               -else
-                = link_to user_email_redirect_account_flag_path(@user.id, e.id, "active"), title: 'Activer la redirection des mails vers cette adresse', rel: 'tooltip', :remote=>true do
+                = link_to user_email_redirect_account_flag_path(@user.id, e.id, "active"), class: 'tooltipped', 'data-position' => "bottom", 'data-delay' => "100", 'data-tooltip' =>  'Activer la redirection des mails vers cette adresse', :remote=>true do
                   %i.zmdi.zmdi-square-o.icon-padding-list.inactive
 
               %span.inactive=e.redirect
 
             -elsif e.active?
-              = link_to user_email_redirect_account_flag_path(@user.id, e.id, "inactive"), title: 'Désactiver cette redirection', rel: 'tooltip', :remote=>true do
+              = link_to user_email_redirect_account_flag_path(@user.id, e.id, "inactive"), class: 'tooltipped', 'data-position' => "bottom", 'data-delay' => "100", 'data-tooltip' => 'Désactiver cette redirection', :remote=>true do
                 %i.zmdi.zmdi-check-square.icon-padding-list
               =e.redirect
             -else
@@ -59,15 +60,15 @@
             %span.secondary-content
               -unless e.confirmed
                 -if can? :read, :admin
-                  = link_to confirm_user_email_redirect_accounts_url(@user, e.confirmation_token), method: :get, :remote => true, title: 'Valider email', rel: 'tooltip', data: {confirm: "Vous allez forcer la validation d'un email. L'utilisateur n'aura pas besoin de confirmer cette adresse en cliquant sur le lien qu'il a reçu lors de son ajout."} do
+                  = link_to confirm_user_email_redirect_accounts_url(@user, e.confirmation_token), method: :get, :remote => true,class: 'tooltipped', 'data-position' => "bottom", 'data-delay' => "100", 'data-tooltip' => 'Valider email', data: {confirm: "Vous allez forcer la validation d'un email. L'utilisateur n'aura pas besoin de confirmer cette adresse en cliquant sur le lien qu'il a reçu lors de son ajout."} do
                     %i.zmdi.zmdi-lock.icon-padding-list.red-text
                 -else
-                  = link_to "#", title: "Un email t'as été sur cette adresse pour la confirmer" , rel: 'tooltip' do
+                  = link_to "#",class: 'tooltipped', 'data-position' => "bottom", 'data-delay' => "100", 'data-tooltip' => "Un email t'as été envoyé sur cette adresse pour la confirmer"do
                     %i.zmdi.zmdi-lock.icon-padding-list.red-text
 
               -#%i.zmdi.zmdi-edit.icon-padding-list
               -if can? :destroy, e
-                = link_to user_email_redirect_account_path(@user,e), method: :delete, :remote => true, confirm: true,  title: 'Supprimer cette adresse', rel: 'tooltip',class: :era_del_button ,data: {confirm: "Tu vas supprimer définitivement cette addresse, es-tu bien certain ? Tu pourras dans tous les cas la recréer plus tard si tu le souhaites."} do
+                = link_to user_email_redirect_account_path(@user,e), method: :delete, :remote => true, confirm: true, 'data-position' => "bottom", 'data-delay' => "100", 'data-tooltip' => 'Supprimer cette adresse', class: 'tooltipped era_del_button' ,data: {confirm: "Tu vas supprimer définitivement cette addresse, es-tu bien certain ? Tu pourras dans tous les cas la recréer plus tard si tu le souhaites."} do
                   %i.zmdi.zmdi-delete.icon-padding-list
 
             %span
