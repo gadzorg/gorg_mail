@@ -330,7 +330,7 @@ class User < ActiveRecord::Base
 
   def self.basic_data_hash
     self.includes(email_source_accounts: :email_virtual_domain).where(email_source_accounts: {primary: true})
-        .pluck("users.id", :"CONCAT(users.firstname, ' ', users.lastname)", :"CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name), ml_lists_users.role")
+        .pluck("DISTINCT users.id", :"CONCAT(users.firstname, ' ', users.lastname)", :"CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name), ml_lists_users.role")
         .map{|arr| {id: arr[0], name: arr[1], email: arr[2], role: arr[3]}}
   end
 
