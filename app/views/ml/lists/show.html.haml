@@ -54,7 +54,7 @@
           %p
             %i.zmdi.zmdi-archive
             -if @ml_list.is_archived
-              Vous pouvez
+              Tu peux
               =link_to  "consulter les archives", @ml_list.archive_link, target: "_blank"
               des messages
               -unless @current_user.has_google_apps
