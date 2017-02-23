@@ -25,7 +25,7 @@ class Alias < ActiveRecord::Base
   belongs_to :email_virtual_domain,  class_name: "EmailVirtualDomain"
   belongs_to :ml_list, :class_name => 'Ml::List', :foreign_key => "list_id"
 
-  validates_presence_of :email_virtual_domain_id
+  validates_presence_of :email_virtual_domain
 
 
   def to_s
@@ -74,5 +74,9 @@ class Alias < ActiveRecord::Base
     email_base, email_domain = email.split('@')
     evd = EmailVirtualDomain.find_by(name: email_domain)
     Alias.where(email: email_base, email_virtual_domain: evd).take
+  end
+
+  def self.search(query)
+    self.includes(:email_virtual_domain).where("CONCAT(email,'@',email_virtual_domains.name) LIKE :query OR redirect LIKE :query",query: "%#{query}%").references(:email_virtual_domain)
   end
 end

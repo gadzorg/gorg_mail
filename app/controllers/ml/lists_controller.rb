@@ -14,14 +14,16 @@ class Ml::ListsController < ApplicationController
   def show
     authorize! :read, @ml_list
     @search = params[:search]
-    @members = @search.present? ? @ml_list.members_list_with_emails(@search) : []
+    @members = @ml_list.all_members.search(@search).order(:firstname).page(params[:page]).per_page(20).where(email_source_accounts: {primary: true})
     @external_emails = @ml_list.ml_external_emails
     @redirection_aliases = @ml_list.redirection_aliases
-    @admins_and_moderators = @ml_list.members_list_with_emails(nil, "admins") + @ml_list.members_list_with_emails(nil, "moderators")
+    @admins_and_moderators = @ml_list.super_members
     if can? :admin_members, @ml_list
-      @pendings = @ml_list.members_list_with_emails(nil, "pendings")
-      @banneds = @ml_list.members_list_with_emails(nil,"banneds")
+      @pendings = @ml_list.pendings
+      @banneds = @ml_list.banneds
     end
+
+    @current_user_is_member = @ml_list.all_members.include?(@current_user)
   end
 
   # GET /ml/lists/new
@@ -90,6 +92,7 @@ class Ml::ListsController < ApplicationController
       get_list(@user)
       respond_to do |format|
         flash[:notice] = "Tu as rejoint la liste de diffusion #{@ml_list.name}"
+        format.html{redirect_to ml_list_path(@ml_list, search: params[:search])}
         format.json { head :no_content }
         format.js
       end
@@ -151,7 +154,8 @@ class Ml::ListsController < ApplicationController
   def add_email
     authorize! :admin_members, @ml_list
     if @ml_list.add_email(params[:email])
-        redirect_to @ml_list
+
+        redirect_to @ml_list, :flash => { :notice => "L'adresse #{params[:email]} a bien été ajoutée à la liste" }
     else
       redirect_to @ml_list, :flash => { :error => "Impossible d'ajouter cette adresse" }
     end

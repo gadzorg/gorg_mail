@@ -4,9 +4,9 @@
 - emails_source.each do |e|
   %li
     =e.email + "@" + e.email_virtual_domain.name
-    %span.fr
+    .secondary-content
       -if e.primary
-        %i.zmdi.zmdi-star.icon-padding-list{ title: "Adresse principale", rel: 'tooltip'}
+        %i.zmdi.zmdi-star.icon-padding-list{ class: 'tooltipped', 'data-position' => "bottom", 'data-delay' => "100", 'data-tooltip' => "Adresse principale"}
       -elsif can? :update, e
         = link_to user_email_source_account_set_as_primary_path(@user, e.id, :id => e.id), :remote => true, confirm: true,data: {confirm: "Tu vas changer l'email principal de cet utilisateur .Si il n'a pas de Google Apps, ça va changer l'adresse qui sera attribuée à son Google Apps si il en créé un. Cela va aussi changer l'adresse inscrite dans les listes de diffusion où il est inscrit ainsi que la réécriture d'adresse. Tu es bien certain ?"} do
           %i.zmdi.zmdi-star-outline.icon-padding-list

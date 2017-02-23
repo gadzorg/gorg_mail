@@ -11,12 +11,12 @@
 
   /*opacity: 0.8;*/
   box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.16), 0px 2px 10px 0px rgba(0, 0, 0, 0.12);
-  margin: 5px;
+  margin: 10px;
 }
 
 .unobtrusive-flash-message-wrapper.unobtrusive-flash-error {
   background: #c0392b;
-  padding: 10px 10px;
+  padding: 14px 14px;
   border-radius: 2px;
   color: #fff;
 
@@ -24,7 +24,7 @@
 
 .unobtrusive-flash-message-wrapper.unobtrusive-flash-notice {
   background: #2ecc71;
-  padding: 10px 10px;
+  padding: 14px 14px;
   border-radius: 2px;
   color: #fff;
 
@@ -33,7 +33,7 @@
 .unobtrusive-flash-message-wrapper.unobtrusive-flash-message {
   /*width: 960px;*/
   margin: 0 auto;
-  padding: 10px 10px;
+  padding: 14px 14px;
   background: #2ecc71;
   color: #fff;
   border-radius: 2px;

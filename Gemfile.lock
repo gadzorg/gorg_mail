@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/Blaked84/configurable_engine.git
+  revision: 4959dd822324ad2b4be40f35b0ffaa8e7e6ed8f5
+  specs:
+    configurable_engine (0.4.9)
+      rails (> 3.1.0)
+
+GIT
   remote: git://github.com/alexpeattie/heroku_secrets.git
   revision: 717af8e0acf399bc88d2c8c1a7e230023942af0f
   specs:
@@ -10,6 +17,13 @@ GIT
   ref: fb4b6bd7e12de3cffa93e0a298a1e5253d7e92ba
   specs:
     yaml_db (0.2.3)
+
+GIT
+  remote: git://github.com/patricklindsay/simple_form-materialize.git
+  revision: 6d2afdec6f0523946fb2221070f05b79739be12a
+  specs:
+    simple_form-materialize (0.0.1)
+      rails (~> 4.2)
 
 GIT
   remote: https://github.com/gadzorg/gram2_api_client_ruby.git
@@ -60,7 +74,7 @@ GEM
       activemodel (= 4.2.7.1)
       activesupport (= 4.2.7.1)
       arel (~> 6.0)
-    activerecord-import (0.17.0)
+    activerecord-import (0.17.1)
       activerecord (>= 3.2)
     activeresource (4.0.0)
       activemodel (~> 4.0)
@@ -99,8 +113,8 @@ GEM
     bunny (2.6.3)
       amq-protocol (>= 2.0.1)
     byebug (9.0.6)
-    cancancan (1.15.0)
-    capybara (2.12.0)
+    cancancan (1.16.0)
+    capybara (2.12.1)
       addressable
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
@@ -119,11 +133,9 @@ GEM
       execjs
     coffee-script-source (1.12.2)
     concurrent-ruby (1.0.4)
-    configurable_engine (0.4.8)
-      rails (> 3.1.0)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
-    css_parser (1.4.7)
+    css_parser (1.4.8)
       addressable
     cucumber (2.4.0)
       builder (>= 2.1.2)
@@ -144,6 +156,8 @@ GEM
     cucumber-wire (0.0.1)
     database_cleaner (1.5.3)
     debug_inspector (0.0.2)
+    declarative (0.0.9)
+    declarative-option (0.1.0)
     dependor (1.0.1)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
@@ -153,6 +167,9 @@ GEM
       railties (>= 4.1.0, < 5.1)
       responders
       warden (~> 1.2.3)
+    devise_masquerade (0.4.0)
+      devise (>= 2.1.0)
+      railties (>= 3.0)
     diff-lcs (1.3)
     email_validator (1.6.0)
       activemodel
@@ -164,7 +181,7 @@ GEM
     factory_girl_rails (4.8.0)
       factory_girl (~> 4.8.0)
       railties (>= 3.0.0)
-    faker (1.7.2)
+    faker (1.7.3)
       i18n (~> 0.5)
     faraday (0.11.0)
       multipart-post (>= 1.2, < 3)
@@ -176,15 +193,15 @@ GEM
       json
       multi_json
       request_store (>= 1.0)
-    google-api-client (0.9.26)
+    google-api-client (0.10.0)
       addressable (~> 2.3)
       googleauth (~> 0.5)
       httpclient (~> 2.7)
       hurley (~> 0.1)
       memoist (~> 0.11)
       mime-types (>= 1.6)
-      representable (~> 2.3.0)
-      retriable (~> 2.0)
+      representable (~> 3.0)
+      retriable (>= 2.0, < 4.0)
     googleauth (0.5.1)
       faraday (~> 0.9)
       jwt (~> 1.4)
@@ -200,7 +217,7 @@ GEM
       bunny (~> 2.2, >= 2.2.2)
       gorg_message_sender (~> 1)
       json-schema (~> 2.6)
-    gorg_slack_chat (0.1.2)
+    gorg_slack_chat (0.1.3)
       gon (~> 6.1.0)
       jquery-rails (~> 4.2.2)
       jquery-ui-rails (~> 6.0.1)
@@ -224,7 +241,7 @@ GEM
     htmlentities (4.3.4)
     httpclient (2.8.3)
     hurley (0.2)
-    i18n (0.7.0)
+    i18n (0.8.0)
     ice_nine (0.11.2)
     jbuilder (2.6.1)
       activesupport (>= 3.0.0, < 5.1)
@@ -236,7 +253,7 @@ GEM
     jquery-ui-rails (6.0.1)
       railties (>= 3.2.16)
     json (1.8.6)
-    json-schema (2.7.0)
+    json-schema (2.8.0)
       addressable (>= 2.4)
     jwt (1.5.6)
     launchy (2.4.3)
@@ -252,6 +269,8 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.6.4)
       mime-types (>= 1.16, < 4)
+    materialize-sass (0.98.0)
+      sass (~> 3.3)
     memoist (0.15.0)
     mime-types (3.1)
       mime-types-data (~> 3.2015)
@@ -269,18 +288,18 @@ GEM
       rack
     orm_adapter (0.5.0)
     os (0.9.6)
-    premailer (1.9.1)
-      css_parser (>= 1.4.5)
+    premailer (1.9.2)
+      css_parser (>= 1.4.8)
       htmlentities (>= 4.0.0)
     premailer-rails (1.9.5)
       actionmailer (>= 3, < 6)
       premailer (~> 1.7, >= 1.7.9)
     public_suffix (2.0.5)
-    puma (3.7.0)
+    puma (3.7.1)
     quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
     rack (1.6.5)
-    rack-mini-profiler (0.10.1)
+    rack-mini-profiler (0.10.2)
       rack (>= 1.2.0)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -325,12 +344,14 @@ GEM
     rake (10.5.0)
     rdoc (4.3.0)
     ref (2.0.0)
-    representable (2.3.0)
-      uber (~> 0.0.7)
+    representable (3.0.3)
+      declarative (< 0.1.0)
+      declarative-option (< 0.2.0)
+      uber (< 0.2.0)
     request_store (1.3.2)
     responders (2.3.0)
       railties (>= 4.2.0, < 5.1)
-    retriable (2.1.0)
+    retriable (3.0.1)
     rspec-core (3.5.4)
       rspec-support (~> 3.5.0)
     rspec-expectations (3.5.0)
@@ -359,11 +380,11 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
-    scout_apm (2.1.21)
+    scout_apm (2.1.22)
     sdoc (0.4.2)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
-    sexp_processor (4.7.0)
+    sexp_processor (4.8.0)
     shoulda-matchers (3.1.1)
       activesupport (>= 4.0.0)
     signet (0.7.3)
@@ -390,7 +411,7 @@ GEM
     tilt (2.0.6)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
-    uber (0.0.15)
+    uber (0.1.0)
     uglifier (3.0.4)
       execjs (>= 0.3.0, < 3)
     unobtrusive_flash (3.3.1)
@@ -429,17 +450,18 @@ DEPENDENCIES
   cancancan
   capybara
   coffee-rails (~> 4.1.0)
-  configurable_engine
+  configurable_engine!
   cucumber-rails
   database_cleaner
   devise (~> 4.1.1)
+  devise_masquerade
   email_validator
   execjs
   factory_girl_rails
   faker
   google-api-client (~> 0.9)
   gorg_message_sender
-  gorg_service
+  gorg_service (~> 4.0)
   gorg_slack_chat
   gram_v2_client!
   haml-rails
@@ -451,6 +473,7 @@ DEPENDENCIES
   jquery-ui-rails
   launchy
   letter_opener
+  materialize-sass
   mysql2 (~> 0.3.20)
   nokogiri
   omniauth
@@ -469,6 +492,7 @@ DEPENDENCIES
   sdoc (~> 0.4.0)
   shoulda-matchers (~> 3.0)
   simple_form
+  simple_form-materialize!
   sqlite3
   therubyracer
   uglifier (>= 1.3.0)

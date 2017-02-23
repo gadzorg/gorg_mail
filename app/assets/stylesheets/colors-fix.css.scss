@@ -1,0 +1,9 @@
+/*define all colors fox class extention here */
+nav{
+  @extend .white, .black-text
+}
+
+nav ul a, nav a,  nav .input-field label.active i{
+  color: #000000;
+}
+

@@ -5,6 +5,18 @@
 # files.
 
 require 'cucumber/rails'
+require 'rspec/rails'
+
+RSpec.configure do |config|
+  config.expect_with :rspec do |c|
+    c.syntax = :expect
+  end
+end
+
+#Monkey patch for rspec composition in capybara :
+# Capybara is loaded BEFORE rspec in Cucumber so RSpec::Expectations::Version is not loaded yet
+# Pasted from lib/capybara/rspec/matchers.rb:5 in https://github.com/teamcapybara/capybara/blob/2.12.1/lib/capybara/rspec/matchers.rb
+Capybara::RSpecMatchers::Matcher.include ::RSpec::Matchers::Composable if defined?(::RSpec::Expectations::Version) && (Gem::Version.new(RSpec::Expectations::Version::STRING) >= Gem::Version.new('3.0'))
 
 # Capybara defaults to CSS3 selectors rather than XPath.
 # If you'd prefer to use XPath, just uncomment this line and adjust any

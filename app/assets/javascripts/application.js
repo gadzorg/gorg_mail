@@ -14,11 +14,14 @@
 //= require jquery_ujs
 //= require bootstrap/bootstrap-tooltip
 //= require jquery-ui
-//= require autocomplete-rails
 //= require unobtrusive_flash
 //= require unobtrusive_flash_ui
 //= require admin
 //= require_tree ./autoload
+//= require materialize
+//= require autocomplete-rails
+
+
 
 
 
@@ -27,14 +30,14 @@ UnobtrusiveFlash.flashOptions['timeout'] = 45000; // milliseconds
 $(function(){
   $("a[rel='tooltip']").tooltip();
 
+
 });
-  
+
+$(document).ready(function() {
+    $('select').material_select();
+    $(".button-collapse").sideNav();
+    $('.modal').modal();
+});
 
 
 
-
-/*$(function () {
-	$("input").on('change keyup', 'input')filter(function() {
-	    return this.value;
-	}).addClass("not-empty");
-});*/

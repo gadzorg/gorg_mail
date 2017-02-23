@@ -39,6 +39,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'devise', '~> 4.1.1'
 gem 'omniauth'
 gem "omniauth-cas", :git => "https://github.com/loocla/omniauth-cas.git", :branch => 'saml'
+gem 'devise_masquerade'
 
 # Authorisation
 gem 'cancancan'
@@ -70,7 +71,7 @@ gem 'i18n'
 gem 'unobtrusive_flash', '>=3'
 
 # forconfiguration tables
-gem 'configurable_engine'
+gem 'configurable_engine', github: 'Blaked84/configurable_engine'
 
 # tooltips
 gem 'bootstrap-tooltip-rails'
@@ -92,7 +93,7 @@ gem 'gram_v2_client', git: 'https://github.com/gadzorg/gram2_api_client_ruby.git
 # Gadz.org rabbitMQ message sender
 gem 'gorg_message_sender'
 
-gem 'gorg_service'
+gem 'gorg_service', '~>4.0'
 
 gem 'gorg_slack_chat'
 
@@ -104,6 +105,9 @@ gem 'puma'
 gem 'scout_apm'
 
 gem 'activerecord-import'
+
+gem 'materialize-sass'
+gem 'simple_form-materialize', github: 'patricklindsay/simple_form-materialize'
 
 
 group :production do

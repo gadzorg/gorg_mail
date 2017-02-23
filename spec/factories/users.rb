@@ -37,8 +37,11 @@ FactoryGirl.define do
 
 	  factory :admin do   
 	    	role {FactoryGirl.create(:role, name:"admin")}
-        email "admin@poubs.org"
-	  end
+    end
+
+    factory :support do
+      role {FactoryGirl.create(:role, name:"support")}
+    end
 
     factory :invalid_user do
       hruid nil
@@ -46,7 +49,7 @@ FactoryGirl.define do
 
     factory :user_with_addresses do
       after(:create) do |user, evaluator|
-        create(:email_source_account, user: user)
+        create(:email_source_account, user: user, primary: true)
         create(:email_redirect_account, user: user)
       end
     end

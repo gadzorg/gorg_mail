@@ -49,7 +49,7 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable,
-         :rememberable, :trackable,
+         :rememberable, :trackable, :masqueradable,
          :omniauthable, :omniauth_providers => [:GadzOrg]
 
   ##
@@ -74,7 +74,7 @@ class User < ActiveRecord::Base
   has_many :lists, through: :ml_lists_users, :class_name => 'Ml::List'
   alias_method :ml_lists, :lists
 
-  (Ml::ListsUser.roles.keys.map(&:pluralize)+["all_members"]).each do |role_name|
+  (Ml::ListsUser.roles.keys.map(&:pluralize)+["all_members", "super_members"]).each do |role_name|
     has_many "ml_lists_users_#{role_name}".to_sym, -> { send(role_name) }, :class_name => "Ml::ListsUser"
     has_many "lists_#{role_name}".to_sym, through: "ml_lists_users_#{role_name}".to_sym, :class_name => "Ml::List", :source => :list
     alias_method "ml_lists_#{role_name}".to_sym, "lists_#{role_name}".to_sym
@@ -328,6 +328,31 @@ class User < ActiveRecord::Base
     end
   end
 
+  def self.basic_data_hash
+    self.includes(email_source_accounts: :email_virtual_domain).where(email_source_accounts: {primary: true})
+        .pluck("users.id", :"CONCAT(users.firstname, ' ', users.lastname)", :"CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name), ml_lists_users.role")
+        .map{|arr| {id: arr[0], name: arr[1], email: arr[2], role: arr[3]}}
+  end
+
+
+  def self.search(query)
+    sql_query= nil
+    if query
+      sql_query=<<END_SQL
+   LOWER(CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name)) LIKE :like_query
+OR LOWER(users.firstname) LIKE :like_query
+OR LOWER(users.lastname) LIKE :like_query
+OR LOWER(CONCAT(users.firstname,' ',users.lastname)) LIKE :like_query
+OR LOWER(users.hruid) LIKE :like_query
+OR LOWER(users.uuid) = :query
+OR LOWER(email_redirect_accounts.redirect) = :query
+END_SQL
+    end
+
+    self.includes(email_source_accounts: :email_virtual_domain).includes(:email_redirect_accounts)
+        .where(sql_query,query: query.to_s.downcase,like_query: "%#{query.to_s.downcase}%").references(email_source_accounts: :email_virtual_domain,:email_redirect_accounts => true)
+  end
+
   ################ lists role ###############
 
   def get_role_in_list(list_id)
@@ -336,7 +361,7 @@ class User < ActiveRecord::Base
 
   def self.primary_emails
     #Take all primary email of user. More perf than user.primary
-    includes(email_source_accounts: :email_virtual_domain).where(email_source_accounts: {primary: true}).pluck(:"CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name)")
+    includes(email_source_accounts: :email_virtual_domain).pluck(:"CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name)")
   end
 
 

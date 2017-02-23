@@ -9,7 +9,7 @@ class AliasesController < ApplicationController
   def index
     @search = params[:search] || nil
     if @search.present?
-      @aliases = Alias.where("email LIKE '%#{@search}%'").accessible_by(current_ability).includes(:email_virtual_domain)
+      @aliases = Alias.search(@search).accessible_by(current_ability).includes(:email_virtual_domain)
     end
     authorize! :read, Alias
   end

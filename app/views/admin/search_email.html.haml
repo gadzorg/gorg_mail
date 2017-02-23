@@ -1,43 +1,59 @@
 %h1 Recherche par email
-=form_tag admin_search_email_path(), :method => :get ,class: "mtm"do
-  =text_field_tag :search, params[:search], :placeholder => "Recherche par email", :class => "w100 login", :autofocus => true
+.nav
+  .nav-wrapper
+    %ul
+      %li
+        =form_tag admin_search_email_path(), :method => :get do
+          .input-field
+            =text_field_tag :search, params[:search], :placeholder => "Recherche par email", :class => "w100", :autofocus => true, type: "search", id: "admin_email_search", size:"100%"
+            %label.label-icon{:for => "admin_email_search"}
+              %i.material-icons search
+            =hidden_field_tag "id"
 
-.grid-2
-  .box.box-light.shadow-1.mtm
-    .box-top.box-top-color.pam
-      External email (#{@external_emails.count})
-    .box-bottom
-      -if @external_emails.present?
-        %ul
-          -@external_emails.each do |e|
-            %li
-              =e.email
-              =link_to e.ml_list.name, e.ml_list
-  .box.box-light.shadow-1.mtm
-    .box-top.box-top-color.pam
 
-      Email source (#{@esas.count})
-    .box-bottom
-      -if @esas.present?
-        %ul
-          -@esas.each do |e|
-            %li=link_to e.to_s, e.user
-  .box.box-light.shadow-1.mtm
-    .box-top.box-top-color.pam
-      Redirection (#{@eras.count})
-    .box-bottom
-      -if @eras.present?
-        %ul
-          -@eras.each do |e|
-            %li=link_to e.redirect, e.user
-  .box.box-light.shadow-1.mtm
-    .box-top.box-top-color.pam
-      Alias (#{@aliases.count})
-    .box-bottom
-      -if @aliases.present?
-        %table.box
-          -@aliases.each do |e|
-            %thead
-              %tr
-                %td=link_to e.to_s, e
-                %td=e.redirect.to_s
+.row
+  .col.l6.s12
+    .card
+      .card-content
+        %span.card-title
+          External email (#{@external_emails.count})
+
+        -if @external_emails.present?
+          %ul
+            -@external_emails.each do |e|
+              %li
+                =e.email
+                =link_to e.ml_list.name, e.ml_list
+  .col.l6.s12
+    .card
+      .card-content
+        %span.card-title
+          Email source (#{@esas.count})
+
+        -if @esas.present?
+          %ul
+            -@esas.each do |e|
+              %li=link_to e.to_s, e.user
+  .col.l6.s12
+    .card
+      .card-content
+        %span.card-title
+          Redirection (#{@eras.count})
+
+        -if @eras.present?
+          %ul
+            -@eras.each do |e|
+              %li=link_to e.redirect, e.user
+  .col.l6.s12
+    .card
+      .card-content
+        %span.card-title
+          Alias (#{@aliases.count})
+
+        -if @aliases.present?
+          %table.box
+            -@aliases.each do |e|
+              %thead
+                %tr
+                  %td=link_to e.to_s, e
+                  %td=e.redirect.to_s

@@ -3,7 +3,7 @@ Then(/^"([^"]*)" contains "([^"]*)"$/) do |arg1, arg2|
 end
 
 Then(/^the page has button "([^"]*)"$/) do |title|
-  expect(page).to have_css("a[title=\"#{title}\"],input[type=\"submit\"][value=\"#{title}\"]")
+  expect(page).to  have_css("a[title=\"#{title}\"],input[type=\"submit\"][value=\"#{title}\"],a[data-tooltip=\"#{title}\"]") | have_link(title)
 end
 
 Then(/^"([^"]*)" does not contain "([^"]*)"$/) do |arg1, arg2|

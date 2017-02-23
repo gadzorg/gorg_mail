@@ -1,27 +1,33 @@
 %p#notice= notice
-%section.pam
-  .box.box-light.shadow-1.mtm.center.w500p
-    .box-top.pam.box-top-color
-      Ton compte est presque prêt...
-    .box-bottom.pam
-      =form_tag('') do
-        %p
-          Il nous manque quelques informations pour finaliser ton compte.
-        %p
-          Tu peux recevoir les mails envoyés à ton adresse #{@primary_email} sur un compte Google Gadz.org
-        %p
-          Veux-tu qu'on te créé un compte Google Gadz.org ?
-        .group
-          =radio_button_tag :google_apps, :true, :required => 'required'
-          =label_tag :google_apps_true,"Oui", :for => "google_apps_true"
-          =radio_button_tag :google_apps, :false
-          =label_tag :google_apps_true,"Non"
-        %p
-          Les mails envoyés sur ton adresse #{@primary_email} peuvent être envoyé également sur l'adresse email de ton choix. Cette adresse est également utilisée en cas de problème.
-        .group.group-m-form.inbl.mtm
-          =email_field_tag :redirect,nil, :size => 40, :required => 'required'
-          =label_tag "email@domaine.fr"
-        .group
-          =submit_tag "Créer mon compte !", class:'mtm'
+%h2 Ton compte est presque prêt...
 
+=form_tag('') do
+  .row
+    .l6.s12.col
+      %p
+        Il nous manque quelques informations pour finaliser ton compte.
+
+  .row
+    .l6.s12.col
+
+      .card
+        .card-content
+          %p
+            Tu peux recevoir les mails envoyés à ton adresse #{@primary_email} sur un compte Google Gadz.org
+          .input-field
+            =check_box_tag :google_apps, "", 1
+            =label_tag :google_apps,"Je veux un compte Google Gadz.org", :for => "google_apps"
+
+
+        .card-content
+          %p
+            Les mails envoyés sur ton adresse
+            %b #{@primary_email}
+            peuvent être envoyé également sur l'adresse email de ton choix. Cette adresse est également utilisée en cas de problème.
+          %div
+            .input-field.inline
+              =email_field_tag :redirect,nil, :size => 40, :required => 'required', :class=> 'validate'
+              =label_tag("redirect", "Mon adresse email", "data-error"=>"Tu dois entrer ton adresse email au format email@domaine.fr", required: true)
+        .card-action
+          =button_tag "Créer mon compte", class:'waves-effect waves-teal btn'
 

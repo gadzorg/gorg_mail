@@ -1,0 +1,5 @@
+fr:
+  activerecord:
+    validations:
+      email_redirect_account:
+        domain: "utilise un domaine Gadz.org"

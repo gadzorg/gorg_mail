@@ -29,12 +29,59 @@
 #  index_email_redirect_accounts_on_user_id             (user_id)
 #
 
+class InternalDomainValidator < ActiveModel::EachValidator
+  def check_validity!
+
+  end
+
+  def validate_each(record, attribute, value)
+   if is_internal?(get_domain(value))
+     record.errors.add(attribute, :internal_domain, message: I18n.t('activerecord.validations.email_redirect_account.domain'))
+   end
+  end
+
+  private
+  def get_domain(addr)
+
+    addr&&addr.match(/@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/).to_a[1]
+  end
+
+  def is_internal?(domain)
+    EmailVirtualDomain.where(name:domain.to_s.downcase).any?
+  end
+end
+
+
+
 class EmailRedirectAccount < ActiveRecord::Base
 	belongs_to :user
 
-  validates :redirect, :uniqueness => {:scope => :user_id}
-  validates :redirect, :email => true, format: { with: /\A([^@+\s\'\`]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i}
+  FLAGS=%w(active inactive broken)
+
+  validates :redirect, presence: {message: "est vide"},
+            uniqueness: {:scope => :user_id, message: "est déjà enregistrée"},
+            format: {with: /\A([^@+\s\'\`]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, message: "n'est pas une adresse mail valide"},
+            internal_domain: true
+  #Validate email format
+            #Why are '+' not valid in local part ?
+
+            #Does not allow internal domains
+  #validates :redirect, format: {without: Regexp.union(EmailVirtualDomain.pluck('CONCAT("@",name)')),message: I18n.t('activerecord.validations.email_redirect_account.domain')}
+
+  validates :flag, occurencies: {only:['active'], max: Configurable.max_actives_era,:scope => :user_id, where: {type_redir: 'smtp'}}
+  validates :flag, inclusion: { in: FLAGS}
+
+
   after_create :email_redirect_account_completer
+
+  FLAGS.each do |f|
+    define_method("set_#{f}") do
+      self.update_attributes(flag: f)
+    end
+    define_method("#{f}?") do
+      self.flag == f
+    end
+  end
 
   def generate_new_token()
     self.confirmation_token = loop do
@@ -43,62 +90,14 @@ class EmailRedirectAccount < ActiveRecord::Base
     end
     self.confirmed = false
   end
-  
-  def set_active
-    # chek if not broken? TODO
-    # check number of activated emails
-    # activate if less than 2 ( ce serait bien d'utiliser le gem configurable)
-    if self.user.email_redirect_accounts.where(:flag => "active").where(:type_redir => "smtp").count < Configurable.max_actives_era
-      self.flag = "active"
-      self.save 
-    else
-      return false
-    end
-  end
-
-  def set_inactive
-    self.flag = "inactive"
-    self.save
-  end
-
-  def set_broken
-    self.flag = "broken" 
-    self.save
-  end
-
-  def active?
-    if self.flag == "active"
-      return true
-    else
-      return false
-    end
-  end
-
-  def inactive?
-    if self.flag == "inactive"
-      return true
-    else
-      return false
-    end
-  end
-
-  def broken?
-    if self.flag == "broken"
-      return true
-    else
-      return false
-    end
-  end
 
   def set_confirmed
-    self.confirmed = true
-    self.save
+    self.update_attributes(confirmed: true)
   end
-
   def set_unconfirmed
-    self.confirmed = false
-    self.save
+    self.update_attributes(confirmed: false)
   end
+  #alias_method :confirmed?, :confirmed
 
   def set_active_and_confirm
     set_active && set_confirmed
@@ -120,7 +119,7 @@ class EmailRedirectAccount < ActiveRecord::Base
   end
 
   def set_rewrite
-    self.rewrite = self.user.primary_email
+    self.rewrite = self.user&&self.user.primary_email
     self.allow_rewrite = 1
     self.save
   end

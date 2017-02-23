@@ -1,0 +1,24 @@
+%html
+  %head
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    %title= Rails.application.secrets.app_name
+    = csrf_meta_tags
+    = stylesheet_link_tag    "application", media: "all"
+    = javascript_include_tag :application
+    %link{:href => "https://fonts.googleapis.com/icon?family=Material+Icons", :rel => "stylesheet"}/
+    -if slack_chat?
+      = tags_for_gorg_slack_chat
+
+      
+  %body#body
+    %header
+
+    .wrapper
+      .mw1140p.container
+
+        = yield
+
+    -if slack_chat?
+      =gorg_slack_chat( name: current_user&&current_user.fullname, id: current_user&&current_user.hruid.to_s, link: current_user&&"https://moncompte.gadz.org/admin/info_user?uuid=#{current_user.uuid}")
+
+  = render partial: 'layouts/ga'
