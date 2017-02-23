@@ -12,6 +12,8 @@
               - %w(firstname lastname email).each do |attribute|
                 =display_attribute(@user, attribute)
               -if can? :read, :admin
+                %b Est gadzart :
+                =@user.is_gadz ? "oui" : "non, pas d'accès à ce site"
                 %p
                   %b uuid :
                   =@user.uuid
@@ -31,6 +33,9 @@
           =t('users.forms.titles.infos_sync')
         - %w(hruid last_gram_sync_at).each do |attribute|
           =display_attribute(@user, attribute)
+        %p
+          %br
+          Il peut être necessaire de synchroniser un compte avec le GrAM pour récupérer son statut actuel si l'utilisateur ne s'est pas connecté depuis un certain temps.
       .card-action
         -if can?(:sync, @user) && @user.syncable?
           -if @user.next_sync_allowed_at <= Time.now
