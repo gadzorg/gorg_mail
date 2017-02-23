@@ -2,10 +2,19 @@
   = f.error_notification
 
   .form-inputs
-    = f.input :email
-    = f.input :firstname
-    = f.input :lastname
-    = f.input :hruid
+    %ul.collapsible{"data-collapsible"=>"accordion"}
+      %li
+        .collapsible-header.blue-grey.white-text
+          A l'exception d'un changement de rôle, l'édition des information d'un compte ne doit servir que lors d'un problème de connexion avec le GrAM.
+          %p
+            Clique sur cet encart si tu veux les voir quand même.
+
+        .collapsible-body.white
+          = f.input :email
+          = f.input :firstname
+          = f.input :lastname
+          = f.input :hruid
+          = f.input :uuid
 
     =f.label "Role"
     -if can? :update, (@user.role || Role)
