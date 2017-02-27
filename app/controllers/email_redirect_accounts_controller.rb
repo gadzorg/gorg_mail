@@ -96,14 +96,14 @@ class EmailRedirectAccountsController < ApplicationController
         # on essaie d'activer l'adresse. Si ça ne marche pas ( trop d'adresse de redir, un revois un message différent)
         if @email_redirect_account.set_active
           respond_to do |format|
-            flash[:notice] = "Adresse validée et activée avec succés!"
+            flash[:notice] = "Adresse validée et activée avec succès !"
             format.json { render :show, status: :ok, location: user_email_redirect_account_url(@user,@email_redirect_account) }
             format.html {redirect_to dashboard_user_path(@user)}
             format.js
           end
         else
           respond_to do |format|
-            flash[:notice] = "Adresse validée! Désactivez une autre adresse pour pouvoir l'activer"
+            flash[:notice] = "Adresse validée ! Désactivez une autre adresse pour pouvoir l'activer."
             format.json { render :show, status: :ok, location: user_email_redirect_account_url(@user,@email_redirect_account) }
             format.html {redirect_to dashboard_user_path(@user)}
             format.js
@@ -139,7 +139,7 @@ class EmailRedirectAccountsController < ApplicationController
           @emails_redirect = @user.email_redirect_accounts.order(:type_redir).select(&:persisted?)
         
           respond_to do |format|
-            flash[:notice] = "Adresse activée avec succés!"
+            flash[:notice] = "Adresse activée avec succès !"
             format.json { head :no_content }
             format.js
           end
@@ -148,7 +148,7 @@ class EmailRedirectAccountsController < ApplicationController
             @emails_redirect = @user.email_redirect_accounts.order(:type_redir).select(&:persisted?)
           
             respond_to do |format|
-            flash[:error] = "Tu ne peux pas activer plus de #{Configurable[:max_actives_era]} adresses en même temps"
+            flash[:error] = "Tu ne peux pas activer plus de #{Configurable[:max_actives_era]} adresses en même temps."
             format.json { head :no_content }
             format.js
           end
@@ -159,7 +159,7 @@ class EmailRedirectAccountsController < ApplicationController
         @emails_redirect = @user.email_redirect_accounts.order(:type_redir).select(&:persisted?)
         
           respond_to do |format|
-            flash[:notice] = "Adresse désactivée avec succés!"
+            flash[:notice] = "Adresse désactivée avec succès !"
             # format.json { head :no_content }
             format.js
           end
@@ -168,7 +168,7 @@ class EmailRedirectAccountsController < ApplicationController
 
         
             respond_to do |format|
-            flash[:error] = "Erreur lors de la désactivation"
+            flash[:error] = "Erreur lors de la désactivation."
             # format.json { head :no_content }
             format.js
           end
