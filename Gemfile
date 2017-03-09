@@ -91,7 +91,7 @@ gem 'google-api-client', '~> 0.9'
 gem 'gram_v2_client', git: 'https://github.com/gadzorg/gram2_api_client_ruby.git'
 
 
-gem 'gorg_service', path: '/home/alexandre/Programmation/gorg/gems/gorg_service'#'~>5.2'
+gem 'gorg_service', '~>5.3'
 
 gem 'gorg_slack_chat'
 
