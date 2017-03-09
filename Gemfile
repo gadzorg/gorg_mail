@@ -90,10 +90,8 @@ gem 'google-api-client', '~> 0.9'
 # Gadz.org Gems Gram v2 client
 gem 'gram_v2_client', git: 'https://github.com/gadzorg/gram2_api_client_ruby.git'
 
-# Gadz.org rabbitMQ message sender
-gem 'gorg_message_sender'
 
-gem 'gorg_service', '~>4.0'
+gem 'gorg_service', path: '/home/alexandre/Programmation/gorg/gems/gorg_service'#'~>5.2'
 
 gem 'gorg_slack_chat'
 

@@ -46,8 +46,4 @@ GorgService.configure do |c|
   # }
 
   c.logger=Rails.logger
-
-  c.message_handler_map={
-    "notify.googleapps.user.created"=> GoogleAppsCreatedMessageHandler
-  }
 end
