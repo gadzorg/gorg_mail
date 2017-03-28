@@ -4,7 +4,7 @@ class MailingListsService
 
   def initialize(mailing_list, options = {})
     @mailing_list = mailing_list
-    @message_sender=options[:message_sender] || GorgMessageSender.new
+    @message_sender=options[:message_sender] || GorgService::Producer.new
   end
 
   def update
@@ -51,10 +51,13 @@ class MailingListsService
   end
 
   private
-    def send_message(msg, routing_key)
+    def send_message(data, routing_key)
       unless RABBITMQ_CONFIG["no_sync"]
         begin
-          @message_sender.send_message(msg, routing_key)
+          message=GorgService::Message.new(event: routing_key,
+                                           data: data,
+                                           reply_to: GorgService.environment.reply_exchange.name)
+          @message_sender.publish_message(message)
           return true
         rescue Bunny::TCPConnectionFailedForAllHosts
           Rails.logger.error "Unable to connect to RabbitMQ server"
