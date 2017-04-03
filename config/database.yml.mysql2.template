@@ -15,12 +15,12 @@ default: &default
   encoding: utf8
   host: 127.0.0.1
   port: 3306
-  username: root
-  password: ""
 
 development:
   <<: *default
   database: gorg_dev_imelavi
+  username: gorg_dev_imelavi
+  password: password
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -28,10 +28,13 @@ development:
 test:
   <<: *default
   database: gorg_test_imelavi
-
+  username: gorg_test_imelav
+  password: password
 
 production:
   <<: *default
   database: gorg_prod_imelavi
+  username: gorg_prod_imelav
+  password: password
 
 
