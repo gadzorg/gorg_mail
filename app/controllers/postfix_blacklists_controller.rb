@@ -71,6 +71,6 @@ class PostfixBlacklistsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def postfix_blacklist_params
-      params.require(:postfix_blacklist).permit(:email, :reject_text)
+      params.require(:postfix_blacklist).permit(:email, :reject_text, :commentary)
     end
 end
