@@ -26,13 +26,6 @@ GIT
       rails (~> 4.2)
 
 GIT
-  remote: https://github.com/gadzorg/gram2_api_client_ruby.git
-  revision: 4c3585c76140259d344494a7229795720faf2465
-  specs:
-    gram_v2_client (2.1.0)
-      activeresource (~> 4.0)
-
-GIT
   remote: https://github.com/loocla/omniauth-cas.git
   revision: 16395f85579dc915c0e22f80b4f5d98a019e37ec
   branch: saml
@@ -110,7 +103,7 @@ GEM
       rails (>= 3.1)
       thor
     builder (3.2.3)
-    bunny (2.6.3)
+    bunny (2.6.4)
       amq-protocol (>= 2.0.1)
     byebug (9.0.6)
     cancancan (1.16.0)
@@ -213,15 +206,17 @@ GEM
     gorg_message_sender (1.4.5)
       bunny (~> 2.2, >= 2.2.2)
       json-schema (~> 2.6)
-    gorg_service (4.1.0)
+    gorg_service (5.3.0)
       bunny (~> 2.2, >= 2.2.2)
-      gorg_message_sender (~> 1)
+      gorg_message_sender (~> 1.4.2)
       json-schema (~> 2.6)
     gorg_slack_chat (0.1.3)
       gon (~> 6.1.0)
       jquery-rails (~> 4.2.2)
       jquery-ui-rails (~> 6.0.1)
       rails (>= 4.2.3)
+    gram_v2_client (3.0.0)
+      activeresource (~> 4.0)
     haml (4.0.7)
       tilt
     haml-rails (0.9.0)
@@ -460,10 +455,9 @@ DEPENDENCIES
   factory_girl_rails
   faker
   google-api-client (~> 0.9)
-  gorg_message_sender
-  gorg_service (~> 4.0)
+  gorg_service (~> 5.3)
   gorg_slack_chat
-  gram_v2_client!
+  gram_v2_client (~> 3.0)
   haml-rails
   heroku_secrets!
   hirb

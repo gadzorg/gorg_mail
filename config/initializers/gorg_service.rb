@@ -3,6 +3,8 @@
 
 require 'gorg_service'
 
+
+
 # For default values see : https://github.com/Zooip/gorg_service
 GorgService.configure do |c|
   # application name for display usage
@@ -24,7 +26,7 @@ GorgService.configure do |c|
   c.rabbitmq_port=RABBITMQ_CONFIG["port"]
   c.rabbitmq_vhost=RABBITMQ_CONFIG["vhost"]
 
-  c.rabbitmq_exchange_name=RABBITMQ_CONFIG["exchange_name"]
+  c.rabbitmq_event_exchange_name=RABBITMQ_CONFIG["exchange_name"]
   #
   # time before trying again on softfail in milliseconds (temporary error)
   c.rabbitmq_deferred_time=RABBITMQ_CONFIG["deferred_time"]
@@ -46,8 +48,7 @@ GorgService.configure do |c|
   # }
 
   c.logger=Rails.logger
-
-  c.message_handler_map={
-    "notify.googleapps.user.created"=> GoogleAppsCreatedMessageHandler
-  }
 end
+
+#Eager load message handlers
+Dir[File.join(Rails.root + 'app/message_handlers/*.rb')].each {|file| require file }
