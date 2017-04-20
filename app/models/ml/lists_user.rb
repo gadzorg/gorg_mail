@@ -8,11 +8,10 @@
 #  is_on_white_list :boolean
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
-#  role             :integer          default(2)
+#  role             :integer          default(3)
 #
 # Indexes
 #
-#  index_ml_lists_users_on_list_id_and_user_id  (list_id,user_id)
 #  index_ml_lists_users_on_user_id_and_list_id  (user_id,list_id)
 #
 
