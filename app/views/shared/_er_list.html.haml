@@ -20,7 +20,12 @@
               .card-content.white-text
                 %span
                   %i.zmdi.zmdi-google.icon-padding-list
-                  Ton compte Google ne fonctionne pas
+                  -if can? :read, :admin
+                    Compte Google cassé :
+                    =e.broken_info
+                    .mts= link_to 'Relancer la création', create_google_apps_user_path(@user), method: :get,:remote=>true,  :class =>"waves-effect waves-light btn white blue-grey-text", id: "create_google_apps_button"
+                  -else
+                    Ton compte Google ne fonctionne pas, un administrateur a été prevenu
           -else
             .card.blue-grey.darken-1
               -if e.confirmed

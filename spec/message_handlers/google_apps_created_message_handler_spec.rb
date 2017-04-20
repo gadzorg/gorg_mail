@@ -1,4 +1,5 @@
 require 'rails_helper'
+require "ostruct"
 
 RSpec.describe GoogleAppsCreatedMessageHandler, type: :message_handler do
 
@@ -64,8 +65,11 @@ RSpec.describe GoogleAppsCreatedMessageHandler, type: :message_handler do
     end
 
     shared_examples "error processing" do
-      context do
-      before(:each) {subject}
+
+      before(:each) do
+        expect(JiraIssue).to receive(:create).and_return(OpenStruct.new(key: 'MRM-1234', self: "https://jira.gadz.org/rest/api/2/issue/38613"))
+        subject
+      end
 
       it "set googleapps to broken" do
         expect(user.google_apps).to have_attributes(
@@ -77,11 +81,11 @@ RSpec.describe GoogleAppsCreatedMessageHandler, type: :message_handler do
                                         confirmed: false
                                     )
       end
-      end
 
-      it "create a Jira Issue" do
-        expect(JiraIssue).to receive(:create)
-        subject
+      it "set broken_info to Jira Issue Key" do
+        expect(user.google_apps).to have_attributes(
+                                        broken_info: 'Voir MRM-1234'
+                                    )
       end
     end
 

@@ -55,28 +55,28 @@ class GoogleAppsCreatedMessageHandler < GorgService::Consumer::MessageHandler::R
       gapps_era=user.google_apps
 
       gapps_era.flag="broken"
-      gapps_era.save
 
-      Jira.new(
-          user: user,
-          title: "#{user.hruid}, la création de votre compte GSuite a échoué",
-          labels: ["GorgMail","GoogleApps"],
-          message: "Bonjour #{user.firstname},
+      ji=Jira.new(
+      user: user,
+      title: "#{user.hruid}, la création de votre compte GSuite a échoué",
+      labels: ["GorgMail","GoogleApps"],
+      message: "Bonjour #{user.firstname},
 
 Une erreur est survenue durant la création de ton compte GSuite Gadz.org. Un membre de l'équipe Gadz.org est en route pour réparer le problème et te tenir au courant.
 
 Désolé pour le retard,
 Un gentil robot du support Gadz.org
 ",
-          environment: {
-              "|Erreur|"=>"| |",
-              "Nom de l'erreur"=>message.error_name,
-              "Message d'erreur"=>message.data[:error_message],
-              "Infos de debug"=>message.data[:debug_message],
-          }
+      environment: {
+      "|Erreur|"=>"| |",
+      "Nom de l'erreur"=>message.error_name,
+      "Message d'erreur"=>message.data[:error_message],
+      "Infos de debug"=>message.data[:debug_message],
+      }
+      ).send
 
-
-      )
+      gapps_era.broken_info="Voir #{ji.key}"
+      gapps_era.save
 
     end
   end
