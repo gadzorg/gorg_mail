@@ -190,7 +190,7 @@ class User < ActiveRecord::Base
   ############################################################################
 
   def self.find_by_id_or_hruid_or_uuid(id)
-    where("id=:id OR uuid=:id OR hruid=:id",id: id).take
+    where("CAST(id AS CHAR)=:id OR uuid=:id OR hruid=:id",id: id).take
   end
 
   def has_google_apps
