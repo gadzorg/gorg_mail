@@ -68,6 +68,16 @@ RSpec.describe User, type: :model do
     it "find by hruid" do
       expect(User.find_by_id_or_hruid_or_uuid(user.hruid)).to eq(user)
     end
+
+    describe "type conversion bug" do
+      let!(:user1) {FactoryGirl.create(:user, id: 5)}
+      let!(:user2) {FactoryGirl.create(:user, id: 6,uuid: "5b3ed219-9d22-4091-a7d8-6028273b3a70")}
+
+      it "find by uuid" do
+        expect(User.find_by_id_or_hruid_or_uuid(user2.uuid)).to eq(user2)
+      end
+
+    end
   end
 
 
