@@ -8,18 +8,17 @@ class Jira
   attr_accessor :environment
   attr_accessor :title
   attr_accessor :labels
+  attr_accessor :doc_ref
+  attr_accessor :dev_ref
 
-  def initialize(user: nil, message: nil, environment: {}, title: "Une erreur est survenue", labels: [])
+  def initialize(user: nil, message: nil, environment: {}, title: "Une erreur est survenue", labels: [], doc_ref: nil, dev_ref: nil)
     self.user=user
     self.message=message
     self.environment = environment
     self.title = title
     self.labels = labels
-  end
-
-  def default_environment
-    h={"|Application|"=>Rails.application.secrets.app_name}
-    h.merge!(user_environment) if user
+    self.doc_ref= doc_ref
+    self.dev_ref= dev_ref
   end
 
   def default_labels
@@ -36,9 +35,16 @@ class Jira
     }
   end
 
-  def environment
-    default_environment.merge(@environment.to_h)
+  def footer
+    footer="\nh3. Instructions à destination de l'équipe support\n"
+    footer+= "Documentation de diagnostique et de résolution du problème : #{self.doc_ref}\n"  if self.doc_ref
+    footer+= "Développeur référent:  #{self.dev_ref}\n"  if self.dev_ref
+    footer+="Application :  #{Rails.application.secrets.app_name}\n"
+    footer+=format_hash_to_table(user_environment)+"\n" if self.user
+    footer+="Informations sur l'erreur :\n #{format_hash_to_table(self.environment)}\n" if self.environment.to_h.any?
+    footer
   end
+
 
   def labels
     (@labels+default_labels).uniq
@@ -49,8 +55,7 @@ class Jira
         fields: {
             project: { id: MRM_PROJECT_ID },
             summary: title,
-            description: message,
-            environment: format_hash_to_table(environment),
+            description: message+"\n"+footer,
             customfield_10000: @user.try(:email) ,
             issuetype: { id: "1" },
             labels: labels

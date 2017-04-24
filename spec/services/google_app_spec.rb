@@ -35,7 +35,8 @@ RSpec.describe GoogleApps, type: :service do
     it "Request a message sending to the message sender for Google Apps update" do
       message = {
           gram_account_uuid: user.uuid,
-          aliases:  user.email_source_accounts.map(&:to_s)-['john.doe@gadz.org']
+          aliases:  user.email_source_accounts.map(&:to_s)-['john.doe@gadz.org'],
+          primary_email: "john.doe@gadz.org"
       }
       expect(message_sender).to receive(:publish_message).with(a_kind_of(GorgService::Message).and(an_object_having_attributes(data: message)))
       gapps = GoogleApps.new(user, message_sender: message_sender).update

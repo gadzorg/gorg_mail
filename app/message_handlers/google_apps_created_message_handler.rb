@@ -60,6 +60,8 @@ class GoogleAppsCreatedMessageHandler < GorgService::Consumer::MessageHandler::R
       user: user,
       title: "#{user.hruid}, la création de votre compte GSuite a échoué",
       labels: ["GorgMail","GoogleApps"],
+      doc_ref: "https://confluence.gadz.org/pages/viewpage.action?pageId=20185205",
+      dev_ref: "@ratatosk",
       message: "Bonjour #{user.firstname},
 
 Une erreur est survenue durant la création de ton compte GSuite Gadz.org. Un membre de l'équipe Gadz.org est en route pour réparer le problème et te tenir au courant.
