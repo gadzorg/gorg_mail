@@ -66,6 +66,7 @@ class GoogleApps
     begin
       message=GorgService::Message.new(event: routing_key,
                                        data: data,
+                                       soa_version: "2.0",
                                        reply_to: GorgService.environment.reply_exchange.name)
       @message_sender.publish_message(message)
       return true
