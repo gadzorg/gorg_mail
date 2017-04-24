@@ -8,7 +8,7 @@
 #  is_on_white_list :boolean
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
-#  role             :integer          default(2)
+#  role             :integer          default(3)
 #
 # Indexes
 #

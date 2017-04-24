@@ -91,7 +91,7 @@ gem 'google-api-client', '~> 0.9'
 gem 'gram_v2_client', '~> 3.0'
 
 
-gem 'gorg_service', '~>5.3'
+gem 'gorg_service', '~>6.0'
 
 gem 'gorg_slack_chat'
 

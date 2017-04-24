@@ -56,7 +56,8 @@ class GoogleApps
   def request_google_apps_update
     msg = {
       gram_account_uuid: @user.uuid,
-      aliases:  @email_aliases
+      aliases:  @email_aliases,
+      primary_email: @google_apps_email
     }
     send_message(msg, 'request.googleapps.user.update')
   end
