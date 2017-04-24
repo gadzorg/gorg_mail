@@ -74,6 +74,7 @@ Un gentil robot du support Gadz.org
       "Nom de l'erreur"=>message.error_name,
       "Message d'erreur"=>message.data[:error_message],
       "Infos de debug"=>message.data[:debug_message],
+      "Infos de debug (2)"=>message.data[:error_data],
       }
       ).send
 
