@@ -28,8 +28,8 @@ class PostfixBlacklistsController < ApplicationController
 
     respond_to do |format|
       if @postfix_blacklist.save
-        format.html { redirect_to @postfix_blacklist, notice: 'Postfix blacklist was successfully created.' }
-        format.json { render :show, status: :created, location: @postfix_blacklist }
+        format.html { redirect_to postfix_blacklists_path, notice: 'Postfix blacklist was successfully created.' }
+        format.json { render :show, status: :created}
       else
         format.html { render :new }
         format.json { render json: @postfix_blacklist.errors, status: :unprocessable_entity }
@@ -43,8 +43,8 @@ class PostfixBlacklistsController < ApplicationController
     authorize! :update, @postfix_blacklist
     respond_to do |format|
       if @postfix_blacklist.update(postfix_blacklist_params)
-        format.html { redirect_to @postfix_blacklist, notice: 'Postfix blacklist was successfully updated.' }
-        format.json { render :show, status: :ok, location: @postfix_blacklist }
+        format.html { redirect_to postfix_blacklists_path, notice: 'Postfix blacklist was successfully updated.' }
+        format.json { render :show, status: :ok }
       else
         format.html { render :edit }
         format.json { render json: @postfix_blacklist.errors, status: :unprocessable_entity }
