@@ -64,7 +64,7 @@ class GoogleAppsCreatedMessageHandler < GorgService::Consumer::MessageHandler::R
       dev_ref: "@ratatosk",
       message: "Bonjour #{user.firstname},
 
-Une erreur est survenue durant la création de ton compte GSuite Gadz.org. Un membre de l'équipe Gadz.org est en route pour réparer le problème et te tenir au courant.
+Une erreur est survenue durant la création de ton compte GSuite Gadz.org. Le problème a été transmis à l'équipe support Gadz.org pour qu'ils rêglent ça. Tu peux répondre à ce mail si tu souhaites leur founir des informations supplémentaires.
 
 Désolé pour le retard,
 Un gentil robot du support Gadz.org

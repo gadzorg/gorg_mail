@@ -22,7 +22,7 @@ class Jira
   end
 
   def default_labels
-    ["TicketAutomatique"]
+    []
   end
 
   def user_environment
