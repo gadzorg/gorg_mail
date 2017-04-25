@@ -72,12 +72,11 @@ class Jira
       klass=value.class
       case
       when klass <= Hash
-        "{pannel:borderStyle=none}"+value.map{|k,v| "|#{k}|#{format_for_table(v)}|"}.join("\n")+"{pannel}"
+        "{panel:borderStyle=none}"+value.map{|k,v| "|#{k}|#{format_for_table(v)}|"}.join("\n")+"{panel}"
       when klass <= Array
-        "{pannel:borderStyle=none}"+value.map{|v| "|#{format_for_table(v)}|"}.join("\n")+"{pannel}"
+        "{panel:borderStyle=none}"+value.map{|v| "|#{format_for_table(v)}|"}.join("\n")+"{panel}"
       else
-        "{code:borderStyle=none}#{value.to_s}{code}"
-
+        value.to_s
       end
     end
 
