@@ -40,8 +40,8 @@ class Jira
     footer+= "Documentation de diagnostique et de résolution du problème : #{self.doc_ref}\n"  if self.doc_ref
     footer+= "Développeur référent:  #{self.dev_ref}\n"  if self.dev_ref
     footer+="Application :  #{Rails.application.secrets.app_name}\n"
-    footer+=format_hash_to_table(user_environment)+"\n" if self.user
-    footer+="Informations sur l'erreur :\n #{format_hash_to_table(self.environment)}\n" if self.environment.to_h.any?
+    footer+=format_for_table(user_environment)+"\n" if self.user
+    footer+="Informations sur l'erreur :\n #{format_for_table(self.environment)}\n" if self.environment.to_h.any?
     footer
   end
 
@@ -68,8 +68,16 @@ class Jira
       "https://moncompte.gadz.org/admin/info_user?uuid=#{user.uuid}"
     end
 
-    def format_hash_to_table(hash)
-      hash.map{|k,v| "|#{k}|#{v}|"}.join("\n")
+    def format_for_table(value)
+      case value.class
+        when Hash
+          "{pannel:borderStyle=none}"+value.map{|k,v| "|#{k}|#{format_for_table(v)}|"}.join("\n")+"{pannel}"
+        when Array
+          "{pannel:borderStyle=none}"+value.map{|v| "|#{format_for_table(v)}|"}.join("\n")+"{pannel}"
+        else
+          "{code:borderStyle=none}#{value.to_s}{code}"
+
+      end
     end
 
 end
