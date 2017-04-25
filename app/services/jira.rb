@@ -68,7 +68,7 @@ class Jira
       "https://moncompte.gadz.org/admin/info_user?uuid=#{user.uuid}"
     end
 
-    def format_for_table(value,escape_hash:false)
+    def format_for_table(value,escape_hash:false,)
       klass=value.class
       case
         when klass <= Hash
