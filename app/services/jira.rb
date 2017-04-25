@@ -69,13 +69,14 @@ class Jira
     end
 
     def format_for_table(value)
-      case value.class
-        when Hash
-          "{pannel:borderStyle=none}"+value.map{|k,v| "|#{k}|#{format_for_table(v)}|"}.join("\n")+"{pannel}"
-        when Array
-          "{pannel:borderStyle=none}"+value.map{|v| "|#{format_for_table(v)}|"}.join("\n")+"{pannel}"
-        else
-          "{code:borderStyle=none}#{value.to_s}{code}"
+      klass=value.class
+      case
+      when klass <= Hash
+        "{pannel:borderStyle=none}"+value.map{|k,v| "|#{k}|#{format_for_table(v)}|"}.join("\n")+"{pannel}"
+      when klass <= Array
+        "{pannel:borderStyle=none}"+value.map{|v| "|#{format_for_table(v)}|"}.join("\n")+"{pannel}"
+      else
+        "{code:borderStyle=none}#{value.to_s}{code}"
 
       end
     end
