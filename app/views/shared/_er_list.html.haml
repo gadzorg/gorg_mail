@@ -53,7 +53,7 @@
             -if !e.confirmed || e.inactive? || e.broken?
               -if e.broken?
                 %i.zmdi.zmdi-alert-triangle.icon-padding-list.red
-              -elsif !e.confiraemed
+              -elsif !e.confirmed
                 %i.zmdi.zmdi-square-o.icon-padding-list.inactive
               -else
                 = link_to user_email_redirect_account_flag_path(@user.id, e.id, "active"), class: 'tooltipped', 'data-position' => "bottom", 'data-delay' => "100", 'data-tooltip' =>  'Activer la redirection des mails vers cette adresse', :remote=>true do
