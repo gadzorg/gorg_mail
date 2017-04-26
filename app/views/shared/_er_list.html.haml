@@ -17,14 +17,18 @@
           .pam.bg-blue-dark-2
           -if e.broken?
             .card.red.darken-1
-              .card-content.white-text
-                %span
-                  %i.zmdi.zmdi-google.icon-padding-list
-                  -if can? :read, :admin
+              -if can? :read, :admin
+                .card-content.white-text
+                  %span
+                    %i.zmdi.zmdi-google.icon-padding-list
                     Compte Google cassé :
                     =e.broken_info
-                    .mts= link_to 'Relancer la création', create_google_apps_user_path(@user), method: :get,:remote=>true,  :class =>"waves-effect waves-light btn white blue-grey-text", id: "create_google_apps_button"
-                  -else
+                .card-action
+                  = link_to 'Relancer la création', create_google_apps_user_path(@user), method: :get,:remote=>true,  :class =>"waves-effect waves-light btn white blue-grey-text", id: "create_google_apps_button"
+              -else
+                .card-content.white-text
+                  %span
+                    %i.zmdi.zmdi-google.icon-padding-list
                     Ton compte Google ne fonctionne pas, un administrateur a été prevenu
           -else
             .card.blue-grey.darken-1
@@ -43,10 +47,19 @@
                 .card-action
                   = link_to 'Connexion', "https://mail.google.com/a/gadz.org", :class =>"wave-effect waves-light btn white blue-grey-text", :target => "_blank", id: "connect_to_google_button"
               -else
-                .card-content.white-text
-                  %span
-                    %i.zmdi.zmdi-google.icon-padding-list
-                    Ton compte GSuite Gadz.org en cours de création...
+                -if can? :read, :admin
+                  .card-content.white-text
+                    %span
+                      %i.zmdi.zmdi-google.icon-padding-list
+                      Compte GSuite Gadz.org en cours de création
+                  .card-action
+                    = link_to 'Relancer', create_google_apps_user_path(@user), method: :get,:remote=>true,  :class =>"waves-effect waves-light btn white blue-grey-text", id: "create_google_apps_button"
+                    = link_to 'Confirmer', confirm_google_apps_user_path(@user), method: :get,:remote=>true,  :class =>"waves-effect waves-light btn white blue-grey-text", id: "confirm_google_apps_button", data: {confirm: "Vous allez forcer la validation de la création d'un GoogleApps. Si vous validez, les mails de cet utilisateur seront envoyé sur cet adresse Google. L'utilisateur va recevoir un email de confirmation"}
+                -else
+                  .card-content.white-text
+                    %span
+                      %i.zmdi.zmdi-google.icon-padding-list
+                      Ton compte GSuite Gadz.org en cours de création...
 
         -else
           %li
