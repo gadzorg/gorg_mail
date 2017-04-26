@@ -56,6 +56,7 @@ Rails.application.routes.draw do
       get :dashboard
       get :dashboard_ml
       get :create_google_apps
+      get :confirm_google_apps
     end
 
     resources :email_source_accounts, only: [:index, :show, :create,:update,:destroy] do

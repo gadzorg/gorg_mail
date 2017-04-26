@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :sync_with_gram, :dashboard, :dashboard_ml, :create_google_apps  ]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :sync_with_gram, :dashboard, :dashboard_ml, :create_google_apps, :confirm_google_apps  ]
   autocomplete :user, :hruid , :full => true, :display_value =>:hruid, extra_data: [:id, :firstname ] #, :scopes => [:search_by_name]
 
 
@@ -140,6 +140,24 @@ class UsersController < ApplicationController
       format.json { head :no_content }
       format.js
     end
+  end
+
+  def confirm_google_apps
+    authorize! :create_google_apps, @user
+    ga=@user.google_apps
+
+    respond_to do |format|
+      if ga
+        ga.set_active_and_confirm
+        EmailValidationMailer.notice_google_apps(@user).deliver_now
+
+        @emails_redirect = email_redirect(@user)
+        format.json { head :no_content }
+        format.js
+      end
+    end
+
+
   end
 
   
