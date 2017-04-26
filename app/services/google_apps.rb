@@ -8,7 +8,7 @@ class GoogleApps
     @user=user
     gapps_domain=options[:domain] || DEFAULT_DOMAIN
     gapps_domain_alias=options[:domain_alias] || DEFAULT_GAPPS_DOMAIN_ALIAS
-    @message_sender=options[:message_sender] || GorgMessageSender.new
+    @message_sender=options[:message_sender] || GorgService::Producer.new
     
 
     email_base = options[:email_base]||@user.primary_email && @user.primary_email.email
@@ -56,14 +56,19 @@ class GoogleApps
   def request_google_apps_update
     msg = {
       gram_account_uuid: @user.uuid,
-      aliases:  @email_aliases
+      aliases:  @email_aliases,
+      primary_email: @google_apps_email
     }
     send_message(msg, 'request.googleapps.user.update')
   end
 
-  def send_message(msg, routing_key)
+  def send_message(data, routing_key)
     begin
-      @message_sender.send_message(msg, routing_key)
+      message=GorgService::Message.new(event: routing_key,
+                                       data: data,
+                                       soa_version: "2.0",
+                                       reply_to: GorgService.environment.reply_exchange.name)
+      @message_sender.publish_message(message)
       return true
     rescue Bunny::TCPConnectionFailedForAllHosts
       Rails.logger.error "Unable to connect to RabbitMQ server"

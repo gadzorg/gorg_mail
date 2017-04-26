@@ -2,7 +2,7 @@ require 'rails_helper'
 
 
 RSpec.describe MailingListsService, type: :service do
-  fake(:message_sender) { GorgMessageSender }
+  fake(:message_sender) { GorgService::Producer }
 
 
   let(:ml) {FactoryGirl.create(:ml_list)}
@@ -10,29 +10,29 @@ RSpec.describe MailingListsService, type: :service do
 
   describe "send mailling update message" do
     it "send a message on update" do
+      expect(message_sender).to receive(:publish_message).with(a_kind_of(GorgService::Message))
       mailing_lists_service.update
-      expect(message_sender).to have_received.send_message(any_args)
     end
 
     it "send a message on delete" do
+      expect(message_sender).to receive(:publish_message).with(a_kind_of(GorgService::Message))
       mailing_lists_service.delete
-      expect(message_sender).to have_received.send_message(any_args)
     end
   end
 
   describe "no sync block" do
     it "does not call Message sender on update" do
+      expect(message_sender).not_to receive(:publish_message).with(a_kind_of(GorgService::Message))
       MailingListsService.no_sync_block do
         mailing_lists_service.update
       end
-      expect(message_sender).not_to have_received.send_message(any_args)
     end
 
     it "does not call Message sender on delete" do
+      expect(message_sender).not_to receive(:publish_message).with(a_kind_of(GorgService::Message))
       MailingListsService.no_sync_block do
         mailing_lists_service.delete
       end
-      expect(message_sender).not_to have_received.send_message(any_args)
     end
   end
 
