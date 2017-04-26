@@ -59,7 +59,7 @@ class GoogleAppsCreatedMessageHandler < GorgService::Consumer::MessageHandler::R
       ji=Jira.new(
       user: user,
       title: "#{user.hruid}, la création de votre compte GSuite a échoué",
-      labels: ["GorgMail","GoogleApps"],
+      labels: ["GorgMail","GoogleApps",message.error_name],
       doc_ref: "https://confluence.gadz.org/pages/viewpage.action?pageId=20185205",
       dev_ref: "@ratatosk",
       message: "Bonjour #{user.firstname},
