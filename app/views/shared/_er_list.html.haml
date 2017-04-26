@@ -24,7 +24,8 @@
                     Compte Google cassé :
                     =e.broken_info
                 .card-action
-                  = link_to 'Relancer la création', create_google_apps_user_path(@user), method: :get,:remote=>true,  :class =>"waves-effect waves-light btn white blue-grey-text", id: "create_google_apps_button"
+                  = link_to 'Relancer', create_google_apps_user_path(@user), method: :get,:remote=>true,  :class =>"waves-effect waves-light btn white blue-grey-text", id: "create_google_apps_button"
+                  = link_to 'Confirmer', confirm_google_apps_user_path(@user), method: :get,:remote=>true,  :class =>"waves-effect waves-light btn white blue-grey-text", id: "confirm_google_apps_button", data: {confirm: "Vous allez forcer la validation de la création d'un GoogleApps. Si vous validez, les mails de cet utilisateur seront envoyé sur cet adresse Google. L'utilisateur va recevoir un email de confirmation"}
               -else
                 .card-content.white-text
                   %span
