@@ -46,4 +46,8 @@ Rails.application.configure do
 
   BetterErrors::Middleware.allow_ip! ENV['TRUSTED_IP'] if ENV['TRUSTED_IP']
 
+  config.action_mailer.default_url_options={
+      host:"example.com"
+  }
+
 end

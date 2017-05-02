@@ -1,0 +1,14 @@
+%h1 Unsubscribe#ml_form
+
+Selectionnez les listes desquelles vous souhaitez vous désinscrire
+
+=link_to "Tout cocher","#"
+=link_to "Tout décocher","#"
+
+=form_tag(unsubscribe_token_path(@token), method: "post") do
+  #mailinglists
+    -@mls.each do |ml|
+      =label_tag "unsubscribe[#{ml.name}]", ml.name
+      =check_box_tag "unsubscribe[#{ml.name}]"
+
+  =submit_tag("Me désinscrire")

@@ -1,0 +1,7 @@
+%h1 Unsubscribe#email_form
+%p Find me in app/views/unsubscribe/email_form.html.haml
+
+=form_tag(unsubscribe_path, method: "post") do
+  =label_tag(:email, "Email")
+  =text_field_tag(:email)
+  =submit_tag("Vérifier mon identité")

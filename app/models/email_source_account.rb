@@ -27,7 +27,7 @@ class EmailSourceAccount < ActiveRecord::Base
 	belongs_to :email_virtual_domain
 	belongs_to :user
 
-  validates :email, :uniqueness => {:scope => :email_virtual_domain_id}, presence: true
+	validates :email, :uniqueness => {:scope => :email_virtual_domain_id}, presence: true
 	validates :email_virtual_domain, presence: true
 	validates :user, presence: true
 	validate :primary, :only_one_primary_by_user
@@ -46,6 +46,10 @@ class EmailSourceAccount < ActiveRecord::Base
 			EmailSourceAccountGenerator.new(user, domain: domain).generate
 		end
 	end
+
+
+
+
 
 	############## primary email ##############
 	# primary email is user for Google Apps creation and is sent
@@ -70,9 +74,18 @@ class EmailSourceAccount < ActiveRecord::Base
 	end
 
 	############## Callbacks ##############
-	def self.find_by_full_email(full_email)
+
+	def self.find_all_email(full_email)
 		email_base, domain = full_email.split("@")
-		EmailSourceAccount.joins("INNER JOIN `email_virtual_domains` ON `email_virtual_domains`.`aliasing` = `email_source_accounts`.`email_virtual_domain_id`").where(email_source_accounts: {email: email_base}, email_virtual_domains: {name: domain}).first
+		EmailSourceAccount.joins("INNER JOIN `email_virtual_domains` ON `email_virtual_domains`.`aliasing` = `email_source_accounts`.`email_virtual_domain_id`").where(email_source_accounts: {email: email_base}, email_virtual_domains: {name: domain})
+	end
+
+	def self.find_email(email)
+		self.find_all_email(email).first
+	end
+
+	def self.find_by_full_email(full_email)
+		self.find_email(full_email)
 	end
 
 	def update_rewrite

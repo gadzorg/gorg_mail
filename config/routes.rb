@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+
+
+  get 'unsubscribe', to: "unsubscribe#email_form"
+  post 'unsubscribe', to: "unsubscribe#send_verification_email"
+  get 'unsubscribe/:token', to: "unsubscribe#ml_form", as: :unsubscribe_token
+  post 'unsubscribe/:token', to: "unsubscribe#process_unsubscribe"
+
   namespace :ml do
     resources :external_emails
   end
