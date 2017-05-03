@@ -25,6 +25,12 @@ class Token < ActiveRecord::Base
 
   before_create :set_default
 
+  scope :usable, -> { unused.unexpired }
+
+  scope :unused, -> { where(used_at: nil)}
+  scope :unexpired, -> { where('expires_at > NOW()')}
+
+
   DEFAULT_TOKEN_LIFETIME=3.days
 
   def generate_token

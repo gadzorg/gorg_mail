@@ -14,7 +14,11 @@ class UnsubscribeController < ApplicationController
   def ml_form
       umls=UnsubscribeMlService.initialize_from_token(@token)
       @mls=umls.mailling_lists
-      @has_account=umls.has_an_account?
+      if @mls.any?
+        @has_account=umls.has_an_account?
+      else
+        render :email_not_found
+      end
   end
 
   def process_unsubscribe
@@ -22,7 +26,7 @@ class UnsubscribeController < ApplicationController
   end
 
   def set_token
-    @token=Token.find_by(token: params.require(:token), scope: UnsubscribeMlService::TOKEN_SCOPE, used_at: nil)
+    @token=Token.usable.find_by(token: params.require(:token), scope: UnsubscribeMlService::TOKEN_SCOPE)
     render :unknown_token unless @token
   end
 
