@@ -1,4 +1,4 @@
-Feature: Unsbscribe a mailinglist as an external member
+Feature: Unsubscribe a mailinglist as an external member
   #In step definitions 'I' refers to @me
 
   Background:
