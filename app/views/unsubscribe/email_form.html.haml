@@ -15,5 +15,5 @@
           .input-field
             =email_field_tag(:email,nil, :size => 40, :required => 'required', :class=> 'validate')
             =label_tag('email', "Mon adresse email", "data-error"=>"Tu dois entrer ton adresse email au format email@domaine.fr", required: true)
-          .card-action
-            =submit_tag("Vérifier mon identité", class:'waves-effect waves-teal btn')
+        .card-action
+          =submit_tag("Vérifier mon identité", class:'waves-effect waves-teal btn')
