@@ -1,5 +1,7 @@
 class UnsubscribeController < ApplicationController
 
+  layout 'no-menu'
+
   before_action :set_token, only: [:ml_form,:process_unsubscribe]
 
   def email_form
@@ -10,7 +12,9 @@ class UnsubscribeController < ApplicationController
   end
 
   def ml_form
-      @mls=UnsubscribeMlService.initialize_from_token(@token).mailling_lists
+      umls=UnsubscribeMlService.initialize_from_token(@token)
+      @mls=umls.mailling_lists
+      @has_account=umls.has_an_account?
   end
 
   def process_unsubscribe
@@ -23,6 +27,6 @@ class UnsubscribeController < ApplicationController
   end
 
   def unsubcribe_params
-    params.require(:unsubscribe)
+    params[:unsubscribe]||{}
   end
 end

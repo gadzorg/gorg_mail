@@ -38,6 +38,10 @@ class Token < ActiveRecord::Base
     !!u.used_at
   end
 
+  def set_used
+    self.update_attributes(used_at: DateTime.now)
+  end
+
   def set_default
     self.tap do |mt|
       mt.expires_at||=DateTime.now+DEFAULT_TOKEN_LIFETIME

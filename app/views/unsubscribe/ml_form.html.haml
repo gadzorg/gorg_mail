@@ -1,14 +1,29 @@
-%h1 Unsubscribe#ml_form
-
-Selectionnez les listes desquelles vous souhaitez vous désinscrire
-
-=link_to "Tout cocher","#"
-=link_to "Tout décocher","#"
+%p#notice= notice
+%h2 Désabonnement aux listes de diffusions
 
 =form_tag(unsubscribe_token_path(@token.token), method: "post") do
-  #mailinglists
-    -@mls.each do |ml|
-      =label_tag "unsubscribe[#{ml.name}]", ml.name
-      =check_box_tag "unsubscribe[#{ml.name}]"
+  -if @has_account
+    .row
+      .l6.s12.col
+        .info-block
+          %b
+            %i.zmdi.zmdi-info.icon-padding-list
+            Vous pouvez gérer vos abonnement désabonnement directement depuis votre compte !
+          %p Pour celà, il vous suffit de et de vous rendre dans l'onglet "#{link_to "Listes de diffusion", mailinglists_path}"
 
-  =submit_tag("Me désinscrire")
+  .row
+    .l6.s12.col
+      .card
+        .card-content
+          %p
+            Selectionnez les listes desquelles vous souhaitez vous désinscrire :
+          %p
+            =link_to "Tout cocher","#", class:'waves-effect waves-teal white blue-grey-text'
+            =link_to "Tout décocher","#", class:'waves-effect waves-teal white blue-grey-text'
+          #mailinglists
+            -@mls.each do |ml|
+              .input-field
+                =check_box_tag "unsubscribe[#{ml.name}]"
+                =label_tag "unsubscribe[#{ml.name}]", ml.name
+        .card-action
+          =submit_tag("Me désinscrire", class:'waves-effect waves-teal btn')

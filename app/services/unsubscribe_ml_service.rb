@@ -15,9 +15,12 @@ class UnsubscribeMlService
     @token||=Token.create(scope: TOKEN_SCOPE, data:{email: @email})
   end
 
+  def linked_objects
+    @linked_objects||=EmailFinder.new(@email).find_all
+  end
+
   def mailling_lists_map
-    objects=EmailFinder.new(@email).find_all
-    objects.map{|o|[o,retrieve_mls_for(o)]}.to_h
+    linked_objects.map{|o|[o,retrieve_mls_for(o)]}.to_h
   end
 
   def mailling_lists
@@ -40,6 +43,11 @@ class UnsubscribeMlService
       end
     end
 
+    @token.set_used
+  end
+
+  def has_an_account?
+    linked_objects.any?{|o| [User, EmailSourceAccount,EmailRedirectAccount].any?{|k| o.is_a? k}}
   end
 
   private
