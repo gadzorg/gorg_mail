@@ -15,6 +15,15 @@ class MailingListsService
     request_mailing_list_delete unless self.class.no_sync?
   end
 
+  def footer
+"#{@mailing_list.message_footer}
+
+-----
+Vous recevez ce message car vous être membre de la liste de diffusion '#{@mailing_list.name}'
+Pour vous désinscrire, consultez #{Rails.application.routes.url_helpers.unsubscribe_url(host: 'https://emails.gadz.org')}
+"
+  end
+
   def request_mailing_list_update
     msg = {
       name: @mailing_list.name,
@@ -26,7 +35,7 @@ class MailingListsService
       members: @mailing_list.all_emails,
       message_max_bytes_size: @mailing_list.message_max_bytes_size ,
       object_tag:  @mailing_list.messsage_header,
-      message_footer: @mailing_list.message_footer ,
+      message_footer: footer,
       is_archived: @mailing_list.is_archived,
       distribution_policy: @mailing_list.diffusion_policy
     }
