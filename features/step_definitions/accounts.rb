@@ -6,3 +6,13 @@ Given(/^I have an account with ((?:[a-zA-Z_]+ ["'][^"']*["'](?:, )?)*)$/) do |ra
 
   @me=FactoryGirl.create(:user, attrs)
 end
+
+Given(/^I have a gadz account with ((?:[a-zA-Z_]+ ["'][^"']*["'](?:, )?)*)$/) do |arg|
+  step "I have an account with #{arg}"
+  @me.update_attributes(is_gadz: true)
+end
+
+Given(/^I am logged in with (.*)$/) do |arg|
+  step "I have #{arg}"
+  step "I'm logged in"
+end

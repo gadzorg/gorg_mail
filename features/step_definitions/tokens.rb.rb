@@ -13,3 +13,10 @@ Given(/^there is the unsubscribe token "([^"]*)" created for email address "([^"
     t.save
   end
 end
+
+And(/^this email contains a link with a token$/) do
+  steps %Q{
+    Given a token is created
+    Given this email contains a link to use the token
+  }
+end

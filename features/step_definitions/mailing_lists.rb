@@ -88,3 +88,22 @@ end
 And(/^"([^"]*)" is an external member of "([^"]*)"$/) do |email, ml_name|
     expect(Ml::List.find_by(name: ml_name).ml_external_emails.pluck(:email)).to include(email)
 end
+
+When(/^I visit the page of the mailling list "([^"]*)"$/) do |arg|
+  visit ml_list_path(Ml::List.find_by(name: arg))
+end
+
+And(/^I am admin of the list "([^"]*)"$/) do |arg|
+  ml=Ml::List.find_by(name: arg)
+  ml.add_user_no_sync(@me)
+  ml.set_role(@me,:admin)
+end
+
+And(/^"([^"]*)" (?:becomes|remains) subscribed to the mailinglist "([^"]*)" as an inactive external member$/) do |email, ml_name|
+  externals=Ml::List.find_by(name: ml_name).ml_external_emails
+  expect(externals.map{|e|e.email}).to include(email)
+  expect(externals.find{|e|e.email==email}).to have_attributes(
+                                                   enabled: false,
+                                                   accepted_cgu_at:  nil
+                                               )
+end

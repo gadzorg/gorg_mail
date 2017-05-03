@@ -25,3 +25,8 @@ end
 And(/^I check box "([^"]*)"$/) do |arg|
   check(arg)
 end
+
+And (/^screenshot$/) do
+  save_and_open_page
+
+end
