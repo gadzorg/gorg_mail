@@ -25,3 +25,9 @@ Feature: Invite a user without account to join a mailing list
     And the page contains "J'accepte les CGU"
     And the page contains a button "Accepter"
     And the page contains a button "Refuser"
+
+  Scenario: I accept the invitation
+
+  Scenario: I decline the invitation
+
+  Scenario:
