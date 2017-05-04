@@ -361,7 +361,7 @@ END_SQL
 
   def self.primary_emails
     #Take all primary email of user. More perf than user.primary
-    includes(email_source_accounts: :email_virtual_domain).pluck(:"CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name)")
+    includes(email_source_accounts: :email_virtual_domain).where(email_source_accounts: {primary: true}).pluck(:"CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name)")
   end
 
 
