@@ -79,6 +79,11 @@ Rails.application.configure do
 
   config.logger = Logger.new(STDOUT)
   config.logger.level = Logger.const_get((ENV["LOG_LEVEL"] || "INFO").upcase)
+
+  config.action_mailer.default_url_options={
+      host:ENV["MY_URL"]||"https://emails.gadz.org"
+  }
+
 end
 
 
