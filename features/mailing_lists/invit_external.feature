@@ -29,5 +29,3 @@ Feature: Invite a user without account to join a mailing list
   Scenario: I accept the invitation
 
   Scenario: I decline the invitation
-
-  Scenario:
