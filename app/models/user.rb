@@ -190,7 +190,7 @@ class User < ActiveRecord::Base
   ############################################################################
 
   def self.find_by_id_or_hruid_or_uuid(id)
-    find_by(id: id) || find_by(uuid: id) || find_by(hruid: id)
+    where("CAST(id AS CHAR)=:id OR uuid=:id OR hruid=:id",id: id).take
   end
 
   def has_google_apps
@@ -361,7 +361,7 @@ END_SQL
 
   def self.primary_emails
     #Take all primary email of user. More perf than user.primary
-    includes(email_source_accounts: :email_virtual_domain).pluck(:"CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name)")
+    includes(email_source_accounts: :email_virtual_domain).where(email_source_accounts: {primary: true}).pluck(:"CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name)")
   end
 
 
