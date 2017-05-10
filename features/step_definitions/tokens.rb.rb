@@ -20,3 +20,11 @@ And(/^this email contains a link with a token$/) do
     Given this email contains a link to use the token
   }
 end
+
+Given(/^"([^"]*)" was invited to join the mailing list named "([^"]*)" with token "([^"]*)"$/) do |email, list, token_value|
+  ml=Ml::List.find_by(name: list)
+  token=ExternalInvitationService.initialize_from_email(email:email,list:ml).token.tap do |t|
+    t.token=token_value
+    t.save
+  end
+end

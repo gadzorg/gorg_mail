@@ -1,0 +1,12 @@
+%p
+  Vous êtes inviter à rejoindre le groupe de discussion
+  %b
+    =@list.name
+
+
+  =form_tag ml_accept_external_invitation_path(@token.token), method: :post do
+    -if @cgu_retry
+      %p Vous devez valider les CGU pour continuer
+    =check_box_tag :accept_cgu
+    =label_tag :accept_cgu, "J'accepte les CGU'"
+    =submit_tag "Rejoindre le groupe"

@@ -154,8 +154,7 @@ class Ml::ListsController < ApplicationController
   def add_email
     authorize! :admin_members, @ml_list
     if @ml_list.add_email(params[:email])
-
-        redirect_to @ml_list, :flash => { :notice => "L'adresse #{params[:email]} a bien été ajoutée à la liste" }
+      redirect_to @ml_list, :flash => { :notice => "L'adresse #{params[:email]} a bien été ajoutée à la liste" }
     else
       redirect_to @ml_list, :flash => { :error => "Impossible d'ajouter cette adresse" }
     end

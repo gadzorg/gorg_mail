@@ -26,7 +26,6 @@ class Token < ActiveRecord::Base
   before_create :set_default
 
   scope :usable, -> { unused.unexpired }
-
   scope :unused, -> { where(used_at: nil)}
   scope :unexpired, -> { where('expires_at > NOW()')}
 

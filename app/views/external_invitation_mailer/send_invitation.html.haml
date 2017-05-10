@@ -1,0 +1,13 @@
+%p Bonjour,
+
+%p Vous êtes invitez à rejoindre la liste de discussion Gadz.org "#{@list.name}"
+
+.txtcenter.bouton.bouton_bleu
+  =link_to "Accepter l'invitation", ml_accept_external_invitation_url(@token.token) ,:class => "bouton bouton_orange_1 txtcenter"
+
+%p
+  Si ce lien ne fonctionne pas, copiez l'adresse suivante puis collez-la dans une nouvelle fenêtre de navigateur :
+%p=ml_accept_external_invitation_url(@token.token)
+
+%p.small
+  Si vous ne souhaitez pas donner suite à cette invitation, vous pouvez simplement l'ignorer

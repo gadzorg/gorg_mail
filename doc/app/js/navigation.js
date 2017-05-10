@@ -17,12 +17,12 @@ Navigation = new function() {
     });
 
     this.navigationActive = true;
-  }
+  };
 
   this.setNavigationActive = function(state) {
     this.navigationActive = state;
     this.clearMoveTimeout();
-  }
+  };
 
   this.onkeyup = function(e) {
     if (!this.navigationActive) return;
@@ -35,7 +35,7 @@ Navigation = new function() {
         this.clearMoveTimeout();
         break;
     }
-  }
+  };
 
   this.onkeydown = function(e) {
     if (!this.navigationActive) return;
@@ -65,12 +65,12 @@ Navigation = new function() {
         break;
     }
     if (e.ctrlKey && e.shiftKey) this.select(this.$current);
-  }
+  };
 
   this.clearMoveTimeout = function() {
     clearTimeout(this.moveTimeout);
     this.moveTimeout = null;
-  }
+  };
 
   this.startMoveTimeout = function(isDown) {
     if (!$.browser.mozilla && !$.browser.opera) return;
@@ -81,26 +81,26 @@ Navigation = new function() {
       if (!_this.moveTimeout) return;
       _this[isDown ? 'moveDown' : 'moveUp']();
       _this.moveTimout = setTimeout(go, 100);
-    }
+    };
     this.moveTimeout = setTimeout(go, 200);
-  }
+  };
 
   this.moveRight = function() {
-  }
+  };
 
   this.moveLeft = function() {
-  }
+  };
 
   this.move = function(isDown) {
-  }
+  };
 
   this.moveUp = function() {
     return this.move(false);
-  }
+  };
 
   this.moveDown = function() {
     return this.move(true);
-  }
+  };
 
   /*
    * Scrolls to the given element in the scrollable element view.
@@ -118,7 +118,7 @@ Navigation = new function() {
     if (offset < viewScroll) {
       view.scrollTop = offset;
     }
-  }
+  };
 
   /*
    * Scrolls to the given element in the window.  The second argument is
@@ -138,5 +138,5 @@ Navigation = new function() {
       window.scrollTo(window.scrollX, offset);
     }
   }
-}
+};
 

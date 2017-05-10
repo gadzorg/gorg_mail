@@ -2,11 +2,13 @@
 #
 # Table name: ml_external_emails
 #
-#  id         :integer          not null, primary key
-#  list_id    :integer
-#  email      :string(255)
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id              :integer          not null, primary key
+#  list_id         :integer
+#  email           :string(255)
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  enabled         :boolean
+#  accepted_cgu_at :datetime
 #
 # Indexes
 #
@@ -19,8 +21,9 @@ class Ml::ExternalEmail < ActiveRecord::Base
 
   validates :email, uniqueness: { scope: :list_id} , presence: true, format: { with: /\A([^@+\s\'\`]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i}
 
-  include TokenableConcern
+  before_create :set_default
 
+  include TokenableConcern
 
   def self.find_email(email)
     self.find_by(email: email)
@@ -28,6 +31,13 @@ class Ml::ExternalEmail < ActiveRecord::Base
 
   def self.find_all_email(email)
     self.where(email: email)
+  end
+
+  def set_default
+    self.tap do |ee|
+      ee.enabled||= false
+      ee.accepted_cgu_at||= nil
+    end
   end
 
 
