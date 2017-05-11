@@ -119,3 +119,9 @@ And(/^"([^"]*)" (?:becomes|remains) subscribed to the mailinglist "([^"]*)" as a
                               accepted_cgu_at: nil,
                           )
 end
+
+When(/^external member "([^"]*)" is deleted from "([^"]*)"$/) do |email, ml_name|
+  externals=Ml::List.find_by(name: ml_name).ml_external_emails
+  external=externals.find {|e| e.email==email}
+  external.destroy
+end

@@ -30,6 +30,6 @@ class Ml::ExternalInvitationController < ApplicationController
   end
 
   def unknown_token
-    render :unknown_token
+    render 'shared/unknown_token'
   end
 end

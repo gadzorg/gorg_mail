@@ -28,3 +28,7 @@ Given(/^"([^"]*)" was invited to join the mailing list named "([^"]*)" with toke
     t.save
   end
 end
+
+And(/^the token "([^"]*)" is used$/) do |arg|
+  expect(Token.find_by(token: arg)).to be_used
+end

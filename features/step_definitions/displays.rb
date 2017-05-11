@@ -14,6 +14,13 @@ When(/^I click "([^"]*)" button$/) do |title|
   click_link_or_button(title)
 end
 
+When(/^I click "([^"]*)" button in "([^"]*)"$/) do |title,locator|
+  within(:css, locator) do
+    click_link_or_button(title)
+  end
+end
+
+
 When(/^I visit "([^"]*)"$/) do |arg|
   visit arg
 end

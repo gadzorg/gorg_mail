@@ -2,6 +2,7 @@ class ExternalInvitationService
 
   class InvalidToken < StandardError; end
   class CguAcceptanceNeeded < StandardError; end
+  class ExternalEmailNotFound < StandardError; end
 
   TOKEN_SCOPE='accept_external_invitation'
 
@@ -24,7 +25,7 @@ class ExternalInvitationService
   end
 
   def external_email
-    @external_email||= @token ? @token.tokenable : Ml::ExternalEmail.find_or_create_by(email: @email, list_id: list.id)
+    @external_email||= @token ? @token.tokenable||(raise ExternalEmailNotFound) : Ml::ExternalEmail.find_or_create_by(email: @email, list_id: list.id)
   end
 
   def token
@@ -37,6 +38,7 @@ class ExternalInvitationService
 
   def accept_invitation(accept_cgu)
     if accept_cgu
+      token.set_used
       external_email.enabled=true
       external_email.accepted_cgu_at=DateTime.now
       external_email.save

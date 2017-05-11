@@ -40,3 +40,10 @@ Feature: Invite a user without account to join a mailing list
     And I click "Rejoindre le groupe" button
     Then the page contains "my_mailing_list"
     And "external@example.com" becomes subscribed to the mailinglist "my_mailing_list" as an active external member
+    And the token "some_token" is used
+
+  Scenario: Admin cancel the invitation before user accept it
+    Given "external@example.com" was invited to join the mailing list named "my_mailing_list" with token "some_token"
+    When external member "external@example.com" is deleted from "my_mailing_list"
+    And I visit "/ml/lists/invitations/some_token"
+    Then the page contains "Ce lien a déjà été utilisé ou n'est plus valable."

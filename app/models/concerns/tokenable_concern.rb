@@ -2,7 +2,7 @@ module TokenableConcern
   extend ActiveSupport::Concern
 
   included do
-    has_many :tokens, as: :tokenable
+    has_many :tokens, as: :tokenable, dependent: :destroy
   end
 
   def create_token(scope, **opts)
