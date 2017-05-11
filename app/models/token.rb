@@ -41,7 +41,7 @@ class Token < ActiveRecord::Base
   end
 
   def used?
-    !!u.used_at
+    !!self.used_at
   end
 
   def set_used
