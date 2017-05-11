@@ -4,6 +4,9 @@
     "postdeploy": "rake db:migrate;rake db:seed_recette"
   },
   "env": {
+    "MY_URL": {
+      "required": true
+    },
     "_SECRET_APP_NAME": {
       "required": true
     },
