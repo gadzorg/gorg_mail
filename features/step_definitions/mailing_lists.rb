@@ -73,11 +73,11 @@ And(/^"([^"]*)" is subscribed to the closed mailinglist "([^"]*)" as an external
   Ml::ExternalEmail.create(email: email, list_id: ml.id)
 end
 
-Then(/^I am not a member of "([^"]*)"$/) do |arg|
+Then(/^I am (?:no longer|remains not) a member of "([^"]*)"$/) do |arg|
   expect(Ml::List.find_by(name: arg).all_members).not_to include(@me)
 end
 
-And(/^I am a member of "([^"]*)"$/) do |arg|
+And(/^I (?:becomes|remains) a member of "([^"]*)"$/) do |arg|
   expect(Ml::List.find_by(name: arg).all_members).to include(@me)
 end
 

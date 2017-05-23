@@ -64,9 +64,9 @@ Feature: Unsubscribe a mailinglist as an external member
     And I check box "unsubscribe[gadz_list]"
     And I check box "unsubscribe[public_list]"
     And I click "Me désinscrire" button
-    Then I am not a member of "gadz_list"
-    And I am not a member of "public_list"
-    And I am a member of "other_public_list"
+    Then I am no longer a member of "gadz_list"
+    And I am no longer a member of "public_list"
+    And I remains a member of "other_public_list"
 
     Examples:
     |                   email_adress |
