@@ -61,7 +61,7 @@ And(/^"([^"]*)" is subscribed to the public mailinglist "([^"]*)" as an external
                         diffusion_policy: 'open',
                         inscription_policy: 'open'
   )
-  Ml::ExternalEmail.create(email: email, list_id: ml.id)
+  Ml::ExternalEmail.create(email: email, list_id: ml.id, enabled: true)
 end
 
 And(/^"([^"]*)" is subscribed to the closed mailinglist "([^"]*)" as an external member$/) do |email, name|
@@ -70,7 +70,7 @@ And(/^"([^"]*)" is subscribed to the closed mailinglist "([^"]*)" as an external
                         diffusion_policy: 'open',
                         inscription_policy: 'closed'
   )
-  Ml::ExternalEmail.create(email: email, list_id: ml.id)
+  Ml::ExternalEmail.create(email: email, list_id: ml.id, enabled: true)
 end
 
 Then(/^I am (?:no longer|remains not) a member of "([^"]*)"$/) do |arg|
