@@ -23,6 +23,8 @@ class Ml::ExternalEmail < ActiveRecord::Base
 
   before_create :set_default
 
+  scope :enabled , (->{where(enabled:true)})
+
   include TokenableConcern
 
   def self.find_email(email)

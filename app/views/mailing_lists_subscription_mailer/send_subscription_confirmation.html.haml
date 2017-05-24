@@ -1,6 +1,6 @@
 %p Sal's #{@user.firstname},
 
-%p Tu as rejoins le groupe de discussion "#{@list.name}". Si tu n'est pas à l'origine de cet inscription, celle-ci peut être du à un administrateur du groupe.
+%p Tu as rejoint le groupe de discussion "#{@list.name}". Si tu n'es pas à l'origine de cette inscription, celle-ci peut être dû à un administrateur du groupe.
 
 %p Si tu le souhaite, tu peux à tout moment te désinscrire de ce groupe en cliquant sur ce bouton :
 =render(partial: 'shared/email_button',locals: {link: ml_list_leave_url(@list.id, @user.id), title: "Me désinscrire"})
