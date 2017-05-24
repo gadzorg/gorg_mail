@@ -41,7 +41,7 @@ class ExternalInvitationService
       token.set_used
       external_email.enabled=true
       external_email.accepted_cgu_at=DateTime.now
-      external_email.save
+      external_email.save&&list.sync_with_mailing_list_service
     else
       raise CguAcceptanceNeeded
     end
