@@ -289,6 +289,10 @@ class User < ActiveRecord::Base
     self.email_source_accounts.find_by(primary: true)
   end
 
+  def contact_email
+    self.primary_email||self.email
+  end
+
   def is_gadz?
     self.update_attribute( :is_gadz, GramV2Client::Account.find(self.uuid).is_gadz)
     self.is_gadz
