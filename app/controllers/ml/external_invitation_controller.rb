@@ -10,6 +10,7 @@ class Ml::ExternalInvitationController < ApplicationController
       service=ExternalInvitationService.initialize_from_token(@token)
       if service.accept_invitation(params[:accept_cgu]=="1")
         @list=service.list
+
       else
         redirect_to ml_accept_external_invitation_path(@token.token), :flash => { :error => "Impossible d'enregistrer l'inscription" }
       end
@@ -22,6 +23,7 @@ class Ml::ExternalInvitationController < ApplicationController
     service=ExternalInvitationService.initialize_from_token(@token)
     @cgu_retry=params[:cgu_retry]
     @list=service.list
+    @email=service.external_email.email
   end
 
   def set_token
