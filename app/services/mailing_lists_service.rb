@@ -20,7 +20,7 @@ class MailingListsService
 
 -----
 Vous recevez ce message car vous être membre de la liste de diffusion '#{@mailing_list.name}'
-Pour vous désinscrire, consultez #{Rails.application.routes.url_helpers.unsubscribe_url(host: ENV["MY_URL"]||'https://emails.gadz.org')}
+Pour vous désinscrire, rendez-vous sur  #{Rails.application.routes.url_helpers.unsubscribe_url(host: ENV["MY_URL"]||'https://emails.gadz.org')}
 "
   end
 
