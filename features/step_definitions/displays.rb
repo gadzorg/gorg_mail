@@ -3,7 +3,7 @@ Then(/^"([^"]*)" contains "([^"]*)"$/) do |arg1, arg2|
 end
 
 Then(/^the page has button "([^"]*)"$/) do |title|
-  expect(page).to  have_css("a[title=\"#{title}\"],input[type=\"submit\"][value=\"#{title}\"],a[data-tooltip=\"#{title}\"]") | have_link(title)
+  expect(page).to  have_css("a[title=\"#{title}\"],input[type=\"submit\"][value=\"#{title}\"],a[data-tooltip=\"#{title}\"]")|have_link(title)|have_button(title)
 end
 
 Then(/^"([^"]*)" does not contain "([^"]*)"$/) do |arg1, arg2|
@@ -20,9 +20,17 @@ When(/^I click "([^"]*)" button in "((?:[^"]|\\")*)"$/) do |title,locator|
   end
 end
 
-
 When(/^I visit "([^"]*)"$/) do |arg|
   visit arg
+end
+
+Then(/^I am redirected to "([^"]*)"$/) do |arg|
+  expect(page.current_path).to eq(arg)
+end
+
+Then (/^I am forbidden to access the ressource$/) do
+  expect(page.status_code).to eq(403)
+  expect(page.body).to have_content("Erreur 403 - Forbidden")
 end
 
 And(/^I fill "([^"]*)" with "([^"]*)"$/) do |field,value|
@@ -35,7 +43,6 @@ end
 
 And (/^screenshot$/) do
   save_and_open_page
-
 end
 
 Then(/^the page contains "([^"]*)"$/) do |arg|
@@ -44,8 +51,4 @@ end
 
 Then(/^the page does not contains "([^"]*)"$/) do |arg|
   expect(page.body).not_to have_content(arg)
-end
-
-And(/^the page contains a button "([^"]*)"$/) do |arg|
-  expect(page.body).to have_button(arg)
 end

@@ -35,6 +35,7 @@ FactoryGirl.define do
     password_confirmation {password}
     uuid {SecureRandom.uuid}
 
+
 	  factory :admin do   
 	    	role {FactoryGirl.create(:role, name:"admin")}
     end
@@ -45,6 +46,14 @@ FactoryGirl.define do
 
     factory :invalid_user do
       hruid nil
+    end
+
+    factory :non_gadz_user do
+      is_gadz false
+    end
+
+    factory :gadz_user do
+      is_gadz true
     end
 
     factory :user_with_addresses do
