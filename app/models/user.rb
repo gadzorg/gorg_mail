@@ -64,6 +64,7 @@ class User < ActiveRecord::Base
 
   has_many :email_redirect_accounts, dependent: :destroy
   has_many :email_source_accounts, dependent: :destroy
+  has_one :primary_source_accounts, -> { where(primary: true) }, class_name: "EmailSourceAccount", dependent: :destroy
 
   after_initialize :set_default_values
   #TODO : switch to GrAM Canonical name
@@ -335,9 +336,10 @@ class User < ActiveRecord::Base
   end
 
   def self.basic_data_hash
-    self.includes(email_source_accounts: :email_virtual_domain).where(email_source_accounts: {primary: true})
-        .pluck("DISTINCT users.id", :"CONCAT(users.firstname, ' ', users.lastname)", :"CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name), ml_lists_users.role")
-        .map{|arr| {id: arr[0], name: arr[1], email: arr[2], role: arr[3]}}
+    self.includes(:ml_lists_users).joins("LEFT OUTER JOIN `email_source_accounts` AS `primary_source_accounts` ON `primary_source_accounts`.`user_id` = `users`.`id` AND   `primary_source_accounts`.`primary`=true")
+        .joins("LEFT OUTER JOIN `email_virtual_domains` ON `email_virtual_domains`.`id` = `primary_source_accounts`.`email_virtual_domain_id`")
+        .pluck("DISTINCT users.id", :"CONCAT(users.firstname, ' ', users.lastname)", :"CONCAT(primary_source_accounts.email, '@' ,email_virtual_domains.name),ml_lists_users.role","users.email")
+        .map{|arr| {id: arr[0], name: arr[1], email: arr[2], role: arr[3], account_email: arr[4]}}
   end
 
 

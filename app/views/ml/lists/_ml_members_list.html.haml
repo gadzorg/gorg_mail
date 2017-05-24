@@ -15,7 +15,7 @@
             =m[:name]
 
         -if can?( :admin_members, @ml_list)
-          =m[:email]
+          =m[:email]||m[:account_email]
           .secondary-content
             %a.dropdown-button.btn-small.btn-floating.btn-flat{"data-activates" => "#{block_id}-dropdown-role#{m[:id]}", "data-constrainwidth"=>"false", "data-beloworigin"=>"true", "hover" => "false",  :href => "#"}
               .zmdi.zmdi-more-vert
