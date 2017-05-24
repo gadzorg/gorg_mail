@@ -116,7 +116,7 @@ class Ml::List < ActiveRecord::Base
   end
 
   def all_emails
-    members_emails = self.all_members.contact_email
+    members_emails = self.all_members.contact_emails
     external_emails = self.ml_external_emails.where(enabled: true).pluck(:email)
     members_emails + external_emails
   end
