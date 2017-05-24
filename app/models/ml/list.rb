@@ -124,7 +124,7 @@ class Ml::List < ActiveRecord::Base
   def members_count
     cache_name = "a#{self.email}-#{self.updated_at.to_i}-list_member_count"
     Rails.cache.fetch(cache_name, expires_in: 10.minute) do
-      self.all_members.count + self.ml_external_emails.count
+      self.all_members.count + self.ml_external_emails.enabled.count
     end
   end
 
