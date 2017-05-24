@@ -1,5 +1,8 @@
 class SetupController < ApplicationController
 
+  before_action :set_user
+  before_action :check_setup_need, only: [:setup_email_source_accounts, :index, :setup]
+
   def setup_email_source_accounts
     @user= current_user
     authorize! :setup, @user
@@ -74,8 +77,16 @@ class SetupController < ApplicationController
   end
 
 private
+  def set_user
+    @user=current_user
+  end
+
   def setup_params
     params.permit(:google_apps, :redirect)
+  end
+
+  def check_setup_need
+    redirect_to root_path unless SetupService.new(@user).need_setup?
   end
 
 end
