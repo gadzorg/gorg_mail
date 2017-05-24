@@ -48,11 +48,11 @@ FactoryGirl.define do
       hruid nil
     end
 
-    factory :non_gadz_user do
+    trait :non_gadz do
       is_gadz false
     end
 
-    factory :gadz_user do
+    trait :gadz do
       is_gadz true
     end
 
