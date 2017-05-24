@@ -160,7 +160,7 @@ RSpec.describe Ml::ListsController, type: :controller do
   describe "GET #join" do
 
     let!(:list) { FactoryGirl.create(:ml_list)}
-    let(:current_user) { FactoryGirl.create(:user, is_gadz: true)}
+    let(:current_user) { FactoryGirl.create(:user_with_addresses, is_gadz: true)}
     let(:target_user) { current_user}
 
     it_behaves_like "a logged users only endpoint", :get, :join , {list_id:1, user_id: 1}

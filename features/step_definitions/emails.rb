@@ -22,6 +22,6 @@ end
 
 And(/^this email contains a text matching \/(.*)\/$/) do |regex_text|
   email=ActionMailer::Base.deliveries.last
-  expect(email.body.parts.map(&:encoded)[0]).to match(Regexp.new(regex_text))
-  expect(email.body.parts.map(&:encoded)[1]).to match(Regexp.new(regex_text))
+  expect(email.parts.map{|p| p.body.raw_source}[0]).to match(Regexp.new(regex_text))
+  expect(email.parts.map{|p| p.body.raw_source}[1]).to match(Regexp.new(regex_text))
 end
