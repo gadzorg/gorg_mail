@@ -52,6 +52,8 @@ class User < ActiveRecord::Base
          :rememberable, :trackable, :masqueradable,
          :omniauthable, :omniauth_providers => [:GadzOrg]
 
+  include TokenableConcern
+
   ##
   # synced_with_gram : True if last sync with gram data succeed (false if not).
   # false if object never tried to sync at runtime. Auto sync performed at connection via CAS
@@ -362,6 +364,14 @@ END_SQL
   def self.primary_emails
     #Take all primary email of user. More perf than user.primary
     includes(email_source_accounts: :email_virtual_domain).where(email_source_accounts: {primary: true}).pluck(:"CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name)")
+  end
+
+  def self.find_email(email)
+    self.find_by(email: email)
+  end
+
+  def self.find_all_email(email)
+    self.where(email: email)
   end
 
 

@@ -31,7 +31,7 @@ Given(/^I subscribed to a public mailing lists named "([^"]*)"$/) do |arg|
   @ml=FactoryGirl.create(:ml_list,
                          name: arg,
                          diffusion_policy: 'open',
-                         inscription_policy: 'closed'
+                         inscription_policy: 'open'
   )
   @ml.add_user_no_sync(@me)
 end
@@ -55,6 +55,36 @@ Given(/^I subscribed to a closed mailing lists named "([^"]*)"$/) do |arg|
   @ml.add_user_no_sync(@me)
 end
 
-Then(/^I become a member of the mailing list "([^"]*)"$/) do |arg|
-  expect(Ml::List.find_by(name: arg).users).to include(@me)
+And(/^"([^"]*)" is subscribed to the public mailinglist "([^"]*)" as an external member$/) do |email, name|
+  ml=FactoryGirl.create(:ml_list,
+                     name: name,
+                     diffusion_policy: 'open',
+                     inscription_policy: 'open'
+  )
+  Ml::ExternalEmail.create(email: email, list_id: ml.id)
+end
+
+And(/^"([^"]*)" is subscribed to the closed mailinglist "([^"]*)" as an external member$/) do |email, name|
+  ml=FactoryGirl.create(:ml_list,
+                     name: name,
+                     diffusion_policy: 'open',
+                     inscription_policy: 'closed'
+  )
+  Ml::ExternalEmail.create(email: email, list_id: ml.id)
+end
+
+Then(/^I am not a member of "([^"]*)"$/) do |arg|
+  expect(Ml::List.find_by(name: arg).all_members).not_to include(@me)
+end
+
+And(/^I am a member of "([^"]*)"$/) do |arg|
+  expect(Ml::List.find_by(name: arg).all_members).to include(@me)
+end
+
+Then(/^"([^"]*)" is not an external member of "([^"]*)"$/) do |email, ml_name|
+  expect(Ml::List.find_by(name: ml_name).ml_external_emails.pluck(:email)).not_to include(email)
+end
+
+And(/^"([^"]*)" is an external member of "([^"]*)"$/) do |email, ml_name|
+    expect(Ml::List.find_by(name: ml_name).ml_external_emails.pluck(:email)).to include(email)
 end

@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%div.center-align
+  %h2
+    %i.zmdi.zmdi-alert-triangle.icon-padding-list
+  %h2
+    Impossible de continuer ...
+
+  %p
+    Ce lien a déjà été utilisé ou n'est plus valable. Vous pouvez demander l'envoi d'un mail avec un nouveau lien de désinscription
+
+  =link_to "Envoyer un nouvel email", unsubscribe_path, class: "waves-effect waves-light btn"

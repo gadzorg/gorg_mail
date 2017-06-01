@@ -124,4 +124,13 @@ class EmailRedirectAccount < ActiveRecord::Base
     self.allow_rewrite = 1
     self.save
   end
+
+  def self.find_email(email)
+    self.find_by(redirect:email)
+  end
+
+  def self.find_all_email(email)
+    self.where(redirect:email)
+  end
+
 end
