@@ -8,7 +8,7 @@
 
 Role.create [{name: :admin},{name: :support}]
 
-puts "Virtual Domains"
+Rails.logger.debug "Seed Virtual Domains"
 
 list_domain=[['gadz.org', '1'],
 ['m4am.net', '2'],
