@@ -122,7 +122,7 @@ class UsersController < ApplicationController
 
   # GET /users/1/dashboard
   def dashboard_ml
-    authorize! :read_dashboard, @user
+    authorize! :read_ml_dashboard, @user
 
     return redirect_to setup_path if SetupService.new(@user).need_setup?
     @emails_source = @user.email_source_accounts.select(&:persisted?)

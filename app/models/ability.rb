@@ -56,6 +56,7 @@ class Ability
     if user.persisted?
       can [:read, :setup, :manage_suscribtion, :create_google_apps], User, :id => user.id if user.is_gadz_cached?
       can :read_dashboard, User, :id => user.id if user.is_gadz_cached?
+      can :read_ml_dashboard, User, :id => user.id if user.is_gadz_cached?
       can [:create, :read, :update, :destroy], EmailRedirectAccount, :user_id => user.id
       can :show, EmailSourceAccount, :user_id => user.id
 
