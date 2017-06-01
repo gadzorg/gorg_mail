@@ -22,7 +22,7 @@ Feature: Invite a user without account to join a mailing list
     Given "external@example.com" was invited to join the mailing list named "my_mailing_list" with token "some_token"
     When I visit "/ml/lists/invitations/some_token"
     Then the page contains "my_mailing_list"
-    And the page contains "J'accepte les CGU"
+    And the page contains "J'accepte"
     And the page contains a button "Rejoindre le groupe"
 
  Scenario: I accept the invitation without accepting CGUs
