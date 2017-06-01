@@ -9,5 +9,9 @@ def wait_for_ajax
 end
 
 def finished_all_ajax_requests?
-  page.evaluate_script('jQuery.active').zero?
+  begin
+    page.evaluate_script('jQuery.active').zero?
+  rescue Capybara::NotSupportedByDriverError
+    true
+  end
 end

@@ -1,3 +1,4 @@
+@javascript
 Feature: I'm asked to setup my account on first log-in
   
   Scenario: I'm already setup

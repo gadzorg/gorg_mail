@@ -2,7 +2,7 @@ require "capybara"
 require "capybara/cucumber"
 require 'capybara/poltergeist'
 
-Capybara.default_driver = :poltergeist
+#Capybara.default_driver = :poltergeist
 Capybara.javascript_driver = :poltergeist
 
 Capybara.register_driver :poltergeist do |app|
