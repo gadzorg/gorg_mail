@@ -312,7 +312,7 @@ class User < ActiveRecord::Base
         return []
       else
         # This is very bad.
-        puts error
+        Rails.logger.error error
         return []
       end
     end
@@ -325,7 +325,7 @@ class User < ActiveRecord::Base
 
   def lists_allowed(from_cache=false)
   cache_name = "a#{self.uuid}-#{self.updated_at.to_i}-lists_allowed"
-    puts cache_name
+    Rails.logger.debug cache_name
     Rails.cache.delete(cache_name) if from_cache == false
     Rails.cache.fetch(cache_name, expires_in: 10.minute) do
       user_groups_uuid = self.groups.map(&:uuid)
