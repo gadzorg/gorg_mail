@@ -15,9 +15,7 @@ if (!("console" in window) || !("firebug" in console)) {
   window.console = {};
   for (var i = 0; i < names.length; ++i)
     window.console[names[i]] = function() {};
-};
-
-
+}
 /**
  * Unwrap the first element that matches the given @expr@ from the targets and return them.
  */
@@ -38,12 +36,10 @@ function showSource( e ) {
     parents('.method-detail').
     find('.method-source-code').
     slideToggle();
-};
-
+}
 function hookSourceViews() {
   $('.method-heading').click( showSource );
-};
-
+}
 function hookSearch() {
   var input  = $('#search-field').eq(0);
   var result = $('#search-results').eq(0);
@@ -74,16 +70,15 @@ function hookSearch() {
     li.innerHTML = html;
 
     return li;
-  }
+  };
 
   search.select = function(result) {
     var result_element = result.get(0);
     window.location.href = result_element.firstChild.firstChild.href;
-  }
+  };
 
   search.scrollIntoView = search.scrollInWindow;
-};
-
+}
 function highlightTarget( anchor ) {
   console.debug( "Highlighting target '%s'.", anchor );
 
@@ -98,8 +93,7 @@ function highlightTarget( anchor ) {
       }
     }
   });
-};
-
+}
 function highlightLocationTarget() {
   console.debug( "Location hash: %s", window.location.hash );
   if ( ! window.location.hash || window.location.hash.length == 0 ) return;
@@ -108,8 +102,7 @@ function highlightLocationTarget() {
   console.debug( "Found anchor: %s; matching %s", anchor, "a[name=" + anchor + "]" );
 
   highlightTarget( anchor );
-};
-
+}
 function highlightClickTarget( event ) {
   console.debug( "Highlighting click target for event %o", event.target );
   try {
@@ -118,9 +111,8 @@ function highlightClickTarget( event ) {
     highlightTarget( anchor );
   } catch ( err ) {
     console.error( "Exception while highlighting: %o", err );
-  };
-};
-
+  }
+}
 function loadAsync(path, success) {
   $.ajax({
     url: rdoc_rel_prefix + path,
@@ -128,8 +120,7 @@ function loadAsync(path, success) {
     success: success,
     cache: true
   });
-};
-
+}
 $(document).ready( function() {
   hookSourceViews();
   highlightLocationTarget();
@@ -140,7 +131,7 @@ $(document).ready( function() {
     search_loaded:       false,
     search_index_loaded: false,
     searcher_loaded:     false,
-  }
+  };
 
   var search_success_function = function(variable) {
     return (function (data, status, xhr) {
@@ -152,7 +143,7 @@ $(document).ready( function() {
           search_scripts_loaded['searcher_loaded']     == true)
         hookSearch();
     });
-  }
+  };
 
   loadAsync('js/navigation.js',   search_success_function('navigation_loaded'));
   loadAsync('js/search.js',       search_success_function('search_loaded'));

@@ -58,11 +58,11 @@
         this.iend_size = 4 + 4 + 4;
         this.buffer_size  = this.iend_offs + this.iend_size;	// total PNG size
 
-        this.buffer  = new Array();
-        this.palette = new Object();
+        this.buffer  = [];
+        this.palette = {};
         this.pindex  = 0;
 
-        var _crc32 = new Array();
+        var _crc32 = [];
 
         // initialize buffer with zero bytes
         for (var i = 0; i < this.buffer_size; i++) {
@@ -113,7 +113,7 @@
             var i = y * (this.width + 1) + x + 1;
             var j = this.idat_offs + 8 + 2 + 5 * Math.floor((i / 0xffff) + 1) + i;
             return j;
-        }
+        };
 
         // convert a color and build up the palette
         this.color = function(red, green, blue, alpha) {
@@ -134,7 +134,7 @@
                 this.palette[color] = String.fromCharCode(this.pindex++);
             }
             return this.palette[color];
-        }
+        };
 
         // output a PNG string, Base64 encoded
         this.getBase64 = function() {
@@ -158,7 +158,7 @@
                 r+= ch.charAt(e1) + ch.charAt(e2) + ch.charAt(e3) + ch.charAt(e4);
             } while ((i+= 3) < l);
             return r;
-        }
+        };
 
         // output a PNG string
         this.getDump = function() {
@@ -203,7 +203,7 @@
             // convert PNG to string
             return "\211PNG\r\n\032\n"+this.buffer.join('');
         }
-    }
+    };
 
     // modified from original source to support NPM
     if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
