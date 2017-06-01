@@ -88,7 +88,8 @@ class Ml::ListsController < ApplicationController
     authorize! :suscribe, @ml_list
     @user = User.find(params[:user_id])
     authorize! :manage_suscribtion, @user
-    if @ml_list.add_user(@user)
+    service = MailingListSubscriptionService.new(list:@ml_list,user:@user)
+    if service.do_subscribe
       get_list(@user)
       respond_to do |format|
         flash[:notice] = "Tu as rejoint la liste de diffusion #{@ml_list.name}"

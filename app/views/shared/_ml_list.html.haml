@@ -2,7 +2,7 @@
 %ul.ml-list.collection
   -lists.each do |l|
     -#=link_to ml_list_path(l), class: "waves-effect black-text" do
-    %li.collection-item.avatar
+    %li.collection-item.avatar{'data-list-id'=> l.id,'data-list-name'=> l.name}
       =link_to ml_list_path(l), class: "black-text" do
         %i.material-icons.circle comment
         %span.title

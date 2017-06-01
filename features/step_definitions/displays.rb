@@ -14,8 +14,8 @@ When(/^I click "([^"]*)" button$/) do |title|
   click_link_or_button(title)
 end
 
-When(/^I click "([^"]*)" button in "([^"]*)"$/) do |title,locator|
-  within(:css, locator) do
+When(/^I click "([^"]*)" button in "((?:[^"]|\\")*)"$/) do |title,locator|
+  within(:css, unescape(locator)) do
     click_link_or_button(title)
   end
 end

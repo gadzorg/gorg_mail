@@ -61,7 +61,7 @@ class UnsubscribeMlService
       when EmailRedirectAccount
         retrieve_mls_for(obj.user)
       when Ml::ExternalEmail
-        [obj.ml_list]
+        obj.enabled ? [obj.ml_list] : []
       else
         []
     end
