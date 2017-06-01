@@ -50,10 +50,6 @@ And(/^I check box "([^"]*)"$/) do |arg|
   check(arg)
 end
 
-And (/^screenshot$/) do
-  page.save_screenshot
-end
-
 Then(/^the page contains "([^"]*)"$/) do |arg|
   expect(page.body).to have_content(arg)
 end

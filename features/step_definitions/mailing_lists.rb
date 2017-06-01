@@ -46,6 +46,11 @@ And(/^I subscribed to a group\-only mailing lists named "([^"]*)" for group "([^
   @ml.add_user_no_sync(@me)
 end
 
+Given(/^I subscribed to the mailing list named "([^"]*)"$/) do |arg|
+  @ml=Ml::List.find_by(name:arg)
+  @ml.add_user_no_sync(@me)
+end
+
 Given(/^I subscribed to a closed mailing lists named "([^"]*)"$/) do |arg|
   @ml=FactoryGirl.create(:ml_list,
                          name: arg,

@@ -35,3 +35,16 @@ Feature: I can manage my mailinglist subscriptions from a dashboard, as a non-ga
     Then "not_joined_lists" contains "My public Ml"
     And I am no longer a member of "My public Ml"
 
+
+  @javascript
+  Scenario: I visit a public mailinglist show page
+    When I visit "/mailinglists"
+    And I click "M'inscrire" button in "li[data-list-name='My public Ml']"
+    And I click "Consulter" button in "li[data-list-name='My public Ml']"
+    Then "members" contains "Membres"
+
+  Scenario: I visit a private mailinglist show page
+    Given I subscribed to the mailing list named "My private Ml"
+    When I visit "/mailinglists"
+    And I click "Consulter" button in "li[data-list-name='My private Ml']"
+    Then "members" contains "Membres"
