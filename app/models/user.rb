@@ -329,7 +329,8 @@ class User < ActiveRecord::Base
     Rails.cache.delete(cache_name) if from_cache == false
     Rails.cache.fetch(cache_name, expires_in: 10.minute) do
       user_groups_uuid = self.groups.map(&:uuid)
-      conditions = "inscription_policy IN ('conditional_gadz', 'open')"
+      conditions = "inscription_policy IN ('open')"
+      conditions += "OR inscription_policy IN ('conditional_gadz')" if self.is_gadz_cached?
       conditions += " OR group_uuid IN (#{user_groups_uuid.map{|e|"\"#{e}\""}.join(",")})" if user_groups_uuid.any?
       Ml::List.includes(redirection_aliases: :email_virtual_domain).where(conditions)
     end

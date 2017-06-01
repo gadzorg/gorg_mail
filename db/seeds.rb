@@ -69,10 +69,5 @@ list_domain=[['gadz.org', '1'],
 ['znix.gadz.org', '68'],
 ['bordeaux.gadz.org', '69']]
 
-list_domain.each do |d|
-  a=EmailVirtualDomain.create(
-    :name => d[0],
-    :aliasing => d[1]
-    )
-  a.save
-end
+value_string=list_domain.map{|d| "('#{d[0]}',#{d[1]}, NOW(), NOW())"}.join(', ')
+EmailVirtualDomain.connection.insert("INSERT INTO email_virtual_domains (name, aliasing, created_at, updated_at) VALUES "+value_string)

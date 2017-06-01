@@ -13,7 +13,7 @@ Feature: I login in the application
     Given I am logged in with a non-gadz account
     When I visit "/"
     Then I am redirected to "/dashboard"
-    And I am forbidden to access the ressource
+    And I should be forbidden to access the ressource
 
   Scenario: I visit home page as a non initialized Gadz account
     Given I am logged in with a newly created gadz account

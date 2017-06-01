@@ -101,6 +101,7 @@ class Ml::ListsController < ApplicationController
       get_list(@user)
       respond_to do |format|
         flash[:error] = "Impossible de rejoindre la liste de diffusion #{@ml_list.name}"
+        format.html {redirect_to ml_list_path(@ml_list, search: params[:search])}
         format.json { head :no_content }
         format.js
       end

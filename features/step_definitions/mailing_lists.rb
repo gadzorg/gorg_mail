@@ -125,3 +125,23 @@ When(/^external member "([^"]*)" is deleted from "([^"]*)"$/) do |email, ml_name
   external=externals.find {|e| e.email==email}
   external.destroy
 end
+
+Given(/^the following mailing lists exists :$/) do |table|
+  # table is a table.hashes.keys # => [:inscription_policy, :name]
+
+  params= table.hashes.map do |ml_h|
+    ml_h.map do |k,v|
+      value= begin
+        JSON.parse(v.to_s)
+      rescue JSON::ParserError => e
+        v
+      end
+      [k,value]
+    end.to_h
+  end
+
+
+  params.each do |h|
+    FactoryGirl.create(:ml_list,h )
+  end
+end
