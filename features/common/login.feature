@@ -4,16 +4,17 @@ Feature: I login in the application
     When I visit "/"
     Then the page has button "Connexion"
 
+    @wip
   Scenario: I visit home page as a logged-in Gadz
     Given I am logged in with a gadz account
     When I visit "/"
     Then I am redirected to "/dashboard"
 
+    @wip
   Scenario: I visit home page as a logged-in non-Gadz
     Given I am logged in with a non-gadz account
     When I visit "/"
-    Then I am redirected to "/dashboard"
-    And I should be forbidden to access the ressource
+    Then I am redirected to "/mailinglists"
 
   Scenario: I visit home page as a non initialized Gadz account
     Given I am logged in with a newly created gadz account
