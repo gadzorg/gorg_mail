@@ -37,13 +37,13 @@ Feature: I can manage my mailinglist subscriptions from a dashboard, as a gadz a
     And I becomes a member of "Gadz Only Ml"
 
 
-  @javascript
+  @javascript @wip
   Scenario: I visit a public mailinglist show page
+    Given I subscribed to the mailing list named "My public Ml"
     When I visit "/mailinglists"
-    And I click "M'inscrire" button in "li[data-list-name='My public Ml']"
     And I click "Consulter" button in "li[data-list-name='My public Ml']"
     Then "members" contains "Membres"
-
+  @wip
   Scenario: I visit a private mailinglist show page
     Given I subscribed to the mailing list named "My private Ml"
     When I visit "/mailinglists"

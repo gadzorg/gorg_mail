@@ -1,0 +1,1 @@
+Capybara.page.current_window.maximize
