@@ -13,13 +13,14 @@
             Il n'y a pas de membre sans adresse gadz.org dans cette liste
         -else
           -@external_emails.each do |m|
-            %li.collection-item{class: "external_email_entry", id:"ee-#{m.id}"}
-              %span{class: [m.enabled? ? "enabled":"disabled"].join(" ")}
-                =m.email
-              -if can? :destroy, m
-                .secondary-content
-                  =link_to ml_list_remove_email_path(list_id: @ml_list.id, email_id: m.id), :method => :delete,id: "ee-#{m.id}-delete", :data => { :confirm => 'Are you sure?' } do
-                    %i.zmdi.zmdi-delete.icon-padding-list
+            -if m.enabled? || can? :admin_members, @ml_list
+              %li.collection-item{class: "external_email_entry", id:"ee-#{m.id}"}
+                %span{class: [m.enabled? ? "enabled":"disabled"].join(" ")}
+                  =m.email
+                -if can? :destroy, m
+                  .secondary-content
+                    =link_to ml_list_remove_email_path(list_id: @ml_list.id, email_id: m.id), :method => :delete,id: "ee-#{m.id}-delete", :data => { :confirm => 'Are you sure?' } do
+                      %i.zmdi.zmdi-delete.icon-padding-list
 
 .mtm=render partial: "ml_members_list_box", locals: {members: @admins_and_moderators, show_search: false,name: "Admins et modo",id: 'admins'}
 -if can? :admin_members, @ml_list
