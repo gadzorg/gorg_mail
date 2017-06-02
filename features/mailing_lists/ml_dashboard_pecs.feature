@@ -36,7 +36,7 @@ Feature: I can manage my mailinglist subscriptions from a dashboard, as a non-ga
     And I am no longer a member of "My public Ml"
 
 
-  @javascript
+  @javascript @wip
   Scenario: I visit a public mailinglist show page
     When I visit "/mailinglists"
     And I click "M'inscrire" button in "li[data-list-name='My public Ml']"
