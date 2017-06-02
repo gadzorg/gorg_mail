@@ -13,7 +13,7 @@
             Il n'y a pas de membre sans adresse gadz.org dans cette liste
         -else
           -@external_emails.each do |m|
-            -if m.enabled? || can? :admin_members, @ml_list
+            -if m.enabled?||can?(:admin_members, @ml_list)
               %li.collection-item{class: "external_email_entry", id:"ee-#{m.id}"}
                 %span{class: [m.enabled? ? "enabled":"disabled"].join(" ")}
                   =m.email
