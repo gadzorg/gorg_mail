@@ -3,19 +3,22 @@
 
 =form_tag ml_accept_external_invitation_path(@token.token), method: :post do
 
+  %p Un administrateur du groupe de discussion <b>#{@list.name}</b> vous invite à participer à ce groupe.
+
+  %p En acceptant cette invitation, vous receverez les mails envoyé à <b>#{@list.name}</b> sur votre adresse <b>#{@email}</b> et vous pourrez également échanger avec les autres membre de cette liste en écrivant à cette même adresse.
 
   .row
     .l6.s12.col
       .card
         .card-content
-          %p Un administrateur du groupe de discussion <b>#{@list.name}</b> vous invite à participer à ce groupe.
 
-          %p En acceptant cette invitation, vous receverez les mails envoyé à <b>#{@list.name}</b> sur votre adresse <b>#{@email}</b> et vous pourrez également échanger avec les autres membre de cette liste en écrivant à cette même adresse.
 
+          %p Pour rejoindre ce groupe, vous devez accepter #{link_to("les CGU","/CGUAgorAM.pdf", :target => "_blank")} du système d'information de la Société des Ingénieurs Arts et Métiers
           -if @cgu_retry
             %p Vous devez valider les CGU pour continuer
           .input-field
             =check_box_tag :accept_cgu
-            =label_tag :accept_cgu, "J'accepte les CGU"
+            =label_tag :accept_cgu, "J'accepte"
+
         .card-action
           =submit_tag "Rejoindre le groupe", class:'waves-effect waves-teal btn'

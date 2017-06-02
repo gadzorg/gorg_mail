@@ -84,6 +84,8 @@ Rails.application.configure do
       host:ENV["MY_URL"]||"https://emails.gadz.org"
   }
 
+  config.serve_static_assets = true
+
 end
 
 
