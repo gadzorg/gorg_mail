@@ -6,7 +6,7 @@ class MailingListSubscriptionService
   end
 
   def subscribe_email(email)
-    @user=EmailFinder.new(email,priority_array: [EmailSourceAccount,EmailRedirectAccount,User]).find_one
+    @user=EmailFinder.new(email,priority_array: [EmailSourceAccount,EmailRedirectAccount,User]).find_first
     if @user
       self.do_subscribe
     else

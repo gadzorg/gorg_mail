@@ -14,7 +14,7 @@ class Ml::ListsController < ApplicationController
   def show
     authorize! :read, @ml_list
     @search = params[:search]
-    @members = @ml_list.all_members.search(@search).order(:firstname).page(params[:page]).per_page(20).where(email_source_accounts: {primary: true})
+    @members = @ml_list.all_members.search(@search).order(:firstname).page(params[:page]).per_page(20)#.where(email_source_accounts: {primary: true})
     @external_emails = @ml_list.ml_external_emails
     @redirection_aliases = @ml_list.redirection_aliases
     @admins_and_moderators = @ml_list.super_members
@@ -101,6 +101,7 @@ class Ml::ListsController < ApplicationController
       get_list(@user)
       respond_to do |format|
         flash[:error] = "Impossible de rejoindre la liste de diffusion #{@ml_list.name}"
+        format.html {redirect_to ml_list_path(@ml_list, search: params[:search])}
         format.json { head :no_content }
         format.js
       end

@@ -72,6 +72,8 @@ class EmailRedirectAccount < ActiveRecord::Base
   validates :flag, occurencies: {only:['active'], max: Configurable.max_actives_era,:scope => :user_id, where: {type_redir: 'smtp'}}
   validates :flag, inclusion: { in: FLAGS}
 
+  scope :smtp, (-> {where(type_redir: 'smtp')})
+  scope :google_apps, (-> {where(type_redir: 'googleapps')})
 
   after_create :email_redirect_account_completer
 

@@ -31,4 +31,38 @@ RSpec.describe Ml::List, type: :model do
   it "handle no group uuid" do
     expect(FactoryGirl.build(:ml_list).belong_to_group?).to be_falsey
   end
+
+  describe "returns all emails"do
+
+    it "returns primary emails" do
+      ml=FactoryGirl.create(:ml_list)
+      users=FactoryGirl.create_list(:user_with_addresses,4)
+      users.each{|u| ml.add_user(u)}
+
+      expect(ml.all_emails).to match_array(users.map{|u| u.primary_email.to_s})
+    end
+
+    it "returns primary emails of members only" do
+      ml=FactoryGirl.create(:ml_list)
+      users=FactoryGirl.create_list(:user_with_addresses,4)
+      banned_users=FactoryGirl.create_list(:user_with_addresses,4)
+      users.each{|u| ml.add_user(u)}
+      banned_users.each{|u| ml.add_user(u)&&ml.set_role(u, :banned)}
+
+      expect(ml.all_emails).to match_array(users.map{|u| u.primary_email.to_s})
+    end
+
+    it "returns contact emails" do
+      ml=FactoryGirl.create(:ml_list)
+      users=FactoryGirl.create_list(:user_with_addresses,4)
+      users_without_primary=FactoryGirl.create_list(:user,2,:non_gadz)
+      users.each{|u| ml.add_user(u)}
+      users_without_primary.each{|u| ml.add_user(u)}
+
+      expect(ml.all_emails).to match_array(users.map{|u| u.primary_email.to_s}+users_without_primary.map(&:email))
+    end
+
+
+  end
 end
+

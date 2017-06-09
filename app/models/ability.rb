@@ -54,10 +54,10 @@ class Ability
     end
 
     if user.persisted?
-      can [:read, :setup, :manage_suscribtion, :create_google_apps], User, :id => user.id if user.is_gadz_cached?
-      can :read_dashboard, User, :id => user.id if user.is_gadz_cached?
-      can [:create, :read, :update, :destroy], EmailRedirectAccount, :user_id => user.id
-      can :show, EmailSourceAccount, :user_id => user.id
+      can [:setup, :create_google_apps, :read_dashboard], User, :id => user.id if user.is_gadz_cached?
+      can [:read,:read_ml_dashboard, :manage_suscribtion], User, :id => user.id
+      can [:create, :read, :update, :destroy], EmailRedirectAccount, :user_id => user.id if user.is_gadz_cached?
+      can :show, EmailSourceAccount, :user_id => user.id if user.is_gadz_cached?
 
       #ML member
       can :destroy, Ml::ListsUser, :role => [1,2,3,4], :user_id => user.id

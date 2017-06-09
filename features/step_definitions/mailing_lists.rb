@@ -46,6 +46,11 @@ And(/^I subscribed to a group\-only mailing lists named "([^"]*)" for group "([^
   @ml.add_user_no_sync(@me)
 end
 
+Given(/^I subscribed to the mailing list named "([^"]*)"$/) do |arg|
+  @ml=Ml::List.find_by(name:arg)
+  @ml.add_user_no_sync(@me)
+end
+
 Given(/^I subscribed to a closed mailing lists named "([^"]*)"$/) do |arg|
   @ml=FactoryGirl.create(:ml_list,
                          name: arg,
@@ -124,4 +129,29 @@ When(/^external member "([^"]*)" is deleted from "([^"]*)"$/) do |email, ml_name
   externals=Ml::List.find_by(name: ml_name).ml_external_emails
   external=externals.find {|e| e.email==email}
   external.destroy
+end
+
+Given(/^the following mailing lists exists :$/) do |table|
+  # table is a table.hashes.keys # => [:inscription_policy, :name]
+
+  params= table.hashes.map do |ml_h|
+    ml_h.map do |k,v|
+      value= begin
+        JSON.parse(v.to_s)
+      rescue JSON::ParserError => e
+        v
+      end
+      [k,value]
+    end.to_h
+  end
+
+
+  params.each do |h|
+    FactoryGirl.create(:ml_list,h )
+  end
+end
+
+
+Then(/^user "([^"]*)" should be subscribed to mailinglist "([^"]*)"$/) do |hruid, ml_name|
+  expect(Ml::List.find_by(name: ml_name).all_members).to include(User.find_by(hruid: hruid))
 end

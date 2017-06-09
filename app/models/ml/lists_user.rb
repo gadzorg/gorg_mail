@@ -30,10 +30,10 @@ class Ml::ListsUser < ActiveRecord::Base
   enum role: [:banned, :pending, :member, :moderator, :admin ]
   #Crée le scope plurielalisé de chaque role
   roles.keys.each do |role|
-    scope role.pluralize.to_sym, -> { send(role) }
+    scope role.pluralize.to_sym, (-> { send(role) })
   end
-  scope :all_members, -> { where("role >= ?",self.roles['member']) }
-  scope :super_members, -> { where("role >= ?",self.roles['moderator']) }
+  scope :all_members, (-> { where("ml_lists_users.role >= ?",self.roles['member']) })
+  scope :super_members, (-> { where("ml_lists_users.role >= ?",self.roles['moderator']) })
 
 
   def initialize(args={})
