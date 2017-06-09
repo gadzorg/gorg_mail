@@ -5,7 +5,7 @@ class EmailFinder
     @klasses_search_order=opts.fetch(:priority_array,[EmailSourceAccount,EmailRedirectAccount,User,Ml::ExternalEmail])
   end
 
-  def find_one
+  def find_first
     target=nil
     @klasses_search_order.detect do |k|
       target=k.find_email(@email)
@@ -19,6 +19,7 @@ class EmailFinder
     end
     objects.flatten
   end
+
 
 
 end

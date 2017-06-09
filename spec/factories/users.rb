@@ -26,6 +26,8 @@ require 'faker'
 
 FactoryGirl.define do
   factory :user do
+
+
     email { Faker::Internet.email }
     firstname { Faker::Name.first_name }
     lastname { Faker::Name.last_name }
@@ -57,8 +59,20 @@ FactoryGirl.define do
     end
 
     factory :user_with_addresses do
+
+      transient do
+        primary_email_source_account nil
+      end
+
       after(:create) do |user, evaluator|
-        create(:email_source_account, user: user, primary: true, email: user.email.split("@").first, )
+
+        esa_params={
+            user: user,
+            primary: true,
+            email: evaluator.primary_email_source_account ? evaluator.primary_email_source_account.split("@").first : user.email.split("@").first
+        }
+
+        create(:email_source_account, esa_params)
         create(:email_redirect_account, user: user)
       end
     end

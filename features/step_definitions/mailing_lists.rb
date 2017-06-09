@@ -150,3 +150,8 @@ Given(/^the following mailing lists exists :$/) do |table|
     FactoryGirl.create(:ml_list,h )
   end
 end
+
+
+Then(/^user "([^"]*)" should be subscribed to mailinglist "([^"]*)"$/) do |hruid, ml_name|
+  expect(Ml::List.find_by(name: ml_name).all_members).to include(User.find_by(hruid: hruid))
+end

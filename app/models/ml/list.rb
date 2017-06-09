@@ -130,13 +130,16 @@ class Ml::List < ActiveRecord::Base
 
   ############# external emails #############
   def add_email(email_address,sync = true)
-    era = EmailRedirectAccount.includes(:user).find_by(redirect: email_address)
-    esa = EmailSourceAccount.includes(:user).find_by_full_email(email_address) if era.nil?
 
-    if era.present?
-      add_user_no_sync(era.user)
-    elsif esa.present?
-      add_user_no_sync(esa.user)
+    looked_up_klasses=[EmailSourceAccount,EmailRedirectAccount,User]
+    finder=EmailFinder.new(email_address, priority_array: looked_up_klasses)
+
+    result=finder.find_first
+
+    user = result.is_a?(User) ? result : (result&&result.user)
+
+    if user
+      add_user_no_sync(user)
     else
       ExternalInvitationService.initialize_from_email(email: email_address, list: self).invite
     end

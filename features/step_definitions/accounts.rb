@@ -35,3 +35,28 @@ Given(/^I am logged in with (.*)$/) do |arg|
   step "I have #{arg}"
   step "I'm logged in"
 end
+
+Given(/^the following users exist :$/) do |table|
+  # table is a table.hashes.keys # => [:is_gadz, :        hruid, :primary_email_source_account, :email]
+  params= table.hashes.map do |ml_h|
+    h_raw=ml_h.map do |k,v|
+      value= begin
+        JSON.parse(v.to_s)
+      rescue JSON::ParserError => e
+        v
+      end
+      [k,value]
+    end.to_h
+
+    h_raw.tap do |h|
+      h['is_gadz'] = h['is_gadz'] == 'true' ? true : false
+    end
+  end
+
+  params.each do |h|
+
+    factory = h['primary_email_source_account'] ? :user_with_addresses : :user
+
+    FactoryGirl.create(factory,h )
+  end
+end
