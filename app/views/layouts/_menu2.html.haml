@@ -7,10 +7,12 @@
           =image_tag "logo_alumni.png", :class => "vertical-center"
       .menu
         %ul
-          %li
-            =link_to "Emails", dashboard_path
-          %li
-            =link_to "Listes de diffusions", mailinglists_path
+          -if can? :read_dashboard, current_user
+            %li
+              =link_to "Emails", dashboard_path
+          -if can? :read_ml_dashboard, current_user
+            %li
+              =link_to "Listes de diffusions", mailinglists_path
           - if user_signed_in?
             - if can? :read, :admin
               %li{style: "width:120px;"}

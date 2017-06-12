@@ -151,6 +151,11 @@ end
 group :test do
   gem 'cucumber-rails', :require => false
   gem 'capybara'
+  gem 'selenium'
+  gem 'selenium-webdriver'
+  gem 'poltergeist'
+  gem 'phantomjs', require: 'phantomjs/poltergeist'
+
   gem 'launchy'
   gem 'shoulda-matchers', '~> 3.0'
   gem 'database_cleaner'

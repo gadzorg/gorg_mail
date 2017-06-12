@@ -35,6 +35,4 @@ RSpec.describe MailingListsService, type: :service do
       end
     end
   end
-
-
 end

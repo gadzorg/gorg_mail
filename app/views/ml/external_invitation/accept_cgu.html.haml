@@ -1,0 +1,13 @@
+%p#notice= notice
+
+%div.center-align
+  %h2
+    %i.zmdi.zmdi-thumb-up.icon-padding-list
+  %h2
+    Félicitations !
+
+  %p Vous etes maintenant membre du groupe de discussion <b>#{@list.name}</b> !
+
+  %p
+    Vous pouvez vous désinscrire à tout moment en cliquant sur le lien contenu au bas des message de ce groupe ou en vous connectant à
+    =link_to unsubscribe_url, unsubscribe_url

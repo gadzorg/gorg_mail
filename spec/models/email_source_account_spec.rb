@@ -38,7 +38,7 @@ RSpec.describe EmailSourceAccount, type: :model do
 
 
   it "generate {prenom}.{nom}@gadz.org if available" do
-    puts user.email_source_accounts.map(&:full_email_address)
+    Rails.logger.debug user.email_source_accounts.map(&:full_email_address)
     expect(user.email_source_accounts.map(&:full_email_address)).to include("alex.narbon@gadz.org")
   end
   it "generate {prenom}.{nom}@gadzarts.org if available" do

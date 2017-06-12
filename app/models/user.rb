@@ -52,6 +52,8 @@ class User < ActiveRecord::Base
          :rememberable, :trackable, :masqueradable,
          :omniauthable, :omniauth_providers => [:GadzOrg]
 
+  include TokenableConcern
+
   ##
   # synced_with_gram : True if last sync with gram data succeed (false if not).
   # false if object never tried to sync at runtime. Auto sync performed at connection via CAS
@@ -62,6 +64,7 @@ class User < ActiveRecord::Base
 
   has_many :email_redirect_accounts, dependent: :destroy
   has_many :email_source_accounts, dependent: :destroy
+  has_one :primary_source_accounts, -> { where(primary: true) }, class_name: "EmailSourceAccount", dependent: :destroy
 
   after_initialize :set_default_values
   #TODO : switch to GrAM Canonical name
@@ -287,6 +290,10 @@ class User < ActiveRecord::Base
     self.email_source_accounts.find_by(primary: true)
   end
 
+  def contact_email
+    self.primary_email ? self.primary_email.to_s : self.email
+  end
+
   def is_gadz?
     self.update_attribute( :is_gadz, GramV2Client::Account.find(self.uuid).is_gadz)
     self.is_gadz
@@ -305,7 +312,7 @@ class User < ActiveRecord::Base
         return []
       else
         # This is very bad.
-        puts error
+        Rails.logger.error error
         return []
       end
     end
@@ -318,20 +325,22 @@ class User < ActiveRecord::Base
 
   def lists_allowed(from_cache=false)
   cache_name = "a#{self.uuid}-#{self.updated_at.to_i}-lists_allowed"
-    puts cache_name
+    Rails.logger.debug cache_name
     Rails.cache.delete(cache_name) if from_cache == false
     Rails.cache.fetch(cache_name, expires_in: 10.minute) do
       user_groups_uuid = self.groups.map(&:uuid)
-      conditions = "inscription_policy IN ('conditional_gadz', 'open')"
+      conditions = "inscription_policy IN ('open')"
+      conditions += "OR inscription_policy IN ('conditional_gadz')" if self.is_gadz_cached?
       conditions += " OR group_uuid IN (#{user_groups_uuid.map{|e|"\"#{e}\""}.join(",")})" if user_groups_uuid.any?
       Ml::List.includes(redirection_aliases: :email_virtual_domain).where(conditions)
     end
   end
 
   def self.basic_data_hash
-    self.includes(email_source_accounts: :email_virtual_domain).where(email_source_accounts: {primary: true})
-        .pluck("DISTINCT users.id", :"CONCAT(users.firstname, ' ', users.lastname)", :"CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name), ml_lists_users.role")
-        .map{|arr| {id: arr[0], name: arr[1], email: arr[2], role: arr[3]}}
+    self.includes(:ml_lists_users).joins("LEFT OUTER JOIN `email_source_accounts` AS `primary_source_accounts` ON `primary_source_accounts`.`user_id` = `users`.`id` AND   `primary_source_accounts`.`primary`=true")
+        .joins("LEFT OUTER JOIN `email_virtual_domains` ON `email_virtual_domains`.`id` = `primary_source_accounts`.`email_virtual_domain_id`")
+        .pluck("DISTINCT users.id", :"CONCAT(users.firstname, ' ', users.lastname)", :"CONCAT(primary_source_accounts.email, '@' ,email_virtual_domains.name),ml_lists_users.role","users.email")
+        .map{|arr| {id: arr[0], name: arr[1], email: arr[2], role: arr[3], account_email: arr[4]}}
   end
 
 
@@ -362,6 +371,20 @@ END_SQL
   def self.primary_emails
     #Take all primary email of user. More perf than user.primary
     includes(email_source_accounts: :email_virtual_domain).where(email_source_accounts: {primary: true}).pluck(:"CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name)")
+  end
+
+  # @return [String]
+  def self.contact_emails
+    #Take all primary email of user. More perf than user.primary
+    includes(primary_source_accounts: :email_virtual_domain).pluck(:"IF(email_source_accounts.email IS NOT NULL, CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name),users.email)")
+  end
+
+  def self.find_email(email)
+    self.find_by(email: email)
+  end
+
+  def self.find_all_email(email)
+    self.where(email: email)
   end
 
 

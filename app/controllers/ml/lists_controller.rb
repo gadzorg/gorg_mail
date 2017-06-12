@@ -5,7 +5,7 @@ class Ml::ListsController < ApplicationController
   # GET /ml/lists.json
   def index
     search = params[:search] || ""
-    @ml_lists = Ml::List.accessible_by(current_ability).includes(redirection_aliases: :email_virtual_domain).where("email LIKE '%#{search}%'")
+    @ml_lists = Ml::List.accessible_by(current_ability).includes(redirection_aliases: :email_virtual_domain).where("email LIKE ?",search)
     #authorize! :read, @ml_lists
   end
 
@@ -14,7 +14,7 @@ class Ml::ListsController < ApplicationController
   def show
     authorize! :read, @ml_list
     @search = params[:search]
-    @members = @ml_list.all_members.search(@search).order(:firstname).page(params[:page]).per_page(20).where(email_source_accounts: {primary: true})
+    @members = @ml_list.all_members.search(@search).order(:firstname).page(params[:page]).per_page(20)#.where(email_source_accounts: {primary: true})
     @external_emails = @ml_list.ml_external_emails
     @redirection_aliases = @ml_list.redirection_aliases
     @admins_and_moderators = @ml_list.super_members
@@ -88,7 +88,8 @@ class Ml::ListsController < ApplicationController
     authorize! :suscribe, @ml_list
     @user = User.find(params[:user_id])
     authorize! :manage_suscribtion, @user
-    if @ml_list.add_user(@user)
+    service = MailingListSubscriptionService.new(list:@ml_list,user:@user)
+    if service.do_subscribe
       get_list(@user)
       respond_to do |format|
         flash[:notice] = "Tu as rejoint la liste de diffusion #{@ml_list.name}"
@@ -100,6 +101,7 @@ class Ml::ListsController < ApplicationController
       get_list(@user)
       respond_to do |format|
         flash[:error] = "Impossible de rejoindre la liste de diffusion #{@ml_list.name}"
+        format.html {redirect_to ml_list_path(@ml_list, search: params[:search])}
         format.json { head :no_content }
         format.js
       end
@@ -154,8 +156,7 @@ class Ml::ListsController < ApplicationController
   def add_email
     authorize! :admin_members, @ml_list
     if @ml_list.add_email(params[:email])
-
-        redirect_to @ml_list, :flash => { :notice => "L'adresse #{params[:email]} a bien été ajoutée à la liste" }
+      redirect_to @ml_list, :flash => { :notice => "L'adresse #{params[:email]} a bien été ajoutée à la liste" }
     else
       redirect_to @ml_list, :flash => { :error => "Impossible d'ajouter cette adresse" }
     end

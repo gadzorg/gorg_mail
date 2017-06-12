@@ -7,7 +7,7 @@ Search = function(data, input, result) {
   this.$view = this.$result.parent();
   this.searcher = new Searcher(data.index);
   this.init();
-}
+};
 
 Search.prototype = $.extend({}, Navigation, new function() {
   var suid = 1;
@@ -27,11 +27,11 @@ Search.prototype = $.extend({}, Navigation, new function() {
 
     this.searcher.ready(function(results, isLast) {
       _this.addResults(results, isLast);
-    })
+    });
 
     this.initNavigation();
     this.setNavigationActive(false);
-  }
+  };
 
   this.search = function(value, selectFirstMatch) {
     value = jQuery.trim(value).toLowerCase();
@@ -53,7 +53,7 @@ Search.prototype = $.extend({}, Navigation, new function() {
       this.firstRun = true;
       this.searcher.find(value);
     }
-  }
+  };
 
   this.addResults = function(results, isLast) {
     var target = this.$result.get(0);
@@ -66,9 +66,8 @@ Search.prototype = $.extend({}, Navigation, new function() {
       var item = this.renderItem.call(this, results[i]);
       item.setAttribute('id', 'search-result-' + target.childElementCount);
       target.appendChild(item);
-    };
-
-    if (this.firstRun && results.length > 0) {
+    }
+      if (this.firstRun && results.length > 0) {
       this.firstRun = false;
       this.$current = $(target.firstChild);
       this.$current.addClass('search-selected');
@@ -76,7 +75,7 @@ Search.prototype = $.extend({}, Navigation, new function() {
     if (jQuery.browser.msie) this.$element[0].className += '';
 
     if (isLast) this.$result.attr('aria-busy', 'false');
-  }
+  };
 
   this.move = function(isDown) {
     if (!this.$current) return;
@@ -91,13 +90,13 @@ Search.prototype = $.extend({}, Navigation, new function() {
       this.$input.select();
     }
     return true;
-  }
+  };
 
   this.hlt = function(html) {
     return this.escapeHTML(html).
       replace(/\u0001/g, '<em>').
       replace(/\u0002/g, '</em>');
-  }
+  };
 
   this.escapeHTML = function(html) {
     return html.replace(/[&<>]/g, function(c) {

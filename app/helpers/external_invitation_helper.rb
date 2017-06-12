@@ -1,0 +1,2 @@
+module ExternalInvitationHelper
+end

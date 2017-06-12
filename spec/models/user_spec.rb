@@ -80,5 +80,42 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe "primary emails on collections" do
+
+    it "returns existing primary emails" do
+      user1=FactoryGirl.create(:user_with_addresses)
+      user2=FactoryGirl.create(:user_with_addresses)
+      user3=FactoryGirl.create(:user)
+
+      expect(User.all.primary_emails).to match_array([user1.primary_email.to_s,user2.primary_email.to_s])
+    end
+
+  end
+
+  describe "contact emails" do
+
+    it "returns primary emails when existing" do
+      user1=FactoryGirl.create(:user_with_addresses)
+      expect(user1.contact_email).to eq(user1.primary_email.to_s)
+    end
+
+    it "returns account email when there is no primary email" do
+      user1=FactoryGirl.create(:user)
+      expect(user1.contact_email).to eq(user1.email)
+    end
+
+    describe "on collection" do
+      it "a list of contact emails" do
+        user1=FactoryGirl.create(:user_with_addresses)
+        user2=FactoryGirl.create(:user_with_addresses)
+        user3=FactoryGirl.create(:user)
+
+        expect(User.all.contact_emails).to match_array([user1.primary_email.to_s,user2.primary_email.to_s, user3.email])
+      end
+    end
+
+  end
+
+
 
 end

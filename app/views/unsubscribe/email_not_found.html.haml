@@ -1,0 +1,13 @@
+%p#notice= notice
+
+%div.center-align
+  %h2
+    %i.zmdi.zmdi-search.icon-padding-list
+  %h2
+    Nous n'avons pas trouvé votre addresse
+
+  %p L'adresse mail que vous nous avez fournie n'est enregistrée dans aucune de nos listes de diffusion.
+  %p Si vous recevez des mails, vérifiez l'adresse à laquelle ceux-ci sont adressés
+  =link_to "Réessayer", unsubscribe_path, class: "waves-effect waves-light btn"
+
+  %p Si vous n'êtes toujours pas reconnu, contactez nous à l'adresse #{mail_to("support@gadz.org")}

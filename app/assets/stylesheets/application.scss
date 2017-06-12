@@ -327,8 +327,14 @@ li{
 }
 /*-----------------------------inputs-------------------------*/
 
+.external_email_entry .disabled {
+  color: darkgray;
+}
 
-
+.external_email_entry .disabled::after {
+  content: "Invitation envoyée";
+  font-size: 0.8em;
+}
 
 
 

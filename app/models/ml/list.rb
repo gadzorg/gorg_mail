@@ -116,32 +116,32 @@ class Ml::List < ActiveRecord::Base
   end
 
   def all_emails
-    members_emails = self.all_members.primary_emails
-    external_emails = self.ml_external_emails.pluck(:email)
+    members_emails = self.all_members.contact_emails
+    external_emails = self.ml_external_emails.where(enabled: true).pluck(:email)
     members_emails + external_emails
   end
 
   def members_count
     cache_name = "a#{self.email}-#{self.updated_at.to_i}-list_member_count"
     Rails.cache.fetch(cache_name, expires_in: 10.minute) do
-      self.all_members.count + self.ml_external_emails.count
+      self.all_members.count + self.ml_external_emails.enabled.count
     end
   end
 
   ############# external emails #############
   def add_email(email_address,sync = true)
-    era = EmailRedirectAccount.includes(:user).find_by(redirect: email_address)
-    esa = EmailSourceAccount.includes(:user).find_by_full_email(email_address) if era.nil?
 
-    if era.present?
-      logger.debug "ERA!"
-      add_user_no_sync(era.user)
-    elsif esa.present?
-      logger.debug "ESA!"
-      add_user_no_sync(esa.user)
+    looked_up_klasses=[EmailSourceAccount,EmailRedirectAccount,User]
+    finder=EmailFinder.new(email_address, priority_array: looked_up_klasses)
+
+    result=finder.find_first
+
+    user = result.is_a?(User) ? result : (result&&result.user)
+
+    if user
+      add_user_no_sync(user)
     else
-      logger.debug "External!"
-      Ml::ExternalEmail.create(email: email_address, list_id: self.id)
+      ExternalInvitationService.initialize_from_email(email: email_address, list: self).invite
     end
     sync_with_mailing_list_service if sync == true
   end
