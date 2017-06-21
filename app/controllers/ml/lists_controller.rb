@@ -4,8 +4,8 @@ class Ml::ListsController < ApplicationController
   # GET /ml/lists
   # GET /ml/lists.json
   def index
-    search = params[:search] || ""
-    @ml_lists = Ml::List.accessible_by(current_ability).includes(redirection_aliases: :email_virtual_domain).where("email LIKE ?",search)
+    authorize! :read, Ml::List
+    @ml_lists = Ml::List.accessible_by(current_ability).includes(redirection_aliases: :email_virtual_domain).search(params[:search])
     #authorize! :read, @ml_lists
   end
 

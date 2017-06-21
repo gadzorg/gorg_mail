@@ -64,5 +64,36 @@ RSpec.describe Ml::List, type: :model do
 
 
   end
+
+  describe 'search' do
+
+    before(:each) do
+      @list1=FactoryGirl.create(:ml_list, name: 'Ma liste 1', email: 'maliste1@gadz.org')
+      @list2=FactoryGirl.create(:ml_list, name: 'Ma liste 2', email: 'maliste2@gadz.org')
+      @list3=FactoryGirl.create(:ml_list, name: 'Une autre liste', email: 'une.autre.liste@gadz.org')
+    end
+
+    it "return all on nil query" do
+      expect(Ml::List.search(nil)).to match_array([@list1,@list2,@list3])
+    end
+
+    it "search by name" do
+      expect(Ml::List.search('Ma liste')).to match_array([@list1,@list2])
+      expect(Ml::List.search('autre liste')).to match_array([@list3])
+    end
+
+    it "is case incensitive" do
+      expect(Ml::List.search('MA liSTe')).to match_array([@list1,@list2])
+    end
+
+    it "search by email" do
+      expect(Ml::List.search('maliste')).to match_array([@list1,@list2])
+      expect(Ml::List.search('@gadz.org')).to match_array([@list1,@list2,@list3])
+      expect(Ml::List.search('maliste1')).to match_array([@list1])
+    end
+
+  end
+
+
 end
 
