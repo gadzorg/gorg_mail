@@ -196,4 +196,19 @@ class Ml::List < ActiveRecord::Base
   def archive_link
     "https://groups.google.com/a/gadz.org/forum/#!forum/#{email_base}"
   end
+
+  def self.search(query)
+    sql_query=nil
+    if query
+      sql_query=<<END_SQL
+   LOWER(ml_lists.email) LIKE :like_query
+OR LOWER(ml_lists.name) LIKE :like_query
+OR LOWER(CONCAT(aliases.email,'@' ,email_virtual_domains.name)) LIKE :like_query
+OR LOWER(aliases.redirect) LIKE :like_query
+END_SQL
+    end
+
+    self.includes(:redirection_aliases =>  :email_virtual_domain)
+        .where(sql_query, query: query.to_s.downcase,like_query: "%#{query.to_s.downcase}%").references(:redirection_aliases => :email_virtual_domain)
+  end
 end
