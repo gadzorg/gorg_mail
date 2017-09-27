@@ -1,17 +1,17 @@
 %p#notice= notice
-%h2 Vous souhaitez vous désabonner de nos listes de diffusion
+%h2 Gérer mes listes de diffusion Gadz.org
 =form_tag(unsubscribe_path, method: "post") do
   .row
     .l6.s12.col
       %p
-        Nous devons d'abord vérifier vore identité.
+        Pour te désabonner à une liste de diffusion Gadz.org, il faut d'abord que nous vérifions ton identité.
+        Tu recevras un email avec un lien te permettant de gérer tes listes.
   .row
     .l6.s12.col
-
       .card
         .card-content
           %p
-            Merci de remplir ci-dessous l'adresse email sur laquelle vous recevez les mails provenant de nos listes de diffusion
+            Merci de renseigner l'adresse email sur laquelle tu reçois les mails en question : 
           .input-field
             =email_field_tag(:email,nil, :size => 40, :required => 'required', :class=> 'validate')
             =label_tag('email', "Mon adresse email", "data-error"=>"Tu dois entrer ton adresse email au format email@domaine.fr", required: true)
