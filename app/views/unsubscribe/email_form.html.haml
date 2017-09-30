@@ -1,19 +1,19 @@
 %p#notice= notice
-%h2 Gérer mes listes de diffusion Gadz.org
+%h2 Gérer mes listes de diffusion Arts et Métiers Alumni
 =form_tag(unsubscribe_path, method: "post") do
   .row
     .l6.s12.col
       %p
-        Pour te désabonner à une liste de diffusion Gadz.org, il faut d'abord que nous vérifions ton identité.
-        Tu recevras un email avec un lien te permettant de gérer tes listes.
+        Pour vous désabonner à une liste de diffusion, il faut d'abord que nous vérifions votre identité.
+        Pour cela, nous allons vous envoyer un email avec un lien direct vers la gestion de vos listes.
   .row
     .l6.s12.col
       .card
         .card-content
           %p
-            Merci de renseigner l'adresse email sur laquelle tu reçois les mails en question : 
+            Merci de renseigner l'adresse email sur laquelle vous recevez les mails en question : 
           .input-field
             =email_field_tag(:email,nil, :size => 40, :required => 'required', :class=> 'validate')
-            =label_tag('email', "Mon adresse email", "data-error"=>"Tu dois entrer ton adresse email au format email@domaine.fr", required: true)
+            =label_tag('email', "Mon adresse email", "data-error"=>"Vous devez entrer une adresse email au format email@domaine.fr", required: true)
         .card-action
           =submit_tag("Vérifier mon identité", class:'waves-effect waves-teal btn')
