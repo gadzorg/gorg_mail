@@ -23,6 +23,8 @@
 #  canonical_name         :string(255)
 #  uuid                   :string(255)
 #  is_gadz                :boolean
+#  gadz_centre_principal  :string(255)
+#  gadz_proms_principale  :string(255)
 #
 # Indexes
 #
@@ -107,6 +109,50 @@ class User < ActiveRecord::Base
 
   ##
   # Update local user data with data contained in GrAM
+  #
+  # https://github.com/gadzorg/gram2_api_server/blob/master/db/schema.rb
+  #
+  # gram_data= GramV2Client::Account.find(self.uuid)
+  #
+  # {
+  #   "uuid"=>"5fa5d1e2-bc24-47d4-922b-86d5c9376b66",
+  #   "hruid"=>"john.doe1.2017",
+  #   "id_soce"=>311037,
+  #   "enabled"=>true,
+  #   "lastname"=>"Doe ",
+  #   "firstname"=>"John",
+  #   "birthname"=>"Doe ",
+  #   "birth_firstname"=>"",
+  #   "email"=>"john.doe1@test.fr",
+  #   "gapps_id"=>"",
+  #   "birthdate"=>"1997-01-01",
+  #   "deathdate"=>"",
+  #   "gender"=>"male",
+  #   "is_gadz"=>true,
+  #   "is_student"=>false,
+  #   "school_id"=>"", # ----- NUMERO IDENTIFIANT ELEVE ENSAM
+  #   "is_alumni"=>false,
+  #   "date_entree_ecole"=>"",
+  #   "date_sortie_ecole"=>"1900-01-01",
+  #   "ecole_entree"=>"",
+  #   "buque_texte"=>"",
+  #   "buque_zaloeil"=>"",
+  #   "gadz_fams"=>"",
+  #   "gadz_fams_zaloeil"=>"",
+  #   "gadz_proms_principale"=>"2017",
+  #   "gadz_proms_secondaire"=>"0",
+  #   "avatar_url"=>"",
+  #   "description"=>"",
+  #   "audit_status"=>"safe",
+  #   "audit_comments"=>nil,
+  #   "is_from_legacy_gram1"=>nil,
+  #   "gadz_centre_principal"=>"bo",
+  #   "gadz_centre_secondaire"=>nil,
+  #   "url"=>"/api/v2/accounts/5fa5d1e2-bc24-47d4-922b-86d5c9376b66",
+  #   "aliases"=>[],
+  #   "groups"=>[],
+  #   "roles"=>[]
+  # }
   def update_from_gram
     self.synced_with_gram = false
     if self.syncable?
@@ -118,6 +164,9 @@ class User < ActiveRecord::Base
         self.last_gram_sync_at = Time.now
         self.hruid = gram_data.hruid
         self.is_gadz = gram_data.is_gadz
+        self.gadz_proms_principale = gram_data.gadz_proms_principale # ex: "2017"
+        self.gadz_centre_principal = gram_data.gadz_centre_principal # ex: "bo"
+
         if self.save
           self.synced_with_gram = true 
           return self
@@ -151,6 +200,27 @@ class User < ActiveRecord::Base
   ##
   # Return an User to login after Omniauth authentification. This user is retrieve in database with hruid or
   # created on the fly from CAS data
+  #
+  # Example auth_data:
+  #
+  #   credentials=#<OmniAuth::AuthHash ticket="ST-207-3OmkDkC91b1W3wYgbnx2-cas">
+  #   extra=#<OmniAuth::AuthHash
+  #     firstname="John"
+  #     lastname="Doe "
+  #     soce_id="311037"
+  #     user="john.doe1.2017"
+  #     username="john.doe1.2017"
+  #     uuid="5fa5d1e2-bc24-47d4-922b-86d5c9376b66"
+  #   >
+  #   info=#<OmniAuth::AuthHash::InfoHash email="john.doe1@test.fr">
+  #   provider="GadzOrg"
+  #   uid="john.doe1.2017"
+  #
+  # Note auth_data does not include 'centre' neither 'allproms' in latest CAS version
+  #
+  #   auth_data[:extra] "centre"=>"CER de Metz",   # tabagns
+  #   auth_data[:extra] "allproms"=>"81-21.me208", # proms
+  #
   def self.omniauth(auth_data, signed_in_resource=nil)
 
     logger.debug "=================================="

@@ -3,12 +3,12 @@
 
 =form_tag('') do
   .row
-    .l6.s12.col
+    .l12.s12.col
       %p
         Il nous manque quelques informations pour finaliser ton compte.
 
   .row
-    .l6.s12.col
+    .l12.s12.col
 
       .card
         .card-content
@@ -28,6 +28,20 @@
             .input-field.inline
               =email_field_tag :redirect,nil, :size => 40, :required => 'required', :class=> 'validate'
               =label_tag("redirect", "Mon adresse email", "data-error"=>"Tu dois entrer ton adresse email au format email@domaine.fr", required: true)
+
+        - if @mailing_lists.any?
+          .card-content(style="padding-top:0")
+            %p Pour tirer un plein parti de tes adresses gadz.org, nous te recommandons de t'inscrire aux trois listes de diffusions suivantes :
+
+            %ul.browser-default
+              %li Pour échanger avec tes Promsquets, ta ML de Prom's : <u>#{@mailing_lists[:proms]&.email}</u>
+              %li Pour recevoir les infos de ton Tabagn's vers les PGs : <u>#{@mailing_lists[:tabagns]&.email}</u>
+              %li Pour recevoir les infos de l'UE vers les PGs : <u>#{@mailing_lists[:info]&.email}</u>
+
+            .input-field
+              =check_box_tag :default_mls, "true", 1
+              =label_tag :default_mls, "Je veux m'inscrire à ces 3 listes de diffusion", :for => "default_mls"
+
         .card-action
           =button_tag "Créer mon compte", class:'waves-effect waves-teal btn'
 
