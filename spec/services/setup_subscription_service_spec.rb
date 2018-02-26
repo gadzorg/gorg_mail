@@ -85,6 +85,7 @@ RSpec.describe SetupSubscriptionService, type: :service do
       # service.stub(:mailing_lists) { [list] }
       allow(service).to receive(:mailing_lists).and_return([list])
 
+      skip("Aucun test existant sur le MailingListSubscriptionService")
       service.do_subscribe
 
       expect(list.members).to include(user)
