@@ -7,6 +7,8 @@
 
 This template is based on ruby version 2.1.2p95 (2014-05-08 revision 45877)
 
+Note that Continuous Integration (Travis) ruby version 2.2.2p95 (2015-04-13 revision 50295)
+
 === System dependencies
 
 No specific system dependencies
@@ -90,6 +92,12 @@ All password are : *password*
 === Testing
 
 This template use RSpec for testing
+
+  bundle exec rspec --format doc
+
+Cucumber
+
+  bundle exec cucumber
 
 === Update 
 
