@@ -164,8 +164,9 @@ class User < ActiveRecord::Base
         self.last_gram_sync_at = Time.now
         self.hruid = gram_data.hruid
         self.is_gadz = gram_data.is_gadz
-        self.gadz_proms_principale = gram_data.gadz_proms_principale # ex: "2017"
-        self.gadz_centre_principal = gram_data.gadz_centre_principal # ex: "bo"
+        # use try to prevent from issue if GorgMail is released before GrAM
+        self.gadz_proms_principale = gram_data.try(:gadz_proms_principale) # ex: "2017"
+        self.gadz_centre_principal = gram_data.try(:gadz_centre_principal) # ex: "bo"
 
         if self.save
           self.synced_with_gram = true 

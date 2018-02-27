@@ -28,6 +28,8 @@ RSpec.describe GramAccountUpdatedMessageHandler, type: :message_handler do
         gadz_fams_zaloeil:[nil,""],
         gadz_proms_principale:[nil,"1986"],
         gadz_proms_secondaire:[nil,""],
+        gadz_centre_principal:[nil,"bo"],
+        gadz_centre_secondaire:[nil,""],
         avatar_url:[nil,"http://recette.soce.fr/images/"],
         url:[nil,"/api/v2/accounts/36a7e016-a300-4f52-85f4-6804dede6c6b"]
      }
@@ -100,12 +102,16 @@ RSpec.describe GramAccountUpdatedMessageHandler, type: :message_handler do
 
     context "not existing gorgmail user" do
 
+      # https://github.com/gadzorg/gram2_api_client_ruby/blob/master/lib/gram_v2_client/rspec/gram_account_mocker.rb
       let(:gam) {GramAccountMocker.for(attr:{uuid: "36a7e016-a300-4f52-85f4-6804dede6c6b",
                                                         email: "bono@gmail.com",
                                                         hruid: "paul.david-hewson.1986",
                                                         firstname: "Paulo",
                                                         lastname: "David",
-                                                        is_gadz: true  },
+                                                        is_gadz: true,
+                                                        gadz_proms_principale: "1986",
+                                                        gadz_centre_principal: "bo"
+                                                  },
                                                   auth: GramAccountMocker.http_basic_auth_header(Rails.application.secrets.gram_api_user,
                                                                                                  Rails.application.secrets.gram_api_password)
       )}

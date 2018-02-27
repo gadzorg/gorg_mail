@@ -99,6 +99,9 @@ Cucumber
 
   bundle exec cucumber
 
+Don't forget to configure the test section of /config/secrets.yml with fake 
+gram credentials, and api_user/api_password too.
+
 === Update 
 
 ==== UI update (commit c3909ed)
