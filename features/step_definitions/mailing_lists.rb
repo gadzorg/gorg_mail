@@ -10,6 +10,15 @@ Given(/^there is a public mailing lists named "([^"]*)"$/) do |arg|
   )
 end
 
+Given(/^there is a public mailing lists with email "([^"]*)"$/) do |arg|
+  @ml=FactoryGirl.create(:ml_list,
+                         name: arg,
+                         email: arg,
+                         diffusion_policy: 'open',
+                         inscription_policy: 'open'
+  )
+end
+
 And(/^there is a group\-only mailing lists named "([^"]*)" for group "([^"]*)"$/) do |arg1, arg2|
   @ml=FactoryGirl.create(:ml_list,
                          name: arg1,
@@ -154,4 +163,16 @@ end
 
 Then(/^user "([^"]*)" should be subscribed to mailinglist "([^"]*)"$/) do |hruid, ml_name|
   expect(Ml::List.find_by(name: ml_name).all_members).to include(User.find_by(hruid: hruid))
+end
+
+Then(/^I should be subscribed to mailinglist "([^"]*)"$/) do |ml_name|
+  expect(Ml::List.find_by(name: ml_name).all_members).to include(@me)
+end
+
+Then(/^I should be subscribed to (\d+) mailinglists$/) do |n|
+  expect(@me.lists.size).to eq(n.to_i)
+end
+
+Then(/^I should not be subscribed to any mailinglist$/) do
+  expect(@me.lists).to be_empty
 end
