@@ -6,11 +6,15 @@ class SetupController < ApplicationController
 
   layout 'no-menu'
 
+  # GET /setup
   def index
     @service.prepare
     @primary_email = @user.primary_email.to_s
+    @mailing_lists = @setup_subscription_service.mailing_lists
   end
 
+  # POST /setup
+  # When accepting creating @gadz.org email
   def setup
     respond_to do |format|
       begin
@@ -29,6 +33,7 @@ class SetupController < ApplicationController
 
   end
 
+  # GET /setup/finish
   def finish
   end
 
@@ -39,11 +44,16 @@ private
   end
 
   def set_service
-    @service=SetupService.new(@user)
+    @setup_subscription_service = SetupSubscriptionService.new(@user)
+    @service = SetupService.new(@user, setup_subscription_service: @setup_subscription_service)
   end
 
   def setup_params
-    params.permit(:google_apps, :redirect)
+    params.permit(
+      :google_apps,
+      :redirect,
+      :default_mls,
+    )
   end
 
   def check_setup_need

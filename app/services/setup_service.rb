@@ -4,10 +4,12 @@ class SetupService
   class InternalRedirectDomain < StandardError; end
   class InvalidEmail < StandardError; end
 
+  attr_reader :setup_subscription_service
 
-  def initialize(user)
+  def initialize(user, options={})
     @user=user
     raise NilUser unless @user
+    @setup_subscription_service = options[:setup_subscription_service]
   end
 
   def need_setup?
@@ -21,6 +23,7 @@ class SetupService
   def process_form(params)
     create_email_redirect_account(params[:redirect])
     create_google_apps if params[:google_apps] == "true"
+    subscribe_to_default_mailing_lists if params[:default_mls] == "true"
   end
 
   def email_redirect_account
@@ -42,5 +45,13 @@ class SetupService
 
   def create_google_apps
     @user.create_google_apps
+  end
+
+  def subscribe_to_default_mailing_lists
+    return unless setup_subscription_service
+
+    if @user.is_gadz && (@user.gadz_proms_principale.to_i >= Time.now.year-3)
+      setup_subscription_service.do_subscribe
+    end
   end
 end
