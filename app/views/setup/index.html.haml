@@ -29,7 +29,7 @@
               =email_field_tag :redirect,nil, :size => 40, :required => 'required', :class=> 'validate'
               =label_tag("redirect", "Mon adresse email", "data-error"=>"Tu dois entrer ton adresse email au format email@domaine.fr", required: true)
 
-        - if @mailing_lists.any?
+        - if @service.subscribe_to_default_mailing_lists? && @mailing_lists.any?
           .card-content(style="padding-top:0")
             %p Pour tirer un plein parti de tes adresses gadz.org, nous te recommandons de t'inscrire aux trois listes de diffusions suivantes :
 
