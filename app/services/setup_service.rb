@@ -26,6 +26,10 @@ class SetupService
     subscribe_to_default_mailing_lists if params[:default_mls] == "true"
   end
 
+  def subscribe_to_default_mailing_lists?
+    @user.is_gadz && (@user.gadz_proms_principale.to_i >= Time.now.year-3)
+  end
+
   def email_redirect_account
     @email_redirect_account
   end
@@ -50,7 +54,7 @@ class SetupService
   def subscribe_to_default_mailing_lists
     return unless setup_subscription_service
 
-    if @user.is_gadz && (@user.gadz_proms_principale.to_i >= Time.now.year-3)
+    if subscribe_to_default_mailing_lists?
       setup_subscription_service.do_subscribe
     end
   end
