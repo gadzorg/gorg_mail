@@ -58,3 +58,10 @@ Then(/^the page does not contains "([^"]*)"$/) do |arg|
   expect(page.body).not_to have_content(arg)
 end
 
+Then(/^the page contains a field "([^"]*)"$/) do |arg|
+  expect(page.body).to have_field(arg)
+end
+
+Then(/^the page does not contains a field "([^"]*)"$/) do |arg|
+  expect(page.body).not_to have_field(arg)
+end
