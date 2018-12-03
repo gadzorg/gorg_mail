@@ -342,7 +342,7 @@ GEM
       choice (~> 0.2.0)
       ruby-graphviz (~> 1.2)
     rails-html-sanitizer (1.0.4)
-      loofah (~> 2.2.3)
+      loofah (>= 2.2)
     rails-observers (0.1.5)
       activemodel (~> 4.0)
     rails4-autocomplete (1.1.1)
