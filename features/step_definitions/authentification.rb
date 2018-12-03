@@ -5,7 +5,11 @@ Given(/^I'm a Gadz member$/) do
     is_gadz: true,
     uuid: "559bb0aa-ddac-4607-ad41-7e520ee40819"
   )
-  gam=GramAccountMocker.for({})
+  gam=GramAccountMocker.for(attr:{
+
+      uuid: @me.uuid,
+      groups: []},auth: GramAccountMocker.http_basic_auth_header(Rails.application.secrets.gram_api_user,
+                                                        Rails.application.secrets.gram_api_password))
   gam.mock_get_request
 end
 

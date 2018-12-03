@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy, :sync_with_gram, :dashboard, :dashboard_ml, :create_google_apps  ]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :sync_with_gram, :dashboard, :dashboard_ml, :create_google_apps, :confirm_google_apps  ]
   autocomplete :user, :hruid , :full => true, :display_value =>:hruid, extra_data: [:id, :firstname ] #, :scopes => [:search_by_name]
 
 
@@ -107,7 +107,7 @@ class UsersController < ApplicationController
   def dashboard
     authorize! :read_dashboard, @user
     
-    return redirect_to setup_setup_email_source_accounts_path unless @user!=current_user || @user.email_source_accounts.any? && @user.email_redirect_accounts.any?
+    return redirect_to setup_path if SetupService.new(@user).need_setup?
     @emails_source = @user.email_source_accounts.select(&:persisted?)
     
     #attention, les deux lignes suivantes sont égaleement dans le controleur ERA / create / destroy
@@ -122,9 +122,9 @@ class UsersController < ApplicationController
 
   # GET /users/1/dashboard
   def dashboard_ml
-    authorize! :read_dashboard, @user
+    authorize! :read_ml_dashboard, @user
 
-    return redirect_to setup_setup_email_source_accounts_path unless @user!=current_user || @user.email_source_accounts.any? && @user.email_redirect_accounts.any?
+    return redirect_to setup_path if SetupService.new(@user).need_setup?
     @emails_source = @user.email_source_accounts.select(&:persisted?)
 
     get_list(@user)
@@ -140,6 +140,24 @@ class UsersController < ApplicationController
       format.json { head :no_content }
       format.js
     end
+  end
+
+  def confirm_google_apps
+    authorize! :create_google_apps, @user
+    ga=@user.google_apps
+
+    respond_to do |format|
+      if ga
+        ga.set_active_and_confirm
+        EmailValidationMailer.notice_google_apps(@user).deliver_now
+
+        @emails_redirect = email_redirect(@user)
+        format.json { head :no_content }
+        format.js
+      end
+    end
+
+
   end
 
   

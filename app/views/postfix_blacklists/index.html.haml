@@ -5,7 +5,7 @@
     %tr
       %th Email
       %th Reject text
-      %th
+      %th Commentray
       %th
 
   %tbody
@@ -13,6 +13,7 @@
       %tr
         %td= postfix_blacklist.email
         %td= postfix_blacklist.reject_text
+        %td= postfix_blacklist.commentary
         %td= link_to 'Edit', edit_postfix_blacklist_path(postfix_blacklist)
         %td= link_to 'Destroy', postfix_blacklist, :method => :delete, :data => { :confirm => 'Are you sure?' }
 

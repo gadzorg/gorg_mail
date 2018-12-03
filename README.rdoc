@@ -7,15 +7,41 @@
 
 This template is based on ruby version 2.1.2p95 (2014-05-08 revision 45877)
 
+Note that Continuous Integration (Travis) ruby version 2.2.2p95 (2015-04-13 revision 50295)
+
 === System dependencies
 
 No specific system dependencies
+
+  bundle install
+
+If you need to setup a local rabbitMQ instance with docker and default configuration,
+checkout https://github.com/gadzorg/gram2_api_server and launch :
+
+  docker run  --name gram-rabbitmq -p 5672:5672 rabbitmq
+
+If the docker image already exists :
+
+  docker start gram-rabbitmq
+  docker logs -f gram-rabbitmq
 
 === Initial Configuration
 
 Before first use, you need to configure /config/secrets.yml
 
-An example file is available in /config/secretes.yml.template
+An example file is available in /config/secrets.yml.template
+
+  gram_api_site: "https://example-gram-api.domain.com/api/v2/"
+  gram_api_user: "xxxx"
+  gram_api_password: "****"
+  cas_provider_url: "auth-example.domain.com"
+
+You also need to configure /config/rabbitmq.yml
+
+An example file is available in /config/rabbitmq.yml.template
+
+You might also need to touch /config/configurable.yml in order to set
+legacy_auth_enabled to false if you need to connect to CAS server.
 
 === Database creation
 
@@ -66,6 +92,15 @@ All password are : *password*
 === Testing
 
 This template use RSpec for testing
+
+  bundle exec rspec --format doc
+
+Cucumber
+
+  bundle exec cucumber
+
+Don't forget to configure the test section of /config/secrets.yml with fake 
+gram credentials, and api_user/api_password too.
 
 === Update 
 

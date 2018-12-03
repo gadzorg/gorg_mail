@@ -45,7 +45,9 @@ RSpec.describe User, type: :model do
       "login_validation_check"=>"CGU=2015-06-04;",
       "description"=>"Agoram inscription - via module register - creation 2015-06-04 11:32:48",
       "entities"=>["comptes", "gram"],
-      "is_gadz"=>"true"
+      "is_gadz"=>"true",
+      "gadz_centre_principal" => "me",
+      "gadz_proms_principale" => "2011"
     }
 
     @gen_gram_account.merge(hash).to_json

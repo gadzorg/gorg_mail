@@ -2,39 +2,65 @@
 -unless @user.has_google_apps
   %div.card.blue-grey.darken-1
     .card-content.white-text.flow-text
-      Avec un compte Google Apps, je reçois mes mails gadz.org en toute simplicité !
+      Avec un compte GSuite, je reçois mes mails gadz.org en toute simplicité !
     .card-action
       .mts= link_to ' Créer mon compte Google Apps ', create_google_apps_user_path(@user), method: :get,:remote=>true,  :class =>"waves-effect waves-light btn white blue-grey-text", id: "create_google_apps_button"
   -if @emails_redirect.select{|e| e.active?}.count == 0
     .card.red.darken-4
       .card-content.white-text
-        Attention ! Tu dois activer une des adresses ci-dessous ou créer un compte Google Gadz.org pour recevoir les emails envoyés à ton adresse gadz.org,
+        Attention ! Tu dois activer une des adresses ci-dessous ou créer un compte GSuite Gadz.org pour recevoir les emails envoyés à ton adresse gadz.org,
 .card
   .card-content
     %ul#era_list
       - @emails_redirect.each do |e|
         -if e.type_redir == "googleapps"
           .pam.bg-blue-dark-2
-          .card.blue-grey.darken-1
-            -if e.confirmed
-              .card-content.white-text
-                -# Only admin can desactivate google apps redirection but user can reactivate it.
-                -if e.active? && can?(:desactivate_google_apps_redirection, e)
-                  = link_to user_email_redirect_account_flag_path(@user.id, e.id, "inactive"), class: 'tooltipped', 'data-position' => "bottom", 'data-delay' => "100", 'data-tooltip' => 'Désactiver cette redirection', :remote=>true do
-                    %i.zmdi.zmdi-check-square.icon-padding-list
-                -elsif !e.active?
-                  = link_to user_email_redirect_account_flag_path(@user.id, e.id, "active"), class: 'tooltipped', 'data-position' => "bottom", 'data-delay' => "100", 'data-tooltip' => 'Activer la redirection des mails vers cette adresse', :remote=>true do
-                    %i.zmdi.zmdi-square-o.icon-padding-list
-                %span
-                  %i.zmdi.zmdi-google.icon-padding-list
-                  GMail #{@user.primary_email}
-              .card-action
-                = link_to 'Connexion', "https://mail.google.com/a/gadz.org", :class =>"wave-effect waves-light btn white blue-grey-text", :target => "_blank", id: "connect_to_google_button"
-            -else
-              .card-content.white-text
-                %span
-                  %i.zmdi.zmdi-google.icon-padding-list
-                  Google Apps Gadz en cours de création...
+          -if e.broken?
+            .card.red.darken-1
+              -if can? :read, :admin
+                .card-content.white-text
+                  %span
+                    %i.zmdi.zmdi-google.icon-padding-list
+                    Compte Google cassé :
+                    =e.broken_info
+                .card-action
+                  = link_to 'Relancer', create_google_apps_user_path(@user), method: :get,:remote=>true,  :class =>"waves-effect waves-light btn white blue-grey-text", id: "create_google_apps_button"
+                  = link_to 'Confirmer', confirm_google_apps_user_path(@user), method: :get,:remote=>true,  :class =>"waves-effect waves-light btn white blue-grey-text", id: "confirm_google_apps_button", data: {confirm: "Vous allez forcer la validation de la création d'un GoogleApps. Si vous validez, les mails de cet utilisateur seront envoyé sur cet adresse Google. L'utilisateur va recevoir un email de confirmation"}
+              -else
+                .card-content.white-text
+                  %span
+                    %i.zmdi.zmdi-google.icon-padding-list
+                    Ton compte Google ne fonctionne pas, un administrateur a été prevenu
+          -else
+            .card.blue-grey.darken-1
+              -if e.confirmed
+                .card-content.white-text
+                  -# Only admin can desactivate google apps redirection but user can reactivate it.
+                  -if e.active? && can?(:desactivate_google_apps_redirection, e)
+                    = link_to user_email_redirect_account_flag_path(@user.id, e.id, "inactive"), class: 'tooltipped', 'data-position' => "bottom", 'data-delay' => "100", 'data-tooltip' => 'Désactiver cette redirection', :remote=>true do
+                      %i.zmdi.zmdi-check-square.icon-padding-list
+                  -elsif !e.active?
+                    = link_to user_email_redirect_account_flag_path(@user.id, e.id, "active"), class: 'tooltipped', 'data-position' => "bottom", 'data-delay' => "100", 'data-tooltip' => 'Activer la redirection des mails vers cette adresse', :remote=>true do
+                      %i.zmdi.zmdi-square-o.icon-padding-list
+                  %span
+                    %i.zmdi.zmdi-google.icon-padding-list
+                    GMail #{@user.primary_email}
+                .card-action
+                  = link_to 'Connexion', "https://mail.google.com/a/gadz.org", :class =>"wave-effect waves-light btn white blue-grey-text", :target => "_blank", id: "connect_to_google_button"
+              -else
+                -if can? :read, :admin
+                  .card-content.white-text
+                    %span
+                      %i.zmdi.zmdi-google.icon-padding-list
+                      Compte GSuite Gadz.org en cours de création
+                  .card-action
+                    = link_to 'Relancer', create_google_apps_user_path(@user), method: :get,:remote=>true,  :class =>"waves-effect waves-light btn white blue-grey-text", id: "create_google_apps_button"
+                    = link_to 'Confirmer', confirm_google_apps_user_path(@user), method: :get,:remote=>true,  :class =>"waves-effect waves-light btn white blue-grey-text", id: "confirm_google_apps_button", data: {confirm: "Vous allez forcer la validation de la création d'un GoogleApps. Si vous validez, les mails de cet utilisateur seront envoyé sur cet adresse Google. L'utilisateur va recevoir un email de confirmation"}
+                -else
+                  .card-content.white-text
+                    %span
+                      %i.zmdi.zmdi-google.icon-padding-list
+                      Ton compte GSuite Gadz.org en cours de création...
 
         -else
           %li

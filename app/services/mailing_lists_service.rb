@@ -4,7 +4,7 @@ class MailingListsService
 
   def initialize(mailing_list, options = {})
     @mailing_list = mailing_list
-    @message_sender=options[:message_sender] || GorgMessageSender.new
+    @message_sender=options[:message_sender] || GorgService::Producer.new
   end
 
   def update
@@ -13,6 +13,15 @@ class MailingListsService
 
   def delete
     request_mailing_list_delete unless self.class.no_sync?
+  end
+
+  def footer
+"#{@mailing_list.message_footer}
+
+-----
+Vous recevez ce message car vous être membre de la liste de diffusion '#{@mailing_list.name}'
+Pour vous désinscrire, rendez-vous sur  #{Rails.application.routes.url_helpers.unsubscribe_url(host: ENV["MY_URL"]||'https://emails.gadz.org')}
+"
   end
 
   def request_mailing_list_update
@@ -26,7 +35,7 @@ class MailingListsService
       members: @mailing_list.all_emails,
       message_max_bytes_size: @mailing_list.message_max_bytes_size ,
       object_tag:  @mailing_list.messsage_header,
-      message_footer: @mailing_list.message_footer ,
+      message_footer: footer,
       is_archived: @mailing_list.is_archived,
       distribution_policy: @mailing_list.diffusion_policy
     }
@@ -51,10 +60,13 @@ class MailingListsService
   end
 
   private
-    def send_message(msg, routing_key)
+    def send_message(data, routing_key)
       unless RABBITMQ_CONFIG["no_sync"]
         begin
-          @message_sender.send_message(msg, routing_key)
+          message=GorgService::Message.new(event: routing_key,
+                                           data: data,
+                                           reply_to: GorgService.environment.reply_exchange.name)
+          @message_sender.publish_message(message)
           return true
         rescue Bunny::TCPConnectionFailedForAllHosts
           Rails.logger.error "Unable to connect to RabbitMQ server"

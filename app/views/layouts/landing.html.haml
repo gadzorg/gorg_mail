@@ -12,9 +12,6 @@
       =stylesheet_link_tag "slack-chat.css"
       =stylesheet_link_tag "slack-chat-custom.css"
   %body
-    / - flash.each do |key, value|
-    / #notif
-    /   %div{:class => "#{key} notif"}= value
 
     = yield
     = render partial: 'layouts/ga'

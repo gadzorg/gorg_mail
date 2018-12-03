@@ -43,10 +43,12 @@
                 =search_field_tag 'Search', '',  name: 'query', :id_element => '#id', :placeholder => "prenom.nom.année",type: "search", id: "search"
                 %label.label-icon{:for => "search"}
                   %i.material-icons search
-      %li
-        =link_to "Emails", dashboard_path
-      %li
-        =link_to "Listes de diffusions", mailinglists_path
+      -if can? :read_dashboard, current_user
+        %li
+          =link_to "Emails", dashboard_path
+      -if can? :read_ml_dashboard, current_user
+        %li
+          =link_to "Listes de diffusions", mailinglists_path
       - if user_signed_in?
         - if can? :read, :admin
           %li
