@@ -13,7 +13,9 @@ namespace :db do
     Rake::Task['db:reset'].invoke
 
     # Create admin_user account
+    # L'identifiant Agoram (hruid) doit être rempli(e)
     admin_user = User.create!(:email => "admin@poubs.org",
+                              :hruid => 'prenom.nom.9901',
                               :firstname => Faker::Name.first_name,
                               :lastname => Faker::Name.last_name,
                               :password => "password",
@@ -27,6 +29,7 @@ namespace :db do
 
     # Create support_user account
     support_user = User.create!(:email => "support@poubs.org",
+                              :hruid => 'prenom.nom.9902',
                               :firstname => Faker::Name.first_name,
                               :lastname => Faker::Name.last_name,
                               :password => "password",
@@ -42,6 +45,7 @@ namespace :db do
 
     basic_users = (1..3).map do |i|
         User.create!( :email => "user#{i}@poubs.org",
+                      :hruid => "prenom.nom.991#{i}",
                       :firstname => Faker::Name.first_name,
                       :lastname => Faker::Name.last_name,
                       :password => "password",

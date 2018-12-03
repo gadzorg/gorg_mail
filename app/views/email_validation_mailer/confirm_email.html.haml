@@ -1,29 +1,23 @@
-= stylesheet_link_tag    "mail", media: "all"
-.mam
-  .content.mw800p.center
-    .pam
-      %p=image_tag "http://www.arts-et-metiers.asso.fr/images/logo.png", height: '50'
+%p Sal's #{@user.firstname},
+%p
+  Tu as demandé à ce que les mails envoyés sur ton adresse
+  %b
+    #{@user.primary_email.full_email_address}
+  soient redirigés sur
+  %b
+    #{@era.redirect}.
+%p Nous t'invitons à confirmer que tu es bien à l'origine de cette demande.
 
-      %p Sal's #{@user.firstname},
-      %p
-        Tu as demandé à ce que les mails envoyés sur ton adresse
-        %b
-          #{@user.primary_email.full_email_address}
-        soient redirigés sur
-        %b
-          #{@era.redirect}.
-      %p Nous t'invitons à confirmer que tu es bien à l'origine de cette demande.
+.txtcenter.bouton.bouton_bleu
+  =link_to "J'active ma redirection vers #{@era.redirect}", @confirmation_url ,:class => "bouton bouton_orange_1 txtcenter"
 
-      .txtcenter.bouton.bouton_bleu
-        =link_to "J'active ma redirection vers #{@era.redirect}", @confirmation_url ,:class => "bouton bouton_orange_1 txtcenter"
+%p
+  Si ce lien ne fonctionne pas, copie l'adresse suivante puis colle-la dans une nouvelle fenêtre de navigateur :
+%p
+  #{@confirmation_url}
+%p
+  Tu pourras modifier par la suite tes redirections et inscriptions aux listes de diffusion sur
+  =link_to Configurable[:site_url], Configurable[:site_url]
 
-      %p
-        Si ce lien ne fonctionne pas, copie l'adresse suivante puis colle-la dans une nouvelle fenêtre de navigateur :
-      %p
-        #{@confirmation_url}
-      %p
-        Tu pourras modifier par la suite tes redirections et inscriptions aux listes de diffusion sur
-        =link_to Configurable[:site_url], Configurable[:site_url]
-
-      %p.small
-        Si tu as reçu ce message par erreur, ou si tu n'as pas formulé de demande en ce sens, aucune action supplémentaire de ta part n'est requise. Par conséquent, tu peux ignorer ce message.
+%p.small
+  Si tu as reçu ce message par erreur, ou si tu n'as pas formulé de demande en ce sens, aucune action supplémentaire de ta part n'est requise. Par conséquent, tu peux ignorer ce message.

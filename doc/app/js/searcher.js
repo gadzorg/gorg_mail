@@ -1,7 +1,7 @@
 Searcher = function(data) {
   this.data = data;
   this.handlers = [];
-}
+};
 
 Searcher.prototype = new function() {
   // search is performed in chunks of 1000 for non-blocking user input
@@ -41,13 +41,13 @@ Searcher.prototype = new function() {
 
     // start search thread
     run();
-  }
+  };
 
   /*  ----- Events ------  */
   this.ready = function(fn) {
     fn.huid = huid;
     this.handlers.push(fn);
-  }
+  };
 
   /*  ----- Utilities ------  */
   function splitQuery(query) {
@@ -89,8 +89,8 @@ Searcher.prototype = new function() {
     for (var i=1, l = regexps.length; i < l; i++) {
       if (!index.match(regexps[i]) && !longIndex.match(regexps[i]))
         return false;
-    };
-    return true;
+    }
+      return true;
   }
 
   /*
@@ -102,8 +102,8 @@ Searcher.prototype = new function() {
     for (var i=1, l = regexps.length; i < l; i++) {
       if (!longIndex.match(regexps[i]))
         return false;
-    };
-    return true;
+    }
+      return true;
   }
 
   /*
@@ -115,8 +115,8 @@ Searcher.prototype = new function() {
     for (var i=1, l = regexps.length; i < l; i++) {
       if (!index.match(regexps[i]) && !longIndex.match(regexps[i]))
         return false;
-    };
-    return true;
+    }
+      return true;
   }
 
   /*
@@ -128,8 +128,8 @@ Searcher.prototype = new function() {
     for (var i=1, l = regexps.length; i < l; i++) {
       if (!index.match(regexps[i]) && !longIndex.match(regexps[i]))
         return false;
-    };
-    return true;
+    }
+      return true;
   }
 
 
@@ -139,8 +139,8 @@ Searcher.prototype = new function() {
     for (var i=0, l = regexps.length; i < l; i++) {
       result.title = result.title.replace(regexps[i], highlighters[i]);
       result.namespace = result.namespace.replace(regexps[i], highlighters[i]);
-    };
-    return result;
+    }
+      return result;
   }
 
   function hltSubstring(string, pos, length) {
@@ -161,8 +161,8 @@ Searcher.prototype = new function() {
     for (var i=1, l = regexps.length; i < l; i++) {
       result.title = result.title.replace(regexps[i], highlighters[i]);
       result.namespace = result.namespace.replace(regexps[i], highlighters[i]);
-    };
-    return result;
+    }
+      return result;
   }
 
   function createResult(info) {
@@ -208,8 +208,8 @@ Searcher.prototype = new function() {
           result.push(hltFunc(info[i], queries, regexps, highlighters));
           state.limit--;
         }
-      };
-      if (searchIndex.length <= i) {
+      }
+        if (searchIndex.length <= i) {
         state.pass++;
         i = state.from = 0;
       } else {
@@ -224,5 +224,5 @@ Searcher.prototype = new function() {
       fn.call(this, results, isLast)
     })
   }
-}
+};
 

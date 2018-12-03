@@ -1,3 +1,8 @@
 %hmtl
   %body
-    = yield
+    = stylesheet_link_tag    "mail", media: "all"
+  .mam
+    .content.mw800p.center
+      .pam
+        %p=image_tag "http://www.arts-et-metiers.asso.fr/images/logo.png", height: '50'
+        = yield

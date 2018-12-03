@@ -31,4 +31,69 @@ RSpec.describe Ml::List, type: :model do
   it "handle no group uuid" do
     expect(FactoryGirl.build(:ml_list).belong_to_group?).to be_falsey
   end
+
+  describe "returns all emails"do
+
+    it "returns primary emails" do
+      ml=FactoryGirl.create(:ml_list)
+      users=FactoryGirl.create_list(:user_with_addresses,4)
+      users.each{|u| ml.add_user(u)}
+
+      expect(ml.all_emails).to match_array(users.map{|u| u.primary_email.to_s})
+    end
+
+    it "returns primary emails of members only" do
+      ml=FactoryGirl.create(:ml_list)
+      users=FactoryGirl.create_list(:user_with_addresses,4)
+      banned_users=FactoryGirl.create_list(:user_with_addresses,4)
+      users.each{|u| ml.add_user(u)}
+      banned_users.each{|u| ml.add_user(u)&&ml.set_role(u, :banned)}
+
+      expect(ml.all_emails).to match_array(users.map{|u| u.primary_email.to_s})
+    end
+
+    it "returns contact emails" do
+      ml=FactoryGirl.create(:ml_list)
+      users=FactoryGirl.create_list(:user_with_addresses,4)
+      users_without_primary=FactoryGirl.create_list(:user,2,:non_gadz)
+      users.each{|u| ml.add_user(u)}
+      users_without_primary.each{|u| ml.add_user(u)}
+
+      expect(ml.all_emails).to match_array(users.map{|u| u.primary_email.to_s}+users_without_primary.map(&:email))
+    end
+
+
+  end
+
+  describe 'search' do
+
+    before(:each) do
+      @list1=FactoryGirl.create(:ml_list, name: 'Ma liste 1', email: 'maliste1@gadz.org')
+      @list2=FactoryGirl.create(:ml_list, name: 'Ma liste 2', email: 'maliste2@gadz.org')
+      @list3=FactoryGirl.create(:ml_list, name: 'Une autre liste', email: 'une.autre.liste@gadz.org')
+    end
+
+    it "return all on nil query" do
+      expect(Ml::List.search(nil)).to match_array([@list1,@list2,@list3])
+    end
+
+    it "search by name" do
+      expect(Ml::List.search('Ma liste')).to match_array([@list1,@list2])
+      expect(Ml::List.search('autre liste')).to match_array([@list3])
+    end
+
+    it "is case incensitive" do
+      expect(Ml::List.search('MA liSTe')).to match_array([@list1,@list2])
+    end
+
+    it "search by email" do
+      expect(Ml::List.search('maliste')).to match_array([@list1,@list2])
+      expect(Ml::List.search('@gadz.org')).to match_array([@list1,@list2,@list3])
+      expect(Ml::List.search('maliste1')).to match_array([@list1])
+    end
+
+  end
+
+
 end
+

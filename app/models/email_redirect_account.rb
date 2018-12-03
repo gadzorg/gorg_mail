@@ -19,6 +19,7 @@
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  user_id            :integer
+#  broken_info        :string(255)
 #
 # Indexes
 #
@@ -71,6 +72,8 @@ class EmailRedirectAccount < ActiveRecord::Base
   validates :flag, occurencies: {only:['active'], max: Configurable.max_actives_era,:scope => :user_id, where: {type_redir: 'smtp'}}
   validates :flag, inclusion: { in: FLAGS}
 
+  scope :smtp, (-> {where(type_redir: 'smtp')})
+  scope :google_apps, (-> {where(type_redir: 'googleapps')})
 
   after_create :email_redirect_account_completer
 
@@ -123,4 +126,13 @@ class EmailRedirectAccount < ActiveRecord::Base
     self.allow_rewrite = 1
     self.save
   end
+
+  def self.find_email(email)
+    self.find_by(redirect:email)
+  end
+
+  def self.find_all_email(email)
+    self.where(redirect:email)
+  end
+
 end

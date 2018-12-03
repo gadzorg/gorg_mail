@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+ruby '2.4.5'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.7.1'
@@ -88,12 +89,10 @@ gem 'bootstrap-tooltip-rails'
 gem 'google-api-client', '~> 0.9'
 
 # Gadz.org Gems Gram v2 client
-gem 'gram_v2_client', git: 'https://github.com/gadzorg/gram2_api_client_ruby.git'
+gem 'gram_v2_client', '~> 3.0'
 
-# Gadz.org rabbitMQ message sender
-gem 'gorg_message_sender'
 
-gem 'gorg_service', '~>4.0'
+gem 'gorg_service', '~>6.0'
 
 gem 'gorg_slack_chat'
 
@@ -153,6 +152,11 @@ end
 group :test do
   gem 'cucumber-rails', :require => false
   gem 'capybara'
+  gem 'selenium'
+  gem 'selenium-webdriver'
+  gem 'poltergeist'
+  gem 'phantomjs', require: 'phantomjs/poltergeist'
+
   gem 'launchy'
   gem 'shoulda-matchers', '~> 3.0'
   gem 'database_cleaner'

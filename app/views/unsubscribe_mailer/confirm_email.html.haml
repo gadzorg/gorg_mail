@@ -1,0 +1,15 @@
+%p Bonjour,
+
+%p Vous avez demandé à vous désinscrire des listes de diffusion Gadz.org.
+
+.txtcenter.bouton.bouton_bleu
+  =link_to "Selectionner mes listes de diffusion", unsubscribe_token_url(@token) ,:class => "bouton bouton_orange_1 txtcenter"
+
+%p
+  Si ce lien ne fonctionne pas, copiez l'adresse suivante puis collez-la dans une nouvelle fenêtre de navigateur :
+%p=unsubscribe_token_url(@token)
+
+%p Vous pourrez sélectionner les listes de diffusion dont vous souhaitez vous désabonner
+
+%p.small
+  Si vous n'êtes pas à l'origine de cette demande, vous pouvez simplement l'ignorer
