@@ -1,9 +1,9 @@
 source 'https://rubygems.org'
 
-ruby '2.4.5'
+ruby '2.5.5'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.7.1'
+gem 'rails', '5.2.3'
 
 #DATABASE
 # Use mysql2 as the database for Active Record
@@ -19,7 +19,7 @@ gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '~> 4.1.0'
+gem 'coffee-rails'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 gem 'execjs'
 
@@ -37,16 +37,16 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Authentification
-gem 'devise', '~> 4.1.1'
+gem 'devise' 
 gem 'omniauth'
-gem "omniauth-cas", :git => "https://github.com/loocla/omniauth-cas.git", :branch => 'saml'
+gem 'omniauth-cas', :git => "https://github.com/gadzorg/omniauth-cas.git", :branch => 'saml'
 gem 'devise_masquerade'
 
 # Authorisation
 gem 'cancancan'
 
 # API GRAM
-gem 'activeresource', '~> 4.0.0'
+gem 'activeresource'
 
 gem 'email_validator'
 
@@ -72,7 +72,7 @@ gem 'i18n'
 gem 'unobtrusive_flash', '>=3'
 
 # forconfiguration tables
-gem 'configurable_engine', github: 'Blaked84/configurable_engine'
+gem 'configurable_engine', :git => "https://github.com/gadzorg/configurable_engine.git"
 
 # tooltips
 gem 'bootstrap-tooltip-rails'
@@ -89,12 +89,12 @@ gem 'bootstrap-tooltip-rails'
 gem 'google-api-client', '~> 0.9'
 
 # Gadz.org Gems Gram v2 client
-gem 'gram_v2_client', '~> 3.0'
+gem 'gram_v2_client', :git => "https://github.com/gadzorg/gram2_api_client_ruby.git"
 
 
-gem 'gorg_service', '~>6.0'
+gem 'gorg_service', :git => "https://github.com/gadzorg/gorg_service.git"
 
-gem 'gorg_slack_chat'
+gem 'gorg_slack_chat', :git => "https://github.com/gadzorg/gorg_slack_chat.git"
 
 # For HTML mails
 gem 'premailer-rails'
@@ -106,12 +106,13 @@ gem 'scout_apm'
 gem 'activerecord-import'
 
 gem 'materialize-sass'
-gem 'simple_form-materialize', github: 'patricklindsay/simple_form-materialize'
+gem 'simple_form-materialize', :git => "https://github.com/gadzorg/simple_form-materialize.git"
 
+gem 'bootsnap'
 
 group :production do
   gem 'rails_12factor'
-  gem 'heroku_secrets', github: 'alexpeattie/heroku_secrets'
+  gem 'heroku_secrets', :git => "https://github.com/gadzorg/heroku_secrets.git"
 end
 
 group :development do
@@ -139,13 +140,14 @@ group :development, :test do
   gem 'hirb' 
 
   # export db en yaml
-  gem 'yaml_db', github: 'jetthoughts/yaml_db', ref: 'fb4b6bd7e12de3cffa93e0a298a1e5253d7e92ba'
+  gem 'yaml_db', :git => "https://github.com/gadzorg/yaml_db.git" 
 
   gem 'rspec-rails'
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   gem 'faker'
-  gem 'quiet_assets'
+#  gem 'quiet_assets', '~> 1.1.0' 
   gem 'rack-mini-profiler'
+  gem 'listen'
 
 end
 
