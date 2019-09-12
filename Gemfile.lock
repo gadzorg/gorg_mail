@@ -87,6 +87,7 @@ GEM
       activerecord (>= 3.2, < 7.0)
       rake (>= 10.4, < 13.0)
     arel (6.0.4)
+    ast (2.4.0)
     autoprefixer-rails (9.6.1.1)
       execjs
     axiom-types (0.1.1)
@@ -299,6 +300,8 @@ GEM
       rack
     orm_adapter (0.5.0)
     os (1.0.1)
+    parser (2.6.4.1)
+      ast (~> 2.4.0)
     phantomjs (2.1.1.0)
     poltergeist (1.18.1)
       capybara (>= 2.1, < 4)
@@ -412,7 +415,8 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    scout_apm (2.4.14)
+    scout_apm (2.6.0)
+      parser
     sdoc (0.4.2)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
