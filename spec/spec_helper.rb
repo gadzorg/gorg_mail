@@ -109,11 +109,6 @@ RSpec.configure do |config|
 
 
   config.before(:suite) do
-    Faker::Config.locale = 'fr'
-  end
-
-
-  config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with(:truncation)
   end
