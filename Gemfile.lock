@@ -27,7 +27,7 @@ GIT
       rake (>= 0.8.7)
 
 GIT
-  remote: https://github.com/loocla/omniauth-cas.git
+  remote: https://github.com/loocla/omniauth-cas
   revision: 16395f85579dc915c0e22f80b4f5d98a019e37ec
   branch: saml
   specs:

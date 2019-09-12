@@ -38,7 +38,7 @@ gem 'sdoc', group: :doc
 # Authentification
 gem 'devise'
 gem 'omniauth'
-gem "omniauth-cas", :git => "https://github.com/loocla/omniauth-cas.git", :branch => 'saml'
+gem "omniauth-cas", git: "https://github.com/loocla/omniauth-cas", branch: 'saml'
 gem 'devise_masquerade'
 
 # Authorisation
@@ -149,7 +149,7 @@ group :development, :test do
 end
 
 group :test do
-  gem 'cucumber-rails', :require => false
+  gem 'cucumber-rails', require: false
   gem 'capybara'
   gem 'selenium'
   gem 'selenium-webdriver'
