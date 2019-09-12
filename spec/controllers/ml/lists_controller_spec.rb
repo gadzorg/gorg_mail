@@ -19,8 +19,6 @@ require 'rails_helper'
 # that an instance is receiving a specific message.
 
 RSpec.describe Ml::ListsController, type: :controller do
-  include Devise::TestHelpers
-
   # This should return the minimal set of attributes required to create a valid
   # Ml::List. As you add validations to Ml::List, be sure to
   # adjust the attributes here as well.

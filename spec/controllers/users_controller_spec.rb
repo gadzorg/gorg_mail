@@ -1,9 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
-
-include Devise::TestHelpers
-
   def login(user)
     @request.env["devise.mapping"] = Devise.mappings[:user]
     sign_in user
@@ -43,7 +40,7 @@ include Devise::TestHelpers
     #it_should_behave_like "an admin only endpoint", :index
 
     context "user login as admin" do
-      
+
       before :each do
         @admin=FactoryGirl.create(:admin, firstname: 'Admin', email:'admin@hotmail.com')
         login @admin
@@ -56,7 +53,7 @@ include Devise::TestHelpers
       it "populate @users list with all users" do
         expect(assigns(:users)).to eq([@alice, @bob, @charlie, @admin])
       end
-    end    
+    end
   end
 
   describe "GET #show" do
@@ -64,7 +61,7 @@ include Devise::TestHelpers
         @user=FactoryGirl.create(:user)
     end
 
-    #it_should_behave_like "an admin only endpoint", :show  do 
+    #it_should_behave_like "an admin only endpoint", :show  do
     #   let! (:params) {{:id => @user.id}}
     # end
 
@@ -120,7 +117,7 @@ include Devise::TestHelpers
           expect(assigns(:user)).to eq(@user)
         end
       end
-    end    
+    end
   end
 
   describe "GET #new" do
@@ -128,7 +125,7 @@ include Devise::TestHelpers
     it_should_behave_like "an admin only endpoint", :new
 
     context "user login as admin" do
-      
+
       before :each do
         @admin=FactoryGirl.create(:admin, firstname: 'Admin', email:'admin@hotmail.com')
         login @admin
@@ -149,7 +146,7 @@ include Devise::TestHelpers
     it_should_behave_like "an admin only endpoint", :new
 
     context "user login as admin" do
-      
+
       before :each do
         @admin=FactoryGirl.create(:admin, firstname: 'Admin', email:'admin@hotmail.com')
         login @admin
@@ -186,12 +183,12 @@ include Devise::TestHelpers
         @user=FactoryGirl.create(:user)
     end
 
-    it_should_behave_like "an admin only endpoint", :edit do 
+    it_should_behave_like "an admin only endpoint", :edit do
       let! (:params) {{:id => @user.id}}
     end
 
     context "user login as admin" do
-      
+
       before :each do
         @admin=FactoryGirl.create(:admin, firstname: 'Admin', email:'admin@hotmail.com')
         login @admin
@@ -212,12 +209,12 @@ include Devise::TestHelpers
         @user=FactoryGirl.create(:user, firstname:'Bob',email:'bob@hotmail.com')
     end
 
-    it_should_behave_like "an admin only endpoint", :update do 
+    it_should_behave_like "an admin only endpoint", :update do
       let! (:params) {{:id => @user.id}}
     end
 
     context "user login as admin" do
-      
+
       before :each do
         @admin=FactoryGirl.create(:admin, firstname: 'Admin', hruid: 'admin.test.ext',email:'admin@hotmail.com')
         login @admin
@@ -245,7 +242,7 @@ include Devise::TestHelpers
         it "doesn't update user data" do
           expect(User.find(@user.id).hruid).to_not eq('')
           #expect(User.find(@user.id).hruid).to eq('admin.test.ext')
-        end        
+        end
         it "respond with 422" do
           post :create, user: FactoryGirl.attributes_for(:invalid_user)
           is_expected.to respond_with :unprocessable_entity
@@ -263,12 +260,12 @@ include Devise::TestHelpers
         @user=FactoryGirl.create(:user)
     end
 
-    it_should_behave_like "an admin only endpoint", :destroy do 
+    it_should_behave_like "an admin only endpoint", :destroy do
       let! (:params) {{:id => @user.id}}
     end
 
     context "user login as admin" do
-      
+
       before :each do
         @admin=FactoryGirl.create(:admin, firstname: 'Admin', email:'admin@hotmail.com')
         login @admin

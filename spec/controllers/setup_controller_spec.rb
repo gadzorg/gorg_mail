@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe SetupController, type: :controller do
-  include Devise::TestHelpers
-
   let(:valid_ml_attributes) {
     skip("Add a hash of attributes valid for your model")
   }

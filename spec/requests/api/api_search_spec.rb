@@ -1,10 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe "Api::Search", type: :request do
-#  include Devise::TestHelpers
-
-
-
   let(:user){FactoryGirl.create(:user_with_addresses)}
 
   let(:source_address){user.email_source_accounts.first}
