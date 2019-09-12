@@ -375,18 +375,13 @@ class User < ActiveRecord::Base
   end
 
   def groups
-    begin
-      GramV2Client::Account.find(self.uuid).groups
-    #TODO : move this dirty hack to gem
-    rescue => error
-      if error.to_s.include?("Response code = 404")
-        return []
-      else
-        # This is very bad.
-        Rails.logger.error error
-        return []
-      end
-    end
+    GramV2Client::Account.find(self.uuid).groups
+  rescue GramV2Client::ResourceNotFound
+    []
+  rescue StandardError => error
+    # This is very bad.
+    Rails.logger.error error
+    []
   end
 
   ################ lists  ###############
