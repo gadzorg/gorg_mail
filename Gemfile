@@ -163,4 +163,5 @@ group :test do
   gem 'database_cleaner'
   gem 'bogus'
   gem 'webmock'
+  gem 'simplecov'
 end
