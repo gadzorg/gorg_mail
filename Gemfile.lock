@@ -493,6 +493,7 @@ DEPENDENCIES
   activeresource (~> 4.0.0)
   annotate (~> 2.6.6)
   better_errors
+  binding_of_caller
   bogus
   bootstrap-tooltip-rails
   cancancan
