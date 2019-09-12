@@ -8,7 +8,7 @@ gem 'rails', '4.2.7.1'
 #DATABASE
 # Use mysql2 as the database for Active Record
 #gem 'mysql2'
-gem 'mysql2', '~> 0.3.20'
+gem 'mysql2', '< 0.5'
 
 # Use 'foreigner' to add foreign_key constraints on database layer !
 # https://github.com/matthuhiggins/foreigner
@@ -129,14 +129,14 @@ group :development, :test do
   gem 'therubyracer', :platforms => :ruby
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
-  
+
   gem "letter_opener"
 
   #pour les diagramme UML
-  gem 'rails-erd' 
+  gem 'rails-erd'
 
   #better cli table view for db
-  gem 'hirb' 
+  gem 'hirb'
 
   # export db en yaml
   gem 'yaml_db', github: 'jetthoughts/yaml_db', ref: 'fb4b6bd7e12de3cffa93e0a298a1e5253d7e92ba'
@@ -163,4 +163,3 @@ group :test do
   gem 'bogus'
   gem 'webmock'
 end
-
