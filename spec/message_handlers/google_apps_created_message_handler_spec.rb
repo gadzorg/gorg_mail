@@ -20,7 +20,7 @@ RSpec.describe GoogleAppsCreatedMessageHandler, type: :message_handler do
       let(:data) { { invalid: "data"}}
 
       it " does not raise an InvalidData error" do
-        expect{subject}.to raise_exception
+        expect{subject}.to raise_exception GorgService::Consumer::HardfailError
       end
     end
 
