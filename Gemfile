@@ -128,7 +128,8 @@ group :development, :test do
   gem 'sqlite3'
   gem 'therubyracer', :platforms => :ruby
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug'
+  gem "pry-byebug"
+  gem "pry-rails"
 
   gem "letter_opener"
 
