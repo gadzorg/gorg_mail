@@ -71,7 +71,7 @@ gem 'i18n'
 gem 'unobtrusive_flash'
 
 # forconfiguration tables
-gem 'configurable_engine', github: 'Blaked84/configurable_engine'
+gem 'configurable_engine', git: 'https://github.com/Blaked84/configurable_engine'
 
 # tooltips
 gem 'bootstrap-tooltip-rails'
@@ -105,12 +105,12 @@ gem 'scout_apm'
 gem 'activerecord-import'
 
 gem 'materialize-sass'
-gem 'simple_form-materialize', github: 'patricklindsay/simple_form-materialize'
+gem 'simple_form-materialize', git: 'https://github.com/patricklindsay/simple_form-materialize'
 
 
 group :production do
   gem 'rails_12factor'
-  gem 'heroku_secrets', github: 'alexpeattie/heroku_secrets'
+  gem 'heroku_secrets', git: "https://github.com/alexpeattie/heroku_secrets"
 end
 
 group :development do
