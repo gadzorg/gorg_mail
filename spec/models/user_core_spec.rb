@@ -25,6 +25,12 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
+  let(:json_auth_headers) {{
+      "Accept" =>  "application/json",
+      "Authorization"  => ActionController::HttpAuthentication::Basic.encode_credentials(
+          Rails.application.secrets.gram_api_user,Rails.application.secrets.gram_api_password)
+  }}
+
   def gram_account_mocked (hash={})
     @gen_gram_account={
       "uuid"=>"559bb0aa-ddac-4607-ad41-7e520ee40819",
@@ -157,10 +163,10 @@ RSpec.describe User, type: :model do
           @gram_get_account_response=gram_account_mocked({'firstname' => 'Alexandre', 'lastname' => 'NARBONNE' ,'email' => 'alexandre.narbonne@gadz.org', 'uuid' => '559bb0aa-ddac-4607-ad41-7e520ee40819', 'is_gadz'=>'true'})
 
           ActiveResource::HttpMock.respond_to do |mock|
-            mock.get '/api/v2/accounts/559bb0aa-ddac-4607-ad41-7e520ee40819.json', {'Accept' => 'application/json', "Authorization"=>"Basic cmF0YXRvc2s6dGVzdF9wYXNz"}, @gram_get_account_response, 200
+            mock.get '/api/v2/accounts/559bb0aa-ddac-4607-ad41-7e520ee40819.json', json_auth_headers, @gram_get_account_response, 200
           end
           @user=@user.update_from_gram
-        end 
+        end
 
         it "return a User" do
           expect(@user.class).to eq(User)
@@ -187,10 +193,10 @@ RSpec.describe User, type: :model do
 
         before :each do
           ActiveResource::HttpMock.respond_to do |mock|
-            mock.get '/api/v2/accounts/559bb0aa-ddac-4607-ad41-7e520ee40819.json', {'Accept' => 'application/json', "Authorization"=>"Basic cmF0YXRvc2s6dGVzdF9wYXNz"}, nil,503
+            mock.get '/api/v2/accounts/559bb0aa-ddac-4607-ad41-7e520ee40819.json', json_auth_headers, nil,503
           end
           @user.update_from_gram
-        end 
+        end
 
         it "is not synced with gram" do
           expect(@user.synced_with_gram).to eq (false)
@@ -220,7 +226,7 @@ RSpec.describe User, type: :model do
       @gram_get_account_response= gram_account_mocked
 
       ActiveResource::HttpMock.respond_to do |mock|
-        mock.get '/api/v2/accounts/559bb0aa-ddac-4607-ad41-7e520ee40819.json', {'Accept' => 'application/json', "Authorization"=>"Basic cmF0YXRvc2s6dGVzdF9wYXNz"}, @gram_get_account_response, 200
+        mock.get '/api/v2/accounts/559bb0aa-ddac-4607-ad41-7e520ee40819.json', json_auth_headers, @gram_get_account_response, 200
       end
 
     end
@@ -277,14 +283,14 @@ RSpec.describe User, type: :model do
         before :each do
           @gram_get_account_mocked_response= gram_account_mocked({'firstname' => 'Alexandre', 'lastname' => 'NARBONNE' ,'email' => 'alexandre.narbonne@gadz.org', "is_gadz" => "true"})
           ActiveResource::HttpMock.respond_to do |mock|
-            mock.get '/api/v2/accounts/559bb0aa-ddac-4607-ad41-7e520ee40819.json', {'Accept' => 'application/json', "Authorization"=>"Basic cmF0YXRvc2s6dGVzdF9wYXNz"}, @gram_get_account_mocked_response, 200
+            mock.get '/api/v2/accounts/559bb0aa-ddac-4607-ad41-7e520ee40819.json', json_auth_headers, @gram_get_account_mocked_response, 200
           end
         end
 
         describe "update with gram info" do
           before :each do
             @user=User.omniauth(@omniauth_data)
-          end 
+          end
           it "update email" do
             expect(@user.email).to eq("alexandre.narbonne@gadz.org")
           end
@@ -300,10 +306,10 @@ RSpec.describe User, type: :model do
       context "cannot connect to gram API" do
         before :each do
           ActiveResource::HttpMock.respond_to do |mock|
-            mock.get '/api/v2/accounts/559bb0aa-ddac-4607-ad41-7e520ee40819.json', {'Accept' => 'application/json', "Authorization"=>"Basic cmF0YXRvc2s6dGVzdF9wYXNz"}, nil,503
+            mock.get '/api/v2/accounts/559bb0aa-ddac-4607-ad41-7e520ee40819.json', json_auth_headers, nil,503
           end
           @user=User.omniauth(@omniauth_data)
-        end 
+        end
 
         it "is not synced with gram" do
           expect(@user.synced_with_gram).to eq (false)
