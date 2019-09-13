@@ -29,13 +29,6 @@ GIT
       nokogiri (~> 1.5)
       omniauth (~> 1.1.0)
 
-GIT
-  remote: https://github.com/patricklindsay/simple_form-materialize
-  revision: 6d2afdec6f0523946fb2221070f05b79739be12a
-  specs:
-    simple_form-materialize (0.0.1)
-      rails (~> 4.2)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -548,7 +541,6 @@ DEPENDENCIES
   selenium-webdriver
   shoulda-matchers
   simple_form
-  simple_form-materialize!
   simplecov
   uglifier
   unobtrusive_flash
