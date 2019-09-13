@@ -104,7 +104,7 @@ gem 'scout_apm'
 
 gem 'activerecord-import'
 
-gem 'materialize-sass'
+gem 'materialize-sass', '~> 0.100'
 gem 'simple_form-materialize', git: 'https://github.com/patricklindsay/simple_form-materialize'
 
 
