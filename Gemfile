@@ -157,4 +157,6 @@ group :test do
   gem 'database_cleaner'
   gem 'webmock'
   gem 'simplecov'
+
+  gem 'rails-controller-testing'
 end
