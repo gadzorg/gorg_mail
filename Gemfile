@@ -87,7 +87,7 @@ gem 'bootstrap-tooltip-rails'
 gem 'google-api-client'
 
 # Gadz.org Gems Gram v2 client
-gem 'gram_v2_client'
+gem 'gram_v2_client', git: "https://github.com/gadzorg/gram2_api_client_ruby"
 
 
 gem 'gorg_service'

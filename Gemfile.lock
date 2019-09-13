@@ -12,6 +12,13 @@ GIT
     heroku_secrets (0.0.2)
 
 GIT
+  remote: https://github.com/gadzorg/gram2_api_client_ruby
+  revision: 469971c3375f470a26f25546db7de54ccd82093b
+  specs:
+    gram_v2_client (3.0.6)
+      activeresource (>= 5.1)
+
+GIT
   remote: https://github.com/gadzorg/yaml_db
   revision: 1954645c7f89c3a01d61a5d649c85775fd41270f
   specs:
@@ -202,8 +209,6 @@ GEM
       bunny (~> 2.2, >= 2.2.2)
       gorg_message_sender (~> 1.4.2)
       json-schema (~> 2.6)
-    gram_v2_client (3.0.0)
-      activeresource (~> 4.0)
     haml (5.0.4)
       temple (>= 0.8.0)
       tilt
@@ -482,7 +487,7 @@ DEPENDENCIES
   faker
   google-api-client
   gorg_service
-  gram_v2_client
+  gram_v2_client!
   haml-rails
   heroku_secrets!
   hirb
