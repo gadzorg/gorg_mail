@@ -309,8 +309,6 @@ GEM
     public_suffix (4.0.1)
     puma (4.1.1)
       nio4r (~> 2.0)
-    quiet_assets (1.1.0)
-      railties (>= 3.1, < 5.0)
     rack (1.6.11)
     rack-mini-profiler (1.0.2)
       rack (>= 1.2.0)
@@ -519,7 +517,6 @@ DEPENDENCIES
   pry-byebug
   pry-rails
   puma
-  quiet_assets
   rack-mini-profiler
   rails (= 4.2.7.1)
   rails-erd

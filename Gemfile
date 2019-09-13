@@ -141,7 +141,6 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'factory_bot_rails'
   gem 'faker'
-  gem 'quiet_assets'
   gem 'rack-mini-profiler'
 end
 
