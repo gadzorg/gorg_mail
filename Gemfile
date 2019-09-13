@@ -17,8 +17,7 @@ gem 'mysql2', '< 0.5'
 gem 'sass-rails'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier'
-# Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails'
+
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 gem 'execjs'
 
