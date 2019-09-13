@@ -1,5 +1,5 @@
 Given(/^I'm a Gadz member$/) do
-  @me=FactoryGirl.create(:user_with_addresses,
+  @me=FactoryBot.create(:user_with_addresses,
     email: "my_email@example.com",
     password: "secret",
     is_gadz: true,

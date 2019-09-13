@@ -9,12 +9,10 @@
 #  srs_rewrite             :integer
 #  list_id                 :integer
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :alias do
-
     email { Faker::Internet.user_name }
     redirect { Faker::Internet.email }
-    email_virtual_domain_id 1
-
+    email_virtual_domain_id { 1 }
   end
 end

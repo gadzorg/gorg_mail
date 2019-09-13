@@ -9,7 +9,7 @@ RSpec.describe RolesController, type: :controller do
   shared_examples_for "an admin only endpoint" do |destination, params|
     context "user login as basic user" do
       before :each do
-        @user||=FactoryGirl.create(:user, firstname: 'Ulysse', email:'Ulysse@hotmail.com')
+        @user||= create(:user, firstname: 'Ulysse', email:'Ulysse@hotmail.com')
         login @user
         get destination, params
       end
@@ -19,7 +19,7 @@ RSpec.describe RolesController, type: :controller do
 
     context "user not login" do
       before :each do
-        @user=FactoryGirl.create(:user, firstname: 'Ulysse', email:'Ulysse@hotmail.com')
+        @user= create(:user, firstname: 'Ulysse', email:'Ulysse@hotmail.com')
         get destination, params
       end
 
@@ -31,8 +31,8 @@ RSpec.describe RolesController, type: :controller do
   describe "GET #index" do
 
     before :each do
-      @admin_role=FactoryGirl.create(:role, name:"admin")
-      @support_role=FactoryGirl.create(:role, name: 'support')
+      @admin_role= create(:role, name:"admin")
+      @support_role= create(:role, name: 'support')
     end
 
     it_should_behave_like "an admin only endpoint", :index
@@ -40,7 +40,7 @@ RSpec.describe RolesController, type: :controller do
     context "user login as admin" do
 
       before :each do
-        @admin=FactoryGirl.create(:admin, firstname: 'Admin', email:'admin@hotmail.com')
+        @admin= create(:admin, firstname: 'Admin', email:'admin@hotmail.com')
         login @admin
         get :index
       end

@@ -7,7 +7,9 @@ RSpec.describe OccurenciesValidator, type: :validator do
 
   context "on valid record" do
     let(:options) {{max: 2}}
-    let(:record) {FactoryGirl.build(:email_redirect_account,attribute => 'active', user_id: 1, type_redir: "smtp")}
+    let(:record) do
+      build(:email_redirect_account,attribute => 'active', user_id: 1, type_redir: "smtp")
+    end
 
     it "validates record" do
 
@@ -18,7 +20,7 @@ RSpec.describe OccurenciesValidator, type: :validator do
 
     it 'validates occurencies of a single value' do
       2.times do
-        FactoryGirl.create(:email_redirect_account,attribute => 'broken')
+        create(:email_redirect_account,attribute => 'broken')
       end
 
       subject.validate_each(record,:flag,'active')
@@ -31,7 +33,7 @@ RSpec.describe OccurenciesValidator, type: :validator do
 
       it "validate other values" do
         2.times do
-          FactoryGirl.create(:email_redirect_account,attribute => 'broken')
+          create(:email_redirect_account,attribute => 'broken')
         end
 
         subject.validate_each(record,:flag,'broken')
@@ -46,7 +48,7 @@ RSpec.describe OccurenciesValidator, type: :validator do
 
       it "validate other values" do
         2.times do
-          FactoryGirl.create(:email_redirect_account,attribute => 'active', user_id: 2)
+          create(:email_redirect_account,attribute => 'active', user_id: 2)
         end
 
         subject.validate_each(record,:flag,'active')
@@ -61,7 +63,7 @@ RSpec.describe OccurenciesValidator, type: :validator do
 
       it "validate only on where" do
         2.times do
-          FactoryGirl.create(:email_redirect_account,attribute => 'active', type_redir: "googleapps")
+          create(:email_redirect_account,attribute => 'active', type_redir: "googleapps")
         end
 
         subject.validate_each(record,:flag,'active')
@@ -75,9 +77,9 @@ RSpec.describe OccurenciesValidator, type: :validator do
 
   context 'too much records' do
     let(:options) {{max: 2}}
-    let(:record) {FactoryGirl.build(:email_redirect_account,attribute => 'active')}
+    let(:record) { build(:email_redirect_account,attribute => 'active')}
 
-    before(:each) { 2.times{FactoryGirl.create(:email_redirect_account,attribute => 'active')} }
+    before(:each) { 2.times{ create(:email_redirect_account,attribute => 'active')} }
 
     it "add an error" do
       expect{ subject.validate_each(record,:flag,'active') }.to change{record.errors.count}.by(1)

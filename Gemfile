@@ -142,11 +142,10 @@ group :development, :test do
   gem 'yaml_db', git: "https://github.com/gadzorg/yaml_db"
 
   gem 'rspec-rails'
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   gem 'faker'
   gem 'quiet_assets'
   gem 'rack-mini-profiler'
-
 end
 
 group :test do

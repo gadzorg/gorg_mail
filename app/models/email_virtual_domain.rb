@@ -10,7 +10,7 @@
 #
 
 class EmailVirtualDomain < ActiveRecord::Base
-	has_many :EmailSourceAccount
+	has_many :email_source_accounts
 
 
   def aliases

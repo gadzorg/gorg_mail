@@ -157,8 +157,8 @@ RSpec.describe Ml::ListsController, type: :controller do
 
   describe "GET #join" do
 
-    let!(:list) { FactoryGirl.create(:ml_list)}
-    let(:current_user) { FactoryGirl.create(:user_with_addresses, is_gadz: true)}
+    let!(:list) { create(:ml_list)}
+    let(:current_user) { create(:user_with_addresses, is_gadz: true)}
     let(:target_user) { current_user}
 
     it_behaves_like "a logged users only endpoint", :get, :join , {list_id:1, user_id: 1}
@@ -171,7 +171,7 @@ RSpec.describe Ml::ListsController, type: :controller do
 
       context "An allowed lists" do
 
-        let!(:list) { FactoryGirl.create(:ml_list,inscription_policy: "open")}
+        let!(:list) { create(:ml_list,inscription_policy: "open")}
 
         before(:each) do
           xhr :get, :join, {list_id:list.id, user_id: target_user.id, format: :js}
@@ -185,7 +185,7 @@ RSpec.describe Ml::ListsController, type: :controller do
       end
 
       context "Not an allowed lists" do
-        let!(:list) { FactoryGirl.create(:ml_list,inscription_policy: "closed")}
+        let!(:list) { create(:ml_list,inscription_policy: "closed")}
 
         before(:each) do
           xhr :get, :join, {list_id:list.id, user_id: target_user.id, format: :js}

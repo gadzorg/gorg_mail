@@ -8,21 +8,18 @@
 #  updated_at :datetime         not null
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :role do
-    name "admin"
-    initialize_with { Role.find_or_create_by name:name}
+    name { "admin" }
+    initialize_with { Role.find_or_create_by name: name }
 
     factory :distinct_role do
-      initialize_with { Role.new}
+      initialize_with { Role.new }
     end
-
 
     factory :invalid_role do
-      name nil
-      initialize_with { Role.new}
+      name { nil }
+      initialize_with { Role.new }
     end
-
   end
-
 end
