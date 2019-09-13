@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe SetupSubscriptionService, type: :service do
-  fake(:message_sender) { GorgService::Producer }
+  let(:message_sender) { instance_double("GorgService::Producer") }
 
   describe '#mailing_lists' do
     before :each do

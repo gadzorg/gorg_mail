@@ -10,7 +10,6 @@ if Rails.env.production?
 end
 
 require "rspec/rails"
-require "bogus/rspec"
 
 require "webmock/rspec"
 WebMock.disable_net_connect!(

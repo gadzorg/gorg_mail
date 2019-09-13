@@ -159,7 +159,6 @@ group :test do
   gem 'launchy'
   gem 'shoulda-matchers'
   gem 'database_cleaner'
-  gem 'bogus'
   gem 'webmock'
   gem 'simplecov'
 end
