@@ -27,7 +27,7 @@
 #  index_ml_lists_on_group_uuid  (group_uuid)
 #
 
-class Ml::List < ActiveRecord::Base
+class Ml::List < ApplicationRecord
   # keep this function before validation
   def self.inscription_policy_list
     %w(open conditional_gadz closed in_group)

@@ -47,7 +47,7 @@
 ##
 # A User of the application
 #
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable,
@@ -169,7 +169,7 @@ class User < ActiveRecord::Base
         self.gadz_centre_principal = gram_data.try(:gadz_centre_principal) # ex: "bo"
 
         if self.save
-          self.synced_with_gram = true 
+          self.synced_with_gram = true
           return self
         else
           return false
@@ -280,19 +280,19 @@ class User < ActiveRecord::Base
     #check if canonical name exist
     unless self.canonical_name.nil?
       # check if google apps exist via GAM ( possible?) TODO
-      # if gadz => gadz.fr TODO 
+      # if gadz => gadz.fr TODO
       # else => agoram.org ( or other) TODO
       google_apps_adress = self.canonical_name + "@gadz.fr"
       #create gogogleapps via GAM TODO
       #create redirection
 
-      self.email_redirect_accounts.new( 
+      self.email_redirect_accounts.new(
         redirect: google_apps_adress,
         type_redir: "googleapps"
         )
       self.save
     end
-    
+
   end
 =end
 
@@ -304,7 +304,7 @@ class User < ActiveRecord::Base
   def create_canonical_name()
     self.canonical_name = self.generate_canonical_name()
     self.save
-  end    
+  end
 
   def generate_canonical_name()
     #TODO
@@ -318,7 +318,7 @@ class User < ActiveRecord::Base
     #definir le nom canonique standard
     default_canonical_name = firstname_p + "." + lastname_p
     # vérifier si il est déjà dans la base
-    
+
     canonical_name = default_canonical_name # on définit une première fois le nom canonique qui "peut" être le bon
 
     if !User.find_by(canonical_name: canonical_name).nil?
@@ -329,17 +329,17 @@ class User < ActiveRecord::Base
       canonical_name = default_canonical_name
 
       i=0
-      
+
       while !User.find_by(canonical_name: canonical_name).nil?
         i+=1
-        canonical_name = default_canonical_name + "." + i.to_s  
+        canonical_name = default_canonical_name + "." + i.to_s
       end
       # si oui, ajouter un .2 et boucler .3, .4 etc.
-      
+
     end
 
     return canonical_name #attetion TEST UNIQUEMENT
-      
+
   end
 
 
