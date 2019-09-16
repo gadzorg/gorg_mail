@@ -17,7 +17,8 @@ class OccurenciesValidator < ActiveModel::EachValidator
     end
 
     if options[:min]
-      if watched_value?(record.changed_attributes[attribute])
+      changed_attributes = record.saved_changes.transform_values(&:first)
+      if watched_value?(changed_attributes[attribute])
         occ=klass.where(scope_query(record)).where(attribute => value).count
         if occ<=options[:min]
           record.errors.add(attribute, :too_many, message: "is only used #{occ} times (min: #{options[:min]})")
