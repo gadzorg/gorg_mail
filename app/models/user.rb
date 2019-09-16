@@ -62,7 +62,7 @@ class User < ActiveRecord::Base
   attr_accessor :synced_with_gram
 
   # Associations
-  belongs_to :role
+  belongs_to :role, optional: true
 
   has_many :email_redirect_accounts, dependent: :destroy
   has_many :email_source_accounts, dependent: :destroy

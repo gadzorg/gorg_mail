@@ -37,5 +37,6 @@ FactoryBot.define do
     redirect { Faker::Internet.email }
     flag { "active" }
     type_redir { "smtp" }
+    user
   end
 end

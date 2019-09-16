@@ -14,5 +14,6 @@ FactoryBot.define do
     email { Faker::Internet.user_name }
     redirect { Faker::Internet.email }
     email_virtual_domain_id { 1 }
+    ml_list
   end
 end

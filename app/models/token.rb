@@ -20,7 +20,7 @@
 
 class Token < ActiveRecord::Base
 
-  belongs_to :tokenable, polymorphic: true
+  belongs_to :tokenable, polymorphic: true, optional: true
   serialize :data, Hash
 
   before_create :set_default

@@ -55,7 +55,7 @@ end
 
 
 class EmailRedirectAccount < ActiveRecord::Base
-	belongs_to :user
+	belongs_to :user, optional: true
 
   FLAGS=%w(active inactive broken)
 
