@@ -174,7 +174,9 @@ RSpec.describe Ml::ListsController, type: :controller do
         let!(:list) { create(:ml_list,inscription_policy: "open")}
 
         before(:each) do
-          xhr :get, :join, {list_id:list.id, user_id: target_user.id, format: :js}
+          get :join,
+              params: { list_id: list.id, user_id: target_user.id, format: :js },
+              xhr: true
         end
 
         it {is_expected.to respond_with :success }
@@ -188,9 +190,12 @@ RSpec.describe Ml::ListsController, type: :controller do
         let!(:list) { create(:ml_list,inscription_policy: "closed")}
 
         before(:each) do
-          xhr :get, :join, {list_id:list.id, user_id: target_user.id, format: :js}
+          get :join,
+              params: { list_id: list.id, user_id: target_user.id, format: :js },
+              xhr: true
         end
-        it {is_expected.to respond_with :forbidden }
+
+        it { is_expected.to respond_with :forbidden }
       end
 
       context "A lists already joined" do
