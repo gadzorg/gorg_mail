@@ -1,4 +1,4 @@
-class AddUuidToUser < ActiveRecord::Migration
+class AddUuidToUser < ActiveRecord::Migration[4.2]
   def change
     add_column :users, :uuid, :string
   end

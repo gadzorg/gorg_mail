@@ -1,4 +1,4 @@
-class Addmissingindex < ActiveRecord::Migration
+class Addmissingindex < ActiveRecord::Migration[4.2]
   def change
     add_index :users, :uuid,                unique: true
     add_index :users, :hruid,                unique: true

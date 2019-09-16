@@ -1,4 +1,4 @@
-class AddChangeColumnNullToUserEmail < ActiveRecord::Migration
+class AddChangeColumnNullToUserEmail < ActiveRecord::Migration[4.2]
   def self.up
     change_column :users, :email, :string, :null => true
     change_column :users, :hruid, :string, :null => false
