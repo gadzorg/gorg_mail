@@ -14,5 +14,5 @@
 #  index_postfix_blacklists_on_email  (email)
 #
 
-class PostfixBlacklist < ActiveRecord::Base
+class PostfixBlacklist < ApplicationRecord
 end

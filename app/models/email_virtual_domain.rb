@@ -9,7 +9,7 @@
 #  updated_at :datetime         not null
 #
 
-class EmailVirtualDomain < ActiveRecord::Base
+class EmailVirtualDomain < ApplicationRecord
 	has_many :email_source_accounts
 
 

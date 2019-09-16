@@ -15,7 +15,7 @@
 #  index_ml_lists_users_on_user_id_and_list_id  (user_id,list_id)
 #
 
-class Ml::ListsUser < ActiveRecord::Base
+class Ml::ListsUser < ApplicationRecord
 
   belongs_to :user
   belongs_to :list, class_name: 'Ml::List'

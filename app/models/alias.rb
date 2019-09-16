@@ -21,7 +21,7 @@
 #  index_aliases_on_redirect                 (redirect)
 #
 
-class Alias < ActiveRecord::Base
+class Alias < ApplicationRecord
   belongs_to :email_virtual_domain,  class_name: "EmailVirtualDomain"
   belongs_to :ml_list, :class_name => 'Ml::List', :foreign_key => "list_id"
 
