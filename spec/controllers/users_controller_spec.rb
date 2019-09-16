@@ -7,9 +7,9 @@ RSpec.describe UsersController, type: :controller do
   end
 
   shared_examples_for "an admin only endpoint" do |destination|
-    let! (:params) {}
-    context "user login as basic user" do
+    let!(:params) { {} }
 
+    context "user login as basic user" do
       before :each do
         @c_user||= create(:user, firstname: 'Ulysse', email:'Ulysse@hotmail.com')
         login @c_user
