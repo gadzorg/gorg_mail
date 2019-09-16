@@ -1,4 +1,4 @@
-class AddInscriptionpolicyToMlList < ActiveRecord::Migration
+class AddInscriptionpolicyToMlList < ActiveRecord::Migration[4.2]
   def change
     add_column :ml_lists, :inscription_policy, :string
     add_column :ml_lists, :group_uuid, :string

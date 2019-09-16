@@ -1,4 +1,4 @@
-class CreateMlListUsers < ActiveRecord::Migration
+class CreateMlListUsers < ActiveRecord::Migration[4.2]
   def change
     create_table :ml_lists_users do |t|
       t.integer :user_id
