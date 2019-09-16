@@ -27,7 +27,7 @@ class EmailVirtualDomainsController < ApplicationController
 
     respond_to do |format|
       if @email_virtual_domain.save
-        format.html { redirect_to @email_virtual_domain, notice: 'Email virtual domain was successfully created.' }
+        format.html { redirect_to email_virtual_domains_path, notice: 'Email virtual domain was successfully created.' }
         format.json { render :show, status: :created, location: @email_virtual_domain }
       else
         format.html { render :new }
@@ -42,7 +42,7 @@ class EmailVirtualDomainsController < ApplicationController
     authorize! :update, @email_virtual_domain
     respond_to do |format|
       if @email_virtual_domain.update(email_virtual_domain_params)
-        format.html { redirect_to @email_virtual_domain, notice: 'Email virtual domain was successfully updated.' }
+        format.html { redirect_to email_virtual_domains_path, notice: 'Email virtual domain was successfully updated.' }
         format.json { render :show, status: :ok, location: @email_virtual_domain }
       else
         format.html { render :edit }
