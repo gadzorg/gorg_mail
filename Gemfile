@@ -93,7 +93,7 @@ gem 'gram_v2_client', git: "https://github.com/gadzorg/gram2_api_client_ruby"
 
 gem 'gorg_service'
 
-# gem 'gorg_slack_chat', git: "https://github.com/gadzorg/gorg_slack_chat"
+gem 'gorg_slack_chat', git: "https://github.com/gadzorg/gorg_slack_chat"
 
 # For HTML mails
 gem 'premailer-rails'
