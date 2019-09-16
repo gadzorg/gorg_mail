@@ -5,10 +5,10 @@ class ApplicationController < ActionController::Base
 
   include ConfigurableEngine::ConfigurablesController
 
-  before_filter :redirect_if_maintenance_mode
+  before_action :redirect_if_maintenance_mode
   before_action :masquerade_user!
 
-  after_filter :prepare_unobtrusive_flash
+  after_action :prepare_unobtrusive_flash
   private
 
   def after_sign_out_path_for(resource_or_scope)
