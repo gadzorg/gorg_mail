@@ -57,7 +57,7 @@ class Ml::ListsUser < ActiveRecord::Base
   private
 
   def sync
-    if self.changes.keys.any? {|key| ["id","role"].include?(key) }
+    if self.saved_changes.keys.any? {|key| ["id","role"].include?(key) }
       trigger_ml_sync
     end
   end
