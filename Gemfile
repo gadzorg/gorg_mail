@@ -71,7 +71,7 @@ gem 'i18n'
 gem 'unobtrusive_flash'
 
 # forconfiguration tables
-gem 'configurable_engine', git: 'https://github.com/Blaked84/configurable_engine'
+gem 'configurable_engine', git: 'https://github.com/gadzorg/configurable_engine'
 
 # tooltips
 gem 'bootstrap-tooltip-rails'
