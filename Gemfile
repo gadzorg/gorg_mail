@@ -7,7 +7,7 @@ gem 'rails', '5.0.7.2'
 
 #DATABASE
 # Use mysql2 as the database for Active Record
-gem 'mysql2', '< 0.5'
+gem 'mysql2'
 
 # Use 'foreigner' to add foreign_key constraints on database layer !
 # https://github.com/matthuhiggins/foreigner
