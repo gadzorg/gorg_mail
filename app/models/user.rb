@@ -403,10 +403,55 @@ class User < ActiveRecord::Base
   end
 
   def self.basic_data_hash
-    self.includes(:ml_lists_users).joins("LEFT OUTER JOIN `email_source_accounts` AS `primary_source_accounts` ON `primary_source_accounts`.`user_id` = `users`.`id` AND   `primary_source_accounts`.`primary`=true")
-        .joins("LEFT OUTER JOIN `email_virtual_domains` ON `email_virtual_domains`.`id` = `primary_source_accounts`.`email_virtual_domain_id`")
-        .pluck("DISTINCT users.id", :"CONCAT(users.firstname, ' ', users.lastname)", :"CONCAT(primary_source_accounts.email, '@' ,email_virtual_domains.name),ml_lists_users.role","users.email")
-        .map{|arr| {id: arr[0], name: arr[1], email: arr[2], role: arr[3], account_email: arr[4]}}
+    # Arel is required since Rails 5 because of SQL functions in pluck (CONCAT)
+    arel_fullname =
+      Arel::Nodes::NamedFunction.new(
+        "concat",
+        [
+          User.arel_table[:firstname],
+          Arel::Nodes.build_quoted(" "),
+          User.arel_table[:lastname],
+        ],
+
+      )
+
+    primary_source_table = EmailSourceAccount.arel_table.alias("primary_source_accounts")
+    virtual_domain_table = EmailVirtualDomain.arel_table
+
+    arel_email =
+      Arel::Nodes::NamedFunction.new(
+        "concat",
+        [
+          primary_source_table[:email],
+          Arel::Nodes.build_quoted("@"),
+          virtual_domain_table[:name],
+        ],
+      )
+
+    includes(:ml_lists_users).joins(
+      arel_table.join(
+        primary_source_table, Arel::Nodes::OuterJoin
+      ).on(
+        primary_source_table[:user_id].eq(arel_table[:id]).and(primary_source_table[:primary].eq(true))
+      ).join_sources
+    ).joins(
+      arel_table.join(
+        virtual_domain_table, Arel::Nodes::OuterJoin
+      ).on(
+        virtual_domain_table[:id].eq(primary_source_table[:email_virtual_domain_id])
+      ).join_sources
+    ).reorder(arel_fullname) # override default order which can be set by a relation which would fail the query
+     .pluck(
+      "DISTINCT users.id", arel_fullname, arel_email, "ml_lists_users.role", "users.email",
+    ).map do |arr|
+      {
+        id: arr[0],
+        name: arr[1],
+        email: arr[2],
+        role: arr[3],
+        account_email: arr[4],
+      }
+    end
   end
 
 
