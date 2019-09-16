@@ -7,7 +7,9 @@ RSpec.describe "Api::Search", type: :request do
 
   describe "GET /api/search/test" do
 
-    before(:each) {get api_search_path(query), nil, headers}
+    before(:each) do
+      get api_search_path(query), headers: headers
+    end
 
     context "authentificated" do
 

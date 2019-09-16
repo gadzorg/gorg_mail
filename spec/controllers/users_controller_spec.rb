@@ -13,7 +13,7 @@ RSpec.describe UsersController, type: :controller do
       before :each do
         @c_user||= create(:user, firstname: 'Ulysse', email:'Ulysse@hotmail.com')
         login @c_user
-        get destination, params
+        get destination, params: params
       end
 
       it { is_expected.to respond_with :forbidden }
@@ -21,7 +21,7 @@ RSpec.describe UsersController, type: :controller do
 
     context "user not login" do
       before :each do
-        get destination, params
+        get destination, params: params
       end
 
       it { is_expected.to respond_with :redirect}
@@ -73,7 +73,7 @@ RSpec.describe UsersController, type: :controller do
         before :each do
           @admin= create(:admin, firstname: 'Admin', email:'admin@hotmail.com')
           login @admin
-          get :show, :id => @user.hruid
+          get :show, params: { id: @user.hruid }
         end
 
         it { is_expected.to respond_with :success }
@@ -90,7 +90,7 @@ RSpec.describe UsersController, type: :controller do
         before :each do
           @admin= create(:admin, firstname: 'Admin', email:'admin@hotmail.com')
           login @admin
-          get :show, :id => @user.hruid
+          get :show, params: { id: @user.hruid }
         end
 
         it { is_expected.to respond_with :success }
@@ -107,7 +107,7 @@ RSpec.describe UsersController, type: :controller do
         before :each do
           @admin= create(:admin, firstname: 'Admin', email:'admin@hotmail.com')
           login @admin
-          get :show, :id => @user.hruid
+          get :show, params: { id: @user.hruid }
         end
 
         it { is_expected.to respond_with :success }
@@ -153,25 +153,35 @@ RSpec.describe UsersController, type: :controller do
       end
 
       context 'With valid data' do
-        it { expect{post :create, user:attributes_for(:user)}.to change{User.count}.by(1) }
+        it do
+          expect { post :create, params: { user: attributes_for(:user) } }.to(
+            change { User.count }.by(1),
+          )
+        end
+
         it "respond with 302" do
-          post :create, user:attributes_for(:user)
+          post :create, params: { user:attributes_for(:user) }
           is_expected.to respond_with :redirect
        end
        it "Redirect to create user #show" do
-          post :create, user:attributes_for(:user)
+          post :create, params: { user:attributes_for(:user) }
           is_expected.to redirect_to user_path(assigns(:user).id)
        end
       end
 
       context 'With invalid data' do
-        it {expect{post :create, user:attributes_for(:invalid_user)}.to_not change{User.count}}
+        it do
+          expect do
+            post :create, params: { user: attributes_for(:invalid_user) }
+          end.to_not(change { User.count })
+        end
+
         it "respond with 422" do
-          post :create, user:attributes_for(:invalid_user)
+          post :create, params: { user:attributes_for(:invalid_user) }
           is_expected.to respond_with :unprocessable_entity
         end
         it "Redirect to create user #show" do
-          post :create, user:attributes_for(:invalid_user)
+          post :create, params: { user:attributes_for(:invalid_user) }
           is_expected.to render_template :new
         end
       end
@@ -192,7 +202,7 @@ RSpec.describe UsersController, type: :controller do
       before :each do
         @admin= create(:admin, firstname: 'Admin', email:'admin@hotmail.com')
         login @admin
-        get :edit, :id => @user.id
+        get :edit, params: { id: @user.id }
       end
 
       it { is_expected.to respond_with :success }
@@ -222,8 +232,10 @@ RSpec.describe UsersController, type: :controller do
 
       context 'With valid data' do
         before :each do
-          post :update, :id => @user.id, user:attributes_for(:user, firstname:'Bobby')
+          post :update,
+               params: { id: @user.id, user: attributes_for(:user, firstname: "Bobby") }
         end
+
         it "update user data" do
           expect(User.find(@user.id).firstname).to eq('Bobby')
         end
@@ -236,7 +248,11 @@ RSpec.describe UsersController, type: :controller do
 
       context 'With invalid data' do
         before :each do
-          post :update, :id => @user.id, user:attributes_for(:user, firstname:'Bobby', hruid:'')
+          post :update,
+               params: {
+                 id: @user.id,
+                 user: attributes_for(:user, firstname: "Bobby", hruid: ""),
+               }
         end
 
         it "doesn't update user data" do
@@ -244,11 +260,11 @@ RSpec.describe UsersController, type: :controller do
           #expect(User.find(@user.id).hruid).to eq('admin.test.ext')
         end
         it "respond with 422" do
-          post :create, user:attributes_for(:invalid_user)
+          post :create, params: { user: attributes_for(:invalid_user) }
           is_expected.to respond_with :unprocessable_entity
        end
        it "Redirect to create user #show" do
-          post :create, user:attributes_for(:invalid_user)
+          post :create, params: { user: attributes_for(:invalid_user) }
           is_expected.to render_template :new
        end
       end
@@ -272,15 +288,15 @@ RSpec.describe UsersController, type: :controller do
       end
 
       it "deletes the contact" do
-        expect{delete :destroy, id: @user.id}.to change(User,:count).by(-1)
+        expect { delete :destroy, params: { id: @user.id } }.to change(User,:count).by(-1)
       end
 
       it "respond with 302" do
-          delete :destroy, id: @user.id
+          delete :destroy, params: { id: @user.id }
           is_expected.to respond_with :redirect
        end
        it "Redirect to create user #show" do
-          delete :destroy, id: @user.id
+          delete :destroy, params: { id: @user.id }
           is_expected.to redirect_to users_path
        end
 
