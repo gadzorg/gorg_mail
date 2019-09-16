@@ -411,21 +411,31 @@ class User < ActiveRecord::Base
 
 
   def self.search(query)
-    sql_query= nil
-    if query
-      sql_query=<<END_SQL
-   LOWER(CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name)) LIKE :like_query
-OR LOWER(users.firstname) LIKE :like_query
-OR LOWER(users.lastname) LIKE :like_query
-OR LOWER(CONCAT(users.firstname,' ',users.lastname)) LIKE :like_query
-OR LOWER(users.hruid) LIKE :like_query
-OR LOWER(users.uuid) = :query
-OR LOWER(email_redirect_accounts.redirect) = :query
-END_SQL
-    end
+    sql_query =
+      if query.present?
+        <<~END_SQL
+          LOWER(CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name)) LIKE :like_query
+            OR LOWER(users.firstname) LIKE :like_query
+            OR LOWER(users.lastname) LIKE :like_query
+            OR LOWER(CONCAT(users.firstname,' ',users.lastname)) LIKE :like_query
+            OR LOWER(users.hruid) LIKE :like_query
+            OR LOWER(users.uuid) = :query
+            OR LOWER(email_redirect_accounts.redirect) = :query
+        END_SQL
+      end
 
-    self.includes(email_source_accounts: :email_virtual_domain).includes(:email_redirect_accounts)
-        .where(sql_query,query: query.to_s.downcase,like_query: "%#{query.to_s.downcase}%").references(email_source_accounts: :email_virtual_domain,:email_redirect_accounts => true)
+    arel = Arel::Nodes::SqlLiteral.new(sql_query.presence || "")
+
+    includes(email_source_accounts: :email_virtual_domain) \
+      .includes(:email_redirect_accounts) \
+      .where(
+        arel,
+        query: query.to_s.downcase,
+        like_query: "%#{query.to_s.downcase}%",
+      ).references(
+        email_source_accounts: :email_virtual_domain,
+        email_redirect_account: true,
+      )
   end
 
   ################ lists role ###############
@@ -435,14 +445,36 @@ END_SQL
   end
 
   def self.primary_emails
-    #Take all primary email of user. More perf than user.primary
-    includes(email_source_accounts: :email_virtual_domain).where(email_source_accounts: {primary: true}).pluck(:"CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name)")
+    # Take all primary email of user. More perf than user.primary
+    includes(email_source_accounts: :email_virtual_domain) \
+      .where(email_source_accounts: { primary: true }) \
+      .pluck(primary_email_concat)
   end
 
   # @return [String]
   def self.contact_emails
-    #Take all primary email of user. More perf than user.primary
-    includes(primary_source_accounts: :email_virtual_domain).pluck(:"IF(email_source_accounts.email IS NOT NULL, CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name),users.email)")
+    # Take all primary email of user. More perf than user.primary
+    email_not_null = Arel::Nodes::NotEqual.new(EmailSourceAccount.arel_table["email"], nil)
+
+    arel =
+      Arel::Nodes::NamedFunction.new(
+        "if",
+        [email_not_null, primary_email_concat, arel_table["email"]],
+      )
+
+    includes(primary_source_accounts: :email_virtual_domain).pluck(arel)
+  end
+
+  def self.primary_email_concat
+    arobase = Arel::Nodes.build_quoted("@")
+
+    args = [
+      EmailSourceAccount.arel_table["email"],
+      arobase,
+      EmailVirtualDomain.arel_table["name"],
+    ]
+
+    Arel::Nodes::NamedFunction.new("concat", args)
   end
 
   def self.find_email(email)
