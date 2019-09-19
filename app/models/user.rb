@@ -442,7 +442,7 @@ class User < ApplicationRecord
       ).join_sources
     ).reorder(arel_fullname) # override default order which can be set by a relation which would fail the query
      .pluck(
-      "DISTINCT users.id", arel_fullname, arel_email, "ml_lists_users.role", "users.email",
+      Arel.sql("DISTINCT users.id"), arel_fullname, arel_email, "ml_lists_users.role", "users.email",
     ).map do |arr|
       {
         id: arr[0],
