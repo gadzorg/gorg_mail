@@ -5,6 +5,6 @@ class MailingListsSubscriptionMailer < ApplicationMailer
     @user=user
     @list=list
 
-    mail(to: user.contact_email, subject: "Vous avez rejoins le groupe de discussion \"#{@list.name}\"")
+    mail(to: user.contact_email, subject: "Vous avez rejoint le groupe de discussion \"#{@list.name}\"")
   end
 end
