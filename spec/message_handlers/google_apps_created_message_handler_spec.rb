@@ -10,7 +10,7 @@ RSpec.describe GoogleAppsCreatedMessageHandler, type: :message_handler do
   let(:error_type) {nil}
   let(:error_name) {nil}
 
-  let(:user) {FactoryGirl.create(:user_with_unconfirmed_googleapps)}
+  let(:user) { create(:user_with_unconfirmed_googleapps)}
   let(:google_id) {"123456789132456789"}
 
   context "Success" do
@@ -20,7 +20,7 @@ RSpec.describe GoogleAppsCreatedMessageHandler, type: :message_handler do
       let(:data) { { invalid: "data"}}
 
       it " does not raise an InvalidData error" do
-        expect{subject}.to raise_exception
+        expect{subject}.to raise_exception GorgService::Consumer::HardfailError
       end
     end
 

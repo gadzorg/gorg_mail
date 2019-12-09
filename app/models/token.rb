@@ -18,9 +18,9 @@
 #  index_tokens_on_token  (token) UNIQUE
 #
 
-class Token < ActiveRecord::Base
+class Token < ApplicationRecord
 
-  belongs_to :tokenable, polymorphic: true
+  belongs_to :tokenable, polymorphic: true, optional: true
   serialize :data, Hash
 
   before_create :set_default

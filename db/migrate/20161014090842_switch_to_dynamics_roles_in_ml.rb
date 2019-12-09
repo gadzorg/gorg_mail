@@ -1,4 +1,4 @@
-class SwitchToDynamicsRolesInMl < ActiveRecord::Migration
+class SwitchToDynamicsRolesInMl < ActiveRecord::Migration[4.2]
   def change
     remove_column :ml_lists_users, :is_ban
     remove_column :ml_lists_users, :is_admin

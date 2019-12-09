@@ -19,8 +19,6 @@ require 'rails_helper'
 # that an instance is receiving a specific message.
 
 RSpec.describe Ml::ListsController, type: :controller do
-  include Devise::TestHelpers
-
   # This should return the minimal set of attributes required to create a valid
   # Ml::List. As you add validations to Ml::List, be sure to
   # adjust the attributes here as well.
@@ -159,8 +157,8 @@ RSpec.describe Ml::ListsController, type: :controller do
 
   describe "GET #join" do
 
-    let!(:list) { FactoryGirl.create(:ml_list)}
-    let(:current_user) { FactoryGirl.create(:user_with_addresses, is_gadz: true)}
+    let!(:list) { create(:ml_list)}
+    let(:current_user) { create(:user_with_addresses, is_gadz: true)}
     let(:target_user) { current_user}
 
     it_behaves_like "a logged users only endpoint", :get, :join , {list_id:1, user_id: 1}
@@ -173,10 +171,12 @@ RSpec.describe Ml::ListsController, type: :controller do
 
       context "An allowed lists" do
 
-        let!(:list) { FactoryGirl.create(:ml_list,inscription_policy: "open")}
+        let!(:list) { create(:ml_list,inscription_policy: "open")}
 
         before(:each) do
-          xhr :get, :join, {list_id:list.id, user_id: target_user.id, format: :js}
+          get :join,
+              params: { list_id: list.id, user_id: target_user.id, format: :js },
+              xhr: true
         end
 
         it {is_expected.to respond_with :success }
@@ -187,12 +187,15 @@ RSpec.describe Ml::ListsController, type: :controller do
       end
 
       context "Not an allowed lists" do
-        let!(:list) { FactoryGirl.create(:ml_list,inscription_policy: "closed")}
+        let!(:list) { create(:ml_list,inscription_policy: "closed")}
 
         before(:each) do
-          xhr :get, :join, {list_id:list.id, user_id: target_user.id, format: :js}
+          get :join,
+              params: { list_id: list.id, user_id: target_user.id, format: :js },
+              xhr: true
         end
-        it {is_expected.to respond_with :forbidden }
+
+        it { is_expected.to respond_with :forbidden }
       end
 
       context "A lists already joined" do

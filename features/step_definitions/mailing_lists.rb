@@ -3,7 +3,7 @@ When(/^I visit to mailing lists index$/) do
 end
 
 Given(/^there is a public mailing lists named "([^"]*)"$/) do |arg|
-  @ml=FactoryGirl.create(:ml_list,
+  @ml=FactoryBot.create(:ml_list,
                          name: arg,
                          diffusion_policy: 'open',
                          inscription_policy: 'open'
@@ -11,7 +11,7 @@ Given(/^there is a public mailing lists named "([^"]*)"$/) do |arg|
 end
 
 Given(/^there is a public mailing lists with email "([^"]*)"$/) do |arg|
-  @ml=FactoryGirl.create(:ml_list,
+  @ml=FactoryBot.create(:ml_list,
                          name: arg,
                          email: arg,
                          diffusion_policy: 'open',
@@ -20,7 +20,7 @@ Given(/^there is a public mailing lists with email "([^"]*)"$/) do |arg|
 end
 
 And(/^there is a group\-only mailing lists named "([^"]*)" for group "([^"]*)"$/) do |arg1, arg2|
-  @ml=FactoryGirl.create(:ml_list,
+  @ml=FactoryBot.create(:ml_list,
                          name: arg1,
                          diffusion_policy: 'open',
                          inscription_policy: 'in_group',
@@ -29,7 +29,7 @@ And(/^there is a group\-only mailing lists named "([^"]*)" for group "([^"]*)"$/
 end
 
 Given(/^there is a closed mailing lists named "([^"]*)"$/) do |arg|
-  @ml=FactoryGirl.create(:ml_list,
+  @ml=FactoryBot.create(:ml_list,
                          name: arg,
                          diffusion_policy: 'open',
                          inscription_policy: 'closed'
@@ -37,7 +37,7 @@ Given(/^there is a closed mailing lists named "([^"]*)"$/) do |arg|
 end
 
 Given(/^I subscribed to a public mailing lists named "([^"]*)"$/) do |arg|
-  @ml=FactoryGirl.create(:ml_list,
+  @ml=FactoryBot.create(:ml_list,
                          name: arg,
                          diffusion_policy: 'open',
                          inscription_policy: 'open'
@@ -46,7 +46,7 @@ Given(/^I subscribed to a public mailing lists named "([^"]*)"$/) do |arg|
 end
 
 And(/^I subscribed to a group\-only mailing lists named "([^"]*)" for group "([^"]*)"$/) do |arg1, arg2|
-  @ml=FactoryGirl.create(:ml_list,
+  @ml=FactoryBot.create(:ml_list,
                          name: arg1,
                          diffusion_policy: 'open',
                          inscription_policy: 'in_group',
@@ -61,7 +61,7 @@ Given(/^I subscribed to the mailing list named "([^"]*)"$/) do |arg|
 end
 
 Given(/^I subscribed to a closed mailing lists named "([^"]*)"$/) do |arg|
-  @ml=FactoryGirl.create(:ml_list,
+  @ml=FactoryBot.create(:ml_list,
                          name: arg,
                          diffusion_policy: 'open',
                          inscription_policy: 'closed'
@@ -70,7 +70,7 @@ Given(/^I subscribed to a closed mailing lists named "([^"]*)"$/) do |arg|
 end
 
 And(/^"([^"]*)" is subscribed to the public mailinglist "([^"]*)" as an external member$/) do |email, name|
-  ml=FactoryGirl.create(:ml_list,
+  ml=FactoryBot.create(:ml_list,
                         name: name,
                         diffusion_policy: 'open',
                         inscription_policy: 'open'
@@ -79,7 +79,7 @@ And(/^"([^"]*)" is subscribed to the public mailinglist "([^"]*)" as an external
 end
 
 And(/^"([^"]*)" is subscribed to the closed mailinglist "([^"]*)" as an external member$/) do |email, name|
-  ml=FactoryGirl.create(:ml_list,
+  ml=FactoryBot.create(:ml_list,
                         name: name,
                         diffusion_policy: 'open',
                         inscription_policy: 'closed'
@@ -156,7 +156,7 @@ Given(/^the following mailing lists exists :$/) do |table|
 
 
   params.each do |h|
-    FactoryGirl.create(:ml_list,h )
+    FactoryBot.create(:ml_list,h )
   end
 end
 

@@ -1,12 +1,12 @@
-class CreateConfigurables < ActiveRecord::Migration
+class CreateConfigurables < ActiveRecord::Migration[4.2]
   def self.up
     create_table :configurables do |t|
       t.string :name
       t.string :value
 
-      t.timestamps
+      t.timestamps null: true
     end
-    
+
     add_index :configurables, :name
   end
 

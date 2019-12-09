@@ -1,4 +1,4 @@
-class AddImelaviMigrations < ActiveRecord::Migration
+class AddImelaviMigrations < ActiveRecord::Migration[4.2]
   def change
     create_table :postfix_blacklists do |t|
       t.string :email

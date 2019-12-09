@@ -2,10 +2,10 @@ require 'rails_helper'
 
 
 RSpec.describe MailingListsService, type: :service do
-  fake(:message_sender) { GorgService::Producer }
+  let(:message_sender) { instance_double("GorgService::Producer") }
 
 
-  let(:ml) {FactoryGirl.create(:ml_list)}
+  let(:ml) { create(:ml_list) }
   let (:mailing_lists_service) {MailingListsService.new(ml, message_sender: message_sender)}
 
   describe "send mailling update message" do

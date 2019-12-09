@@ -1,4 +1,4 @@
-class CreateMailTokens < ActiveRecord::Migration
+class CreateMailTokens < ActiveRecord::Migration[4.2]
   def change
     create_table :tokens do |t|
       t.string :token

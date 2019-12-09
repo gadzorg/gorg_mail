@@ -25,6 +25,12 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
+  let(:json_auth_headers) {{
+      "Accept" =>  "application/json",
+      "Authorization"  => ActionController::HttpAuthentication::Basic.encode_credentials(
+          Rails.application.secrets.gram_api_user,Rails.application.secrets.gram_api_password)
+  }}
+
   def gram_account_mocked (hash={})
     @gen_gram_account={
       "uuid"=>"559bb0aa-ddac-4607-ad41-7e520ee40819",
@@ -70,14 +76,14 @@ RSpec.describe User, type: :model do
 
     @gen_omniauth_hash.merge(hash)
   end
-  
+
   it "has a valid factory" do
-    expect(FactoryGirl.build(:user)).to be_valid
+    expect(build(:user)).to be_valid
   end
 
   it "is invalid if hruid already exist" do
-    FactoryGirl.create(:user,hruid:"alexandre.narbonne.2011")
-    expect(FactoryGirl.build(:user,hruid:"alexandre.narbonne.2011")).not_to be_valid
+    create(:user, hruid:"alexandre.narbonne.2011")
+    expect(build(:user, hruid:"alexandre.narbonne.2011")).not_to be_valid
   end
 
 
@@ -86,7 +92,7 @@ RSpec.describe User, type: :model do
     context 'has a role' do
 
       before :each do
-        @user = FactoryGirl.create(:admin)
+        @user = create(:admin)
       end
 
       it "confirms its role" do
@@ -123,7 +129,7 @@ RSpec.describe User, type: :model do
     context "hasn't a role" do
 
       before :each do
-        @user = FactoryGirl.create(:user, role_id: nil)
+        @user = create(:user, role_id: nil)
       end
 
       it "respond false" do
@@ -134,12 +140,12 @@ RSpec.describe User, type: :model do
 
 
   it "has the attribute synced_with_gram" do
-    expect(FactoryGirl.create(:user,hruid:"alexandre.narbonne.2011", uuid: "559bb0aa-ddac-4607-ad41-7e520ee40819")).respond_to? :synced_with_gram
+    expect(create(:user, hruid:"alexandre.narbonne.2011", uuid: "559bb0aa-ddac-4607-ad41-7e520ee40819")).respond_to? :synced_with_gram
   end
 
   describe "has default value when initialized" do
     it "is not sync with gram at init" do
-      expect(FactoryGirl.create(:user).synced_with_gram).to eq(false)
+      expect(create(:user).synced_with_gram).to eq(false)
     end
   end
 
@@ -147,7 +153,7 @@ RSpec.describe User, type: :model do
     context "has an hruid" do
 
       before :each do
-        @user = FactoryGirl.create(:user,firstname:'Alex', lastname:'Narbon',email:'un.email@email.com',hruid:"alexandre.narbonne.2011", uuid:"559bb0aa-ddac-4607-ad41-7e520ee40819")
+        @user = create(:user,firstname:'Alex', lastname:'Narbon',email:'un.email@email.com',hruid:"alexandre.narbonne.2011", uuid:"559bb0aa-ddac-4607-ad41-7e520ee40819")
       end
 
       context "can connect to gram" do
@@ -157,10 +163,10 @@ RSpec.describe User, type: :model do
           @gram_get_account_response=gram_account_mocked({'firstname' => 'Alexandre', 'lastname' => 'NARBONNE' ,'email' => 'alexandre.narbonne@gadz.org', 'uuid' => '559bb0aa-ddac-4607-ad41-7e520ee40819', 'is_gadz'=>'true'})
 
           ActiveResource::HttpMock.respond_to do |mock|
-            mock.get '/api/v2/accounts/559bb0aa-ddac-4607-ad41-7e520ee40819.json', {'Accept' => 'application/json', "Authorization"=>"Basic cmF0YXRvc2s6dGVzdF9wYXNz"}, @gram_get_account_response, 200
+            mock.get '/api/v2/accounts/559bb0aa-ddac-4607-ad41-7e520ee40819.json', json_auth_headers, @gram_get_account_response, 200
           end
           @user=@user.update_from_gram
-        end 
+        end
 
         it "return a User" do
           expect(@user.class).to eq(User)
@@ -187,10 +193,10 @@ RSpec.describe User, type: :model do
 
         before :each do
           ActiveResource::HttpMock.respond_to do |mock|
-            mock.get '/api/v2/accounts/559bb0aa-ddac-4607-ad41-7e520ee40819.json', {'Accept' => 'application/json', "Authorization"=>"Basic cmF0YXRvc2s6dGVzdF9wYXNz"}, nil,503
+            mock.get '/api/v2/accounts/559bb0aa-ddac-4607-ad41-7e520ee40819.json', json_auth_headers, nil,503
           end
           @user.update_from_gram
-        end 
+        end
 
         it "is not synced with gram" do
           expect(@user.synced_with_gram).to eq (false)
@@ -200,7 +206,7 @@ RSpec.describe User, type: :model do
 
     context "doesn't have an uuid" do
       before :each do
-        @user = FactoryGirl.create(:user,uuid:nil)
+        @user = create(:user,uuid:nil)
         @user.update_from_gram
       end
 
@@ -220,14 +226,14 @@ RSpec.describe User, type: :model do
       @gram_get_account_response= gram_account_mocked
 
       ActiveResource::HttpMock.respond_to do |mock|
-        mock.get '/api/v2/accounts/559bb0aa-ddac-4607-ad41-7e520ee40819.json', {'Accept' => 'application/json', "Authorization"=>"Basic cmF0YXRvc2s6dGVzdF9wYXNz"}, @gram_get_account_response, 200
+        mock.get '/api/v2/accounts/559bb0aa-ddac-4607-ad41-7e520ee40819.json', json_auth_headers, @gram_get_account_response, 200
       end
 
     end
 
     context "and user already exist" do
       before :each do
-        @user = FactoryGirl.create(:user,
+        @user = create(:user,
                                    uuid:"559bb0aa-ddac-4607-ad41-7e520ee40819",
                                    hruid:"alexandre.narbonne.2011",
                                    email:"coucou@text.com",
@@ -277,14 +283,14 @@ RSpec.describe User, type: :model do
         before :each do
           @gram_get_account_mocked_response= gram_account_mocked({'firstname' => 'Alexandre', 'lastname' => 'NARBONNE' ,'email' => 'alexandre.narbonne@gadz.org', "is_gadz" => "true"})
           ActiveResource::HttpMock.respond_to do |mock|
-            mock.get '/api/v2/accounts/559bb0aa-ddac-4607-ad41-7e520ee40819.json', {'Accept' => 'application/json', "Authorization"=>"Basic cmF0YXRvc2s6dGVzdF9wYXNz"}, @gram_get_account_mocked_response, 200
+            mock.get '/api/v2/accounts/559bb0aa-ddac-4607-ad41-7e520ee40819.json', json_auth_headers, @gram_get_account_mocked_response, 200
           end
         end
 
         describe "update with gram info" do
           before :each do
             @user=User.omniauth(@omniauth_data)
-          end 
+          end
           it "update email" do
             expect(@user.email).to eq("alexandre.narbonne@gadz.org")
           end
@@ -300,10 +306,10 @@ RSpec.describe User, type: :model do
       context "cannot connect to gram API" do
         before :each do
           ActiveResource::HttpMock.respond_to do |mock|
-            mock.get '/api/v2/accounts/559bb0aa-ddac-4607-ad41-7e520ee40819.json', {'Accept' => 'application/json', "Authorization"=>"Basic cmF0YXRvc2s6dGVzdF9wYXNz"}, nil,503
+            mock.get '/api/v2/accounts/559bb0aa-ddac-4607-ad41-7e520ee40819.json', json_auth_headers, nil,503
           end
           @user=User.omniauth(@omniauth_data)
-        end 
+        end
 
         it "is not synced with gram" do
           expect(@user.synced_with_gram).to eq (false)
@@ -321,7 +327,7 @@ RSpec.describe User, type: :model do
   end
 
   it "return a fullname" do
-    user=FactoryGirl.build(:user, firstname: "Alexandre", lastname:"Narbonne")
+    user= build(:user, firstname: "Alexandre", lastname:"Narbonne")
     expect(user.fullname).to eq("Alexandre Narbonne")
   end
 

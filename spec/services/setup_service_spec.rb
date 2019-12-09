@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe SetupService, type: :service do
   describe '#need_setup?' do
     context 'when gadz' do
-      let(:user) { FactoryGirl.create(:user, is_gadz: true) }
+      let(:user) { create(:user, is_gadz: true) }
       let(:service) { SetupService.new(user) }
 
       it "should be true" do
@@ -12,7 +12,7 @@ RSpec.describe SetupService, type: :service do
     end
 
     context 'when not  gadz' do
-      let(:user) { FactoryGirl.create(:user, is_gadz: false) }
+      let(:user) { create(:user, is_gadz: false) }
       let(:service) { SetupService.new(user) }
 
       it "should be false" do
@@ -33,7 +33,7 @@ RSpec.describe SetupService, type: :service do
 
   describe '#subscribe_to_default_mailing_lists?' do
     context 'when gadz with proms_principale >= AEC-3' do
-      let(:user) { FactoryGirl.create(:user, is_gadz: true, gadz_proms_principale: Time.now.year-1) }
+      let(:user) { create(:user, is_gadz: true, gadz_proms_principale: Time.now.year-1) }
       let(:service) { SetupService.new(user) }
 
       it "should be true" do
@@ -42,7 +42,7 @@ RSpec.describe SetupService, type: :service do
     end
 
     context 'when gadz with proms_principale < AEC-3' do
-      let(:user) { FactoryGirl.create(:user, is_gadz: true, gadz_proms_principale: Time.now.year-4) }
+      let(:user) { create(:user, is_gadz: true, gadz_proms_principale: Time.now.year-4) }
       let(:service) { SetupService.new(user) }
 
       it "should be false" do
@@ -51,7 +51,7 @@ RSpec.describe SetupService, type: :service do
     end
 
     context 'when not gadz' do
-      let(:user) { FactoryGirl.create(:user, is_gadz: false) }
+      let(:user) { create(:user, is_gadz: false) }
       let(:service) { SetupService.new(user) }
 
       it "should be false" do

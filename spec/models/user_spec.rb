@@ -29,21 +29,21 @@ RSpec.describe User, type: :model do
 
   describe "lists_allowed" do
     it "list has a valid factory" do
-      expect(FactoryGirl.build(:ml_list)).to be_valid
+      expect(build(:ml_list)).to be_valid
     end
 
     it "return allowed list" do
       group_uuid = SecureRandom.uuid
 
-      user = FactoryGirl.create(:user)
+      user = create(:user)
       user_groups = [{"uuid"=> group_uuid}]
 
       # allow(user).to reveive(:grouos).and_return(:user_groups)
 
-      an_open_inscription_list =FactoryGirl.build(:ml_list, inscription_policy: "open")
-      a_closed_inscription_list =FactoryGirl.build(:ml_list, inscription_policy: "closed")
-      a_list_in_the_same_group_as_user =FactoryGirl.build(:ml_list, group_uuid: group_uuid, inscription_policy: "in_group")
-      a_closed_inscription_list_in_the_same_group_as_user =FactoryGirl.build(:ml_list, group_uuid: group_uuid, inscription_policy: "closed")
+      an_open_inscription_list = build(:ml_list, inscription_policy: "open")
+      a_closed_inscription_list = build(:ml_list, inscription_policy: "closed")
+      a_list_in_the_same_group_as_user = build(:ml_list, group_uuid: group_uuid, inscription_policy: "in_group")
+      a_closed_inscription_list_in_the_same_group_as_user = build(:ml_list, group_uuid: group_uuid, inscription_policy: "closed")
 
       # list_allowed = user.lists_allowed
 
@@ -55,7 +55,7 @@ RSpec.describe User, type: :model do
   end
 
   describe 'find by id or hruid' do
-    let!(:user) {FactoryGirl.create(:user)}
+    let!(:user) { create(:user)}
 
     it "find by id" do
       expect(User.find_by_id_or_hruid_or_uuid(user.id)).to eq(user)
@@ -70,8 +70,8 @@ RSpec.describe User, type: :model do
     end
 
     describe "type conversion bug" do
-      let!(:user1) {FactoryGirl.create(:user, id: 5)}
-      let!(:user2) {FactoryGirl.create(:user, id: 6,uuid: "5b3ed219-9d22-4091-a7d8-6028273b3a70")}
+      let!(:user1) { create(:user, id: 5)}
+      let!(:user2) { create(:user, id: 6,uuid: "5b3ed219-9d22-4091-a7d8-6028273b3a70")}
 
       it "find by uuid" do
         expect(User.find_by_id_or_hruid_or_uuid(user2.uuid)).to eq(user2)
@@ -83,9 +83,9 @@ RSpec.describe User, type: :model do
   describe "primary emails on collections" do
 
     it "returns existing primary emails" do
-      user1=FactoryGirl.create(:user_with_addresses)
-      user2=FactoryGirl.create(:user_with_addresses)
-      user3=FactoryGirl.create(:user)
+      user1= create(:user_with_addresses)
+      user2= create(:user_with_addresses)
+      user3= create(:user)
 
       expect(User.all.primary_emails).to match_array([user1.primary_email.to_s,user2.primary_email.to_s])
     end
@@ -95,20 +95,20 @@ RSpec.describe User, type: :model do
   describe "contact emails" do
 
     it "returns primary emails when existing" do
-      user1=FactoryGirl.create(:user_with_addresses)
+      user1= create(:user_with_addresses)
       expect(user1.contact_email).to eq(user1.primary_email.to_s)
     end
 
     it "returns account email when there is no primary email" do
-      user1=FactoryGirl.create(:user)
+      user1= create(:user)
       expect(user1.contact_email).to eq(user1.email)
     end
 
     describe "on collection" do
       it "a list of contact emails" do
-        user1=FactoryGirl.create(:user_with_addresses)
-        user2=FactoryGirl.create(:user_with_addresses)
-        user3=FactoryGirl.create(:user)
+        user1= create(:user_with_addresses)
+        user2= create(:user_with_addresses)
+        user3= create(:user)
 
         expect(User.all.contact_emails).to match_array([user1.primary_email.to_s,user2.primary_email.to_s, user3.email])
       end

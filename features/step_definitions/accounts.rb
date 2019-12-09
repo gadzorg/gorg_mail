@@ -4,7 +4,7 @@ Given(/^I have an account(?: with ((?:[a-zA-Z_]+ ["'][^"']*["'](?:, )?)*))?$/) d
     [match[1],match[2]]
   end.to_h
 
-  @me=FactoryGirl.create(:user, attrs)
+  @me=FactoryBot.create(:user, attrs)
 end
 
 Given(/^I have an initialized account(?: with ((?:[a-zA-Z_]+ ["'][^"']*["'](?:, )?)*))?$/) do |raw_attrs|
@@ -13,7 +13,7 @@ Given(/^I have an initialized account(?: with ((?:[a-zA-Z_]+ ["'][^"']*["'](?:, 
     [match[1],match[2]]
   end.to_h
 
-  @me=FactoryGirl.create(:user_with_addresses, attrs)
+  @me=FactoryBot.create(:user_with_addresses, attrs)
 end
 
 Given(/^I have a gadz account(?: with ((?:[a-zA-Z_]+ ["'][^"']*["'](?:, )?)*))?$/) do |arg|
@@ -57,6 +57,6 @@ Given(/^the following users exist :$/) do |table|
 
     factory = h['primary_email_source_account'] ? :user_with_addresses : :user
 
-    FactoryGirl.create(factory,h )
+    FactoryBot.create(factory,h )
   end
 end

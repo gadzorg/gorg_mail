@@ -1,22 +1,19 @@
 require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
-
-include Devise::TestHelpers
-
   def login(user)
     @request.env["devise.mapping"] = Devise.mappings[:user]
     sign_in user
   end
 
   shared_examples_for "an admin only endpoint" do |destination|
-    let! (:params) {}
-    context "user login as basic user" do
+    let!(:params) { {} }
 
+    context "user login as basic user" do
       before :each do
-        @c_user||=FactoryGirl.create(:user, firstname: 'Ulysse', email:'Ulysse@hotmail.com')
+        @c_user||= create(:user, firstname: 'Ulysse', email:'Ulysse@hotmail.com')
         login @c_user
-        get destination, params
+        get destination, params: params
       end
 
       it { is_expected.to respond_with :forbidden }
@@ -24,7 +21,7 @@ include Devise::TestHelpers
 
     context "user not login" do
       before :each do
-        get destination, params
+        get destination, params: params
       end
 
       it { is_expected.to respond_with :redirect}
@@ -35,17 +32,17 @@ include Devise::TestHelpers
   describe "GET #index" do
 
     before :each do
-      @alice = FactoryGirl.create(:user, firstname: 'Alice', email:'alice@hotmail.com')
-      @bob = FactoryGirl.create(:user, firstname: 'Bob', email:'bob@hotmail.com')
-      @charlie = FactoryGirl.create(:user, firstname: 'Charlie', email:'charlie@hotmail.com')
+      @alice =create(:user, firstname: 'Alice', email:'alice@hotmail.com')
+      @bob =create(:user, firstname: 'Bob', email:'bob@hotmail.com')
+      @charlie =create(:user, firstname: 'Charlie', email:'charlie@hotmail.com')
     end
 
     #it_should_behave_like "an admin only endpoint", :index
 
     context "user login as admin" do
-      
+
       before :each do
-        @admin=FactoryGirl.create(:admin, firstname: 'Admin', email:'admin@hotmail.com')
+        @admin= create(:admin, firstname: 'Admin', email:'admin@hotmail.com')
         login @admin
         get :index
       end
@@ -56,15 +53,15 @@ include Devise::TestHelpers
       it "populate @users list with all users" do
         expect(assigns(:users)).to eq([@alice, @bob, @charlie, @admin])
       end
-    end    
+    end
   end
 
   describe "GET #show" do
     before :each do
-        @user=FactoryGirl.create(:user)
+        @user= create(:user)
     end
 
-    #it_should_behave_like "an admin only endpoint", :show  do 
+    #it_should_behave_like "an admin only endpoint", :show  do
     #   let! (:params) {{:id => @user.id}}
     # end
 
@@ -74,9 +71,9 @@ include Devise::TestHelpers
         let(:id) {@user.id}
 
         before :each do
-          @admin=FactoryGirl.create(:admin, firstname: 'Admin', email:'admin@hotmail.com')
+          @admin= create(:admin, firstname: 'Admin', email:'admin@hotmail.com')
           login @admin
-          get :show, :id => @user.hruid
+          get :show, params: { id: @user.hruid }
         end
 
         it { is_expected.to respond_with :success }
@@ -91,9 +88,9 @@ include Devise::TestHelpers
         let(:id) {@user.uuid}
 
         before :each do
-          @admin=FactoryGirl.create(:admin, firstname: 'Admin', email:'admin@hotmail.com')
+          @admin= create(:admin, firstname: 'Admin', email:'admin@hotmail.com')
           login @admin
-          get :show, :id => @user.hruid
+          get :show, params: { id: @user.hruid }
         end
 
         it { is_expected.to respond_with :success }
@@ -108,9 +105,9 @@ include Devise::TestHelpers
         let(:id) {@user.hruid}
 
         before :each do
-          @admin=FactoryGirl.create(:admin, firstname: 'Admin', email:'admin@hotmail.com')
+          @admin= create(:admin, firstname: 'Admin', email:'admin@hotmail.com')
           login @admin
-          get :show, :id => @user.hruid
+          get :show, params: { id: @user.hruid }
         end
 
         it { is_expected.to respond_with :success }
@@ -120,7 +117,7 @@ include Devise::TestHelpers
           expect(assigns(:user)).to eq(@user)
         end
       end
-    end    
+    end
   end
 
   describe "GET #new" do
@@ -128,9 +125,9 @@ include Devise::TestHelpers
     it_should_behave_like "an admin only endpoint", :new
 
     context "user login as admin" do
-      
+
       before :each do
-        @admin=FactoryGirl.create(:admin, firstname: 'Admin', email:'admin@hotmail.com')
+        @admin= create(:admin, firstname: 'Admin', email:'admin@hotmail.com')
         login @admin
         get :new
       end
@@ -149,32 +146,42 @@ include Devise::TestHelpers
     it_should_behave_like "an admin only endpoint", :new
 
     context "user login as admin" do
-      
+
       before :each do
-        @admin=FactoryGirl.create(:admin, firstname: 'Admin', email:'admin@hotmail.com')
+        @admin= create(:admin, firstname: 'Admin', email:'admin@hotmail.com')
         login @admin
       end
 
       context 'With valid data' do
-        it { expect{post :create, user: FactoryGirl.attributes_for(:user)}.to change{User.count}.by(1) }
+        it do
+          expect { post :create, params: { user: attributes_for(:user) } }.to(
+            change { User.count }.by(1),
+          )
+        end
+
         it "respond with 302" do
-          post :create, user: FactoryGirl.attributes_for(:user)
+          post :create, params: { user:attributes_for(:user) }
           is_expected.to respond_with :redirect
        end
        it "Redirect to create user #show" do
-          post :create, user: FactoryGirl.attributes_for(:user)
+          post :create, params: { user:attributes_for(:user) }
           is_expected.to redirect_to user_path(assigns(:user).id)
        end
       end
 
       context 'With invalid data' do
-        it {expect{post :create, user: FactoryGirl.attributes_for(:invalid_user)}.to_not change{User.count}}
+        it do
+          expect do
+            post :create, params: { user: attributes_for(:invalid_user) }
+          end.to_not(change { User.count })
+        end
+
         it "respond with 422" do
-          post :create, user: FactoryGirl.attributes_for(:invalid_user)
+          post :create, params: { user:attributes_for(:invalid_user) }
           is_expected.to respond_with :unprocessable_entity
         end
         it "Redirect to create user #show" do
-          post :create, user: FactoryGirl.attributes_for(:invalid_user)
+          post :create, params: { user:attributes_for(:invalid_user) }
           is_expected.to render_template :new
         end
       end
@@ -183,19 +190,19 @@ include Devise::TestHelpers
 
   describe "GET #edit" do
     before :each do
-        @user=FactoryGirl.create(:user)
+        @user= create(:user)
     end
 
-    it_should_behave_like "an admin only endpoint", :edit do 
+    it_should_behave_like "an admin only endpoint", :edit do
       let! (:params) {{:id => @user.id}}
     end
 
     context "user login as admin" do
-      
+
       before :each do
-        @admin=FactoryGirl.create(:admin, firstname: 'Admin', email:'admin@hotmail.com')
+        @admin= create(:admin, firstname: 'Admin', email:'admin@hotmail.com')
         login @admin
-        get :edit, :id => @user.id
+        get :edit, params: { id: @user.id }
       end
 
       it { is_expected.to respond_with :success }
@@ -209,24 +216,26 @@ include Devise::TestHelpers
 
   describe "GET #update" do
     before :each do
-        @user=FactoryGirl.create(:user, firstname:'Bob',email:'bob@hotmail.com')
+        @user= create(:user, firstname:'Bob',email:'bob@hotmail.com')
     end
 
-    it_should_behave_like "an admin only endpoint", :update do 
+    it_should_behave_like "an admin only endpoint", :update do
       let! (:params) {{:id => @user.id}}
     end
 
     context "user login as admin" do
-      
+
       before :each do
-        @admin=FactoryGirl.create(:admin, firstname: 'Admin', hruid: 'admin.test.ext',email:'admin@hotmail.com')
+        @admin= create(:admin, firstname: 'Admin', hruid: 'admin.test.ext',email:'admin@hotmail.com')
         login @admin
       end
 
       context 'With valid data' do
         before :each do
-          post :update, :id => @user.id, user: FactoryGirl.attributes_for(:user, firstname:'Bobby')
+          post :update,
+               params: { id: @user.id, user: attributes_for(:user, firstname: "Bobby") }
         end
+
         it "update user data" do
           expect(User.find(@user.id).firstname).to eq('Bobby')
         end
@@ -239,19 +248,23 @@ include Devise::TestHelpers
 
       context 'With invalid data' do
         before :each do
-          post :update, :id => @user.id, user: FactoryGirl.attributes_for(:user, firstname:'Bobby', hruid:'')
+          post :update,
+               params: {
+                 id: @user.id,
+                 user: attributes_for(:user, firstname: "Bobby", hruid: ""),
+               }
         end
 
         it "doesn't update user data" do
           expect(User.find(@user.id).hruid).to_not eq('')
           #expect(User.find(@user.id).hruid).to eq('admin.test.ext')
-        end        
+        end
         it "respond with 422" do
-          post :create, user: FactoryGirl.attributes_for(:invalid_user)
+          post :create, params: { user: attributes_for(:invalid_user) }
           is_expected.to respond_with :unprocessable_entity
        end
        it "Redirect to create user #show" do
-          post :create, user: FactoryGirl.attributes_for(:invalid_user)
+          post :create, params: { user: attributes_for(:invalid_user) }
           is_expected.to render_template :new
        end
       end
@@ -260,30 +273,30 @@ include Devise::TestHelpers
 
   describe "GET #destroy" do
     before :each do
-        @user=FactoryGirl.create(:user)
+        @user= create(:user)
     end
 
-    it_should_behave_like "an admin only endpoint", :destroy do 
+    it_should_behave_like "an admin only endpoint", :destroy do
       let! (:params) {{:id => @user.id}}
     end
 
     context "user login as admin" do
-      
+
       before :each do
-        @admin=FactoryGirl.create(:admin, firstname: 'Admin', email:'admin@hotmail.com')
+        @admin= create(:admin, firstname: 'Admin', email:'admin@hotmail.com')
         login @admin
       end
 
       it "deletes the contact" do
-        expect{delete :destroy, id: @user.id}.to change(User,:count).by(-1)
+        expect { delete :destroy, params: { id: @user.id } }.to change(User,:count).by(-1)
       end
 
       it "respond with 302" do
-          delete :destroy, id: @user.id
+          delete :destroy, params: { id: @user.id }
           is_expected.to respond_with :redirect
        end
        it "Redirect to create user #show" do
-          delete :destroy, id: @user.id
+          delete :destroy, params: { id: @user.id }
           is_expected.to redirect_to users_path
        end
 

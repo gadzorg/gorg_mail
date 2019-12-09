@@ -16,7 +16,6 @@
 //= require jquery-ui
 //= require unobtrusive_flash
 //= require unobtrusive_flash_ui
-//= require admin
 //= require_tree ./autoload
 //= require materialize
 //= require autocomplete-rails
@@ -38,6 +37,3 @@ $(document).ready(function() {
     $(".button-collapse").sideNav();
     $('.modal').modal();
 });
-
-
-

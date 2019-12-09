@@ -33,7 +33,7 @@ RSpec.describe EmailSourceAccountGenerator, type: :service do
 
   describe "Emails adresses generation" do
 
-    let(:user){FactoryGirl.create(:user, firstname: "John", lastname: "Doe", hruid: "john.doe.2011")}
+    let(:user){ create(:user, firstname: "John", lastname: "Doe", hruid: "john.doe.2011")}
     let(:esas){user.email_source_accounts.map{|esa| esa.to_s}}
 
     before(:each) do
@@ -86,7 +86,7 @@ RSpec.describe EmailSourceAccountGenerator, type: :service do
 
     context 'with existing homonym' do
       before(:each) do
-        u=FactoryGirl.create(:user, firstname: "John", lastname: "Doe", hruid: "john.doe.2009")
+        u = create(:user, firstname: "John", lastname: "Doe", hruid: "john.doe.2009")
         EmailSourceAccountGenerator.new(u).generate
         EmailSourceAccountGenerator.new(user).generate
       end
@@ -114,7 +114,7 @@ RSpec.describe EmailSourceAccountGenerator, type: :service do
         @esa=user.email_source_accounts.create(
           email: "alexandre.narbonne",
           email_virtual_domain: @gadzorg_d
-          )       
+          )
         @response=EmailSourceAccountGenerator.new(user).generate
       end
 

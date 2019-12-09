@@ -4,9 +4,9 @@ require 'rails_helper'
 RSpec.describe GoogleApps, type: :service do
 
   describe "Add Google Apps account to user" do
-    fake(:message_sender) { GorgService::Producer }
+    let(:message_sender) { instance_double("GorgService::Producer") }
 
-    let(:user){FactoryGirl.create(:user, firstname: "John", lastname: "Doe", hruid: "john.doe.2011")}
+    let(:user) { create(:user, firstname: "John", lastname: "Doe", hruid: "john.doe.2011")}
 
     before(:each) do
       EmailSourceAccountGenerator.new(user).generate

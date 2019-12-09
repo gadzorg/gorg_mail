@@ -3,7 +3,7 @@ class Admin::ConfigurablesController < ApplicationController
   include ConfigurableEngine::ConfigurablesController
 
   # add your own filter(s) / layout
-  before_filter :protect_my_code
+  before_action :protect_my_code
    def protect_my_code
  	authorize! :read_admin, User
  end

@@ -47,7 +47,7 @@
 ##
 # A User of the application
 #
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable,
@@ -62,7 +62,7 @@ class User < ActiveRecord::Base
   attr_accessor :synced_with_gram
 
   # Associations
-  belongs_to :role
+  belongs_to :role, optional: true
 
   has_many :email_redirect_accounts, dependent: :destroy
   has_many :email_source_accounts, dependent: :destroy
@@ -169,7 +169,7 @@ class User < ActiveRecord::Base
         self.gadz_centre_principal = gram_data.try(:gadz_centre_principal) # ex: "bo"
 
         if self.save
-          self.synced_with_gram = true 
+          self.synced_with_gram = true
           return self
         else
           return false
@@ -280,19 +280,19 @@ class User < ActiveRecord::Base
     #check if canonical name exist
     unless self.canonical_name.nil?
       # check if google apps exist via GAM ( possible?) TODO
-      # if gadz => gadz.fr TODO 
+      # if gadz => gadz.fr TODO
       # else => agoram.org ( or other) TODO
       google_apps_adress = self.canonical_name + "@gadz.fr"
       #create gogogleapps via GAM TODO
       #create redirection
 
-      self.email_redirect_accounts.new( 
+      self.email_redirect_accounts.new(
         redirect: google_apps_adress,
         type_redir: "googleapps"
         )
       self.save
     end
-    
+
   end
 =end
 
@@ -304,7 +304,7 @@ class User < ActiveRecord::Base
   def create_canonical_name()
     self.canonical_name = self.generate_canonical_name()
     self.save
-  end    
+  end
 
   def generate_canonical_name()
     #TODO
@@ -318,7 +318,7 @@ class User < ActiveRecord::Base
     #definir le nom canonique standard
     default_canonical_name = firstname_p + "." + lastname_p
     # vérifier si il est déjà dans la base
-    
+
     canonical_name = default_canonical_name # on définit une première fois le nom canonique qui "peut" être le bon
 
     if !User.find_by(canonical_name: canonical_name).nil?
@@ -329,17 +329,17 @@ class User < ActiveRecord::Base
       canonical_name = default_canonical_name
 
       i=0
-      
+
       while !User.find_by(canonical_name: canonical_name).nil?
         i+=1
-        canonical_name = default_canonical_name + "." + i.to_s  
+        canonical_name = default_canonical_name + "." + i.to_s
       end
       # si oui, ajouter un .2 et boucler .3, .4 etc.
-      
+
     end
 
     return canonical_name #attetion TEST UNIQUEMENT
-      
+
   end
 
 
@@ -375,18 +375,13 @@ class User < ActiveRecord::Base
   end
 
   def groups
-    begin
-      GramV2Client::Account.find(self.uuid).groups
-    #TODO : move this dirty hack to gem
-    rescue => error
-      if error.to_s.include?("Response code = 404")
-        return []
-      else
-        # This is very bad.
-        Rails.logger.error error
-        return []
-      end
-    end
+    GramV2Client::Account.find(self.uuid).groups
+  rescue GramV2Client::ResourceNotFound
+    []
+  rescue StandardError => error
+    # This is very bad.
+    Rails.logger.error error
+    []
   end
 
   ################ lists  ###############
@@ -408,29 +403,84 @@ class User < ActiveRecord::Base
   end
 
   def self.basic_data_hash
-    self.includes(:ml_lists_users).joins("LEFT OUTER JOIN `email_source_accounts` AS `primary_source_accounts` ON `primary_source_accounts`.`user_id` = `users`.`id` AND   `primary_source_accounts`.`primary`=true")
-        .joins("LEFT OUTER JOIN `email_virtual_domains` ON `email_virtual_domains`.`id` = `primary_source_accounts`.`email_virtual_domain_id`")
-        .pluck("DISTINCT users.id", :"CONCAT(users.firstname, ' ', users.lastname)", :"CONCAT(primary_source_accounts.email, '@' ,email_virtual_domains.name),ml_lists_users.role","users.email")
-        .map{|arr| {id: arr[0], name: arr[1], email: arr[2], role: arr[3], account_email: arr[4]}}
+    # Arel is required since Rails 5 because of SQL functions in pluck (CONCAT)
+    arel_fullname =
+      Arel::Nodes::NamedFunction.new(
+        "concat",
+        [
+          User.arel_table[:firstname],
+          Arel::Nodes.build_quoted(" "),
+          User.arel_table[:lastname],
+        ],
+
+      )
+
+    primary_source_table = EmailSourceAccount.arel_table.alias("primary_source_accounts")
+    virtual_domain_table = EmailVirtualDomain.arel_table
+
+    arel_email =
+      Arel::Nodes::NamedFunction.new(
+        "concat",
+        [
+          primary_source_table[:email],
+          Arel::Nodes.build_quoted("@"),
+          virtual_domain_table[:name],
+        ],
+      )
+
+    includes(:ml_lists_users).joins(
+      arel_table.join(
+        primary_source_table, Arel::Nodes::OuterJoin
+      ).on(
+        primary_source_table[:user_id].eq(arel_table[:id]).and(primary_source_table[:primary].eq(true))
+      ).join_sources
+    ).joins(
+      arel_table.join(
+        virtual_domain_table, Arel::Nodes::OuterJoin
+      ).on(
+        virtual_domain_table[:id].eq(primary_source_table[:email_virtual_domain_id])
+      ).join_sources
+    ).reorder(arel_fullname) # override default order which can be set by a relation which would fail the query
+     .pluck(
+      Arel.sql("DISTINCT users.id"), arel_fullname, arel_email, "ml_lists_users.role", "users.email",
+    ).map do |arr|
+      {
+        id: arr[0],
+        name: arr[1],
+        email: arr[2],
+        role: arr[3],
+        account_email: arr[4],
+      }
+    end
   end
 
 
   def self.search(query)
-    sql_query= nil
-    if query
-      sql_query=<<END_SQL
-   LOWER(CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name)) LIKE :like_query
-OR LOWER(users.firstname) LIKE :like_query
-OR LOWER(users.lastname) LIKE :like_query
-OR LOWER(CONCAT(users.firstname,' ',users.lastname)) LIKE :like_query
-OR LOWER(users.hruid) LIKE :like_query
-OR LOWER(users.uuid) = :query
-OR LOWER(email_redirect_accounts.redirect) = :query
-END_SQL
-    end
+    sql_query =
+      if query.present?
+        <<~END_SQL
+          LOWER(CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name)) LIKE :like_query
+            OR LOWER(users.firstname) LIKE :like_query
+            OR LOWER(users.lastname) LIKE :like_query
+            OR LOWER(CONCAT(users.firstname,' ',users.lastname)) LIKE :like_query
+            OR LOWER(users.hruid) LIKE :like_query
+            OR LOWER(users.uuid) = :query
+            OR LOWER(email_redirect_accounts.redirect) = :query
+        END_SQL
+      end
 
-    self.includes(email_source_accounts: :email_virtual_domain).includes(:email_redirect_accounts)
-        .where(sql_query,query: query.to_s.downcase,like_query: "%#{query.to_s.downcase}%").references(email_source_accounts: :email_virtual_domain,:email_redirect_accounts => true)
+    arel = Arel::Nodes::SqlLiteral.new(sql_query.presence || "")
+
+    includes(email_source_accounts: :email_virtual_domain) \
+      .includes(:email_redirect_accounts) \
+      .where(
+        arel,
+        query: query.to_s.downcase,
+        like_query: "%#{query.to_s.downcase}%",
+      ).references(
+        email_source_accounts: :email_virtual_domain,
+        email_redirect_account: true,
+      )
   end
 
   ################ lists role ###############
@@ -440,14 +490,36 @@ END_SQL
   end
 
   def self.primary_emails
-    #Take all primary email of user. More perf than user.primary
-    includes(email_source_accounts: :email_virtual_domain).where(email_source_accounts: {primary: true}).pluck(:"CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name)")
+    # Take all primary email of user. More perf than user.primary
+    includes(email_source_accounts: :email_virtual_domain) \
+      .where(email_source_accounts: { primary: true }) \
+      .pluck(primary_email_concat)
   end
 
   # @return [String]
   def self.contact_emails
-    #Take all primary email of user. More perf than user.primary
-    includes(primary_source_accounts: :email_virtual_domain).pluck(:"IF(email_source_accounts.email IS NOT NULL, CONCAT(email_source_accounts.email, '@' ,email_virtual_domains.name),users.email)")
+    # Take all primary email of user. More perf than user.primary
+    email_not_null = Arel::Nodes::NotEqual.new(EmailSourceAccount.arel_table["email"], nil)
+
+    arel =
+      Arel::Nodes::NamedFunction.new(
+        "if",
+        [email_not_null, primary_email_concat, arel_table["email"]],
+      )
+
+    includes(primary_source_accounts: :email_virtual_domain).pluck(arel)
+  end
+
+  def self.primary_email_concat
+    arobase = Arel::Nodes.build_quoted("@")
+
+    args = [
+      EmailSourceAccount.arel_table["email"],
+      arobase,
+      EmailVirtualDomain.arel_table["name"],
+    ]
+
+    Arel::Nodes::NamedFunction.new("concat", args)
   end
 
   def self.find_email(email)

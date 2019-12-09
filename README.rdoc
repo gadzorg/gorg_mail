@@ -35,6 +35,8 @@ An example file is available in /config/secrets.yml.template
   gram_api_user: "xxxx"
   gram_api_password: "****"
   cas_provider_url: "auth-example.domain.com"
+  api_user: ""
+  api_password: ""
 
 You also need to configure /config/rabbitmq.yml
 

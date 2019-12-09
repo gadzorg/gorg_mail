@@ -23,7 +23,7 @@
 #  index_email_source_accounts_on_user_id                  (user_id)
 #
 
-class EmailSourceAccount < ActiveRecord::Base
+class EmailSourceAccount < ApplicationRecord
 	belongs_to :email_virtual_domain
 	belongs_to :user
 
@@ -67,7 +67,7 @@ class EmailSourceAccount < ActiveRecord::Base
 	end
 
 	def set_as_primary
-		ActiveRecord::Base.transaction do
+		ApplicationRecord.transaction do
 			EmailSourceAccount.where(user_id: self.user_id).update_all(primary: false)
 			self.reload.update_attributes!(primary: true)
 		end
