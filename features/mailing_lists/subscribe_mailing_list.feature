@@ -10,5 +10,5 @@ Feature: Register to a Mailinglists
     And I visit to mailing lists index
     When I click "M'inscrire" button in "[data-list-name='Fun Public Group']"
     Then I becomes a member of "Fun Public Group"
-    And "my_address@gadz.org" receive an email with object "Vous avez rejoins le groupe de discussion \"Fun Public Group\""
+    And "my_address@gadz.org" receive an email with object "Vous avez rejoint le groupe de discussion \"Fun Public Group\""
     And this email contains a text matching /\/ml\/lists\/[0-9]+/leave\/[0-9]+/
