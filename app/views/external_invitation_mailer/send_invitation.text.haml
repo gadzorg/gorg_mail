@@ -1,8 +1,12 @@
 Bonjour,
-
-Vous êtes invitez à rejoindre la liste de discussion Gadz.org "#{@list.name}"
-
-Si ce lien ne fonctionne pas, copiez l'adresse suivante puis collez-la dans une nouvelle fenêtre de navigateur :
-=ml_accept_external_invitation_url(@token.token)
-
-Si vous ne souhaitez pas donner suite à cette invitation, vous pouvez simplement l'ignorer
+\
+Vous êtes invité(e) à rejoindre la liste de discussion Gadz.org "#{@list.name}".
+\
+En acceptant cette invitation, vous recevrez les emails envoyés à #{@list.name}
+sur votre adresse #{@email}.
+Vous pourrez également échanger avec les autres membre de cette liste
+en écrivant à #{@list.email}.
+\
+Pour accepter l'invitation, cliquez sur le lien ci-dessous ou copiez/collez-le
+dans votre navigateur :
+= ml_accept_external_invitation_url(@token.token)

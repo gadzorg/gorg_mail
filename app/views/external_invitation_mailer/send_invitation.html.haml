@@ -1,8 +1,8 @@
 %p Bonjour,
 
-%p Vous êtes invité à rejoindre la liste de discussion Gadz.org "#{@list.name}"
+%p Vous êtes invité(e) à rejoindre la liste de discussion Gadz.org "#{@list.name}"
 
-%p En acceptant cette invitation, vous receverez les mails envoyé à g199@poubs.org et vous pourrez également échanger avec les autres membre de cette liste en écrivant à cette même adresse
+%p En acceptant cette invitation, vous recevrez les emails envoyés à <b>#{@list.name}</b> sur votre adresse <b>#{@email}</b>. Vous pourrez également échanger avec les autres membre de cette liste en écrivant à <b>#{@list.email}</b>.
 
 .txtcenter.bouton.bouton_bleu
   =link_to "Accepter l'invitation", ml_accept_external_invitation_url(@token.token) ,:class => "bouton bouton_orange_1 txtcenter"
@@ -12,4 +12,4 @@
 %p=ml_accept_external_invitation_url(@token.token)
 
 %p.small
-  Si vous ne souhaitez pas donner suite à cette invitation, vous pouvez simplement l'ignorer
+  Si vous ne souhaitez pas donner suite à cette invitation, vous pouvez simplement l'ignorer.
