@@ -37,7 +37,10 @@ input[type="submit"] {
 }
 
 
-.modal.bottom-sheet-big
-{
+.modal.bottom-sheet-big {
   max-height: 84%;
+}
+
+.input-field label {
+  pointer-events: auto;
 }
