@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   end
   namespace :ml do
     get 'lists/invitations/:token', to: 'external_invitation#accept_invitation', as: :accept_external_invitation
+    get 'lists/invitations/decline/:token', to: 'external_invitation#decline_invitation', as: :decline_external_invitation
     post 'lists/invitations/:token', to: 'external_invitation#accept_cgu'
 
     resources :lists do
@@ -33,7 +34,7 @@ Rails.application.routes.draw do
   resources :aliases
   resources :postfix_blacklists, path: :blacklist, except: [:show]
   resources :email_virtual_domains, path: :domains, except: [:show]
-  
+
   devise_for :users, :controllers => {
     :omniauth_callbacks => "users/omniauth_callbacks",
     :sessions => "users/sessions",
@@ -74,7 +75,7 @@ Rails.application.routes.draw do
     resources :email_source_accounts, only: [:index, :show, :create,:update,:destroy] do
       get :set_as_primary
     end
-    
+
     resources :email_redirect_accounts, only: [:index, :show, :create,:update,:destroy] do
       # get :flag
       get "flag/:flag", to: "email_redirect_accounts#flag", as: :flag, defaults: { format: 'js' }

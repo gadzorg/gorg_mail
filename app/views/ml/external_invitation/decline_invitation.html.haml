@@ -1,0 +1,13 @@
+%p#notice= notice
+
+%div.center-align
+  %h2
+    %i.zmdi.zmdi-thumb-up.icon-padding-list
+
+  %p Nous avons bien enregistré le refus de votre invitation à <b>#{@list.name}</b>.
+
+  %br
+  %br
+
+  %p.small
+    = link_to 'Gérer vos inscriptions', mailinglists_path

@@ -10,3 +10,8 @@ en écrivant à #{@list.email}.
 Pour accepter l'invitation, cliquez sur le lien ci-dessous ou copiez/collez-le
 dans votre navigateur :
 = ml_accept_external_invitation_url(@token.token)
+\
+\
+\
+Autrement, vous pouvez décliner cette invitation :
+= ml_decline_external_invitation_url(@token.token)
