@@ -46,13 +46,13 @@
                     %i.zmdi.zmdi-google.icon-padding-list
                     GMail #{@user.primary_email}
                 .card-action
-                  = link_to 'Connexion', "https://mail.google.com/a/gadz.org", :class =>"wave-effect waves-light btn white blue-grey-text", :target => "_blank", id: "connect_to_google_button"
+                  = link_to 'Connexion Google Gadz.org', "https://mail.google.com/a/gadz.org", :class =>"wave-effect waves-light btn white blue-grey-text", :target => "_blank", id: "connect_to_google_button"
               -else
                 -if can? :read, :admin
                   .card-content.white-text
                     %span
                       %i.zmdi.zmdi-google.icon-padding-list
-                      Compte GSuite Gadz.org en cours de création
+                      Compte Google Suite Gadz.org en cours de création
                   .card-action
                     = link_to 'Relancer', create_google_apps_user_path(@user), method: :get,:remote=>true,  :class =>"waves-effect waves-light btn white blue-grey-text", id: "create_google_apps_button"
                     = link_to 'Confirmer', confirm_google_apps_user_path(@user), method: :get,:remote=>true,  :class =>"waves-effect waves-light btn white blue-grey-text", id: "confirm_google_apps_button", data: {confirm: "Vous allez forcer la validation de la création d'un GoogleApps. Si vous validez, les mails de cet utilisateur seront envoyé sur cet adresse Google. L'utilisateur va recevoir un email de confirmation"}
