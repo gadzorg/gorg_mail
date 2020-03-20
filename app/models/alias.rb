@@ -23,7 +23,7 @@
 
 class Alias < ApplicationRecord
   belongs_to :email_virtual_domain,  class_name: "EmailVirtualDomain"
-  belongs_to :ml_list, :class_name => 'Ml::List', :foreign_key => "list_id"
+  belongs_to :ml_list, :class_name => 'Ml::List', :foreign_key => "list_id", optional: true
 
   validates_presence_of :email_virtual_domain
 
