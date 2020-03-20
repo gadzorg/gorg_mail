@@ -47,6 +47,11 @@ class ExternalInvitationService
     end
   end
 
+  def decline_invitation
+    list.remove_email(external_email)
+    token.set_used # will be destroyed by mailing callback anyway
+  end
+
 
   def self.initialize_from_email(email: nil, list: nil)
     self.new(email:email, list:list)

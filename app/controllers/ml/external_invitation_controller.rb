@@ -2,7 +2,7 @@ class Ml::ExternalInvitationController < ApplicationController
 
   layout 'no-menu'
 
-  before_action :set_token, only: [:accept_invitation, :accept_cgu]
+  before_action :set_token, only: [:accept_invitation, :decline_invitation, :accept_cgu]
   rescue_from ExternalInvitationService::InvalidToken, with: :unknown_token
 
   def accept_cgu
@@ -24,6 +24,13 @@ class Ml::ExternalInvitationController < ApplicationController
     @cgu_retry=params[:cgu_retry]
     @list=service.list
     @email=service.external_email.email
+  end
+
+  def decline_invitation
+    service = ExternalInvitationService.initialize_from_token(@token)
+    service.decline_invitation
+
+    @list = service.list
   end
 
   def set_token

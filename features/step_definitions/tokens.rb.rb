@@ -32,3 +32,7 @@ end
 And(/^the token "([^"]*)" is used$/) do |arg|
   expect(Token.find_by(token: arg)).to be_used
 end
+
+And(/^the token "([^"]*)" is destroyed$/) do |arg|
+  expect(Token.find_by(token: arg)).to be_nil
+end
