@@ -8,7 +8,7 @@
     = javascript_include_tag :application
     %link{:href => "https://fonts.googleapis.com/icon?family=Material+Icons", :rel => "stylesheet"}
     -# %link{:href => "/assets/favicon.ico", :rel => "shortcut icon"}/
-    %= favicon_link_tag asset_path('favicon.ico') %> /
+    = favicon_link_tag asset_path('favicon.ico') > /
     -if slack_chat?
       =javascript_include_tag 'slack-chat.min.js'
       =javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js'
