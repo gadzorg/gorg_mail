@@ -6,9 +6,9 @@
     = csrf_meta_tags
     = stylesheet_link_tag    "application", media: "all"
     = javascript_include_tag :application
+    = favicon_link_tag
     %link{:href => "https://fonts.googleapis.com/icon?family=Material+Icons", :rel => "stylesheet"}
-    -# = favicon_link_tag 'favicon.ico' /
-    %link{:href => "/images/favicon.ico", :rel => "shortcut icon"}/
+
     -if slack_chat?
       =javascript_include_tag 'slack-chat.min.js'
       =javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js'
