@@ -6,7 +6,7 @@
     = csrf_meta_tags
     = stylesheet_link_tag    "application", media: "all"
     = javascript_include_tag :application
-    %link{:href => "https://fonts.googleapis.com/icon?family=Material+Icons", :rel => "stylesheet"}/
+    %link{:href => "https://fonts.googleapis.com/icon?family=Material+Icons", :rel => "stylesheet"}
     %link{:href => "/assets/favicon.ico", :rel="shortcut icon"}/
     -if slack_chat?
       =javascript_include_tag 'slack-chat.min.js'
