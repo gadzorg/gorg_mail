@@ -1,17 +1,21 @@
 .modal-content
   %h4 Ajouter une nouvelle adresse de redirection
-  %p Tu peux ajouter ici une nouvelle adresse vers laquelle seront transfèrés les emails envoyés sur tes adresses gadz.org.
+  %p Ajouter ici une nouvelle adresse mail vers laquelle seront transférés les emails envoyés sur tes adresses @gadz.org.
   %p
     Nous de conseillons d'
     %b>éviter
     %span
-      les adresses
-    %b Yahoo, Microsoft (hotmail.com, live.com,..) et dbmail
+      au maximum les adresses
+    %b Yahoo, LaPoste.net, Free, 
+    Microsoft (hotmail.com et live.com) et dbmail
     qui refusent régulierement les mails de la communauté.
+    br%
+    %b LaPoste.net et Free ont tendance à refuser quasiment 10% des mails transférés par Gadz.org (sur quelques milliers par jour).
+    br%
   =form_for  [user,new_era], :remote=>true  do |f|
     .input-field.s8{style: "margin-bottom: 0px;"}
       =f.email_field :redirect, required: "required", class: "validate"
-      =label_tag(:redirect, "Entre ici la nouvelle adresse","data-error"=>"Cette adresse n'est pas au bon format")
+      =label_tag(:redirect, "Entre ici la nouvelle adresse. Un code de vérification y sera envoyé","data-error"=>"Cette adresse n'est pas au bon format")
 
       =f.submit 'Ajouter cette adresse',:class => "waves-effect waves-light btn", id: :new_email_redirect_account_submit
       %a.modal-action.modal-close.waves-effect.waves-green.btn.btn-flat{:href => "#!"} Annuler
