@@ -6,12 +6,13 @@
     %b>éviter
     %span
       au maximum les adresses
-    %b Yahoo, LaPoste.net, Free, 
+    %b LaPoste.net, Free, Yahoo, 
     Microsoft (hotmail.com et live.com) et dbmail
-    qui refusent régulierement les mails de la communauté.
-    br%
-    %b LaPoste.net et Free ont tendance à refuser quasiment 10% des mails transférés par Gadz.org (sur quelques milliers par jour).
-    br%
+    qui refusent régulierement les mails de la communauté ;
+    
+    %p %b LaPoste.net et Free ont tendance à refuser quasiment 10% des mails transférés par Gadz.org (sur quelques milliers par jour).
+    
+    
   =form_for  [user,new_era], :remote=>true  do |f|
     .input-field.s8{style: "margin-bottom: 0px;"}
       =f.email_field :redirect, required: "required", class: "validate"
