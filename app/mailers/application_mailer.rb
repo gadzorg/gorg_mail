@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "gorgu@gadz.org"
+  default from: "support@gadz.org"
   layout 'mailer'
 end
