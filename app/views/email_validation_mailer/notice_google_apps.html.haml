@@ -1,6 +1,6 @@
 %p Sal's #{@user.firstname},
 %p
-  Ton compte G Suite* for Gadz.org vient d’être activé. Il te permet d’accéder à l’ensemble des outils Google de la suite mise à ta disposition, et notamment à ta boite mail
+  Ton compte Google Workspace* for Gadz.org vient d’être activé. Il te permet d’accéder à l’ensemble des outils Google de la suite mise à ta disposition, et notamment à ta boite mail
   %b=@user.primary_email
   \.
 
@@ -10,16 +10,19 @@
 %p Identifiant :
 .txtcenter.pam.big= @user.primary_email
 %p Mot de passe :
-.txtcenter.pam.big Ton mot de passe Soce/Gadz.org
+.txtcenter.pam.big Le même mot de passe que celui de ton compte Soce.fr/Arts & Métiers Alumni
 
 .txtcenter.bouton.bouton_bleu
-  =link_to "Me connecter à ma boite mail G Suite", "https://accounts.google.com/ServiceLogin?service=mail" ,:class => "bouton bouton_orange_1 txtcenter"
+  =link_to "Me connecter à ma boite mail Google", "https://accounts.google.com/ServiceLogin?service=mail" ,:class => "bouton bouton_orange_1 txtcenter"
 
 %p
   Tu peux accéder directement à tes mails sur cette adresse : <a href="https://mail.gadz.org" class="light">mail.gadz.org</a>
 
 %p
-  Le mot de passe de ton compte G Suite restera synchronisé avec celui de ton compte Gadz.org
+  Le mot de passe de ton compte Google Workspace restera synchronisé avec celui de ton compte Soce.fr
+
+%p
+  En cas d'oublie ou bien pour le retrouver, tu peux passer par <a href="https://moncompte.gadz.org" class="light">moncompte.gadz.org</a>
 
 %p
   Pense aussi à jeter un oeil à
@@ -28,4 +31,4 @@
   =link_to "aide rédigée par la communauté","https://confluence.gadz.org/display/AIDE/La+suite+Google+Application+pour+Gadz.org",:class => "light"
 
 %p.small
-  * Nouveau nom de la suite applicative Google Apps
+  * Nouveau nom de la suite applicative Google Suite
