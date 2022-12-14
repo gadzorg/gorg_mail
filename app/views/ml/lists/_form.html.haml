@@ -8,6 +8,7 @@
       L'email doit être une adresse gadz.org ou un des domaines suivants :
       =@evd
     = f.input :description
+    %p Attention : Pour ne pas provoquer de bug de synchro avec Google, la description ne doit pas contenir de = < > ni plus de 73 caractères
     = f.input :aliases
     = f.label :diffusion_policy
     = f.select :diffusion_policy, %w(open closed moderated)
