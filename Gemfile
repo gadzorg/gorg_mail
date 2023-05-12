@@ -99,7 +99,7 @@ gem 'gorg_slack_chat', git: "https://github.com/gadzorg/gorg_slack_chat"
 gem 'premailer-rails'
 gem 'nokogiri'
 
-gem 'puma'
+gem 'puma', '~> 4.3'
 gem 'scout_apm'
 
 gem 'activerecord-import'
