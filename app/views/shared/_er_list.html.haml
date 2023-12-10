@@ -30,18 +30,18 @@
                 .card-content.white-text
                   %span
                     %i.zmdi.zmdi-google.icon-padding-list
-                    Ton compte Google ne fonctionne pas, un administrateur a été prevenu
+                    Ton compte Google ne fonctionne pas, un administrateur a été prévenu
           -else
             .card.blue-grey.darken-1
               -if e.confirmed
                 .card-content.white-text
                   -# Only admin can desactivate google apps redirection but user can reactivate it.
                   -if e.active? && can?(:desactivate_google_apps_redirection, e)
-                    = link_to user_email_redirect_account_flag_path(@user.id, e.id, "inactive"), class: 'tooltipped', 'data-position' => "bottom", 'data-delay' => "100", 'data-tooltip' => 'Désactiver cette redirection', :remote=>true do
-                      %i.zmdi.zmdi-check-square.icon-padding-list
+                    -# = link_to user_email_redirect_account_flag_path(@user.id, e.id, "inactive"), class: 'tooltipped', 'data-position' => "bottom", 'data-delay' => "100", 'data-tooltip' => 'Désactiver cette redirection', :remote=>true do
+                    %i.zmdi.zmdi-check-square.icon-padding-list
                   -elsif !e.active?
-                    = link_to user_email_redirect_account_flag_path(@user.id, e.id, "active"), class: 'tooltipped', 'data-position' => "bottom", 'data-delay' => "100", 'data-tooltip' => 'Activer la redirection des mails vers cette adresse', :remote=>true do
-                      %i.zmdi.zmdi-square-o.icon-padding-list
+                    -# = link_to user_email_redirect_account_flag_path(@user.id, e.id, "active"), class: 'tooltipped', 'data-position' => "bottom", 'data-delay' => "100", 'data-tooltip' => 'Activer la redirection des mails vers cette adresse', :remote=>true do
+                    %i.zmdi.zmdi-square-o.icon-padding-list
                   %span
                     %i.zmdi.zmdi-google.icon-padding-list
                     GMail #{@user.primary_email}
@@ -76,8 +76,8 @@
               %span.inactive=e.redirect
 
             -elsif e.active?
-              = link_to user_email_redirect_account_flag_path(@user.id, e.id, "inactive"), class: 'tooltipped', 'data-position' => "bottom", 'data-delay' => "100", 'data-tooltip' => 'Désactiver cette redirection', :remote=>true do
-                %i.zmdi.zmdi-check-square.icon-padding-list
+              -# = link_to user_email_redirect_account_flag_path(@user.id, e.id, "inactive"), class: 'tooltipped', 'data-position' => "bottom", 'data-delay' => "100", 'data-tooltip' => 'Désactiver cette redirection', :remote=>true do
+              %i.zmdi.zmdi-check-square.icon-padding-list
               =e.redirect
             -else
               =e.redirect
@@ -93,9 +93,9 @@
                     %i.zmdi.zmdi-lock.icon-padding-list.red-text
 
               -#%i.zmdi.zmdi-edit.icon-padding-list
-              -if can? :destroy, e
-                = link_to user_email_redirect_account_path(@user,e), method: :delete, :remote => true, confirm: true, 'data-position' => "bottom", 'data-delay' => "100", 'data-tooltip' => 'Supprimer cette adresse', class: 'tooltipped era_del_button' ,data: {confirm: "Tu vas supprimer définitivement cette addresse, es-tu bien certain ? Tu pourras dans tous les cas la recréer plus tard si tu le souhaites."} do
-                  %i.zmdi.zmdi-delete.icon-padding-list
+              -# -if can? :destroy, e
+              -#   = link_to user_email_redirect_account_path(@user,e), method: :delete, :remote => true, confirm: true, 'data-position' => "bottom", 'data-delay' => "100", 'data-tooltip' => 'Supprimer cette adresse', class: 'tooltipped era_del_button' ,data: {confirm: "Tu vas supprimer définitivement cette addresse, es-tu bien certain ? Tu pourras dans tous les cas la recréer plus tard si tu le souhaites."} do
+              -#     %i.zmdi.zmdi-delete.icon-padding-list
 
             %span
               -unless e.confirmed
@@ -106,5 +106,8 @@
                 .red-text Cette adresse semble ne plus fonctionner
   .card-action
     / Modal Trigger
-    =render(partial: 'users/modals/modal_sheet_mobile_only_buttons', locals: {text: "Ajouter une adresse",button_class:'modal-trigger waves-effect waves-light btn',id:'add-era'})
+    -# =render(partial: 'users/modals/modal_sheet_mobile_only_buttons', locals: {text: "Ajouter une adresse",button_class:'modal-trigger waves-effect waves-light btn',id:'add-era'})
+
+    // Add a link to redirections.gadzarts.org with the text : "Demander une modification"
+    = link_to "Demander une modification", "https://redirections.gadz.org", :class =>"waves-effect waves-light btn", :target => "_blank", id: "ask_for_update"
 
