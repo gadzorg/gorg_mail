@@ -30,5 +30,12 @@
           =render partial: "shared/er_list", locals: {emails_redirect: @emails_redirect}
       =render(partial: "users/modals/modal_sheet_mobile_only_modals", locals: {modal_partial: "users/modals/add_era",id:'add-era',modal_locals:{user: @user, new_era: @user.email_redirect_accounts.new}})
 
+      .card.deep-orange.white-text
+        .card-content
+          %h5
+            Information importante si tu t’apprêtes à modifier une redirection
+          Le système de redirection des adresses gadz.org est en cours d'évolution.
 
+          %br
+          = link_to "En savoir plus", "https://services.gadz.org/messagerie/modif-redirections", :class =>"waves-effect waves-light btn white deep-orange-text", :target => "_blank", id: "ask_for_update"
   =javascript_include_tag 'email_redirect_tracking.js' if google_analytics_id
