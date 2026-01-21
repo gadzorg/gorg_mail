@@ -17,7 +17,7 @@
     = f.select :inscription_policy, Ml::List.inscription_policy_list
     = f.input :messsage_header
     = f.input :message_footer
-    = f.input :is_archived
+    = f.input :is_archived, :label_html => { :style => "pointer-events: all" }
     = f.input :custom_reply_to
     = f.input :default_message_deny_notification_text
     = f.input :msg_welcome
