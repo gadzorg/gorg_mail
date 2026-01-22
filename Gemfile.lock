@@ -308,7 +308,7 @@ GEM
     multi_test (0.1.2)
     multipart-post (2.1.1)
     mysql2 (0.5.2)
-    nio4r (2.5.2)
+    nio4r (2.5.8)
     nokogiri (1.11.0)
       mini_portile2 (~> 2.5.0)
       racc (~> 1.4)
